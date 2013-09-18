@@ -284,9 +284,12 @@
 			offset;
 
 		if(($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container)) {
-			//closeArticle(false, true, false, scrollTop);
 			e.preventDefault();
 			e.stopPropagation();
+			if(articleHeight !== null) {
+				//openOnClose = true;
+				return closeArticle(true, false);
+			}
 
 			$li = $oldLi = $clicked.closest('li');
 			$onScreenUpper = [];
