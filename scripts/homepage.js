@@ -21,6 +21,7 @@
 		firstScrollEvent = true,
 		scrollTimeout,
 		menuOpacityTimeout,
+		closeArticleTimeout,
 		$loadAnimToAnim,
 		loadAnimTimeout,
 		$lower,
@@ -224,8 +225,12 @@
 						menuOpacityTimeout = null;
 					}, ASAP);
 				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
-					setTimeout(function() {
+					if(closeArticleTimeout) {
+						clearTimeout(closeArticleTimeout);
+					}
+					closeArticleTimeout = setTimeout(function() {
 						closeArticle(false, true, true, window.pageYOffset);
+						closeArticleTimeout = null;
 					}, ASAP);
 				}
 			}
@@ -287,7 +292,6 @@
 			e.preventDefault();
 			e.stopPropagation();
 			if(articleHeight !== null) {
-				//openOnClose = true;
 				return closeArticle(true, false);
 			}
 
@@ -377,7 +381,6 @@
 				return $searchBox.blur();
 			}
 			closeArticle(true);
-
 		}
 	}
 
@@ -406,12 +409,12 @@
 		}, SOON);
 	}
 
+	$menuLines.on('click', onMenuClick);
 	$container.on('click', onClick);
 	$container.on('webkitTransitionEnd', onTransitionEnd);
+	$container.imagesLoaded(onLoad);
 	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
-	$menuLines.on('click', onMenuClick);
-	$container.imagesLoaded(onLoad);
 	$window.on('unload', onUnload);
 	$window.on('resize', onResize);
 }());
