@@ -188,11 +188,8 @@
 	function onScroll() {
 		var scrollTop;
 
-		if(noScrollEvents || noScrollEvents === null) {
+		if(noScrollEvents) {
 			debouneScrollClassToggling();
-			if(noScrollEvents === null) {
-				noScrollEvents = false;
-			}
 			return;// debounceLoadAnim(window.pageYOffset);
 		}
 		if(isDoingTransition) {
