@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+	<style type="text/css">
+		@font-face {
+			font-family: TradeGothic;
+			src: url(fonts/Trade-Gothic-LT-Light.otf);
+		}
+		@font-face {
+			font-family: Plantin;
+			src: url(fonts/Plantin-Std.otf);
+		}
+		body {
+			margin:0 0 100px;
+			opacity:0;
+			-webkit-transition:opacity 0.7s;
+			font:12px TradeGothic, Helvetica, sans-serif;
+			background-color: #f2f2f2;
+		}
+		body::-webkit-scrollbar {
+			/*width: 0;*/
+		}
+		#grid, #grid > li {
+			list-style:none;
+			-webkit-transition-duration: 0.7s;
+			overflow:visible !important;
+		}
+		#grid > li.closing {
+			-webkit-transition-duration: 0.5s;
+		}
+		#grid {
+		   margin:0 0 0 150px;
+		   padding:10px;
+		   font-size:0;
+		  -webkit-transition-property: height, width;
+		}
+		#grid > li {
+		  	-webkit-transition-property: -webkit-transform;
+		  	opacity:0;
+		  	width:290px;
+		  	padding: 0;
+		  	margin:10px;
+		  	font-family: Plantin;
+			border-radius: 3px;
+			z-index: 2;
+		}
+		#grid > li > a {
+		  	background-color:#fff;
+			box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+		}
+		#grid > li.double {
+			width:599px;
+		}
+		#grid > li > a > header, #grid > li >  a > img, #grid > li >  a > p, #grid > li > a > span {
+			width:100%;
+			display: inline-block;
+			font-size:12px;
+			box-sizing:border-box;
+			margin:0;
+			padding:25px;
+		}
+		#grid > li >  a > img {
+			padding:0;
+		}
+		#grid > li > a > header {
+			font-size:24px;
+			color:#fff;
+			background-color: #2a2a2a;
+			min-height: 100px;
+			border-top-right-radius: 3px;
+			border-top-left-radius: 3px;
+			text-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
+		}
+		#grid > li.image > a > header {
+			position: absolute;
+			background: none;
+			padding: 0;
+		}
+		#grid > li.image.double > a > header > span.elem {
+			font-size: 50px;
+		}
+		#grid > li.image > a > header > span.elem {
+			background-color: #2a2a2a;
+			padding: 5px 15px 0px 30px;
+			display: inline-block;
+		}
+		#grid > li.image > a > header > span:first-of-type{
+			padding-top:10px;
+		}
+		#grid > li.image > a > header > span:last-of-type{
+			padding-bottom:5px;
+			padding-right: 5px;
+		}
+		#grid > li > a > .orange {
+			background-color:#ee5b33;
+		}
+		#grid > li > a > .green {
+			background-color:#29d09a;
+		}
+		#grid > li > a > .pink {
+			background-color:#f45d96;
+		}
+		#grid > li >  a > p {
+			min-height: 130px;
+			line-height: 19px;
+			padding: 18px;
+		}
+		#grid > li > a > span {
+			font-family: TradeGothic;
+			text-transform: uppercase;
+			color:#bbb;
+			width:auto;
+			padding-right: 0;
+			padding-bottom: 12px;
+			font-size: 10px;
+		}
+		#grid > li > a > span.date:after {
+			content:'';
+			width:40px;
+			height:35px;
+			position: absolute;
+			right:10px;
+			bottom:17px;
+			background: url(images/footer-news.jpg) no-repeat;
+			background-size: 100%;
+		}
+		#grid > li.design > a > span.date:after {
+			background-image: url(images/footer-design.jpg)
+		}
+		#grid > li.tech > a > span.date:after {
+			background-image: url(images/footer-tech.jpg)
+		}
+		#grid > li.visible, #grid > li.shown {
+			opacity:1;
+		}
+		#grid > li.shown {
+			-webkit-transition-property: opacity, -webkit-transform;
+			-webkit-transition-duration: 0.25s, 0.5s;
+			-webkit-transition-timing-function: ease-in, ease-out;
+		}
+		#grid > li > a {
+			display:inline-block;
+			-webkit-transition:-webkit-transform 0.5s ease-out;/*, -webkit-filter 0.5s;*/
+		}
+		::safari, #grid > li > a {
+			-webkit-transition:-webkit-transform 0.5s ease-out;
+		}
+		#grid > li > a {
+			border-radius:4px;
+			color:#222;
+		}
+		#grid > li:hover > a  {
+			-webkit-transform:rotate(-0.5deg) translateZ(0);
+			box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+			color:#111;
+		}
+		 #grid > li:active > a  {
+		 	-webkit-transition-delay:0.15s;
+			-webkit-transform:rotate(-180deg) scale(2.5) translateZ(0);
+			box-shadow: 0 1px 1px rgba(0,0,0,0.25);
+			z-index: 1;
+			color:#000;
+		}
+		#grid.scrolling  > li > a , #grid > li.offScreen:hover > a , #grid > li.offScreen:active > a , #grid.scrolling > li:active > a , #grid.scrolling > li:hover > a , #grid > li.closing:hover > a , #grid > li.closing:active > a {
+			-webkit-transform: none;
+			box-shadow: none;
+			cursor: none;
+		}
+		#grid.scrolling  > li > a > header {
+			text-shadow:none;
+		}
+		#grid > li.onScreen {
+			-webkit-transition: -webkit-transform .8s ease-out; /*, opacity 1.05s ease-out;*/
+		}
+		#grid > li.offScreen, #menu.offScreen {
+			-webkit-transition: none;
+		}
+		#grid > li:hover, #grid > li:active, #grid > li.delay {
+			z-index: 2;
+		}
+		#grid > li.delay {
+			opacity:0.4;
+			-webkit-transition-delay:.8s, .6s;
+			-webkit-transition-timing-function: ease-out, ease-out;
+			-webkit-transition-duration:.15s, 0.45s;
+			-webkit-transition-property: -webkit-transform, opacity;
+		}
+		#menu, #articleMenu {
+			position:fixed;
+			height:100%;
+			width:150px;
+			font-family:TradeGothic;
+			text-transform: uppercase;
+		}
+		#menu {
+			background:#2a2a2a url(images/logo.jpg) 25px 20px no-repeat;
+			-webkit-transform: translateZ(0);
+			-webkit-transition-delay:.85s;
+			-webkit-transition-duration:0.2s;
+			-webkit-transition-property:opacity;
+			-webkit-transition-timing-function: ease-out;
+		}
+		#menu > ul, #menu > ul > li {
+			list-style:none;
+			color:#fff;
+			padding:0;
+			font-size: 12px;
+		}
+		#menu > ul {
+			position: absolute;
+			top:152px;
+			width:98px;
+		}
+		#menu > ul > li {
+			background: #414141;
+			border-radius: 2px;
+			margin: 16px 27px 0;
+			cursor: pointer;
+			width: auto;
+			display: inline-block;
+			padding: 6px 8px 4px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			max-width: 100%;
+			-webkit-transition-duration:0.25s, 0.15s;
+			-webkit-transform:rotate(0);
+			-webkit-transition-property:-webkit-transform, background-color;
+			border:1px dotted #333;
+			text-shadow:0 1px 1px rgba(0,0,0,0.3);
+		}
+		#menu > ul > li:hover {
+			background:#29d09a;
+			-webkit-transform:rotate(-0.75deg);
+		}
+		#menu > ul > li:active {
+			-webkit-transform:scale(1.05) rotate(-0.75deg);
+		}
+		#articleMenu {
+			background:url(images/logo-black.jpg) 24px 20px no-repeat;
+		}
+		#articleMenu h1 {
+			display: none;
+		}
+		#articleMenu > #lines {
+			position: absolute;
+			top:135px;
+			left:57px;
+			font-size: 0;
+			background-image:url(images/lines.jpg);
+			cursor:pointer;
+			width:28px;
+			height: 20px;
+		}
+		#menu.hide, #articleMenu.hide {
+			display: none;
+			opacity: 0;
+		}
+		#menu.closing {
+			-webkit-transition-delay:0;
+			-webkit-transition-duration:0.35s;
+		}
+		#menu > #searchBox {
+			background-color: #2a2a2a;
+			background-image:url(images/white-search.png);
+			background-repeat: no-repeat;
+			background-position: 10px 6px;
+			border-radius: 12px;
+			box-shadow: rgba(0, 0, 0, 0.6) 0 2px 1px inset, rgba(255, 255, 255, 0.2) 0 1px 0;
+			border:0 none;
+			color:#ddd;
+			position: absolute;
+			left:26px;
+			right:26px;
+			-webkit-transform:translate3d(0, 132px, 0);
+			font-size: 12px;
+			-webkit-transition-duration:0.4s;
+			-webkit-transition-property: background-image, left, right, color, background-color;
+			padding:4px 4px 4px 30px;
+		}
+		#menu > #searchBox:focus {
+		    outline: none;
+		    background-color: #ddd;
+		    background-image:url(images/search.png);
+		    color:#000;
+		   	left:10px;
+		   	right:10px;
+		}
+		#menu.show {
+			-webkit-transition-delay:0;
+			-webkit-transition-duration:0.3s;
+			opacity:1 !important;
+		}
+		footer.adr {
+			position: absolute;
+			bottom: 7px;
+			left: 10px;
+			background: url(images/footer-toronto.png) 27px 0 no-repeat;
+			width: 130px;
+			text-transform: none;
+			color:#727272;
+			font-size:10px;
+			text-align: center;
+			line-height: 14px;
+			padding-top:59px;
+			text-shadow:0 1px 1px rgba(0,0,0,0.1);
+		}
+		footer.adr > span, footer.adr > a {
+			width:100%;
+			color:#727272;
+			display: inline-block;
+			text-decoration: none;
+		}
+		footer.adr > a:hover {
+			color:#29d09a;
+		}
+		footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.region {
+			width:auto;
+		}
+		.article {
+			display: none;
+			position: absolute;
+			z-index: 1;
+			opacity: 0.0;
+			font-size: 16px;
+			left: 150px;
+			right: 0px;
+			padding-left: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<nav id='articleMenu' class='hide'>
+		<h1>Myplanet Digital</h1>
+		<a id="lines">Show Menu</a>
+	</nav>
+
+	<nav id='menu'>
+		<input id="searchBox" />
+		<ul>
+			<li>Technology</li>
+			<li>Cool Dudes</li>
+			<li>Design</li>
+			<li>Awesome</li>
+			<li>Duck Tollers</li>
+			<li>Rigby Taylor</li>
+			<li>Jobs</li>
+			<li>Contact Us</li>
+		</ul>
+		<footer class="adr">
+			<span class="street-address">252 Adelaide Street East</span>
+			<span class="locality">Toronto</span>,
+			<span class="region">ON</span>,
+			<span class="country-name">Canada</span>
+			<span class="postal-code">M5A 3W8</span>
+			<span class="tel">866-232-7456</span>
+			<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
+		</footer>
+						</nav>
+
+	<ul id="grid" class='initial'>
+		<li class='visible design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					If You Use Apple's Fingerprint Sensor, You Might Not Be Able to 'Take the Fifth'
+				</header>
+				<img src="images/a2.jpg">
+				<p>
+					There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint. Given Apple's industry-leading position, it's probably not a far stretch to expect this kind of authentication to take off... NEIL NEIL
+				</p>
+				<span class="author">John Edgar</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='visible tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='visible double image'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					<span class="elem">Land Rights</span><br>
+					<span class="elem">Ain't no</span><br>
+					<span class="elem">Joke, yo</span>
+				</header>
+				<img src="images/a3.jpg">
+			</a>
+		</li>
+		<li class='visible tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li class='visible'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='visible double design'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					An Algorithm That Makes a Computer Paint Like a Human, Holy Fuck!
+				</header>
+				<img src="images/a5.jpg">
+				<p>Computers are good at many things, but not painting. Creating texture, blending, shading—these are all things the human hand is very adept at doing (ok, some human hands). This his really dumb. Computer-made art, on the other hand, has always sort of looked like it was made by a machine, or at least something without emotions or a shaky handjob. While beautiful and technically precise, it often lacks in the quirks and nuances that makes the work of van Gogh, or even Bob Ross, so interesting to look at.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='visible'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Transform Any Website Into Your Design Playground.
+				</header>
+				<img src="images/a7.jpg">
+				<p>As the worlds of desktop and mobile content continue to overlap, a new kind of website has emerged: responsive web design, a dynamic that automatically transforms a site's layout depending on your screen size or device. A new online dump hopes to take this trend to the next level by allowing anyone to easily modify favorite online destinations into elaborately customized websites.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double tech'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					An extremely long but exceptionally useful social media dimensions infographic.
+				</header>
+				<p>Some infographics are long for the sake of being long. They take up way too much space to make very few points or to present data in ways that simply don't make sense from an graphic perspective. Then, there are those infographics that are long for a valid reason. This is one of those.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Software-as-a-Service (SaaS) is cited as 82% of today's cloud investments, and is the deployment model for 84% of new applications, so what is SaaS?
+				</header>
+				<img src="images/a9.jpg">
+				<p>CSalesForce was created in 1999, and was the first SaaS platform built from scratch to achieve rapid growth. The products and services of SalesForce included customer relationship management, the sales cloud, and the service cloud, among others. Today, the list of SaaS applications is very large, including analytics, business intelligence, accounting, customer service, and Ecommerce. One of the key drivers of SaaS growth are APIs. Out of 1000 APIs surveyed; SaaS APIs were number one.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					How to Use Facebook's Graph Search to Supercharge Your Professional Network!
+				</header>
+				<p>Very cool infographics are long for the sake of being long. They take up way too much space to make very few points or to present data in ways that simply don’t make sense from an graphic perspective. Then, there are those infographics that are long for a valid reason. This is one of those.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class='design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					How to Market Yourself in a Competitive Design Field.
+				</header>
+				<img src="images/a11.jpg">
+				<p>Marketing yourself within a slew of competition in the design field can be a challenge. Savvy designers understand that it takes more than working hard and hoping someone recognizes them for new opportunities or work. Marketing can help you meet the right people, at the right time – a successful positioning strategy that will help you get ahead faster.  It is important, especially as a young designers, to position yourself appropriately within the design industry...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech '>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Want an NSA.org Email Address? That'll Be $100
+				</header>
+				<img src="images/a12.jpg">
+				<p>If you always wanted to have an email address that made you sound like a spy, this is your lucky day. You can now get an NSA.org email address for just $100. The owner of the NSA.org domain is selling email addresses and subdomains (think edwardsnowden.nsa.org) to anyone willing to pay $100 — what he calls a "bargain price."...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='image'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					<span class="elem">How safe are</span>
+					<span class="elem">Password managers?</span>
+				</header>
+				<img src="images/a8.jpg">
+				<p>People who use online password managers have a lot riding on the application's integrity. What are the chances of others gaining access to the stored passwords? Digital bad guys are as concerned about return on investment (ROI) as any big business. That's why they attack credit-card processing centers rather than gathering account information one credit card at a time. It's also why they're more interested in cracking online password managers instead of stealing individual passwords.
+				</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li class='double image'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					<span class="elem">Land Rights</span><br>
+					<span class="elem">Ain't no</span><br>
+					<span class="elem">Joke, yo</span>
+				</header>
+				<img src="images/a3.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					If You Use Apple's Fingerprint Sensor, You Might Not Be Able to 'Take the Fifth'
+				</header>
+				<img src="images/a2.jpg">
+				<p>
+					There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint. Given Apple's industry-leading position, it's probably not a far stretch to expect this kind of authentication to take off...
+				</p>
+				<span class="author">John Edgar</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Transform Any Website Into Your Design Playground.
+				</header>
+				<img src="images/a7.jpg">
+				<p>As the worlds of desktop and mobile content continue to overlap, a new kind of website has emerged: responsive web design, a dynamic that automatically transforms a site's layout depending on your screen size or device. A new online dump hopes to take this trend to the next level by allowing anyone to easily modify favorite online destinations into elaborately customized websites.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Software-as-a-Service (SaaS) is cited as 82% of today's cloud investments, and is the deployment model for 84% of new applications, so what is SaaS?
+				</header>
+				<img src="images/a9.jpg">
+				<p>CSalesForce was created in 1999, and was the first SaaS platform built from scratch to achieve rapid growth. The products and services of SalesForce included customer relationship management, the sales cloud, and the service cloud, among others. Today, the list of SaaS applications is very large, including analytics, business intelligence, accounting, customer service, and Ecommerce. One of the key drivers of SaaS growth are APIs. Out of 1000 APIs surveyed; SaaS APIs were number one.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					Gordon-Levitt Faces False Fantasies and Porn Addiction in 'Don Jon' 2
+				</header>
+				<img src="images/a10.jpg">
+				<p>Obsessed with Internet porn on his laptop and smartphone, Joseph Gordon-Levitt's character in bawdy comedy Don Jon lives in a fantasy world. In it, Jon Martello's weekly real-life sex romps pale in comparison to the web smut he watches while fervently masturbating. "Real life is actually, I would say, so much more beautiful and so much more rich and nuanced than anything could ever be on a two-dimensional screen, and you'll miss it if you're too busy comparing your real life to these fantasies," Gordon-Levitt told Mashable, explaining what he hopes moviegoers will grasp from Don Jon.</p>
+				<span class="author">Zee Kid</span>
+				<span class="date">June 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					How to Use Facebook's Graph Search to Supercharge Your Professional Network!
+				</header>
+				<p>Very cool infographics are long for the sake of being long. They take up way too much space to make very few points or to present data in ways that simply don’t make sense from an graphic perspective. Then, there are those infographics that are long for a valid reason. This is one of those.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class='design '>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					How to Market Yourself in a Competitive Design Field.
+				</header>
+				<img src="images/a11.jpg">
+				<p>Marketing yourself within a slew of competition in the design field can be a challenge. Savvy designers understand that it takes more than working hard and hoping someone recognizes them for new opportunities or work. Marketing can help you meet the right people, at the right time – a successful positioning strategy that will help you get ahead faster.  It is important, especially as a young designers, to position yourself appropriately within the design industry...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech '>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Want an NSA.org Email Address? That'll Be $100
+				</header>
+				<img src="images/a12.jpg">
+				<p>MIf you always wanted to have an email address that made you sound like a spy, this is your lucky day. You can now get an NSA.org email address for just $100. The owner of the NSA.org domain is selling email addresses and subdomains (think edwardsnowden.nsa.org) to anyone willing to pay $100 — what he calls a "bargain price."...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' image'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					<span class="elem">How safe are</span>
+					<span class="elem">Password managers?</span>
+				</header>
+				<img src="images/a8.jpg">
+				<p>People who use online password managers have a lot riding on the application's integrity. What are the chances of others gaining access to the stored passwords? Digital bad guys are as concerned about return on investment (ROI) as any big business. That’s why they attack credit-card processing centers rather than gathering account information one credit card at a time. It’s also why they’re more interested in cracking online password managers instead of stealing individual passwords.
+				</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li class='image'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					<span class="elem">Land Rights</span><br>
+					<span class="elem">Ain't no</span><br>
+					<span class="elem">Joke, yo</span>
+				</header>
+				<img src="images/a3.jpg">
+			</a>
+		</li>
+		<li >
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					If You Use Apple's Fingerprint Sensor, You Might Not Be Able to 'Take the Fifth'
+				</header>
+				<img src="images/a2.jpg">
+				<p>
+					There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint. Given Apple's industry-leading position, it's probably not a far stretch to expect this kind of authentication to take off...
+				</p>
+				<span class="author">John Edgar</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					How to Use Facebook's Graph Search to Supercharge Your Professional Network!
+				</header>
+				<p>Very cool infographics are long for the sake of being long. They take up way too much space to make very few points or to present data in ways that simply don’t make sense from an graphic perspective. Then, there are those infographics that are long for a valid reason. This is one of those.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class='design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					How to Market Yourself in a Competitive Design Field.
+				</header>
+				<img src="images/a11.jpg">
+				<p>Marketing yourself within a slew of competition in the design field can be a challenge. Savvy designers understand that it takes more than working hard and hoping someone recognizes them for new opportunities or work. Marketing can help you meet the right people, at the right time – a successful positioning strategy that will help you get ahead faster.  It is important, especially as a young designers, to position yourself appropriately within the design industry...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a1.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech '>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Want an NSA.org Email Address? That'll Be $100
+				</header>
+				<img src="images/a12.jpg">
+				<p>MIf you always wanted to have an email address that made you sound like a spy, this is your lucky day. You can now get an NSA.org email address for just $100. The owner of the NSA.org domain is selling email addresses and subdomains (think edwardsnowden.nsa.org) to anyone willing to pay $100 — what he calls a "bargain price."...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					<span class="elem">Land Rights</span><br>
+					<span class="elem">Ain't no</span><br>
+					<span class="elem">Joke, yo</span>
+				</header>
+				<img src="images/a3.jpg">
+			</a>
+		</li>
+		<li >
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' double design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					If You Use Apple's Fingerprint Sensor, You Might Not Be Able to 'Take the Fifth'
+				</header>
+				<img src="images/a9.jpg">
+				<p>
+					There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint. Given Apple's industry-leading position, it's probably not a far stretch to expect this kind of authentication to take off...
+				</p>
+				<span class="author">John Edgar</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=''>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					How to Use Facebook's Graph Search to Supercharge Your Professional Network!
+				</header>
+				<p>Very cool infographics are long for the sake of being long. They take up way too much space to make very few points or to present data in ways that simply don’t make sense from an graphic perspective. Then, there are those infographics that are long for a valid reason. This is one of those.</p>
+				<span class="author">Neil Baylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+		<li class='design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					How to Market Yourself in a Competitive Design Field.
+				</header>
+				<img src="images/a11.jpg">
+				<p>Marketing yourself within a slew of competition in the design field can be a challenge. Savvy designers understand that it takes more than working hard and hoping someone recognizes them for new opportunities or work. Marketing can help you meet the right people, at the right time – a successful positioning strategy that will help you get ahead faster.  It is important, especially as a young designers, to position yourself appropriately within the design industry...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<img src="images/a10.jpg">
+				<p>Ben Leung, Nate and (probably) Andre are pretty fucking interested in stuff. In this article, we explore that... Damn, we so fly. </p>
+				<span class="author">Neil Armstrong</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='tech '>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					Want an NSA.org Email Address? That'll Be $100
+				</header>
+				<img src="images/a12.jpg">
+				<p>MIf you always wanted to have an email address that made you sound like a spy, this is your lucky day. You can now get an NSA.org email address for just $100. The owner of the NSA.org domain is selling email addresses and subdomains (think edwardsnowden.nsa.org) to anyone willing to pay $100 — what he calls a "bargain price."...</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double image'>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					<span class="elem">How safe are</span>
+					<span class="elem">Password managers?</span>
+				</header>
+				<img src="images/a8.jpg">
+				<p>People who use online password managers have a lot riding on the application's integrity. What are the chances of others gaining access to the stored passwords? Digital bad guys are as concerned about return on investment (ROI) as any big business. That’s why they attack credit-card processing centers rather than gathering account information one credit card at a time. It’s also why they’re more interested in cracking online password managers instead of stealing individual passwords.
+				</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class=' tech'>
+			<a href="http://drbl.in/fWMM">
+				<header class="pink">
+					Pixel Hypnotism: Mesmerizing GIFs of Long-Forgotten Videogames.
+				</header>
+				<p>Today's videogames can look so lifelike they're borderline creepy. But years ago, before computers were capable of creating photorealistic images, games were filled with pixelated characters making their way through hazy imaginary lands...</p>
+				<span class="author">Hellen Keller</span>
+				<span class="date">January 14, 1980</span>
+			</a>
+		</li>
+		<li class=' double image'>
+			<a href="http://drbl.in/fWMM">
+				<header>
+					<span class="elem">Land Rights</span><br>
+					<span class="elem">Ain't no</span><br>
+					<span class="elem">Joke, yo</span>
+				</header>
+				<img src="images/a3.jpg">
+			</a>
+		</li>
+		<li>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					All the cables in our new office are made of gold, Tim cries with joy.
+				</header>
+				<img src="images/a4.jpg">
+				<p>The 8P8C (8 position 8 contact, also backronymed as 8 position 8 conductor) is a modular connector commonly used to terminate twisted pair and multiconductor flat cable. These connectors are commonly used for Ethernet over twisted pair, registered jacks off on her face and other telephone applications, RS-232 serial using the EIA/TIA 561 and Yost standards, and other applications involving unshielded twisted pair, shielded twisted pair, and multiconductor flat cable.</p>
+				<span class="author">Neil Taylor</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='design'>
+			<a href="http://drbl.in/fWMM">
+				<header class="orange">
+					If You Use Apple's Fingerprint Sensor, You Might Not Be Able to 'Take the Fifth'
+				</header>
+				<img src="images/a2.jpg">
+				<p>
+					There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint. Given Apple's industry-leading position, it's probably not a far stretch to expect this kind of authentication to take off...
+				</p>
+				<span class="author">John Edgar</span>
+				<span class="date">January 20, 2013</span>
+			</a>
+		</li>
+		<li class='double'>
+			<a href="http://drbl.in/fWMM">
+				<header class="green">
+					Planetarium: Can Elon Musk's 'Hyperloop' Become a Reality? How would the User Experience the Interface?
+				</header>
+				<p>SSpaceX and Tesla Motors founder Elon Musk is trying to disrupt the transportation industry again. Musk unveiled the alpha plans for his Hyperloop high-speed transportation system Monday, showcasing what could one day become the fifth form of major transportation. According to the designs Musk released to the public, the Hyperloop system will be able to transport people in aluminum cars and pods at speeds up to 800 mph...</p>
+				<span class="author">David Beckham</span>
+				<span class="date">January 20, 1995</span>
+			</a>
+		</li>
+	</ul>
+
+	<div class="med-article article">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec nec interdum erat, vel feugiat metus. Sed vehicula auctor urna fringilla aliquet. Phasellus nec ante eget diam bibendum dapibus nec pulvinar erat. Ut lacinia turpis magna, ullamcorper sodales nunc mattis ut. Mauris eget scelerisque justo, id pellentesque nisl. Etiam et sollicitudin dui. Etiam at posuere nibh. Nam consectetur leo sed enim bibendum, sed eleifend augue pretium. Nam eros lacus, vestibulum eu magna in, pulvinar hendrerit orci.
+		</p>
+
+		<p>
+			Curabitur fringilla lacus nec mi sagittis, at suscipit tortor eleifend. Duis et neque ac ipsum lacinia porttitor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Ut rutrum lorem nulla, et egestas felis condimentum eget. Quisque hendrerit consequat tempor. Aenean vel nibh ac orci condimentum facilisis. Integer fermentum, lectus in pharetra dictum, diam tortor ullamcorper tortor, eu facilisis lectus orci sit amet ipsum. Vestibulum non augue justo. Sed id blandit sapien. Morbi pretium ultricies sem, sed tempor lacus molestie at. Quisque condimentum ligula turpis, vitae faucibus ante hendrerit id. Mauris ac risus cursus, egestas nibh vel, laoreet ante. Aliquam sem lectus, sodales vitae diam nec, auctor commodo ipsum.
+		</p>
+
+		<p>
+			Suspendisse ligula nunc, vehicula non ultricies sit amet, lacinia ac enim. Pellentesque vel eleifend tortor. Proin feugiat nisi eu dolor condimentum, non pretium sem varius. Etiam convallis est vitae libero pharetra facilisis. Nullam at arcu eu nulla aliquam aliquet. Donec facilisis ligula a massa laoreet tempus. Ut nibh quam, ultricies et lectus a, tempor tincidunt ipsum. Praesent lobortis libero urna, non lacinia mi auctor eget. Suspendisse non fermentum ante, id mollis arcu. Proin enim velit, sodales vulputate dictum eu, volutpat at ipsum. Donec sodales dui libero, id dignissim elit malesuada eget.
+		</p>
+
+		<p>
+			Ut lacinia sed diam eu rhoncus. Nunc ullamcorper neque at mauris lacinia bibendum. Sed tempor enim tellus, vitae placerat enim vulputate vel. Suspendisse vel augue ornare justo venenatis laoreet. Nulla commodo tellus non sagittis porta. Aenean accumsan id lorem sit amet aliquam. Nulla facilisi. Mauris semper tincidunt risus eget iaculis. Vivamus consequat metus eget enim ultricies dapibus.
+		</p>
+
+		<p>
+			Mauris ac purus vel urna condimentum aliquet eu ornare orci. Praesent commodo facilisis dictum. Fusce eleifend porta tristique. Morbi neque enim, suscipit sit amet lobortis vitae, tincidunt at ipsum. Mauris luctus metus eget dui malesuada vulputate. Quisque ultrices suscipit interdum. Mauris nec gravida massa. Nunc neque ipsum, elementum nec pulvinar quis, vulputate quis est. Nam adipiscing ligula a elementum volutpat.
+		</p>
+
+		<p>
+			Donec a lorem feugiat, facilisis mauris id, blandit nulla. Donec fringilla est sit amet rhoncus elementum. Duis feugiat lacus tempus arcu gravida lacinia sit amet sed nibh. Etiam dignissim non ipsum in ultricies. Sed blandit porta arcu, in feugiat ligula eleifend eu. Proin vitae rhoncus neque, et egestas est. In dolor leo, bibendum ac scelerisque ac, adipiscing et mauris. Sed non accumsan augue. Donec commodo nec orci vitae porttitor. Praesent in volutpat dolor. Nunc pretium ullamcorper risus, id pulvinar turpis.
+		</p>
+
+		<p>
+			Nam eu accumsan odio. Vestibulum ut tincidunt mauris. In tempor, orci non vulputate posuere, elit augue facilisis sapien, et vestibulum sapien lectus sed nibh. Praesent justo quam, semper ac fringilla sit amet, consequat id dui. Pellentesque laoreet viverra nulla, non tincidunt sem lobortis ac. Vivamus molestie dui ipsum, id ullamcorper libero adipiscing a. Nulla in risus metus. Praesent sit amet cursus elit, tempor bibendum arcu. Fusce congue purus et mi scelerisque congue. Integer eros orci, pharetra bibendum tellus id, laoreet adipiscing nisl. Suspendisse potenti. Mauris vestibulum lectus et ante tempor, in eleifend urna viverra. Cras in elementum lacus.
+		</p>
+
+		<p>
+			Etiam nulla sapien, vulputate nec vulputate eu, tristique ac mauris. Etiam accumsan tempor accumsan. Proin auctor ornare eros ut accumsan. Cras feugiat ac dolor quis luctus. Nulla quam risus, blandit ut faucibus id, tempus sed metus. Vivamus tristique lectus neque, vitae dapibus ligula blandit non. Aliquam vel neque vitae arcu accumsan facilisis. Aenean eleifend, nisi id tempor lobortis, turpis lectus vulputate quam, ut rutrum tortor sapien eu orci. Morbi neque sem, venenatis et augue vitae, facilisis cursus ante. Donec tristique ornare rutrum. Aliquam vitae aliquam nunc. Cras elementum nibh quis ipsum bibendum, quis pulvinar nulla luctus.
+		</p>
+
+		<p>
+			Ut blandit sem purus, et iaculis arcu ullamcorper vel. Duis ut nibh facilisis, tincidunt mauris vitae, consectetur felis. Aenean tincidunt eros vel dui cursus, vitae vulputate quam mollis. Curabitur purus libero, pretium a velit sed, cursus sagittis odio. Fusce risus nisl, rhoncus lacinia mauris vitae, iaculis rutrum turpis. Quisque id eleifend risus, non sagittis tortor. Vestibulum euismod enim sem, vitae cursus ipsum consectetur et. Ut lobortis dui in urna pharetra, commodo lobortis turpis accumsan. Donec non ante sed ligula facilisis pretium. Pellentesque eu sem convallis erat faucibus dapibus in nec felis. Sed ac lorem ut leo mattis dictum. Integer ut fringilla enim, sed venenatis nunc. In egestas vel dui in eleifend. Fusce ipsum enim, condimentum nec mollis at, auctor et nulla. In condimentum eu metus at consequat. Praesent dignissim elit eget elit ullamcorper ullamcorper.
+		</p>
+
+		<p>
+			Nunc venenatis leo leo, nec sodales tortor hendrerit eu. Duis placerat lectus nisl, eget pellentesque nulla ullamcorper a. Sed ante nunc, hendrerit sit amet facilisis vitae, vehicula quis diam. Aliquam luctus consequat nunc, at ultricies erat blandit sit amet. Quisque sapien erat, fringilla vel mi vitae, venenatis rutrum mauris. Interdum et malesuada fames ac ante ipsum primis in faucibus. Duis sit amet dolor augue. Donec auctor massa sapien, ut condimentum risus ultricies non. Etiam diam dolor, facilisis venenatis varius in, lobortis interdum orci.
+		</p>
+
+		<p>
+			Sed bibendum sem nec dui elementum, fringilla facilisis dolor eleifend. Aenean sed tellus volutpat, porta elit non, imperdiet nisl. Aliquam metus urna, porta id purus a, blandit semper quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque dui leo, dapibus at ligula quis, interdum commodo enim. Nullam dignissim nisl urna, non sollicitudin enim rutrum quis. Nullam quis lacus eget enim iaculis volutpat vel in eros. Aenean non quam ac nibh facilisis feugiat. Proin justo nunc, aliquam ac malesuada at, scelerisque et erat. In elit nunc, ullamcorper ullamcorper odio nec, egestas fringilla mi.
+		</p>
+
+		<p>
+			Aenean eu turpis risus. Proin sed odio consequat, consequat est in, facilisis ante. Mauris a lacinia mi, ut pulvinar est. Curabitur neque metus, feugiat sed est vitae, accumsan mollis felis. Fusce ullamcorper, justo eget hendrerit venenatis, dolor quam aliquam ante, at lobortis nibh nisi non lacus. Praesent quis scelerisque ligula. Sed in lobortis ligula. Etiam ultrices sagittis interdum. Fusce aliquet consequat sodales. Aenean scelerisque auctor leo non sollicitudin.
+		</p>
+
+		<p>
+			Duis volutpat ligula ac magna tincidunt feugiat a sit amet leo. Mauris congue interdum porttitor. Maecenas varius, odio eu accumsan laoreet, libero erat egestas velit, sit amet interdum risus erat id tellus. Curabitur tempor vel turpis quis porta. Nullam a interdum est, id fringilla est. Donec hendrerit, est a tempus fermentum, eros mauris vulputate metus, et commodo nibh augue in diam. Aliquam tincidunt lectus quis venenatis aliquam. Aenean vitae tristique leo, vel interdum ante. Praesent id tempus lectus.
+		</p>
+
+		<p>
+			Suspendisse ultricies ligula at metus rhoncus iaculis eu ac mauris. Praesent in scelerisque ante. Quisque at mauris eget quam pretium condimentum et sed dolor. Sed leo est, bibendum nec congue id, dictum sit amet dui. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin tincidunt massa nec dapibus iaculis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Fusce faucibus tempor ipsum, nec luctus velit bibendum ac. Ut tempus magna in elit semper aliquet. Ut a ligula tristique, fermentum justo id, bibendum felis. Ut sit amet viverra lorem, quis vulputate nulla. Donec lobortis elit vitae libero lacinia, eget facilisis nisi ultrices. Nunc sit amet molestie magna. Aenean eget malesuada erat. Fusce blandit tincidunt eros nec suscipit. Proin quis libero semper, consectetur arcu nec, rutrum tortor.
+		</p>
+
+		<p>
+			In sapien purus, pulvinar in risus eget, tincidunt vulputate est. Vestibulum lacus elit, condimentum et turpis vitae, dignissim facilisis ipsum. Integer imperdiet eget augue sit amet rhoncus. Nulla gravida lorem at faucibus lacinia. Maecenas ullamcorper risus massa, in rutrum est ultricies a. Pellentesque aliquam, dui dictum euismod cursus, leo risus malesuada erat, quis iaculis dui orci nec orci. Vivamus varius urna felis. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent porta quam justo, semper sollicitudin mauris porta nec. Mauris vel tortor nisi. Nulla tortor quam, consectetur nec pretium vel, venenatis adipiscing quam. Aliquam mollis non ante et laoreet.
+		</p>
+
+		<p>
+			Ut sapien ipsum, molestie a leo tempor, porttitor facilisis sem. Fusce varius odio purus, at consectetur nunc lobortis eget. Vivamus cursus accumsan urna, ut imperdiet est tincidunt eget. Duis a diam est. Curabitur ac cursus dui. Nullam ac justo elit. Vivamus at pretium metus. Fusce nisl justo, egestas placerat velit vel, imperdiet pharetra lorem. Morbi vitae ante laoreet, mattis metus consectetur, vulputate felis. Donec condimentum quam eu dictum dignissim. Phasellus dui velit, auctor vel vehicula vitae, sagittis nec ipsum. Duis lobortis massa ac felis faucibus, id porta magna adipiscing. Duis eu aliquam dolor, at adipiscing nisl. Maecenas iaculis euismod justo. Duis ac gravida tortor. Integer venenatis vulputate vestibulum.
+		</p>
+
+		<p>
+			Proin vestibulum sem at odio viverra, eget dictum ligula aliquet. Cras fermentum et quam sed vulputate. Cras ultrices elit aliquam cursus vestibulum. Pellentesque et risus eget dolor vestibulum interdum. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Vivamus dignissim nulla lorem, eget pharetra erat vestibulum at. Proin sodales, ante in accumsan suscipit, risus ligula auctor enim, non vulputate magna est quis purus.
+		</p>
+
+		<p>
+			Vivamus rutrum ligula sed erat tristique, pharetra fringilla mauris semper. Donec nisl lorem, congue et nunc sed, lobortis pellentesque nunc. Proin scelerisque lectus quis laoreet pulvinar. Vivamus dignissim vulputate cursus. Ut sit amet convallis sapien, in placerat libero. Morbi a justo mauris. Vestibulum quis pretium massa, ut viverra lorem.
+		</p>
+
+		<p>
+			Suspendisse potenti. Nam non dapibus ligula, ut cursus erat. Morbi a urna enim. Proin ut neque ligula. Duis non nunc commodo, interdum nibh a, dictum ipsum. Proin felis nulla, hendrerit a pretium nec, tincidunt vel diam. Maecenas a pharetra mi. Etiam mollis, odio vitae fringilla sodales, tellus nibh volutpat nisl, in interdum diam lorem eget lacus. Sed lacinia elit quis accumsan faucibus. Suspendisse tempor dolor id neque tincidunt, vitae lacinia sem molestie. In hac habitasse platea dictumst. Pellentesque dui tellus, fermentum at turpis eget, suscipit tempus ante. Integer eget elementum purus.
+		</p>
+
+		<p>
+			Nunc quis tortor vitae mi ornare placerat ut tincidunt urna. Sed a dapibus quam, et rhoncus neque. Suspendisse ornare molestie nibh, non ultricies diam pharetra in. Phasellus adipiscing suscipit dignissim. Praesent fringilla augue eu augue feugiat pharetra. Aenean quis nisl neque. Donec consequat, purus eget malesuada ultricies, orci libero placerat nisl, nec iaculis elit turpis in ipsum. Sed id est vitae diam tincidunt commodo sed eu erat. Mauris ut pulvinar tortor. Nam eu magna in est sollicitudin malesuada et ut dolor. Sed metus magna, dignissim non sollicitudin sed, ultrices id quam. Nulla purus lacus, commodo et quam ut, vulputate pulvinar ante. In blandit facilisis tincidunt. Etiam non lectus suscipit, aliquam odio a, consequat augue. Pellentesque in tortor massa. Ut porta erat non velit dapibus tincidunt.
+		</p>
+	</div>
+
+	<div class="short-article article">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam ultrices risus quis turpis varius, tempor porttitor nunc elementum. Duis eu nibh eget nibh varius suscipit sit amet at enim. Duis vel pellentesque ipsum. Aliquam vel turpis tempus, vehicula elit eget, commodo nunc. Sed tincidunt congue augue at blandit. Curabitur dictum sem tortor, sit amet tempus est fermentum id. Donec dapibus consequat mauris, non commodo felis ultrices ut. Mauris ultrices vulputate convallis. Integer iaculis velit blandit, accumsan nibh sit amet, imperdiet odio. Phasellus tincidunt tempor augue in dictum. Nam nisi felis, egestas lobortis risus posuere, condimentum varius nibh.
+		</p>
+
+		<p>
+			Mauris id justo id elit dictum sagittis. Suspendisse scelerisque mauris turpis, quis ultricies justo malesuada quis. Donec sit amet ante a libero luctus porta. Proin non hendrerit turpis, eget tincidunt dolor. Morbi ut auctor nulla. Morbi tincidunt nisi eu eros ornare euismod. Suspendisse potenti. Sed metus augue, mattis eu malesuada eu, tincidunt ut diam. Cras commodo velit eu sem sollicitudin rutrum. Nullam id lectus odio. Donec rhoncus leo eleifend, placerat nunc nec, aliquet quam. Sed ut bibendum dui. Nunc lacus est, semper eu libero a, ultricies pulvinar justo. Sed vel rhoncus mi.
+		</p>
+
+		<p>
+			Vestibulum vehicula sem vel accumsan vulputate. Phasellus et lectus ornare, accumsan erat quis, ultricies ipsum. Morbi semper velit orci, ac euismod lorem elementum quis. Phasellus id mauris vitae tellus condimentum dapibus vel eu dui. In et rhoncus justo. Proin ac magna blandit, pulvinar eros a, posuere elit. Cras molestie massa vel congue bibendum. Etiam vitae lacus vitae enim consequat sagittis. Nam mollis eros nec ipsum mollis blandit. Quisque risus ante, pellentesque eget hendrerit id, egestas et neque. Sed eget tellus suscipit, luctus dolor quis, porttitor leo. Sed lacinia, tellus eget pretium suscipit, elit lacus convallis justo, cursus consectetur sem lacus in dui.
+		</p>
+
+		<p>
+			Quisque sit amet augue ac lacus venenatis euismod vitae at felis. Praesent ut nisi neque. Praesent posuere egestas varius. Aliquam egestas volutpat adipiscing. Suspendisse aliquam leo justo, et sodales ante consectetur ac. Integer imperdiet a nunc sed luctus. Aliquam tristique tristique tellus, in molestie enim. Ut ac eleifend lorem. Sed pellentesque urna nec eros malesuada, in elementum erat interdum. Nam rhoncus dictum purus, sed porttitor leo. Nunc luctus interdum ligula, et tempor metus ornare a.
+		</p>
+
+		<p>
+			Nunc vitae ligula sit amet magna dapibus viverra pretium id magna. Integer magna quam, volutpat at nisl at, ullamcorper convallis eros. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In eget rutrum nisi, eu convallis felis. Fusce ut sapien diam. Etiam a faucibus metus. Cras sagittis ligula lacus, non ultricies mauris venenatis gravida. Maecenas gravida eget nulla sit amet hendrerit. Nam et lacus et justo pretium laoreet. Sed a orci est. Nullam condimentum velit vitae diam mattis dapibus. Etiam diam ante, aliquam eu volutpat non, eleifend sed nisi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+		</p>
+
+		<p>
+			Mauris vitae aliquam metus. Nam in dignissim nisi. Vivamus diam sapien, fermentum at mauris vitae, condimentum viverra dui. Sed eleifend pharetra est eu faucibus. Quisque vestibulum eu leo quis imperdiet. Cras at feugiat leo. Praesent non malesuada elit. Suspendisse ultricies nunc arcu, vel consequat mi iaculis sit amet. Praesent consectetur erat quis congue laoreet. Sed bibendum tortor vel metus egestas sollicitudin. Cras neque lorem, rhoncus in quam sit amet, tristique vestibulum neque. Aliquam ut dignissim mauris, in sodales enim. Morbi vel venenatis augue. Aliquam nulla purus, interdum eu odio ac, pretium imperdiet est. Nullam vitae lacus et dui cursus blandit.
+		</p>
+
+		<p>
+			Vestibulum a pharetra sapien. Nullam id bibendum ipsum. Suspendisse elementum magna sed ullamcorper convallis. Pellentesque sit amet pharetra orci. Donec quis metus pretium, dignissim elit nec, aliquet justo. Proin placerat, tellus id euismod porta, lorem mauris mollis nisl, dictum consectetur dolor lorem nec quam. Suspendisse massa diam, adipiscing quis ultricies vitae, viverra sit amet arcu. Ut fringilla, neque eget sollicitudin pretium, mi neque aliquet sapien, vel tempus lacus lectus sit amet orci. Duis facilisis pulvinar dignissim. Vestibulum iaculis fringilla tortor sit amet commodo.
+		</p>
+
+		<p>
+			Praesent gravida lobortis erat. Donec posuere ultricies erat, a blandit eros fermentum vitae. Aenean tempor malesuada sollicitudin. Maecenas dictum magna at eros ullamcorper, sit amet imperdiet leo euismod. Vestibulum adipiscing laoreet justo, at volutpat nibh pulvinar ac. Nullam porta, magna at sodales pretium, urna massa cursus dolor, non viverra sem mi ut orci. In condimentum interdum suscipit. Aenean dignissim dui condimentum euismod sollicitudin. Proin at eros et ante sodales consequat ut id nisl. Sed sit amet porta mi. Aenean at augue a enim dictum sodales. Nulla vel venenatis ligula, ac fermentum ligula. Aenean mattis ultricies metus, vitae blandit lorem faucibus eget. Morbi a egestas neque.
+		</p>
+	</div>
+
+	<div class="long-article article">
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. In arcu dolor, rhoncus ut imperdiet et, aliquam nec augue. In quis est augue. Morbi scelerisque lorem in faucibus dignissim. Curabitur egestas eros nec ullamcorper tincidunt. Vestibulum non varius sem. Sed rutrum vitae nulla ac pellentesque. Phasellus justo tortor, sodales sed elit nec, accumsan semper orci.
+		</p>
+
+		<p>
+			Vivamus in urna sit amet sem dapibus vestibulum. Ut posuere dui sed ipsum porta, sit amet accumsan justo fermentum. Donec mi metus, eleifend nec aliquam eget, tristique nec nunc. Cras sapien tellus, mollis vitae velit aliquet, lobortis hendrerit sapien. Aenean nec mi sed leo ornare elementum id quis urna. Vestibulum egestas aliquam leo vel fermentum. Praesent interdum erat a metus facilisis, id lobortis lorem molestie. Phasellus lacinia sit amet metus id pharetra. Aenean mattis purus non erat lacinia dignissim. Curabitur venenatis tempor sapien vel facilisis. Aliquam dignissim est id urna elementum rutrum. Aenean laoreet enim eget faucibus dignissim. Nunc egestas ligula vel urna fermentum vulputate. Curabitur semper id urna quis posuere. Fusce sit amet lorem tortor. Integer cursus ligula mauris, eu dignissim tellus vehicula vel.
+		</p>
+
+		<p>
+			Aliquam orci nisl, ultrices id erat nec, mattis dictum felis. Nullam magna orci, rutrum vel adipiscing vel, vehicula tempus turpis. Nam nec laoreet nisi. Donec a bibendum neque, et ullamcorper lorem. Ut malesuada urna a faucibus malesuada. Proin a luctus sapien. Nullam tempor tincidunt lorem. Duis in nisi in ipsum feugiat rhoncus sed eget felis. Donec congue adipiscing mi in auctor. Maecenas venenatis, justo vel dignissim porta, tortor enim tempor lectus, vel tempor velit velit vel lorem. Quisque condimentum purus non felis dapibus, ut bibendum quam dictum. Vestibulum at lacinia diam.
+		</p>
+
+		<p>
+			Donec feugiat nibh in diam vestibulum, ac tempor dui imperdiet. Nam auctor cursus arcu. Sed sit amet lorem pharetra felis blandit sagittis. Integer vel quam bibendum, pulvinar quam ac, tempor lacus. Nam gravida nunc sed vestibulum egestas. Aenean fringilla eros arcu, ut gravida ipsum ultricies id. Praesent et volutpat nunc.
+		</p>
+	</div>
+
+	<script src="http://codeorigin.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://cdn.jsdelivr.net/isotope/1.5.25/jquery.isotope.min.js"></script>
+	<script>
+	(function homepageGrid () {
+		'use strict';
+		var $window = $(window),
+			$doc = $(document),
+			$body = $(document.body),
+			$container = $body.find('#grid'),
+			$hidden = $body.find('#grid > li:not(.visible)'),
+			$menu = $body.find('#menu'),
+			$articleMenu = $body.find('#articleMenu'),
+			$menuLines = $body.find('#lines'),
+			$searchBox = $body.find('#searchBox'),
+			winHeight = $window.height(),
+			MATRIX_REGEX = /(-?\d+)/g,
+			MATRIX_X = 4,
+			MATRIX_Y = 5,
+			SOON = 50,
+			PADDING = 10,
+			ASAP = 0,
+			SCROLL_TIMEOUT_LEN = 350,
+			LOADING_Y_OFFSET = 140,
+			ANIMATION_THRESHOLD = 25,
+			scrollTimeout,
+			firstScrollEvent = true,
+			loadAnimTimeout,
+			loadAnimScrollTop,
+			loadAnimFoundIndex = null,
+			loadAnimLastFoundIndex,
+			$loadAnimToAnimate,
+			$lower,
+			$upper,
+			$all,
+			$clicked,
+			$transitioned,
+			$animateOnScroll,
+			updateScrollAnimation,
+			noScrollEvents = true,
+			isDoingTransition = false,
+			articleHeight = null,
+			articleTop,
+			upperOffset = 0,
+			lowerOffset = 0;
+
+		function getCurTop ($el) {
+			return parseInt($el.css('-webkit-transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
+		}
+		function isOnScreen ($el, scrollTop, padding) {
+		 	var thisTop = getCurTop($el) + (padding || 0),
+		  		height = $el.height();
+
+		  	return (thisTop < (scrollTop + winHeight)) && (((thisTop + height) > scrollTop));
+		}
+
+		function modifyTransform (offset) {
+			return function(i, val) {
+				val = val.match(MATRIX_REGEX);
+				return 'translate3d(' + val[MATRIX_X] + 'px, ' + (parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
+			};
+		}
+
+		function modifyOrigTransform (offset, padding) {
+			return function() {
+				var val = this.matrix.match(MATRIX_REGEX);
+				return 'translate3d(' + val[MATRIX_X] + 'px, ' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
+			};
+		}
+		function setTransform (thisVal) {
+			return function(i, val) {
+				return 'translate3d(' + val.match(MATRIX_REGEX)[MATRIX_X] + 'px, ' + thisVal + 'px, 0)';
+			};
+		}
+
+		function closeArticle (scroll, noAnimation, updateScrollbar, scrollTop) {
+			var scrollTop,
+				padding;
+			if(!articleHeight || isDoingTransition) {
+				return;
+			}
+			scrollTop = scrollTop || window.pageYOffset;
+
+			if(!noAnimation) {
+				$all.removeClass('offScreen').addClass('closing');
+				$menu.removeClass('offScreen hide').addClass('closing');
+				noScrollEvents = true;
+			} else {
+				$all.addClass('offScreen');
+				$menu.add('offScreen');
+			}
+
+			if(scroll) {
+				padding = scrollTop - articleTop < 0 ? scrollTop - articleTop : 0;
+				$upper.each(function() {
+					var $me = $(this);
+					if(! isOnScreen($me, scrollTop, articleHeight + padding) && ! isOnScreen($me, scrollTop, articleHeight)) {
+						$me.addClass('offScreen');
+					}
+				}).css('-webkit-transform', modifyOrigTransform(articleHeight + padding));
+
+				$lower.each(function() {
+					var $me = $(this);
+					if(!isOnScreen($me, scrollTop, -articleHeight - padding) && !isOnScreen($me, scrollTop, -lowerOffset - padding)) {
+						$me.addClass('offScreen');
+					}
+				}).css('-webkit-transform', modifyOrigTransform(-lowerOffset + padding));
+			} else {
+				$lower.css('-webkit-transform', modifyOrigTransform(-(lowerOffset * 2) - upperOffset));
+				articleHeight = articleTop = null;
+			}
+
+			$menu.css('opacity', 1);
+			setTimeout(function() {
+				$container.find('.shown').removeClass('shown').addClass('visible');
+				$all.removeClass('lower upper offScreen shown');
+			}, 1);
+			if(updateScrollbar) {
+				$body.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+			}
+			/*setTimeout(function() {
+
+				//$container.css('height', '-=' + articleHeight);
+				if(updateScrollbar) {
+					//$body.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+				}
+			}, SOON);*/
+
+			$(".article").css("opacity", 0).css("position", "absolute").css("display", "none");
+		}
+
+		function endTransition(scrollTop, scrollTo) {
+			$all.removeClass('onScreen delay').addClass('offScreen');
+			$menu.addClass('offScreen hide');
+			$lower.css('-webkit-transform', modifyTransform(articleHeight));
+			$upper.css('-webkit-transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
+
+			$all.each(function() {
+				this.matrix = $(this).css('-webkit-transform');
+			});
+
+			noScrollEvents = true;
+			$body.scrollTop(scrollTo);
+			noScrollEvents = false;
+			isDoingTransition = false;
+			updateScrollAnimation = false;
+		}
+
+		function debouneScrollClassToggling () {
+			if(scrollTimeout) {
+				clearTimeout(scrollTimeout);
+			} else {
+				$container.addClass('scrolling');
+			}
+
+			scrollTimeout = setTimeout(function() {
+				$container.removeClass('scrolling');
+				scrollTimeout = null;
+			}, SCROLL_TIMEOUT_LEN);
+		}
+
+		function setLoadAnim() {
+			$($loadAnimToAnimate).addClass('shown').removeClass('offScreen').css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
+			loadAnimTimeout = false;
+		}
+
+		function doLoadAnim() {
+			loadAnimFoundIndex = null;
+			$loadAnimToAnimate = [];
+
+			$hidden.each(function (i) {
+				if(isOnScreen($(this), loadAnimScrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
+					if(loadAnimFoundIndex === null) {
+						loadAnimFoundIndex = i;
+					}
+					loadAnimLastFoundIndex = i;
+				} else {
+					return loadAnimFoundIndex !== null;
+				}
+			});
+			if(loadAnimFoundIndex !== null) {
+				$loadAnimToAnimate = $hidden.splice(loadAnimFoundIndex, 1 + loadAnimLastFoundIndex - loadAnimFoundIndex);
+				setTimeout(setLoadAnim, SOON);
+			} else {
+				loadAnimTimeout = false;
+			}
+		}
+
+		function debounceLoadAnim(scrollTop) {
+			if(loadAnimTimeout || $hidden.length === 0) {
+				return;
+			}
+			loadAnimScrollTop = scrollTop;
+
+			if(firstScrollEvent) {
+				doLoadAnim();
+				return firstScrollEvent = false;
+			}
+			loadAnimTimeout = setTimeout(doLoadAnim, SOON);
+		}
+
+		function onScroll() {
+			var scrollTop;
+
+			if(noScrollEvents) {
+				debouneScrollClassToggling();
+				return debounceLoadAnim(window.pageYOffset);
+			}
+			if(isDoingTransition) {
+				scrollTop = window.pageYOffset;
+				return endTransition(scrollTop, scrollTop + lowerOffset);
+			}
+
+			scrollTop = window.pageYOffset;
+			if(articleHeight !== null) {
+				// If user has scrolled passed the top of the article
+				if((scrollTop < articleTop) && (scrollTop > articleTop - articleHeight)) {
+					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(4)).removeClass('hide');
+					$animateOnScroll.css('-webkit-transform', modifyOrigTransform((scrollTop - articleTop) * 2, upperOffset));
+					$articleMenu.addClass('hide');
+					updateScrollAnimation = true;
+
+					if (scrollTop <= (articleTop - winHeight/4)) {
+						// Set lorem ipsum as fixed
+						$(".short-article").css("position", "fixed").css("top", winHeight/4);
+						$(".short-article").css("opacity", (1 - Math.abs((articleTop - winHeight/4) - scrollTop) / articleHeight).toFixed(4))
+
+					} else if (scrollTop > (articleTop - winHeight/4)) {
+						// Set lorem ipsum as fixed
+						if ($(".short-article").css("position") === 'fixed') {
+							$(".short-article").css("position", "absolute").css("top", articleTop);
+						}
+					}
+
+				} else if(scrollTop > articleTop) {
+					// If scroll animation is in progress, reset it
+					if(updateScrollAnimation) {
+						$animateOnScroll.css('-webkit-transform', modifyOrigTransform(0));
+						updateScrollAnimation = false;
+
+					// If user is scrolling within the article, do something... (I don't think we should start messing with menu bar here - Rex)
+					} else if(scrollTop < articleTop + articleHeight) {
+						$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(4)).removeClass('hide');
+						$articleMenu.addClass('hide');
+
+					// If user has scrolled past 1.5 x height of the article, close the article
+					} else if(scrollTop > articleTop + (articleHeight * 1.5)) {
+						closeArticle(false, true, true, scrollTop);
+					}
+
+				} else if(updateScrollAnimation) {
+					closeArticle(false, true, false, scrollTop);
+					updateScrollAnimation = false;
+				}
+			}
+
+			debounceLoadAnim(scrollTop);
+			debouneScrollClassToggling();
+		}
+
+		function handleTransitionEnd() {
+			var	padding,
+				scrollTop;
+			if(isDoingTransition && $transitioned.hasClass('delay')) {
+				return endTransition(window.pageYOffset, articleTop);
+
+			} else if($transitioned.hasClass('closing') && noScrollEvents) {
+				scrollTop = window.pageYOffset;
+				padding = scrollTop < articleTop ? scrollTop - articleTop : 0;
+				$body.scrollTop(scrollTop - upperOffset - lowerOffset - padding);
+				$all.addClass('offScreen').removeClass('closing').css('-webkit-transform', modifyTransform(-upperOffset-lowerOffset - padding)).removeClass('offScreen');
+				$articleMenu.addClass('hide');
+				articleHeight = articleTop = null;
+				noScrollEvents = false;
+
+			} else if($container.hasClass('initial') && noScrollEvents) {
+				$container.removeClass('initial');
+				$hidden.addClass('offScreen').css('-webkit-transform', modifyTransform(LOADING_Y_OFFSET)).removeClass('offScreen');
+				noScrollEvents = false;
+			}
+		}
+
+		function onTransitionEnd(e) {
+			$transitioned = $(e.target);
+			setTimeout(handleTransitionEnd, SOON);
+		}
+
+		function onClick(e) {
+			var $onScreenUpper,
+				$onScreenLower,
+				$offScreenUpper,
+				$offScreenLower,
+				$li,
+				$oldLi,
+				scrollTop,
+				targetOffset,
+				offset;
+
+			if(($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container)) {
+				$(".short-article").css("display", "block");
+				console.log($(".short-article").height());
+				var myHeight = $(".short-article").height();
+
+				//closeArticle(false, true, false, scrollTop);
+				e.preventDefault();
+				e.stopPropagation();
+
+				$li = $oldLi = $clicked.closest('li');
+				$onScreenUpper = [];
+				$offScreenUpper = [];
+
+				isDoingTransition = true;
+				scrollTop = window.pageYOffset;
+				targetOffset = scrollTop + myHeight - getCurTop($li) + PADDING;
+				upperOffset = 0,
+				lowerOffset = 0;
+
+				while(($li = $li.prev()).length) {
+					if(isOnScreen($li, scrollTop)) {
+						offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
+						if(offset > upperOffset) {
+							upperOffset = offset;
+						}
+						$onScreenUpper.push($li[0]);
+					}
+					else {
+						$offScreenUpper.push($li[0]);
+					}
+				}
+
+				$li = $oldLi;
+				lowerOffset = targetOffset;
+				$onScreenLower = [];
+				$offScreenLower = [];
+
+				while(($li = $li.next()).length) {
+					if(isOnScreen($li, scrollTop)) {
+						offset =  scrollTop + myHeight - getCurTop($li) + PADDING;
+						if(offset > lowerOffset) {
+							lowerOffset = offset;
+						}
+						$onScreenLower.push($li[0]);
+					} else {
+						$offScreenLower.push($li[0]);
+					}
+				}
+
+				offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
+				$oldLi.addClass('delay onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				$menu.removeClass('offScreen closing show').css('opacity', 0);
+				$articleMenu.removeClass('hide');
+
+				if($onScreenUpper.length) {
+					$onScreenUpper = $($onScreenUpper);
+					$onScreenUpper.addClass('onScreen upper').css('-webkit-transform', modifyTransform(- upperOffset - offset));
+				}
+				if($offScreenUpper.length) {
+					$offScreenUpper = $($offScreenUpper);
+					$offScreenUpper.addClass('offScreen upper').css('-webkit-transform', modifyTransform(- upperOffset - offset));
+				}
+
+				if($onScreenLower.length) {
+					$onScreenLower = $($onScreenLower);
+					$onScreenLower.addClass('onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				}
+				if($offScreenLower.length) {
+					$offScreenLower = $($offScreenLower);
+					$offScreenLower.addClass('offScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				}
+
+				setTimeout(function () {
+					articleTop = upperOffset + lowerOffset + scrollTop;
+					articleHeight = upperOffset + lowerOffset;
+					$upper = $container.find('li.upper');
+					$lower = $container.find('li.lower');
+					$all = $container.find('li');
+					if(!$onScreenLower.length) {
+						$onScreenLower = $($onScreenLower);
+					}
+					if(!$offScreenLower.length) {
+						$offScreenLower = $($offScreenLower);
+					}
+					$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($oldLi.length * 1.5, 10)));
+					$(".short-article").css("top", articleTop).css("opacity", "1.0");
+
+				}, ASAP);
+			}
+		}
+
+		function onKeyDown(e) {
+			if (e.keyCode === 27) {
+				if($searchBox.is(':focus')) {
+					return $searchBox.blur();
+				}
+				closeArticle(true);
+			}
+		}
+
+		function onLoad(e) {
+			$container.isotope({
+				 itemSelector : 'li'
+			});
+			setTimeout(function () {
+				$body.css('opacity', 1);
+			}, SOON);
+		}
+
+		function onUnload(e) {
+			$body.scrollTop(0);
+		}
+
+		function onResize(e) {
+			//$container.find('shown').removeClass('shown').addClass('visible');
+			/*$hidden.css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
+			$container.addClass('initial');*/
+			//winHeight = $window.height();
+		}
+
+		function onMenuClick() {
+			$menu.removeClass('onScreen offScreen hide');
+			setTimeout(function() {
+				$menu.addClass('show');
+			}, SOON);
+		}
+
+		$container.on('click', onClick);
+		$container.on('webkitTransitionEnd', onTransitionEnd);
+		$doc.on('scroll', onScroll);
+		$doc.on('keydown', onKeyDown);
+		$menuLines.on('click', onMenuClick);
+
+		$window.on('load', onLoad);
+		$window.on('unload', onUnload);
+		$window.on('resize', onResize);
+	}());
+	</script>
+</body>
