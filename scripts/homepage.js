@@ -41,7 +41,7 @@
 		lowerOffset = 0;
 
 	function getCurTop ($el) {
-		return parseInt($el.css('-webkit-transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
+		return parseInt($el.css('transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
 	}
 	function isOnScreen ($el, scrollTop, padding) {
 	 	var thisTop = getCurTop($el) + (padding || 0),
@@ -92,16 +92,16 @@
 				if(! isOnScreen($me, scrollTop, articleHeight + padding)) {
 					$me.addClass('offScreen');
 				}
-			}).css('-webkit-transform', modifyOrigTransform(articleHeight + padding));
+			}).css('transform', modifyOrigTransform(articleHeight + padding));
 
 			$lower.each(function() {
 				var $me = $(this);
 				if(!isOnScreen($me, scrollTop) && !isOnScreen($me, scrollTop, -articleHeight - padding) && !isOnScreen($me, scrollTop, -lowerOffset - padding)) {
 					$me.addClass('offScreen');
 				}
-			}).css('-webkit-transform', modifyOrigTransform(-lowerOffset + padding));
+			}).css('transform', modifyOrigTransform(-lowerOffset + padding));
 		} else {
-			$lower.css('-webkit-transform', modifyOrigTransform(-(lowerOffset * 2) - upperOffset));
+			$lower.css('transform', modifyOrigTransform(-(lowerOffset * 2) - upperOffset));
 			articleHeight = articleTop = null;
 		}
 
@@ -118,11 +118,11 @@
 	function endTransition(scrollTop, scrollTo) {
 		$all.removeClass('onScreen delay').addClass('offScreen');
 		$menu.addClass('offScreen hide');
-		$lower.css('-webkit-transform', modifyTransform(articleHeight));
-		$upper.css('-webkit-transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
+		$lower.css('transform', modifyTransform(articleHeight));
+		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 
 		$all.each(function() {
-			this.matrix = $(this).css('-webkit-transform');
+			this.matrix = $(this).css('transform');
 		});
 
 		noScrollEvents = true;
@@ -148,7 +148,7 @@
 	}
 
 	function setLoadAnim() {
-		$loadAnimToAnim.addClass('shown').removeClass('offScreen').css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
+		$loadAnimToAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET));
 		loadAnimTimeout = false;
 	}
 
@@ -201,7 +201,7 @@
 		scrollTop = window.pageYOffset;
 		if(articleHeight !== null) {
 			if((scrollTop < articleTop) && (scrollTop > articleTop - articleHeight)) {
-				$animateOnScroll.css('-webkit-transform', modifyOrigTransform((scrollTop - articleTop) * 2, upperOffset));
+				$animateOnScroll.css('transform', modifyOrigTransform((scrollTop - articleTop) * 2, upperOffset));
 				if(menuOpacityTimeout) {
 					clearTimeout(menuOpacityTimeout);
 				}
@@ -213,7 +213,7 @@
 				}, ASAP);
 			} else if(scrollTop > articleTop) {
 				if(updateScrollAnimation) {
-					$animateOnScroll.css('-webkit-transform', modifyOrigTransform(0));
+					$animateOnScroll.css('transform', modifyOrigTransform(0));
 					updateScrollAnimation = false;
 				} else if(scrollTop < articleTop + articleHeight) {
 					if(menuOpacityTimeout) {
@@ -256,12 +256,12 @@
 			scrollTop = window.pageYOffset;
 			padding = scrollTop < articleTop ? scrollTop - articleTop : 0;
 			$body.scrollTop(scrollTop - upperOffset - lowerOffset - padding);
-			$all.addClass('offScreen').removeClass('closing').css('-webkit-transform', modifyTransform(-upperOffset-lowerOffset - padding)).removeClass('offScreen');
+			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-upperOffset-lowerOffset - padding)).removeClass('offScreen');
 			$articleMenu.addClass('hide');
 			articleHeight = articleTop = null;
 			noScrollEvents = false;
 		} else if(!loaded && $container.hasClass('initial')) {
-			$hidden.addClass('offScreen').css('-webkit-transform', modifyTransform(LOADING_Y_OFFSET));
+			$hidden.addClass('offScreen').css('transform', modifyTransform(LOADING_Y_OFFSET));
 			noScrollEvents = false;
 			$body.css('opacity', 1);
 			setTimeout(function() {
@@ -336,26 +336,26 @@
 			}
 
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			$oldLi.addClass('delay onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+			$oldLi.addClass('delay onScreen lower').css('transform', modifyTransform(lowerOffset));
 			$menu.removeClass('offScreen closing show').css('opacity', 0);
 			$articleMenu.removeClass('hide');
 
 			if($onScreenUpper.length) {
 				$onScreenUpper = $($onScreenUpper);
-				$onScreenUpper.addClass('onScreen upper').css('-webkit-transform', modifyTransform(-upperOffset - offset));
+				$onScreenUpper.addClass('onScreen upper').css('transform', modifyTransform(-upperOffset - offset));
 			}
 			if($offScreenUpper.length) {
 				$offScreenUpper = $($offScreenUpper);
-				$offScreenUpper.addClass('offScreen upper').css('-webkit-transform', modifyTransform(-upperOffset - offset));
+				$offScreenUpper.addClass('offScreen upper').css('transform', modifyTransform(-upperOffset - offset));
 			}
 
 			if($onScreenLower.length) {
 				$onScreenLower = $($onScreenLower);
-				$onScreenLower.addClass('onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				$onScreenLower.addClass('onScreen lower').css('transform', modifyTransform(lowerOffset));
 			}
 			if($offScreenLower.length) {
 				$offScreenLower = $($offScreenLower);
-				$offScreenLower.addClass('offScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				$offScreenLower.addClass('offScreen lower').css('transform', modifyTransform(lowerOffset));
 			}
 
 			setTimeout(function () {
@@ -397,7 +397,7 @@
 
 	function onResize(e) {
 		//$container.find('shown').removeClass('shown').addClass('visible');
-		/*$hidden.css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
+		/*$hidden.css('transform', modifyTransform(-LOADING_Y_OFFSET));
 		$container.addClass('initial');*/
 		//winHeight = $window.height();
 	}
@@ -411,7 +411,7 @@
 
 	$menuLines.on('click', onMenuClick);
 	$container.on('click', onClick);
-	$container.on('webkitTransitionEnd', onTransitionEnd);
+	$container.on('transitionend webkitTransitionEnd', onTransitionEnd);
 	$container.imagesLoaded(onLoad);
 	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
