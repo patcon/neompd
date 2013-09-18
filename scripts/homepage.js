@@ -224,7 +224,7 @@
 						$articleMenu.addClass('hide');
 						menuOpacityTimeout = null;
 					}, ASAP);
-				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
+				} else if((scrollTop > articleTop + (articleHeight * 1.35))) {
 					if(closeArticleTimeout) {
 						clearTimeout(closeArticleTimeout);
 					}
@@ -239,7 +239,7 @@
 					modifyOrigTransform(articleHeight);
 					closeArticle(false, true, false, window.pageYOffset);
 					updateScrollAnimation = false;
-				}, SOON);
+				}, ASAP);
 			}
 		} else {
 			debounceLoadAnim();
