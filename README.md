@@ -1,4 +1,3 @@
-Best Evarrrr
 <pre>
                          _,add8ba,
                             ,d888888888b,
