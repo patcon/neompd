@@ -13,7 +13,9 @@ body {
 	font:12px TradeGothic, Helvetica, sans-serif;
 	background-color: #f2f2f2;
 }
-
+body::-webkit-scrollbar  {
+	width:0;
+}
 #grid > li {
 	list-style:none;
 	-webkit-transition-duration: 0.7s;
@@ -128,7 +130,7 @@ body {
 }
 #grid > li.shown {
 	-webkit-transition-property: opacity, -webkit-transform;
-	-webkit-transition-duration: 0.4s, 0.5s;
+	-webkit-transition-duration: 0.6s, 0.5s;
 	-webkit-transition-timing-function: ease-in, ease-out;
 	z-index: 0;
 }

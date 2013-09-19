@@ -1,5 +1,6 @@
 (function($) {
 	'use strict';
+
 	if (typeof document !== 'undefined' && ('classList' in document.createElement('a'))) {
 		jQuery.fn.hasClass = function(selector) {
 			var elem, i, l;
