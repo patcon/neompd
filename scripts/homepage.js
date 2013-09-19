@@ -264,7 +264,7 @@
 			$body.css('opacity', 1);
 			setTimeout(function() {
 				doLoadAnim();
-			}, ASAP);
+			}, SOON);
 			loaded = true;
 		}
 	}
