@@ -13,7 +13,9 @@ body {
 	font:12px TradeGothic, Helvetica, sans-serif;
 	background-color: #f2f2f2;
 }
-
+body::-webkit-scrollbar  {
+	width:0;
+}
 #grid > li {
 	list-style:none;
 	-webkit-transition-duration: 0.7s;
@@ -129,7 +131,7 @@ body {
 }
 #grid > li.shown {
 	-webkit-transition-property: opacity, -webkit-transform;
-	-webkit-transition-duration: 0.4s, 0.5s;
+	-webkit-transition-duration: 0.6s, 0.5s;
 	-webkit-transition-timing-function: ease-in, ease-out;
 	z-index: 2;
 }
@@ -175,9 +177,9 @@ body {
 }
 #grid > li.delay {
 	opacity:0.5;
-	-webkit-transition-delay:.8s, .35s;
+	-webkit-transition-delay:.85s, .35s;
 	-webkit-transition-timing-function: ease-out, ease-in;
-	-webkit-transition-duration:.15s, 0.6s;
+	-webkit-transition-duration:.175s, 0.7s;
 	-webkit-transition-property: -webkit-transform, opacity;
 }
 #menu, #articleMenu {

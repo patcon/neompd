@@ -16,13 +16,12 @@
 		ASAP = 0,
 		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 350,
-		LOADING_Y_OFFSET = 220,
+		LOADING_Y_OFFSET = 170,
 		ANIMATION_THRESHOLD = 40,
 		firstScrollEvent = true,
 		scrollTimeout,
 		menuOpacityTimeout,
 		closeArticleTimeout,
-		$loadAnimToAnim,
 		loadAnimTimeout,
 		$lower,
 		$upper,
@@ -149,14 +148,10 @@
 		}, SCROLL_TIMEOUT_LEN);
 	}
 
-	function setLoadAnim() {
-		$loadAnimToAnim.addClass('shown').removeClass('offScreen').css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
-		loadAnimTimeout = false;
-	}
-
 	function doLoadAnim() {
 		var foundIndex = null,
 			scrollTop =  window.pageYOffset,
+			$toAnim,
 			lastFoundIndex;
 		$hidden.each(function (i) {
 			if(isOnScreen($(this), scrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
@@ -169,8 +164,11 @@
 			}
 		});
 		if(foundIndex !== null) {
-			$loadAnimToAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
-			setTimeout(setLoadAnim, SOON * 2 * Math.random());
+			$toAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
+			setTimeout(function () {
+				$toAnim.addClass('shown').removeClass('offScreen').css('-webkit-transform', modifyTransform(-LOADING_Y_OFFSET));
+				loadAnimTimeout = false;
+			}, SOON * Math.random());
 		} else {
 			loadAnimTimeout = false;
 		}
@@ -241,14 +239,14 @@
 						menuOpacityTimeout = null;
 					}, ASAP);
 
-				} else if((scrollTop > articleTop + (articleHeight * 1.35))) {
-					if(closeArticleTimeout) {
-						clearTimeout(closeArticleTimeout);
-					}
-					closeArticleTimeout = setTimeout(function() {
-						closeArticle(false, true, true, window.pageYOffset);
-						closeArticleTimeout = null;
-					}, ASAP);
+				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
+					//if(closeArticleTimeout) {
+					//	clearTimeout(closeArticleTimeout);
+					//}
+				//	closeArticleTimeout = setTimeout(function() {
+						closeArticle(false, true, true, scrollTop);
+				//		closeArticleTimeout = null;
+				//	}, ASAP);
 				}
 			}
 			else if(updateScrollAnimation) {
@@ -285,7 +283,7 @@
 			$body.css('opacity', 1);
 			setTimeout(function() {
 				doLoadAnim();
-			}, ASAP);
+			}, SOON);
 			loaded = true;
 		}
 	}
