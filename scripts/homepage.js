@@ -222,14 +222,14 @@
 						$articleMenu.addClass('hide');
 						menuOpacityTimeout = null;
 					}, ASAP);
-				} else if((scrollTop > articleTop + (articleHeight * 1.35))) {
-					if(closeArticleTimeout) {
-						clearTimeout(closeArticleTimeout);
-					}
-					closeArticleTimeout = setTimeout(function() {
-						closeArticle(false, true, true, window.pageYOffset);
-						closeArticleTimeout = null;
-					}, ASAP);
+				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
+					//if(closeArticleTimeout) {
+					//	clearTimeout(closeArticleTimeout);
+					//}
+				//	closeArticleTimeout = setTimeout(function() {
+						closeArticle(false, true, true, scrollTop);
+				//		closeArticleTimeout = null;
+				//	}, ASAP);
 				}
 			}
 			else if(updateScrollAnimation) {
