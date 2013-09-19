@@ -176,9 +176,9 @@ body::-webkit-scrollbar  {
 }
 #grid > li.delay {
 	opacity:0.5;
-	-webkit-transition-delay:.8s, .35s;
+	-webkit-transition-delay:.85s, .35s;
 	-webkit-transition-timing-function: ease-out, ease-in;
-	-webkit-transition-duration:.15s, 0.6s;
+	-webkit-transition-duration:.175s, 0.7s;
 	-webkit-transition-property: -webkit-transform, opacity;
 }
 #menu, #articleMenu {
