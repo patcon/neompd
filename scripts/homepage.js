@@ -110,7 +110,7 @@
 			$container.find('.shown').removeClass('shown').addClass('visible');
 			$all.removeClass('lower upper offScreen shown');
 			if(updateScrollbar) {
-				$body.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+				$window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
 			}
 		}, ASAP);
 	}
@@ -126,7 +126,7 @@
 		});
 
 		noScrollEvents = true;
-		$body.scrollTop(scrollTo);
+		$window.scrollTop(scrollTo);
 		setTimeout(function() {
 			isDoingTransition = false;
 			updateScrollAnimation = false;
@@ -255,7 +255,7 @@
 		} else if($transitioned.hasClass('closing') && noScrollEvents) {
 			scrollTop = window.pageYOffset;
 			padding = scrollTop < articleTop ? scrollTop - articleTop : 0;
-			$body.scrollTop(scrollTop - upperOffset - lowerOffset - padding);
+			$window.scrollTop(scrollTop - upperOffset - lowerOffset - padding);
 			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-upperOffset-lowerOffset - padding)).removeClass('offScreen');
 			$articleMenu.addClass('hide');
 			articleHeight = articleTop = null;
@@ -392,7 +392,7 @@
 
 
 	function onUnload(e) {
-		$body.scrollTop(0);
+		$window.scrollTop(0);
 	}
 
 	function onResize(e) {
