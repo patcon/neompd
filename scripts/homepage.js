@@ -41,9 +41,8 @@
 		upperOffset = 0,
 		lowerOffset = 0,
 		upperWinOffset = 0,
-		lowerWinOffset = 0;
-		// $domi = $(".short-article").oriDomi({ vPanels: 1, hPanels: 8,
-  //   		perspective: 2000, speed: 1000, shading: true });
+		lowerWinOffset = 0,
+		endArticleTransition = 400; //threshold for transitioning menu/article menu on/off at the end of article
 
 	function getCurTop ($el) {
 		return parseInt($el.css('-webkit-transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
@@ -106,7 +105,7 @@
 					$me.addClass('offScreen');
 				}
 			}).css('-webkit-transform', modifyOrigTransform(-lowerOffset + padding));
-		
+
 		} else {
 			$lower.css('-webkit-transform', modifyOrigTransform(-lowerOffset - overhead));
 			articleHeight = articleTop = null;
@@ -205,13 +204,14 @@
 				} else {
 					// Start moving up the blocks below the window
 					$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
+					$(".short-article").css("opacity", (1 - Math.abs(articleTop - scrollTop) / winHeight).toFixed(4));
 
 					if(menuOpacityTimeout) {
 						clearTimeout(menuOpacityTimeout);
 					}
-					
+
 					menuOpacityTimeout = setTimeout(function() {
-						$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(4)).removeClass('hide');
+						$menu.css('opacity', (Math.abs(articleTop - scrollTop) / winHeight).toFixed(4)).removeClass('hide');
 						$articleMenu.addClass('hide');
 						updateScrollAnimation = true;
 						menuOpacityTimeout = null;
@@ -229,17 +229,18 @@
 				if(updateScrollAnimation) {
 					$animateOnScroll.css('-webkit-transform', modifyOrigTransform(0));
 					updateScrollAnimation = false;
-
-				} else if(scrollTop < articleTop + articleHeight) {
+				} else if (scrollTop > articleTop + articleHeight-endArticleTransition) {
 					if(menuOpacityTimeout) {
 						clearTimeout(menuOpacityTimeout);
 					}
 					menuOpacityTimeout = setTimeout(function() {
-						$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(4)).removeClass('hide');
+						$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(4)).removeClass('hide');
 						$articleMenu.addClass('hide');
 						menuOpacityTimeout = null;
 					}, ASAP);
-
+				} else if (scrollTop <= articleTop + articleHeight-endArticleTransition) {
+					$articleMenu.removeClass('hide');
+					$menu.addClass('hide');
 				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
 					//if(closeArticleTimeout) {
 					//	clearTimeout(closeArticleTimeout);
@@ -371,7 +372,7 @@
 					winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
 					if (offset > lowerOffset) lowerOffset = offset;
 					if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
-					
+
 					$onScreenLower.push($li[0]);
 				} else {
 					$offScreenLower.push($li[0]);
