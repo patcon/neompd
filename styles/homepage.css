@@ -188,6 +188,7 @@ body::-webkit-scrollbar  {
 	width:175px;
 	font-family:TradeGothic;
 	text-transform: uppercase;
+	z-index: 99;
 }
 #menu {
 	background:#2a2a2a url(../images/logo.jpg) 37px 23px no-repeat;
@@ -321,7 +322,40 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	z-index: 1;
 	opacity: 0.0;
 	font-size: 16px;
+	left: 0px;
+	right: 0px;
+	/*padding-left: 20px;
+	padding-right: 20px;*/
+}
+/*.article:before {
+	content: "";
+	display: block;
+	position: fixed;
+	background: red;
+	height: 100px;
+	top: 0px;
 	left: 175px;
 	right: 0px;
-	padding-left: 20px;
+}
+.article:after {
+	content: "";
+	display: block;
+	position: fixed;
+	background: red;
+	height: 100px;
+	bottom: 0px;
+	left: 175px;
+	right: 0px;
+}*/
+.prompt {
+	height: 100px;
+	background: black;
+	color: white;
+	margin-bottom: 0px;
+	margin-top: 0px;
+	padding-left: 195px;
+}
+
+p.content {
+	margin-top: 0px;
 }
