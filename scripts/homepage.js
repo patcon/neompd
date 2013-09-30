@@ -34,6 +34,7 @@
 		noScrollEvents = true,
 		isDoingTransition = false,
 		loaded = false,
+		adjustLowerTilesOffset = false,
 		articleHeight = null,
 		articleTop,
 		lastScrollTop = 0,
@@ -75,7 +76,7 @@
 	}
 
 	function closeArticle (scroll, noAnimation, updateScrollbar, scrollTop) {
-		var scrollTop,
+		var scrollTop, articleHeightTemp = articleHeight,
 			padding;
 		if(!articleHeight || isDoingTransition) {
 			return;
@@ -117,7 +118,8 @@
 			$container.find('.shown').removeClass('shown').addClass('visible');
 			$all.removeClass('lower upper offScreen shown');
 			if(updateScrollbar) {
-				$body.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+				$body.scrollTop(scrollTop - overhead - articleHeightTemp);
+				// console.log(window.pageYOffset, overhead, articleHeightTemp);
 			}
 		}, ASAP);
 
@@ -196,7 +198,8 @@
 				// TODO: get rid of all the $() on the fly to increase performance
 				if ($(".short-article").css("position") !== 'fixed') {
 					// Put the lower blocks right below the window to start moving up
-					$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
+					if (lowerOffset > winHeight)
+						$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
 
 					// Set lorem ipsum as fixed
 					$(".short-article").css("position", "fixed").css("top", 0);
@@ -204,7 +207,10 @@
 
 				} else {
 					// Start moving up the blocks below the window
-					$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
+					if (lowerOffset > winHeight)
+						$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
+					else
+						$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead), 0));
 
 					if(menuOpacityTimeout) {
 						clearTimeout(menuOpacityTimeout);
@@ -269,12 +275,21 @@
 		$lower.css('-webkit-transform', modifyTransform(overhead));
 		$upper.css('-webkit-transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 
+		// Adjust the lower blocks and move them where they actually need to be
+		if (lowerOffset > lowerWinOffset) {
+			$lower.css('-webkit-transform', modifyTransform(lowerOffset - lowerWinOffset));
+		}
+
 		$all.each(function() {
 			this.matrix = $(this).css('-webkit-transform');
 		});
 
 		noScrollEvents = true;
 		$body.scrollTop(scrollTo);
+
+		// Show the article, there should probably be more fancy transitions tho
+		$(".short-article").css("top", articleTop).css("opacity", "1.0");
+
 		setTimeout(function() {
 			isDoingTransition = false;
 			updateScrollAnimation = false;
@@ -378,10 +393,13 @@
 				}
 			}
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			$oldLi.addClass('delay onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
 			$menu.removeClass('offScreen closing show').css('opacity', 0);
 			$articleMenu.removeClass('hide');
 
+			// Move lower block as little as neccessary to get them off the screen
+			$oldLi.addClass('delay onScreen lower').css('-webkit-transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
+
+			// Move upper blocks
 			if($onScreenUpper.length) {
 				$onScreenUpper = $($onScreenUpper);
 				$onScreenUpper.addClass('onScreen upper').css('-webkit-transform', modifyTransform(- upperOffset - offset));
@@ -391,13 +409,14 @@
 				$offScreenUpper.addClass('offScreen upper').css('-webkit-transform', modifyTransform(- upperOffset - offset));
 			}
 
+			// Move lower blocks as little as neccessary to get them off the screen
 			if($onScreenLower.length) {
 				$onScreenLower = $($onScreenLower);
-				$onScreenLower.addClass('onScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				$onScreenLower.addClass('onScreen lower').css('-webkit-transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
 			}
 			if($offScreenLower.length) {
 				$offScreenLower = $($offScreenLower);
-				$offScreenLower.addClass('offScreen lower').css('-webkit-transform', modifyTransform(lowerOffset));
+				$offScreenLower.addClass('offScreen lower').css('-webkit-transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
 			}
 
 			setTimeout(function () {
@@ -415,7 +434,7 @@
 					$offScreenLower = $($offScreenLower);
 				}
 				$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($oldLi.length * 1.3, 10)));
-				$(".short-article").css("top", articleTop).css("opacity", "1.0");
+				// $(".short-article").css("top", articleTop).css("opacity", "1.0");
 				// $(".short-article").css("position", "fixed").css("top", 0).css("opacity", "1.0");
 
 			}, ASAP);

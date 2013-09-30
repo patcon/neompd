@@ -236,7 +236,7 @@ body::-webkit-scrollbar  {
 	-webkit-transform:scale(1.05) rotate(-0.75deg);
 }
 #articleMenu {
-	background:url(../images/logo-black.jpg) 37px 23px no-repeat;
+	background:url(../images/logo-black.png) 37px 23px no-repeat;
 }
 #articleMenu h1 {
 	display: none;
@@ -246,7 +246,7 @@ body::-webkit-scrollbar  {
 	top:139px;
 	left:73px;
 	font-size: 0;
-	background-image:url(../images/lines.jpg);
+	background-image:url(../images/lines.png);
 	cursor:pointer;
 	width:28px;
 	height: 20px;
@@ -324,6 +324,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	font-size: 16px;
 	left: 0px;
 	right: 0px;
+	transition: -webkit-transform 0.3s ease-out;
 	/*padding-left: 20px;
 	padding-right: 20px;*/
 }
