@@ -199,10 +199,10 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(foundIndex !== null) {
 			$toAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
-			//setTimeout(function () {
+			setTimeout(function () {
 				$toAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
 				loadAnimTimeout = false;
-			//}, SOON * 2 * Math.random());
+			}, SOON * Math.random());
 		} else {
 			loadAnimTimeout = false;
 		}
