@@ -1005,7 +1005,7 @@
       // position the brick
       var x = this.masonry.columnWidth * shortCol,
           loadingOffset = $brick.hasClass('shown') || $brick.hasClass('visible') ? 0 : Homepage.LOADING_Y_OFFSET,
-          height = $brick.outerHeight(true),
+          height,
           articleTop,
           brick,
           isUpper = null,
@@ -1013,6 +1013,7 @@
 
       if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
       	brick = $brick[0];
+        height = $brick.outerHeight(true);
         this.resized.push(brick);
       	if(y + height > (articleTop = Homepage.articleTop()) && y < (articleHeight + articleTop)) {
       		y += articleHeight + Homepage.lowerOffset();
