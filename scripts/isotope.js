@@ -726,16 +726,20 @@
       }
 
       // process styleQueue
-      $.each( this.styleQueue, processor );
       if(this.resized.length) {
         $(this.resized).removeClass('offScreen').addClass('resized');
       }
-      if ( triggerCallbackNow ) {
-        callbackFn();
-      }
+      var that = this;
+      setTimeout(function() {
+        $.each( that.styleQueue, processor );
 
-      // clear out queue for next time
-      this.styleQueue = [];
+        if ( triggerCallbackNow ) {
+          callbackFn();
+        }
+
+        // clear out queue for next time
+        that.styleQueue = [];
+      },0);
     },
 
 
@@ -1003,13 +1007,15 @@
           loadingOffset = $brick.hasClass('shown') || $brick.hasClass('visible') ? 0 : Homepage.LOADING_Y_OFFSET,
           height = $brick.outerHeight(true),
           articleTop,
+          brick,
           isUpper = null,
           articleHeight;
 
       if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
-      	this.resized.push($brick[0]);
+      	brick = $brick[0];
+        this.resized.push(brick);
       	if(y + height > (articleTop = Homepage.articleTop()) && y < (articleHeight + articleTop)) {
-      		y = articleHeight + articleTop;
+      		y += articleHeight + Homepage.lowerOffset();
           isUpper = false;
         } else if(y + height > articleTop) {
           isUpper = false;
@@ -1030,7 +1036,7 @@
     },
 
     _masonryGetContainerSize : function() {
-      var containerHeight = Math.max.apply( Math, this.masonry.colYs ) + (Homepage.articleHeight() || 0);
+      var containerHeight = Math.max.apply( Math, this.masonry.colYs );// + (Homepage.articleHeight() || 0);
       return { height: containerHeight };
     },
 

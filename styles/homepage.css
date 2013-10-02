@@ -29,10 +29,10 @@ body::-webkit-scrollbar  {
 	-moz-transition-timing-function: ease !important;
 }
 #grid > li.resized {
-	-webkit-transition-duration: 1s !important;
-	-webkit-transition-timing-function: ease !important;
-	-moz-transition-duration: 1s !important;
-	-moz-transition-timing-function: ease !important;
+	-webkit-transition-duration: 0.7s !important;
+	-webkit-transition-timing-function: ease-out !important;
+	-moz-transition-duration: 0.7s !important;
+	-moz-transition-timing-function: ease-out !important;
 }
 #grid {
    margin:0 0 0 175px;
@@ -240,23 +240,23 @@ body::-webkit-scrollbar  {
 	text-overflow: ellipsis;
 	max-width: 100%;
 	-webkit-transition-duration:0.2s;
-	-webkit-transform:rotate(0);
+	-webkit-transform: translateZ(0) rotate(0);
 	-webkit-transition-property:-webkit-transform, background-color;
 	-webkit-transition-timing-function: ease-out;
 	-moz-transition-duration:0.2s;
-	-moz-transform:rotate(0);
+	-moz-transform: translateZ(0) rotate(0);
 	-moz-transition-property:-moz-transform, background-color;
 	-moz-transition-timing-function: ease-out;
 	text-shadow:0 1px 1px rgba(0,0,0,0.3);
 }
 #menu > ul > li:hover {
 	background:#29d09a;
-	-webkit-transform:rotate(-0.75deg);
-	-moz-transform:rotate(-0.75deg);
+	-webkit-transform: translateZ(0) rotate(-0.75deg);
+	-moz-transform: translateZ(0) rotate(-0.75deg);
 }
 #menu > ul > li:active {
-	-webkit-transform:scale(1.075) rotate(-0.75deg);
-	-moz-transform:scale(1.075) rotate(-0.75deg);
+	-webkit-transform: translateZ(0) scale(1.075) rotate(-0.75deg);
+	-moz-transform: translateZ(0) scale(1.075) rotate(-0.75deg);
 }
 #articleMenu {
 	background:url(../images/logo-black.jpg) 37px 23px no-repeat;
