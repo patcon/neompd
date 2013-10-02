@@ -19,8 +19,8 @@ var Homepage = (function homepage(defaultVals) {
 		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
-		ANIMATION_THRESHOLD = 15,
-		ANIMATION_EL_THRESHOLD = 3,
+		ANIMATION_THRESHOLD = 20,
+		ANIMATION_EL_THRESHOLD = 2,
 		firstScrollEvent = true,
 		scrollTimeout,
 		closeArticleTimeout,
@@ -35,6 +35,7 @@ var Homepage = (function homepage(defaultVals) {
 		isDoingTransition = false,
 		loaded = false,
 		resized = true,
+		setFilter = false,
 		scrollOffset,
 		articleHeight = null,
 		articleTop,
@@ -288,12 +289,15 @@ var Homepage = (function homepage(defaultVals) {
 		} else if(!resized && $transitioned.hasClass('resized')) {
 			setTimeout(function() {
 				$all.removeClass('onScreen resized').addClass('offScreen').each(function() {
-					console.log('a: ' + this.matrix);
 					this.matrix = $(this).css('transform');
-					console.log('b: ' + this.matrix);
 				});
-			}, SOON);
+			}, SOON * 2);
 			resized = true;
+		} else if(setFilter) {
+			setTimeout(function() {
+				$container.removeClass('transition');
+			}, SCROLL_TIMEOUT_LEN);
+			setFilter = false;
 		}
 	}
 
@@ -423,8 +427,24 @@ var Homepage = (function homepage(defaultVals) {
 		}, SOON);
 	}
 
+	function onFilterClick(e) {
+		var $clicked = $(e.target).closest('li');
+		if($clicked.length) {
+			noScrollEvents = true;
+			$body.scrollTop(0);
+			setFilter = true;
+			setTimeout(function() {
+				$hidden = $([]);
+				$all.removeClass('offScreen').addClass('visible');
+				$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter') });
+				noScrollEvents = false;
+			}, ASAP);
+		}
+	}
+
 	$menuLines.on('click', onMenuClick);
 	$container.on('click', onClick);
+	$menu.on('click', onFilterClick);
 	$container.on('webkitTransitionEnd', onTransitionEnd);
 	$container.imagesLoaded(onLoad);
 	$doc.on('scroll', onScroll);
