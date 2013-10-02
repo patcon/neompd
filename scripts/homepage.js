@@ -43,8 +43,6 @@
 		lowerOffset = 0,
 		upperWinOffset = 0,
 		lowerWinOffset = 0;
-		// $domi = $(".short-article").oriDomi({ vPanels: 1, hPanels: 8,
-  //   		perspective: 2000, speed: 1000, shading: true });
 
 	function getCurTop ($el) {
 		return parseInt($el.css('-webkit-transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
@@ -99,14 +97,14 @@
 				if(! isOnScreen($me, scrollTop, articleHeight + padding)) {
 					$me.addClass('offScreen');
 				}
-			}).css('-webkit-transform', modifyOrigTransform(articleHeight + padding));
+			}).css('-webkit-transform', modifyOrigTransform(overhead + padding));
 
 			$lower.each(function() {
 				var $me = $(this);
 				if(!isOnScreen($me, scrollTop) && !isOnScreen($me, scrollTop, -articleHeight - padding) && !isOnScreen($me, scrollTop, -lowerOffset - padding)) {
 					$me.addClass('offScreen');
 				}
-			}).css('-webkit-transform', modifyOrigTransform(-lowerOffset + padding));
+			}).css('-webkit-transform', modifyOrigTransform(- Math.min(lowerOffset, lowerWinOffset) + padding));
 		
 		} else {
 			$lower.css('-webkit-transform', modifyOrigTransform(-lowerOffset - overhead));
@@ -119,8 +117,10 @@
 			$all.removeClass('lower upper offScreen shown');
 			if(updateScrollbar) {
 				$body.scrollTop(scrollTop - overhead - articleHeightTemp);
-				// console.log(window.pageYOffset, overhead, articleHeightTemp);
 			}
+
+			// Update the height of the grid to remove space occupied by the article
+			$("#grid").height($("#grid").height() - articleHeightTemp - Math.min(lowerOffset, lowerWinOffset));
 		}, ASAP);
 
 		$(".article").css("opacity", 0).css("position", "absolute").css("display", "none");
@@ -178,7 +178,7 @@
 	}
 
 	function onScroll(e) {
-		var scrollTop, scrollAmount;
+		var scrollTop;
 
 		if(noScrollEvents) {
 			debouneScrollClassToggling();
@@ -190,9 +190,7 @@
 		}
 
 		scrollTop = window.pageYOffset;
-		scrollAmount = scrollTop - lastScrollTop;
-		lastScrollTop = scrollTop;
-		if(articleHeight !== null) {
+		if (articleHeight !== null) {
 			if (scrollTop < articleTop && (scrollTop > articleTop - overhead)) {
 
 				// TODO: get rid of all the $() on the fly to increase performance
@@ -203,9 +201,11 @@
 
 					// Set lorem ipsum as fixed
 					$(".short-article").css("position", "fixed").css("top", 0);
-					$(".short-article").css("opacity", (1 - Math.abs(articleTop - scrollTop) / articleHeight).toFixed(4));
 
 				} else {
+					// Start fading away the article
+					$(".short-article").css("opacity", (1 - Math.abs(articleTop - scrollTop) / overhead).toFixed(4));
+
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight)
 						$animateOnScroll.css('-webkit-transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
@@ -224,6 +224,13 @@
 					}, ASAP);
 
 				}
+
+			} else if (scrollTop < articleTop) {
+				setTimeout(function() {
+					// $animateOnScroll.css('-webkit-transform', modifyOrigTransform(-lowerOffset - overhead));
+					closeArticle(false, true, false, window.pageYOffset);
+					updateScrollAnimation = false;
+				}, ASAP);
 
 			} else if(scrollTop >= articleTop) {
 				// Reset article and lower blocks position
@@ -358,7 +365,7 @@
 
 			isDoingTransition = true;
 			scrollTop = window.pageYOffset;
-			targetOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+			// targetOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
 			upperOffset = 0,
 			lowerOffset = 0;
 
@@ -376,7 +383,8 @@
 			}
 
 			$li = $oldLi;
-			lowerOffset = targetOffset;
+			lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
 			$onScreenLower = [];
 			$offScreenLower = [];
 
@@ -395,6 +403,9 @@
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
 			$menu.removeClass('offScreen closing show').css('opacity', 0);
 			$articleMenu.removeClass('hide');
+
+			// Extend the height of the grid to make room for the article
+			$("#grid").height($("#grid").height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
 
 			// Move lower block as little as neccessary to get them off the screen
 			$oldLi.addClass('delay onScreen lower').css('-webkit-transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
@@ -443,10 +454,12 @@
 
 	function onKeyDown(e) {
 		if (e.keyCode === 27) {
+			var scrollTop = window.pageYOffset;
 			if($searchBox.is(':focus')) {
 				return $searchBox.blur();
 			}
 			closeArticle(true);
+			onMenuClick();
 		}
 	}
 
