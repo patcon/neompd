@@ -1,44 +1,51 @@
 (function($) {
 	'use strict';
 
-	if (typeof document !== 'undefined' && ('classList' in document.createElement('a'))) {
-		jQuery.fn.hasClass = function(selector) {
-			var elem, i, l;
-			for (i = 0, l = this.length ; i < l; ++i) {
-				elem = this[i];
-				if (elem.nodeType === 1 && elem.classList.contains(selector)) {
+	if (document.body.hasOwnProperty('classList')) {
+		var plugin = jQuery.fn,
+			add = DOMTokenList.prototype.add,
+			remove = DOMTokenList.prototype.remove,
+			elem,
+			i
+			length;
+
+		plugin.hasClass = function(selector) {
+			length = this.length;
+			for (i = 0; i < length; i++) {
+				if ((elem = this[i]).nodeType === 1 && elem.classList.contains(selector)) {
 					return true;
 				}
 			}
 			return false;
 		};
-		jQuery.fn.addClass = function(value) {
-			var elem, i, l, values, len;
-			for (i = 0, l = this.length; i < l; ++i) {
-				elem = this[i];
-				if (elem.nodeType === 1) {
-					values = value.split(' ');
-					len = values.length;
-					while(len--) {
-						elem.classList.add(values[len]);
+
+		plugin.addClass = function(value) {
+			length = this.length;
+			for (i = 0; i < length; i++) {
+				if ((elem = this[i]).nodeType === 1) {
+					if(value.indexOf(' ') > -1) {
+						add.apply(elem.classList, value.split(' '));
+					} else {
+						elem.classList.add(value);
 					}
 				}
 			}
 			return this;
 		};
-		jQuery.fn.removeClass = function(value) {
-			var elem, i, l, values, len;
-			for (i = 0, l = this.length; i < l; ++i) {
-				elem = this[i];
-				if (elem.nodeType === 1) {
-					values = value.split(' ');
-					len = values.length;
-					while(len--) {
-						elem.classList.remove(values[len]);
+
+		plugin.removeClass = function(value) {
+			length = this.length;
+			for (i = 0; i < length; i++) {
+				if ((elem = this[i]).nodeType === 1) {
+					if(value.indexOf(' ') > -1) {
+						remove.apply(elem.classList, value.split(' '));
+					} else {
+						elem.classList.remove(value);
 					}
 				}
 			}
 			return this;
 		};
+
 	}
-})(jQuery);
+}(jQuery));
