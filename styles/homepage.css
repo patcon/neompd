@@ -38,6 +38,7 @@ body::-webkit-scrollbar  {
    margin:0 0 0 175px;
    padding:10px;
    font-size:0;
+   z-index: 2;
 }
 #grid > li {
   	-webkit-transition-property: -webkit-transform;
@@ -353,7 +354,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	opacity: 1;
 	left: 190px;
 	right: 0;
-	min-height: 120%;
+	min-height: 100%;
 }
 #article.fixed {
 	top:0;
