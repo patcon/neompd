@@ -277,7 +277,7 @@ var Homepage = (function homepage(defaultVals) {
 					}
 
 					// Start fading away the article
-					$article.css('opacity', ((1 - Math.abs(articleTop - scrollTop) / overhead) - 0.05).toFixed(2));
+					$article.css('opacity', ((1 - Math.abs(articleTop - scrollTop) / overhead) - 0.05).toFixed(4));
 					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / winHeight).toFixed(4)).removeClass('hide');
 					$articleMenu.addClass('hide');
 					updateScrollAnimation = true;
