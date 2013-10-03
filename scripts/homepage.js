@@ -133,7 +133,7 @@ var Homepage = (function homepage(defaultVals) {
 		}
 
 		if (updateScrollbar) {
-			$window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+			$window.scrollTop(scrollTop - overhead - articleHeight);
 		}
 
 		// Hide article
