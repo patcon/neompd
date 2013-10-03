@@ -181,10 +181,6 @@ var Homepage = (function homepage(defaultVals) {
 		isDoingTransition = false;
 		updateScrollAnimation = false;
 
-		// Show the article, there should probably be more fancy transitions tho
-		$article.addClass('fixed').css('top', 0).css('opacity', 1).removeClass('hidden');
-		isFixed = true;
-
 		setTimeout(function() {
 			noScrollEvents = false;
 			//$container.height($container.height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
@@ -464,6 +460,10 @@ var Homepage = (function homepage(defaultVals) {
 
 			$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
 				.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
+
+			// Show the article, there should probably be more fancy transitions tho
+			$article.addClass('fixed').removeClass('hidden').css('top', 0).css('opacity', 1);
+			isFixed = true;
 
 			$menu.removeClass('offScreen closing show').css('opacity', 0);
 			$articleMenu.removeClass('hide');

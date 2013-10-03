@@ -187,13 +187,13 @@ body::-webkit-scrollbar  {
 }
 #grid > li.delay {
 	opacity:0.5;
-	-webkit-transition-delay:.85s, .35s;
-	-webkit-transition-timing-function: ease-out, ease-in;
-	-webkit-transition-duration:.175s, 0.7s;
+	-webkit-transition-delay:.75s, .35s;
+	-webkit-transition-timing-function: ease-in, ease-in;
+	-webkit-transition-duration:.3s, 0.7s;
 	-webkit-transition-property: -webkit-transform, opacity;
 	-moz-transition-delay:.85s, .35s;
-	-moz-transition-timing-function: ease-out, ease-in;
-	-moz-transition-duration:.175s, 0.7s;
+	-moz-transition-timing-function: ease, ease-in;
+	-moz-transition-duration:.25s, 0.7s;
 	-moz-transition-property: -moz-transform, opacity;
 
 }
@@ -355,12 +355,8 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	opacity: 1;
 	left: 0;
 	right: 0;
-<<<<<<< HEAD
-	/*min-height: 100%;*/
-=======
 	margin-left:190px;
 	min-height: 100%;
->>>>>>> 24a6aa203a38ae881bc0e9206b40cc0ce549e6ba
 }
 #article.fixed {
 	top:0;
