@@ -46,7 +46,8 @@ var Homepage = (function homepage(defaultVals) {
 		upperOffset = 0,
 		lowerOffset = 0,
 		upperWinOffset = 0,
-		lowerWinOffset = 0;
+		lowerWinOffset = 0,
+		endArticleTransition = 400;
 
 	function getCurTop ($el) {
 		return parseInt($el.css('transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
@@ -135,7 +136,7 @@ var Homepage = (function homepage(defaultVals) {
 			$all.removeClass('offScreen');
 			$menu.css('opacity', 1);
 		}
-		$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
+		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
 		if (updateScrollbar) {
 			$window.scrollTop(scrollTop - overhead - articleHeight);
@@ -147,10 +148,10 @@ var Homepage = (function homepage(defaultVals) {
 
 		if (!scroll) {
 			setTimeout(function() {
-				$container.find('.shown').removeClass('shown').addClass('visible');//
+				$menu.addClass('offScreen').css('opacity', 1);
+				$container.find('.shown').removeClass('shown').addClass('visible');
 				$article.removeClass('fixed').addClass('hidden');
 				$all.removeClass('offScreen');
-				$menu.addClass('offScreen').css('opacity', 1);
 			}, SOON);
 		}
 	}
@@ -160,7 +161,7 @@ var Homepage = (function homepage(defaultVals) {
 		$menu.addClass('offScreen hide');
 		$lower.css('transform', modifyTransform(overhead));
 		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
-		$container.removeClass('transition');//.css('height', '+=' + articleHeight);
+		$container.removeClass('transition').css('height', '+=' + articleHeight);
 
 		noScrollEvents = true;
 		$window.scrollTop(scrollTo);
@@ -183,7 +184,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		setTimeout(function() {
 			noScrollEvents = false;
-			$container.height($container.height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
+			//$container.height($container.height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
 			// // Update the height of the grid to remove space occupied by the article
 			// $("#grid").height($("#grid").height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 		}, SOON);
@@ -278,8 +279,8 @@ var Homepage = (function homepage(defaultVals) {
 					}
 
 					// Start fading away the article
-					$article.css('opacity', ((1 - Math.abs(articleTop - scrollTop) / overhead) - 0.05).toFixed(2));
-					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(2)).removeClass('hide');
+					$article.css('opacity', ((1 - Math.abs(articleTop - scrollTop) / overhead) - 0.05).toFixed(4));
+					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / winHeight).toFixed(4)).removeClass('hide');
 					$articleMenu.addClass('hide');
 					updateScrollAnimation = true;
 				}
@@ -300,9 +301,12 @@ var Homepage = (function homepage(defaultVals) {
 				} else if(updateScrollAnimation) {
 					$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 					updateScrollAnimation = false;
-				} else if(scrollTop < articleTop + articleHeight) {
-					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(2)).removeClass('hide');
+				} else if (scrollTop > articleTop + articleHeight-endArticleTransition) {
+					$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(4)).removeClass('hide');
 					$articleMenu.addClass('hide');
+				} else if(scrollTop <= articleTop + articleHeight) {
+					$articleMenu.removeClass('hide');
+					$menu.addClass('hide');
 				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
 					closeArticle(false, true, true, scrollTop);
 				} else {
