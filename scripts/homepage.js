@@ -164,7 +164,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		// Adjust the lower blocks and move them where they actually need to be
 		if (lowerOffset > lowerWinOffset) {
-			$lower.css('-webkit-transform', modifyTransform(lowerOffset - lowerWinOffset));
+			$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
 		}
 
 		$all.each(function() {
