@@ -354,7 +354,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	opacity: 1;
 	left: 190px;
 	right: 0;
-	min-height: 100%;
+	/*min-height: 100%;*/
 }
 #article.fixed {
 	top:0;

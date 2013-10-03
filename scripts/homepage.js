@@ -137,7 +137,8 @@ var Homepage = (function homepage(defaultVals) {
 		}
 
 		if (updateScrollbar) {
-			$window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+			$window.scrollTop(scrollTop - overhead - articleHeight);
+			// $window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
 		}
 
 		// Update the height of the grid to remove space occupied by the article
@@ -265,6 +266,7 @@ var Homepage = (function homepage(defaultVals) {
 					// Set article as fixed
 					$article.addClass('fixed').css('top', 0).css('opacity',1);
 					isFixed = true;
+					
 				} else {
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight) {
@@ -290,7 +292,7 @@ var Homepage = (function homepage(defaultVals) {
 			} else if(scrollTop >= articleTop) {
 				// Reset article and lower blocks position
 				if (isFixed) {
-					$animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
+					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
 					$article.removeClass('fixed').css('top', articleTop);
 					isFixed = false;
 				} else if(updateScrollAnimation) {
