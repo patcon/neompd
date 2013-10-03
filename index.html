@@ -2,7 +2,6 @@
 <html lang="en" class="no-js">
 	<head>
 	<link rel="stylesheet" type="text/css" href="styles/homepage.css">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
 </head>
 
 <body>
@@ -732,7 +731,7 @@
 		</li>
 	</ul>
 
-	<!-- <div class="long-article article">
+	<!-- <div class="long-article" id="article">
 		<img class="background-image" src="" alt="">
 
 		<p>
@@ -816,7 +815,7 @@
 		</p>
 	</div>
 
-	<div class="med-article article">
+	<div class="med-article" id="article">
 		<p class="prompt">
 			Continue scrolling top to close the article :)
 		</p>
@@ -854,7 +853,7 @@
 		</p>
 	</div> -->
 
-	<div class="short-article article">
+	<div class="short-article" id="article">
 		<p class="prompt">
 			Continue scrolling top to close the article :)
 		</p>
@@ -876,19 +875,20 @@
 		</p>
 	</div>
 
-	<!-- <div class="gorilla-article article">
+	<!-- <div class="gorilla-article" id="article">
 		<p class="content">
 			<img src="images/article.png" width="1440px">
 		</p>
 	</div> -->
 
 	<script src="scripts/jquery.js"></script>
+	<script src="scripts/jquery-classList-plugin.js"></script>
+
 	<script>
 		var Homepage = {
 			LOADING_Y_OFFSET: 200
 		};
 	</script>
 	<script src="scripts/isotope.js"></script>
-	<script src="scripts/jquery-classList-plugin.js"></script>
 	<script src="scripts/homepage.js"></script>
 </body>
