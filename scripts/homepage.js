@@ -118,7 +118,9 @@ var Homepage = (function homepage(defaultVals) {
 
 			styleChangesSetup();
 			$($offScreen).addClass('offScreen');
-			$upper.css('transform', modifyOrigTransform(articleHeight + scrollOffset, 0, true));
+			// $upper.css('transform', modifyOrigTransform(articleHeight + scrollOffset, 0, true));
+			// $lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
+			$upper.css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
 			$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
 
 		} else {
@@ -325,7 +327,7 @@ var Homepage = (function homepage(defaultVals) {
 
 
 	function onTransitionEnd(e) {
-		var	offset,
+		var	scrollOffset,
 			scrollTop,
 			$transitioned = $(e.target);
 
@@ -333,10 +335,12 @@ var Homepage = (function homepage(defaultVals) {
 			return endTransition(window.pageYOffset, articleTop);
 		} else if(noScrollEvents && $transitioned.hasClass('closing')) {
 			scrollTop = window.pageYOffset;
-			offset = -upperOffset -lowerOffset - scrollOffset;
-			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(offset)).removeClass('offScreen');
+			scrollOffset = scrollTop - articleTop < 0 ? scrollTop - articleTop : 0;
+			console.log(scrollOffset);
+			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset)).removeClass('offScreen');
 			$articleMenu.addClass('hide');
-			$window.scrollTop(scrollTop + offset);
+			$window.scrollTop(scrollTop - overhead - scrollOffset);
+			console.log(scrollTop - overhead);
 			noScrollEvents = false;
 		} else if(!loaded && $container.hasClass('initial')) {
 			$hidden.addClass('offScreen');
