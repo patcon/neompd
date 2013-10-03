@@ -355,8 +355,12 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	opacity: 1;
 	left: 0;
 	right: 0;
+<<<<<<< HEAD
+	/*min-height: 100%;*/
+=======
 	margin-left:190px;
 	min-height: 100%;
+>>>>>>> 24a6aa203a38ae881bc0e9206b40cc0ce549e6ba
 }
 #article.fixed {
 	top:0;

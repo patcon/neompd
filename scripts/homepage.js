@@ -119,7 +119,7 @@ var Homepage = (function homepage(defaultVals) {
 			});
 
 			styleChangesSetup();
-			$($offScreen).addClass('offScreen');
+			// $($offScreen).addClass('offScreen');
 			// $upper.css('transform', modifyOrigTransform(articleHeight + scrollOffset, 0, true));
 			// $lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
 			$upper.css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
@@ -139,7 +139,8 @@ var Homepage = (function homepage(defaultVals) {
 		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
 		if (updateScrollbar) {
-			$window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+			$window.scrollTop(scrollTop - overhead - articleHeight);
+			// $window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
 		}
 
 		// Update the height of the grid to remove space occupied by the article
@@ -268,6 +269,7 @@ var Homepage = (function homepage(defaultVals) {
 					// Set article as fixed
 					$article.addClass('fixed').css('top', 0).css('opacity',1);
 					isFixed = true;
+					
 				} else {
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight) {
@@ -293,7 +295,7 @@ var Homepage = (function homepage(defaultVals) {
 			} else if(scrollTop >= articleTop) {
 				// Reset article and lower blocks position
 				if (isFixed) {
-					//$animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
+					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
 					$article.removeClass('fixed').css('top', articleTop);
 					isFixed = false;
 				} else if(updateScrollAnimation) {
@@ -325,15 +327,15 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(isDoingTransition && $transitioned.hasClass('delay')) {
 			return endTransition(window.pageYOffset, articleTop);
+
 		} else if(noScrollEvents && $transitioned.hasClass('closing')) {
 			scrollTop = window.pageYOffset;
 			scrollOffset = scrollTop - articleTop < 0 ? scrollTop - articleTop : 0;
-			console.log(scrollOffset);
 			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset)).removeClass('offScreen');
 			$articleMenu.addClass('hide');
 			$window.scrollTop(scrollTop - overhead - scrollOffset);
-			console.log(scrollTop - overhead);
 			noScrollEvents = false;
+
 		} else if(!loaded && $container.hasClass('initial')) {
 			$hidden.addClass('offScreen');
 			noScrollEvents = false;
@@ -342,6 +344,7 @@ var Homepage = (function homepage(defaultVals) {
 			doLoadAnim();
 			//setTimeout(doLoadAnim, SOON);
 			loaded = true;
+
 		} else if(!resized && $transitioned.hasClass('resized')) {
 			setTimeout(function() {
 				$all.removeClass('onScreen resized').addClass('offScreen').each(function() {
@@ -349,6 +352,7 @@ var Homepage = (function homepage(defaultVals) {
 				});
 			}, SOON * 2);
 			resized = true;
+			
 		} else if(setFilter) {
 			filterTimeout = setTimeout(function() {
 				$container.removeClass('transition');
