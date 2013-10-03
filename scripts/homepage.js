@@ -135,7 +135,7 @@ var Homepage = (function homepage(defaultVals) {
 			$all.removeClass('offScreen');
 			$menu.css('opacity', 1);
 		}
-		$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
+		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
 		if (updateScrollbar) {
 			$window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
@@ -146,10 +146,10 @@ var Homepage = (function homepage(defaultVals) {
 
 		if (!scroll) {
 			setTimeout(function() {
-				$container.find('.shown').removeClass('shown').addClass('visible');//
+				$menu.addClass('offScreen').css('opacity', 1);
+				$container.find('.shown').removeClass('shown').addClass('visible');
 				$article.removeClass('fixed').addClass('hidden');
 				$all.removeClass('offScreen');
-				$menu.addClass('offScreen').css('opacity', 1);
 			}, SOON);
 		}
 	}
@@ -159,7 +159,7 @@ var Homepage = (function homepage(defaultVals) {
 		$menu.addClass('offScreen hide');
 		$lower.css('transform', modifyTransform(overhead));
 		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
-		$container.removeClass('transition');//.css('height', '+=' + articleHeight);
+		$container.removeClass('transition').css('height', '+=' + articleHeight);
 
 		noScrollEvents = true;
 		$window.scrollTop(scrollTo);
@@ -182,7 +182,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		setTimeout(function() {
 			noScrollEvents = false;
-			$container.height($container.height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
+			//$container.height($container.height() + articleHeight + Math.min(lowerOffset, lowerWinOffset));
 			// // Update the height of the grid to remove space occupied by the article
 			// $("#grid").height($("#grid").height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 		}, SOON);

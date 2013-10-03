@@ -201,6 +201,7 @@ body::-webkit-scrollbar  {
 	position:fixed;
 	height:100%;
 	width:178px;
+	z-index: 2;
 	font-family:TradeGothic;
 	text-transform: uppercase;
 	-webkit-transform: translateZ(0);
@@ -270,7 +271,7 @@ body::-webkit-scrollbar  {
 	top:135px;
 	left:72px;
 	font-size: 0;
-	background-image:url(../images/lines.jpg);
+	background-image:url(../images/lines.png);
 	cursor:pointer;
 	width:28px;
 	height: 20px;
@@ -352,8 +353,9 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	position: absolute;
 	z-index: 1;
 	opacity: 1;
-	left: 190px;
+	left: 0;
 	right: 0;
+	margin-left:190px;
 	min-height: 100%;
 }
 #article.fixed {
@@ -369,6 +371,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 
 #article img {
 	width: 500px;
+	border-radius: 2px;
 }
 
 #article body {
@@ -437,11 +440,12 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 }
 #article .banner {
 	/*background: url('images/article-banner.png');*/
-	width:100%;
+	position: absolute;
+	left:-190px;
+	right: 0;
 	height:350px;
 	background-color: #5d9cec;
 }
-
 #article .title, #article .author, #article .content {
 	position: relative;
 	top: -150px;
@@ -449,7 +453,9 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	width: 900px;
 	margin: 0 auto;
 }
-
+#article .title {
+	margin-top:350px;
+}
 #article .title span {
 	display: inline-block;
 	padding-left: 47px;
