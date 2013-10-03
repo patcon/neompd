@@ -6,8 +6,9 @@
 			add = DOMTokenList.prototype.add,
 			remove = DOMTokenList.prototype.remove,
 			elem,
-			i
-			length;
+			i,
+			length,
+			multi;
 
 		plugin.hasClass = function(selector) {
 			length = this.length;
@@ -20,13 +21,18 @@
 		};
 
 		plugin.addClass = function(value) {
-			length = this.length;
-			for (i = 0; i < length; i++) {
-				if ((elem = this[i]).nodeType === 1) {
-					if(value.indexOf(' ') > -1) {
-						add.apply(elem.classList, value.split(' '));
-					} else {
-						elem.classList.add(value);
+			if(length = this.length) {
+				if(multi = value.indexOf(' ') > -1) {
+					value = value.trim().split(' ');
+				}
+
+				for (i = 0; i < length; i++) {
+					if ((elem = this[i]).nodeType === 1) {
+						if(multi) {
+							add.apply(elem.classList, value);
+						} else {
+							elem.classList.add(value);
+						}
 					}
 				}
 			}
@@ -34,13 +40,18 @@
 		};
 
 		plugin.removeClass = function(value) {
-			length = this.length;
-			for (i = 0; i < length; i++) {
-				if ((elem = this[i]).nodeType === 1) {
-					if(value.indexOf(' ') > -1) {
-						remove.apply(elem.classList, value.split(' '));
-					} else {
-						elem.classList.remove(value);
+			if(length = this.length) {
+				if(multi = value.indexOf(' ') > -1) {
+					value = value.trim().split(' ');
+				}
+
+				for (i = 0; i < length; i++) {
+					if ((elem = this[i]).nodeType === 1) {
+						if(multi) {
+							remove.apply(elem.classList, value);
+						} else {
+							elem.classList.remove(value);
+						}
 					}
 				}
 			}
