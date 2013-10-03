@@ -47,7 +47,7 @@ var Homepage = (function homepage(defaultVals) {
 		lowerOffset = 0,
 		upperWinOffset = 0,
 		lowerWinOffset = 0,
-		endArticleTransition = 400;
+		endArticleTransition = winHeight;
 
 	function getCurTop ($el) {
 		return parseInt($el.css('transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
@@ -480,6 +480,7 @@ var Homepage = (function homepage(defaultVals) {
 
 	function onResize(e) {
 		winHeight = $window.height();
+		endArticleTransition = winHeight;
 		//noScrollEvents = true;
 		resized = false;
 	}
