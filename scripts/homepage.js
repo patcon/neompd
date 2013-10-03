@@ -19,7 +19,7 @@ var Homepage = (function homepage(defaultVals) {
 		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
-		ANIMATION_THRESHOLD = PADDING * 2,
+		ANIMATION_THRESHOLD = 35,
 		ANIMATION_EL_THRESHOLD = 2,
 		firstScrollEvent = true,
 		scrollTimeout,
@@ -264,8 +264,6 @@ var Homepage = (function homepage(defaultVals) {
 					$article.addClass('fixed').css('top', 0).css('opacity',1);
 					isFixed = true;
 				} else {
-					// Start fading away the article
-					$article.css('opacity', (1 - Math.abs(articleTop - scrollTop) / overhead).toFixed(2));
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
@@ -273,6 +271,8 @@ var Homepage = (function homepage(defaultVals) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead), 0));
 					}
 
+					// Start fading away the article
+					$article.css('opacity', (1 - Math.abs(articleTop - scrollTop) / overhead).toFixed(2));
 					$menu.css('opacity', (Math.abs(articleTop - scrollTop) / articleHeight).toFixed(2)).removeClass('hide');
 					$articleMenu.addClass('hide');
 					updateScrollAnimation = true;
@@ -288,8 +288,8 @@ var Homepage = (function homepage(defaultVals) {
 			} else if(scrollTop >= articleTop) {
 				// Reset article and lower blocks position
 				if (isFixed) {
-					$article.removeClass('fixed').css('top', articleTop);
 					$animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
+					$article.removeClass('fixed').css('top', articleTop);
 					isFixed = false;
 				} else if(updateScrollAnimation) {
 					$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));

@@ -347,6 +347,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	width:auto;
 }
 #article {
+	display:block;
 	position: absolute;
 	z-index: 1;
 	opacity: 1;
@@ -355,7 +356,6 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	min-height: 120%;
 }
 #article.fixed {
-	display:block;
 	top:0;
 	position:fixed;
 	opacity:1;
