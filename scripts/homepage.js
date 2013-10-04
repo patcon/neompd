@@ -19,7 +19,7 @@ var Homepage = (function homepage(defaultVals) {
 		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
-		ANIMATION_THRESHOLD = PADDING,
+		ANIMATION_THRESHOLD = PADDING * 3,
 		ANIMATION_EL_THRESHOLD = 2,
 		firstScrollEvent = true,
 		scrollTimeout,
@@ -40,6 +40,7 @@ var Homepage = (function homepage(defaultVals) {
 		setFilter = false,
 		menuShown,
 		isFixed,
+		regularScrolling,
 		scrollOffset,
 		articleHeight = null,
 		articleTop,
@@ -72,9 +73,8 @@ var Homepage = (function homepage(defaultVals) {
 	function modifyOrigTransform (offset, padding, hwAccel) {
 		return function() {
 			var val = this.matrix;
-
 			//return 'translateX(' + val[MATRIX_X] + 'px) translateY(' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + offset) + 'px)' + (hwAccel ? 'translateZ(0)' : '');
-			return 'translate3d(' + val[MATRIX_X] + 'px, ' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
+			return 'translate3d(' + val[MATRIX_X] + 'px, ' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + parseInt(offset, 10)) + 'px, 0)';
 		};
 	}
 
@@ -101,8 +101,8 @@ var Homepage = (function homepage(defaultVals) {
 				$article.addClass('fadeOut');
 				$menu.removeClass('offScreen hide').addClass('closing');
 				noScrollEvents = true;
-			}
-			$article.css('opacity', 0);
+			} else
+			$article.addClass('hidden');
 		};
 
 		if(scroll) {
@@ -129,13 +129,12 @@ var Homepage = (function homepage(defaultVals) {
 			$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
 
 		} else {
-			styleChangesSetup();
 			$lower.addClass('offScreen').css('transform', modifyOrigTransform(-lowerOffset - overhead, 0, true));
+			styleChangesSetup();
 		}
 
 		if (scroll) {
 			$container.find('.shown').removeClass('shown').addClass('visible');//.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
-
 			$all.removeClass('offScreen');
 			$menu.css('opacity', 1);
 		} else {
@@ -263,17 +262,14 @@ var Homepage = (function homepage(defaultVals) {
 		if (articleHeight !== null) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
 				if (!isFixed) {
-					console.log(1);
+					// Set article as fixed
+					$article.addClass('fixed').css('top', 0)
 					// Put the lower blocks right below the window to start moving up
 					if (lowerOffset > winHeight) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
 					}
-					// Set article as fixed
-					$article.addClass('fixed').css('top', 0).css('opacity',1);
-					isFixed = true;
-
+					return isFixed = true;
 				} else {
-					console.log(2);
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
@@ -282,7 +278,7 @@ var Homepage = (function homepage(defaultVals) {
 					}
 
 					// Start fading away the article
-					$article.css('opacity', ((0.625 - (0.6 * Math.abs(articleTop - scrollTop) / overhead))).toFixed(4));
+					$article.css('opacity', ((0.6 - (0.625 * Math.abs(articleTop - scrollTop) / overhead))).toFixed(2));
 					if(!menuShown) {
 						$menu.css('opacity', 0).addClass('hide');
 					}
@@ -298,13 +294,13 @@ var Homepage = (function homepage(defaultVals) {
 				//}, ASAP);
 
 			} else if(scrollTop >= articleTop) {
-
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
 					$article.removeClass('fixed').css('top', articleTop);
 					$article.css('opacity', 1);
 					isFixed = false;
+					regularScrolling - false;
 				} else if(updateScrollAnimation) {
 					$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 					updateScrollAnimation = false;
@@ -312,14 +308,16 @@ var Homepage = (function homepage(defaultVals) {
 					closeArticle(false, true, true, scrollTop);
 				} else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
 					if(!menuShown) {
-						$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(4)).removeClass('hide');
+						$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(2)).removeClass('hide');
 					}
 					$articleMenu.addClass('hide');
-				} else if(scrollTop <= articleTop + articleHeight) {
+				} else if(!regularScrolling && scrollTop <= articleTop + articleHeight) {
+					regularScrolling = true;
 					if(!menuShown) {
 						$articleMenu.removeClass('hide');
 						$menu.addClass('hide');
 					}
+					$article.css('opacity',1);
 				}
 			}
 		} else {
@@ -469,12 +467,13 @@ var Homepage = (function homepage(defaultVals) {
 			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
 			isFixed = true;
 
+			$menu.removeClass('offScreen closing show').css('opacity', 0);
+			$articleMenu.removeClass('hide');
+
 			setTimeout(function() {
 				$article.css('opacity', 1);
 			}, ASAP);
-			$menu.removeClass('offScreen closing show').css('opacity', 0);
-			$articleMenu.removeClass('hide');
-			$container.addClass('transition');
+			//$container.addClass('transition');
 		}
 	}
 
