@@ -2,9 +2,35 @@
 	font-family: TradeGothic;
 	src: url(../fonts/Trade-Gothic-LT-Light.otf);
 }
+
+@font-face {
+	font-family: TradeGothic;
+	font-weight: bold;
+	src: url(../fonts/Trade-Gothic-LT-Bold.ttf);
+}
+
 @font-face {
 	font-family: Plantin;
 	src: url(../fonts/Plantin-Std.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-weight: bold;
+	src: url(../fonts/PlantinStd-Bold.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-weight: bold;
+	font-style: italic;
+	src: url(../fonts/PlantinStd-BoldItalic.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-style: italic;
+	src: url(../fonts/PlantinStd-Italic.otf);
 }
 body {
 	margin:0;
@@ -187,13 +213,13 @@ body::-webkit-scrollbar  {
 }
 #grid > li.delay {
 	opacity:0.5;
-	-webkit-transition-delay:.75s, .35s;
+	-webkit-transition-delay:.75s, .55s;
 	-webkit-transition-timing-function: ease-in, ease-in;
-	-webkit-transition-duration:.3s, 0.7s;
+	-webkit-transition-duration:.3s, 0.55s;
 	-webkit-transition-property: -webkit-transform, opacity;
-	-moz-transition-delay:.85s, .35s;
+	-moz-transition-delay:.75s, .55s;
 	-moz-transition-timing-function: ease, ease-in;
-	-moz-transition-duration:.25s, 0.7s;
+	-moz-transition-duration:.3s, 0.55s;
 	-moz-transition-property: -moz-transform, opacity;
 
 }
@@ -209,8 +235,8 @@ body::-webkit-scrollbar  {
 }
 #menu {
 	background:#2a2a2a url(../images/logo.jpg) 37px 23px no-repeat;
-	-webkit-transition-delay:.85s;
-	-webkit-transition-duration:0.2s;
+	-webkit-transition-delay:.75s;
+	-webkit-transition-duration:0.3s;
 	-webkit-transition-property:opacity;
 	-webkit-transition-timing-function: ease-out;
 	-moz-transition-delay:.85s;
@@ -282,9 +308,9 @@ body::-webkit-scrollbar  {
 }
 #menu.closing {
 	-webkit-transition-delay:0;
-	-webkit-transition-duration:0.35s;
+	-webkit-transition-duration:0.2s;
 	-moz-transition-delay:0;
-	-moz-transition-duration:0.35s;
+	-moz-transition-duration:0.2s;
 }
 #menu > #searchBox {
 	background-color: #2a2a2a;
@@ -357,6 +383,13 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	right: 0;
 	margin-left:190px;
 	min-height: 100%;
+}
+#article.fadeIn {
+	-webkit-transition:opacity 0.95s;
+	-webkit-transition-delay:0.15s;
+}
+#article.fadeOut {
+	-webkit-transition:opacity 0.4s ease-in;
 }
 #article.fixed {
 	top:0;
@@ -439,7 +472,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	line-height: 30pt;
 }
 #article .banner {
-	/*background: url('images/article-banner.png');*/
+	background: url(../images/article-banner.png);
 	position: absolute;
 	left:-190px;
 	right: 0;

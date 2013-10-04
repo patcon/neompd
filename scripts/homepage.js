@@ -98,9 +98,11 @@ var Homepage = (function homepage(defaultVals) {
 		styleChangesSetup = function() {
 			if(!noAnimation) {
 				$all.removeClass('offScreen').addClass('closing');
+				$article.addClass('fadeOut');
 				$menu.removeClass('offScreen hide').addClass('closing');
 				noScrollEvents = true;
 			}
+			$article.css('opacity', 0);
 		};
 
 		if(scroll) {
@@ -133,9 +135,11 @@ var Homepage = (function homepage(defaultVals) {
 
 		if (scroll) {
 			$container.find('.shown').removeClass('shown').addClass('visible');//.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
-			$article.removeClass('fixed').addClass('hidden');
+
 			$all.removeClass('offScreen');
 			$menu.css('opacity', 1);
+		} else {
+			$menu.removeClass('offScreen hide');
 		}
 		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
@@ -149,11 +153,8 @@ var Homepage = (function homepage(defaultVals) {
 
 		if (!scroll) {
 			setTimeout(function() {
-				if(noAnimation) {
-					$menu.removeClass('offScreen').addClass('show');
-				}
+				$menu.addClass('show');
 				$container.find('.shown').removeClass('shown').addClass('visible');
-				$article.removeClass('fixed').addClass('hidden');
 				$all.removeClass('offScreen');
 			}, SOON);
 		}
@@ -165,6 +166,7 @@ var Homepage = (function homepage(defaultVals) {
 		$lower.css('transform', modifyTransform(overhead));
 		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 		$container.removeClass('transition').css('height', '+=' + articleHeight);
+		$article.removeClass('fadeIn');
 
 		noScrollEvents = true;
 		$window.scrollTop(scrollTo);
@@ -261,6 +263,7 @@ var Homepage = (function homepage(defaultVals) {
 		if (articleHeight !== null) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
 				if (!isFixed) {
+					console.log(1);
 					// Put the lower blocks right below the window to start moving up
 					if (lowerOffset > winHeight) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
@@ -270,6 +273,7 @@ var Homepage = (function homepage(defaultVals) {
 					isFixed = true;
 
 				} else {
+					console.log(2);
 					// Start moving up the blocks below the window
 					if (lowerOffset > winHeight) {
 						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
@@ -278,9 +282,9 @@ var Homepage = (function homepage(defaultVals) {
 					}
 
 					// Start fading away the article
-					$article.css('opacity', ((0.5 - (0.5 * Math.abs(articleTop - scrollTop) / overhead))).toFixed(4));
+					$article.css('opacity', ((0.625 - (0.6 * Math.abs(articleTop - scrollTop) / overhead))).toFixed(4));
 					if(!menuShown) {
-						$menu.css('opacity', 0).removeClass('hide');
+						$menu.css('opacity', 0).addClass('hide');
 					}
 					//$articleMenu.addClass('hide');
 					updateScrollAnimation = true;
@@ -294,6 +298,7 @@ var Homepage = (function homepage(defaultVals) {
 				//}, ASAP);
 
 			} else if(scrollTop >= articleTop) {
+
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
@@ -303,7 +308,9 @@ var Homepage = (function homepage(defaultVals) {
 				} else if(updateScrollAnimation) {
 					$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 					updateScrollAnimation = false;
-				} else if (scrollTop > articleTop + articleHeight-endArticleTransition) {
+				} else if((scrollTop > articleTop + articleHeight + winHeight)) {
+					closeArticle(false, true, true, scrollTop);
+				} else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
 					if(!menuShown) {
 						$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(4)).removeClass('hide');
 					}
@@ -313,10 +320,6 @@ var Homepage = (function homepage(defaultVals) {
 						$articleMenu.removeClass('hide');
 						$menu.addClass('hide');
 					}
-				} else if((scrollTop > articleTop + (articleHeight * 1.5))) {
-					closeArticle(false, true, true, scrollTop);
-				} else {
-
 				}
 			}
 		} else {
@@ -339,6 +342,7 @@ var Homepage = (function homepage(defaultVals) {
 			scrollOffset = scrollTop - articleTop < 0 ? scrollTop - articleTop : 0;
 			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset)).removeClass('offScreen');
 			$articleMenu.addClass('hide');
+			$article.removeClass('fadeOut').removeClass('fixed');
 			$window.scrollTop(scrollTop - overhead - scrollOffset);
 			noScrollEvents = false;
 
@@ -462,9 +466,12 @@ var Homepage = (function homepage(defaultVals) {
 				.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
 
 			// Show the article, there should probably be more fancy transitions tho
-			$article.addClass('fixed').removeClass('hidden').css('top', 0).css('opacity', 1);
+			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
 			isFixed = true;
 
+			setTimeout(function() {
+				$article.css('opacity', 1);
+			}, ASAP);
 			$menu.removeClass('offScreen closing show').css('opacity', 0);
 			$articleMenu.removeClass('hide');
 			$container.addClass('transition');
