@@ -40,7 +40,6 @@ var Homepage = (function homepage(defaultVals) {
 		setFilter = false,
 		menuShown,
 		isFixed,
-		regularScrolling,
 		scrollOffset,
 		articleHeight = null,
 		articleTop,
@@ -289,7 +288,7 @@ var Homepage = (function homepage(defaultVals) {
 			} else if (scrollTop < articleTop) {
 				//setTimeout(function() {
 					// $animateOnScroll.css('-webkit-transform', modifyOrigTransform(-lowerOffset - overhead));
-					closeArticle(false, true, false, scrollTop);
+					//closeArticle(false, true, false, scrollTop);
 					updateScrollAnimation = false;
 				//}, ASAP);
 
@@ -300,19 +299,18 @@ var Homepage = (function homepage(defaultVals) {
 					$article.removeClass('fixed').css('top', articleTop);
 					$article.css('opacity', 1);
 					isFixed = false;
-					regularScrolling - false;
+					//regularScrolling - false;
 				} else if(updateScrollAnimation) {
 					$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 					updateScrollAnimation = false;
 				} else if((scrollTop > articleTop + articleHeight + winHeight)) {
-					closeArticle(false, true, true, scrollTop);
+					//closeArticle(false, true, true, scrollTop);
 				} else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
 					if(!menuShown) {
 						$menu.css('opacity', (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition).toFixed(2)).removeClass('hide');
 					}
 					$articleMenu.addClass('hide');
-				} else if(!regularScrolling && scrollTop <= articleTop + articleHeight) {
-					regularScrolling = true;
+				} else if(scrollTop <= articleTop + articleHeight) {
 					if(!menuShown) {
 						$articleMenu.removeClass('hide');
 						$menu.addClass('hide');
