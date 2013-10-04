@@ -97,10 +97,10 @@ var Homepage = (function homepage(defaultVals) {
 		styleChangesSetup = function() {
 			if(!noAnimation) {
 				$all.removeClass('offScreen').addClass('closing');
-				$article.addClass('fadeOut');
+				// $article.addClass('fadeOut');
 				$menu.removeClass('offScreen hide').addClass('closing');
 				noScrollEvents = true;
-			} else
+			} 
 			$article.addClass('hidden');
 		};
 
