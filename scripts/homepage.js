@@ -15,7 +15,7 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 5,
 		SOON = 60,
 		ASAP = 0,
-		PADDING = 200,
+		PADDING = parseInt(winHeight / 3, 10),
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		ANIMATION_THRESHOLD ,
@@ -256,7 +256,7 @@ var Homepage = (function homepage(defaultVals) {
 			return firstScrollEvent = false;
 		}
 
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 3);
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
 	}
 
 	function fixArticle() {
