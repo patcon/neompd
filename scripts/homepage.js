@@ -15,11 +15,11 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 5,
 		SOON = 60,
 		ASAP = 0,
-		PADDING = 10,
+		PADDING = 200,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
-		ANIMATION_THRESHOLD = 0,//PADDING * 4,
-		ANIMATION_EL_THRESHOLD = 3,
+		ANIMATION_THRESHOLD ,
+		ANIMATION_EL_THRESHOLD = 5,
 		firstScrollEvent = true,
 		scrollTimeout,
 		closeArticleTimeout,
@@ -215,15 +215,20 @@ var Homepage = (function homepage(defaultVals) {
 		scrollTimeout = setTimeout(applyScrollClass, SCROLL_TIMEOUT_LEN);
 	}
 
-	function doLoadAnim(noThreshold) {
-		var foundIndex,
+	function doLoadAnim() {
+		var foundIndex = null,
 			scrollTop =  window.pageYOffset,
 			count = 0,
 			$toAnim,
 			lastFoundIndex;
 
+		function anim() {
+			$toAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
+			loadAnimTimeout = false;
+		}
+
 		$hidden.each(function (i) {
-			if((!noThreshold || count < ANIMATION_EL_THRESHOLD) && isOnScreen($(this), scrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
+			if((firstScrollEvent || (count <= ANIMATION_EL_THRESHOLD)) && isOnScreen($(this), scrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
 				if(count === 0) {
 					foundIndex = i;
 				}
@@ -236,10 +241,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(foundIndex !== null) {
 			$toAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
-			requestAnimationFrame(function () {
-				$toAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
-				loadAnimTimeout = false;
-			});
+			requestAnimationFrame(anim);
 		} else {
 			loadAnimTimeout = false;
 		}
@@ -250,10 +252,11 @@ var Homepage = (function homepage(defaultVals) {
 			return;
 		}
 		if  (firstScrollEvent) {
-			firstScrollEvent = false;
-			return doLoadAnim(true);
+			doLoadAnim();
+			return firstScrollEvent = false;
 		}
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 4);
+
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 3);
 	}
 
 	function fixArticle() {
@@ -286,8 +289,8 @@ var Homepage = (function homepage(defaultVals) {
 				if (!isFixed) {
 					// Set article as fixed
 					//$article.addClass('fixed').css('top', 0);
-					//requestAnimationFrame(fixArticle);
-					fixArticle();
+					requestAnimationFrame(fixArticle);
+					//fixArticle();
 					isFixed = true;
 				}
 					// Put the lower blocks right below the window to start moving up
@@ -327,8 +330,8 @@ var Homepage = (function homepage(defaultVals) {
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
-					//requestAnimationFrame(unfixArticle);
-					unfixArticle();
+					requestAnimationFrame(unfixArticle);
+					//unfixArticle();
 					isFixed = false;
 					//regularScrolling - false;
 				} else if(updateScrollAnimation) {
@@ -509,7 +512,7 @@ var Homepage = (function homepage(defaultVals) {
 			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
 			$articleMenu.removeClass('hide');
 
-			setTimeout(endOnClick, ASAP);
+			requestAnimationFrame(endOnClick);
 			//$container.addClass('transition');
 		}
 	}
