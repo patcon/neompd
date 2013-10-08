@@ -188,11 +188,11 @@ body::-webkit-scrollbar  {
 	-moz-transition-delay:0.175s;
 	-moz-transform:rotate(-180deg) scale(2.5) translateZ(0);
 }
- #grid.scrolling  > li > a  {
+ #grid.scrolling  > li:hover > a  {
 	-webkit-transform: none !important;
 	-moz-transform: none !important;
 	box-shadow: none !important;
-	cursor: none !important;
+	cursor: default !important;
 }
 #grid.scrolling  > li > a > header {
 	text-shadow:none !important;
@@ -395,7 +395,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 #article.hidden {
 	opacity:0;
 	position: absolute;
-	display: none;
+	-webkit-transform:translate3d(-9999px, 0, 0);
 }
 #article.fadeIn {
 	-webkit-transition:opacity 0.9s;
