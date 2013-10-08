@@ -310,7 +310,7 @@ body::-webkit-scrollbar  {
 	display: none;
 }
 #menu.closing {
-	-webkit-transition-delay:0.35;
+	-webkit-transition-delay:0.35s;
 	-webkit-transition-duration:0.3s;
 	-moz-transition-delay:0;
 	-moz-transition-duration:0.2s;
@@ -395,6 +395,13 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	position:fixed;
 	opacity:1;
 }
+
+#article.fixedBottom {
+	position: fixed;
+	bottom: 0;
+	opacity: 1;
+}
+
 #article.hidden {
 	opacity:0;
 	position: absolute;
@@ -473,7 +480,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 
 #article .content {
 	font-family: Plantin;
-	font-size: 22 pt;
+	font-size: 22pt;
 	line-height: 30pt;
 }
 #article .banner {

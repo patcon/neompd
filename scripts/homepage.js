@@ -38,12 +38,12 @@ var Homepage = (function homepage(defaultVals) {
 		resized = true,
 		setFilter = false,
 		menuShown,
-		isFixed,
+		isFixed, isFixedBottom,
 		scrollOffset,
 		articleHeight = null,
 		articleTop,
 		articleOpacity = 0,
-		overhead,
+		overhead, underhead = 300,
 		upperOffset = 0,
 		lowerOffset = 0,
 		upperWinOffset = 0,
@@ -205,7 +205,7 @@ var Homepage = (function homepage(defaultVals) {
 		scrollTimeout = null;
 	}
 
-	function debouneScrollClassToggling () {
+	function debounceScrollClassToggling () {
 		if(scrollTimeout) {
 			clearTimeout(scrollTimeout);
 		} else {
@@ -259,12 +259,23 @@ var Homepage = (function homepage(defaultVals) {
 		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
 	}
 
-	function fixArticle() {
+	function fixArticleTop() {
 		$article.addClass('fixed').css('top', 0);
 	}
 
-	function unfixArticle() {
+	function fixArticleBottom() {
+		$article.removeAttr('style');
+		$article.addClass('fixedBottom')
+	}
+
+	function unfixArticleTop() {
 		$article.removeClass('fixed').css('top', articleTop).css('opacity', 1);
+		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
+		updateScrollAnimation = false;
+	}
+
+	function unfixArticleBottom() {
+		$article.removeClass('fixedBottom').css('top', articleTop).css('opacity', 1);
 		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 		updateScrollAnimation = false;
 	}
@@ -278,7 +289,7 @@ var Homepage = (function homepage(defaultVals) {
 			val;
 
 		if(noScrollEvents) {
-			return debouneScrollClassToggling();
+			return debounceScrollClassToggling();
 		} else if(isDoingTransition) {
 			scrollTop = window.pageYOffset;
 			return endTransition(scrollTop, scrollTop + lowerOffset);
@@ -289,14 +300,10 @@ var Homepage = (function homepage(defaultVals) {
 				if (!isFixed) {
 					// Set article as fixed
 					//$article.addClass('fixed').css('top', 0);
-					requestAnimationFrame(fixArticle);
+					requestAnimationFrame(fixArticleTop);
 					//fixArticle();
 					isFixed = true;
 				}
-					// Put the lower blocks right below the window to start moving up
-					//if (lowerOffset > winHeight) {
-						//$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
-					//}
 
 				//} else {
 					// Start moving up the blocks below the window
@@ -326,38 +333,70 @@ var Homepage = (function homepage(defaultVals) {
 					updateScrollAnimation = false;
 				//}, ASAP);
 
-			} else if(scrollTop >= articleTop) {
+			} else if(scrollTop >= articleTop && (scrollTop <= articleTop + articleHeight - winHeight)) {
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
-					requestAnimationFrame(unfixArticle);
+					requestAnimationFrame(unfixArticleTop);
 					//unfixArticle();
 					isFixed = false;
 					//regularScrolling - false;
 				} else if(updateScrollAnimation) {
 					//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
-
-				} else if((scrollTop > articleTop + articleHeight + winHeight)) {
-					closeArticle(false, true, true, scrollTop);
-				} else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
-					if(!menuShown) {
-						val = parseInt(200 * (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition));
-						val = -250 + (val > 250 ? 250 : val);
-						$menu.css('transform', 'translate3d(' + val  + 'px, 0, 0)').removeClass('hide');
-					}
-					//$articleMenu.addClass('hide');
-				} else if(articleOpacity !== 1 && scrollTop <= articleTop + articleHeight) {
-					/*if(!menuShown) {
-						$articleMenu.removeClass('hide');
-						$menu.addClass('hide');
-					}*/
-					articleOpacity = 1;
-					requestAnimationFrame(fadeArticle);
+				} else if (isFixedBottom) {
+					requestAnimationFrame(unfixArticleBottom);
+					isFixedBottom = false;
 				}
+
+			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop <= articleTop + articleHeight - winHeight + underhead)) {
+				if (!isFixedBottom) {
+					requestAnimationFrame(fixArticleBottom);
+					isFixedBottom = true;
+				}
+
+				if (upperOffset < articleTop + articleHeight - winHeight) {
+						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/underhead * (lowerWinOffset + underhead), -lowerOffset + lowerWinOffset));
+					} else {
+						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/underhead * (lowerOffset + underhead), 0));
+					}
+
+				val = Math.abs(scrollTop - articleTop + articleHeight - winHeight) / underhead;
+				if(!menuShown) {
+					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
+				}
+				// Start fading away the article
+				articleOpacity = 0.6 - (0.625 * val).toFixed(2);
+				fadeArticle();
+				//requestAnimationFrame(fadeArticle);
+
+				//$articleMenu.addClass('hide');
+				updateScrollAnimation = true;
+
+			} else if (scrollTop > articleTop + articleHeight - winHeight + underhead) {
+					//scroll to end of article
+				if (isFixedBottom) {
+					requestAnimationFrame(unfixArticleBottom);
+					isFixedBottom = false;
+				}
+				closeArticle(false, true, true, scrollTop);
+				// } else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
+				// 	if(!menuShown) {
+				// 		val = parseInt(200 * (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition));
+				// 		val = -250 + (val > 250 ? 250 : val);
+				// 		$menu.css('transform', 'translate3d(' + val  + 'px, 0, 0)').removeClass('hide');
+				// 	}
+				// 	//$articleMenu.addClass('hide');
+				// } else if(articleOpacity !== 1 && scrollTop <= articleTop + articleHeight) {
+				// 	/*if(!menuShown) {
+				// 		$articleMenu.removeClass('hide');
+				// 		$menu.addClass('hide');
+				// 	}*/
+				// 	articleOpacity = 1;
+				// 	requestAnimationFrame(fadeArticle);
 			}
 		} else {
 			debounceLoadAnim();
-			debouneScrollClassToggling();
+			debounceScrollClassToggling();
 		}
 	}
 
@@ -486,8 +525,11 @@ var Homepage = (function homepage(defaultVals) {
 			$lower = $($lower);
 
 			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+			$animateOnScrollUpper = $onScreenUpper;
 
 			overhead = Math.max(winHeight, upperOffset);
+			underhead = winHeight;
+
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
 			menuShown = false;
