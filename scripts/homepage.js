@@ -441,78 +441,86 @@ var Homepage = (function homepage(defaultVals) {
 			scrollTop = window.pageYOffset;
 			upperOffset = 0,
 			lowerOffset = 0;
-			articleHeight = $article.height();
 
-			while(($li = $li.prev()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
-					if(offset > upperOffset) upperOffset = offset;
-					$onScreenUpper.push(li);
+			// Inject ajax call that grabs article from server
+			$.get("/articles/photo-ia-the-sctructure-behind.html", function(articleData) {
+				$article.html(articleData);
+
+				// Why is it always short by 1424???
+				articleHeight = $article.height() + 1424;
+
+				while(($li = $li.prev()).length) {
+					li = $li[0];
+					if(isOnScreen($li, scrollTop)) {
+						offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
+						if(offset > upperOffset) upperOffset = offset;
+						$onScreenUpper.push(li);
+					}
+					else {
+						$offScreenUpper.push(li);
+					}
+					$upper.push(li);
 				}
-				else {
-					$offScreenUpper.push(li);
+
+				$li = $oldLi;
+				lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+				lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+				$onScreenLower = [];
+				$offScreenLower = [];
+				$lower = [$li[0]];
+
+				while(($li = $li.next()).length) {
+					li = $li[0];
+					if(isOnScreen($li, scrollTop)) {
+						offset =  scrollTop + articleHeight - getCurTop($li) + PADDING;
+						winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+						if (offset > lowerOffset) lowerOffset = offset;
+						if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
+
+						$onScreenLower.push(li);
+					} else {
+						$offScreenLower.push(li);
+					}
+					$lower.push(li);
 				}
-				$upper.push(li);
-			}
 
-			$li = $oldLi;
-			lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
-			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-			$onScreenLower = [];
-			$offScreenLower = [];
-			$lower = [$li[0]];
+				$onScreenUpper = $($onScreenUpper);
+				$offScreenUpper = $($offScreenUpper);
+				$onScreenLower = $($onScreenLower);
+				$offScreenLower = $($offScreenLower);
+				$upper = $($upper);
+				$lower = $($lower);
 
-			while(($li = $li.next()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					offset =  scrollTop + articleHeight - getCurTop($li) + PADDING;
-					winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-					if (offset > lowerOffset) lowerOffset = offset;
-					if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
+				$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
 
-					$onScreenLower.push(li);
-				} else {
-					$offScreenLower.push(li);
-				}
-				$lower.push(li);
-			}
+				overhead = Math.max(winHeight, upperOffset);
+				articleTop = scrollTop + overhead;
+				offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
+				menuShown = false;
 
-			$onScreenUpper = $($onScreenUpper);
-			$offScreenUpper = $($offScreenUpper);
-			$onScreenLower = $($onScreenLower);
-			$offScreenLower = $($offScreenLower);
-			$upper = $($upper);
-			$lower = $($lower);
+				$onScreenUpper.removeClass('offScreen').addClass('onScreen')
+					.css('transform', modifyTransform(-upperOffset - offset, true));
+				$offScreenUpper.addClass('offScreen')
+					.css('transform', modifyTransform(-upperOffset - offset));
 
-			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+				$onScreenLower.removeClass('offScreen').addClass('onScreen')
+					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
+				$offScreenLower.addClass('offScreen')
+					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
 
-			overhead = Math.max(winHeight, upperOffset);
-			articleTop = scrollTop + overhead;
-			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			menuShown = false;
+				$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
+					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
 
-			$onScreenUpper.removeClass('offScreen').addClass('onScreen')
-				.css('transform', modifyTransform(-upperOffset - offset, true));
-			$offScreenUpper.addClass('offScreen')
-				.css('transform', modifyTransform(-upperOffset - offset));
+				// Show the article, there should probably be more fancy transitions tho
+				$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
+				isFixed = true;
 
-			$onScreenLower.removeClass('offScreen').addClass('onScreen')
-				.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
-			$offScreenLower.addClass('offScreen')
-				.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
+				$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
+				$articleMenu.removeClass('hide');
 
-			$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
-				.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
+				requestAnimationFrame(endOnClick);
+			});
 
-			// Show the article, there should probably be more fancy transitions tho
-			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
-			isFixed = true;
-
-			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
-			$articleMenu.removeClass('hide');
-
-			requestAnimationFrame(endOnClick);
 			//$container.addClass('transition');
 		}
 	}
