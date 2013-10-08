@@ -29,7 +29,7 @@ var Homepage = (function homepage(defaultVals) {
 		$upper,
 		$all = $container.find('li'),
 		$hidden = $container.find('li'),
-		$animateOnScroll,
+		$animateOnScroll, $animateOnScrollUpper,
 		$article = $('#article'),
 		updateScrollAnimation,
 		noScrollEvents = true,
@@ -43,7 +43,7 @@ var Homepage = (function homepage(defaultVals) {
 		articleHeight = null,
 		articleTop,
 		articleOpacity = 0,
-		overhead, underhead = 300,
+		overhead, underhead,
 		upperOffset = 0,
 		lowerOffset = 0,
 		upperWinOffset = 0,
@@ -300,8 +300,8 @@ var Homepage = (function homepage(defaultVals) {
 				if (!isFixed) {
 					// Set article as fixed
 					//$article.addClass('fixed').css('top', 0);
-					requestAnimationFrame(fixArticleTop);
-					//fixArticle();
+					//requestAnimationFrame(fixArticleTop);
+					fixArticleTop();
 					isFixed = true;
 				}
 
@@ -337,62 +337,48 @@ var Homepage = (function homepage(defaultVals) {
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
-					requestAnimationFrame(unfixArticleTop);
+					unfixArticleTop();
 					//unfixArticle();
 					isFixed = false;
 					//regularScrolling - false;
+
+				} else if (isFixedBottom) {
+					unfixArticleBottom();
+					isFixedBottom = false;
 				} else if(updateScrollAnimation) {
 					//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
-				} else if (isFixedBottom) {
-					requestAnimationFrame(unfixArticleBottom);
-					isFixedBottom = false;
 				}
 
-			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop <= articleTop + articleHeight - winHeight + underhead)) {
-				if (!isFixedBottom) {
-					requestAnimationFrame(fixArticleBottom);
+			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop <= articleTop + articleHeight)) {
+				/*if (!isFixedBottom) {
+					fixArticleBottom();
 					isFixedBottom = true;
+				}*/
+
+				if (lowerOffset > winHeight) {
+					$animateOnScrollUpper.css('transform', modifyOrigTransform((scrollTop - (articleTop + articleHeight - winHeight + lowerWinOffset)), articleHeight + overhead - winHeight - upperOffset));//overhead + articleHeight - winHeight));
+				} else {
+					//$animateOnScrollUpper.css('transform', modifyOrigTransform((articleTop + articleHeight - scrollTop)/underhead * (upperOffset + underhead), 0));
 				}
 
-				if (upperOffset < articleTop + articleHeight - winHeight) {
-						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/underhead * (lowerWinOffset + underhead), -lowerOffset + lowerWinOffset));
-					} else {
-						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/underhead * (lowerOffset + underhead), 0));
-					}
-
-				val = Math.abs(scrollTop - articleTop + articleHeight - winHeight) / underhead;
+				val = Math.abs((scrollTop - (articleTop + articleHeight - winHeight)) / winHeight);
 				if(!menuShown) {
 					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
 				}
-				// Start fading away the article
+				//Start fading away the article
 				articleOpacity = 0.6 - (0.625 * val).toFixed(2);
 				fadeArticle();
-				//requestAnimationFrame(fadeArticle);
-
-				//$articleMenu.addClass('hide');
+				$articleMenu.addClass('hide');
 				updateScrollAnimation = true;
 
-			} else if (scrollTop > articleTop + articleHeight - winHeight + underhead) {
+			} else if (scrollTop > articleTop + articleHeight ) {
 					//scroll to end of article
 				if (isFixedBottom) {
-					requestAnimationFrame(unfixArticleBottom);
+					unfixArticleBottom();
 					isFixedBottom = false;
 				}
 				closeArticle(false, true, true, scrollTop);
-				// } else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
-				// 	if(!menuShown) {
-				// 		val = parseInt(200 * (Math.abs((articleTop + articleHeight-endArticleTransition) - scrollTop) / endArticleTransition));
-				// 		val = -250 + (val > 250 ? 250 : val);
-				// 		$menu.css('transform', 'translate3d(' + val  + 'px, 0, 0)').removeClass('hide');
-				// 	}
-				// 	//$articleMenu.addClass('hide');
-				// } else if(articleOpacity !== 1 && scrollTop <= articleTop + articleHeight) {
-				// 	/*if(!menuShown) {
-				// 		$articleMenu.removeClass('hide');
-				// 		$menu.addClass('hide');
-				// 	}*/
-				// 	articleOpacity = 1;
-				// 	requestAnimationFrame(fadeArticle);
+				updateScrollAnimation = false;
 			}
 		} else {
 			debounceLoadAnim();
