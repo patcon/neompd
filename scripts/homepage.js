@@ -20,7 +20,7 @@ var Homepage = (function homepage(defaultVals) {
 		SCROLL_TIMEOUT_LEN = 200,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		ANIMATION_THRESHOLD = 100,
-		ANIMATION_EL_THRESHOLD = 1,
+		ANIMATION_EL_THRESHOLD = 2,
 		firstScrollEvent = true,
 		scrollTimeout,
 		closeArticleTimeout,
@@ -148,7 +148,7 @@ var Homepage = (function homepage(defaultVals) {
 			$all.removeClass('offScreen');
 			//$menu.css('opacity', 1);
 		} else {
-			setTimeout(endCloseArticle, SOON * 3);
+			setTimeout(endCloseArticle, SOON);
 		}
 		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
@@ -220,8 +220,7 @@ var Homepage = (function homepage(defaultVals) {
 
 
 	function doLoadAnim() {
-		var time = firstScrollEvent ? 0 : FRAME,
-			foundIndex = null,
+		var foundIndex = null,
 			$toAnim,
 			count = 0,
 			lastFoundIndex,
@@ -251,7 +250,7 @@ var Homepage = (function homepage(defaultVals) {
 				$thisAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
 
 				if(moreThanOneFrame) {
-					return setTimeout(loadAnim, time);
+					return setTimeout(loadAnim, FRAME);
 				} else {
 					loadAnimTimeout = false;
 				}
@@ -507,6 +506,8 @@ var Homepage = (function homepage(defaultVals) {
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
 			menuShown = false;
+			isFixed = true;
+
 			$all.find('.shown').removeClass('shown').addClass('visible');
 			$onScreenUpper.removeClass('offScreen').addClass('onScreen')
 				.css('transform', modifyTransform(-upperOffset - offset, true));
@@ -523,7 +524,6 @@ var Homepage = (function homepage(defaultVals) {
 
 			// Show the article, there should probably be more fancy transitions tho
 			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
-			isFixed = true;
 
 			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
 			$articleMenu.removeClass('hide');
