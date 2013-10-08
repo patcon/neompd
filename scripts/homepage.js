@@ -15,11 +15,12 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 5,
 		SOON = 60,
 		ASAP = 0,
+		FRAME = 16,
 		PADDING = 10,
-		SCROLL_TIMEOUT_LEN = 300,
+		SCROLL_TIMEOUT_LEN = 200,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
-		ANIMATION_THRESHOLD = 0,//PADDING * 4,
-		ANIMATION_EL_THRESHOLD = 3,
+		ANIMATION_THRESHOLD = 100,
+		ANIMATION_EL_THRESHOLD = 2,
 		firstScrollEvent = true,
 		scrollTimeout,
 		closeArticleTimeout,
@@ -39,7 +40,7 @@ var Homepage = (function homepage(defaultVals) {
 		setFilter = false,
 		menuShown,
 		isFixed,
-		scrollOffset,
+		isFading,
 		articleHeight = null,
 		articleTop,
 		articleOpacity = 0,
@@ -48,6 +49,7 @@ var Homepage = (function homepage(defaultVals) {
 		lowerOffset = 0,
 		upperWinOffset = 0,
 		lowerWinOffset = 0,
+		setTimeout = window.setTimeout,
 		endArticleTransition = winHeight * 2;
 
 	function getCurTop ($el) {
@@ -85,12 +87,14 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function endCloseArticle() {
-		$container.find('.shown').removeClass('shown').addClass('visible');
+		$article.addClass('hidden');
 		$all.removeClass('offScreen');
+		articleHeight = null;
 	}
 
 	function closeArticle (scroll, noAnimation, updateScrollbar, scrollTop) {
-		var $offScreen;
+		var $offScreen,
+			scrollOffset;
 
 		if((!closeArticleTimeout && !articleHeight) || isDoingTransition) {
 			return;
@@ -128,39 +132,34 @@ var Homepage = (function homepage(defaultVals) {
 			$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
 
 		} else {
-			$lower.addClass('offScreen').css('transform', modifyOrigTransform(-lowerOffset - overhead, 0, true));
 			if(!noAnimation) {
+				$lower.css('transform', 'translate3d(0, 0, 0)');
 				$all.removeClass('offScreen').addClass('closing');
 				$menu.removeClass('offScreen hide').addClass('closing');
 				noScrollEvents = true;
 			} else {
+				$lower.css('transform', modifyOrigTransform(-lowerOffset - overhead, 0, true));
 				$menu.css('transform', 'translate3d(0, 0, 0)');
 			}
-			$article.addClass('hidden');
-			articleOpacity = 0;
 		}
 
 		if (scroll) {
 			$container.find('.shown').removeClass('shown').addClass('visible');//.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 			$all.removeClass('offScreen');
 			//$menu.css('opacity', 1);
+		} else {
+			setTimeout(endCloseArticle, SOON);
 		}
 		//$container.height($container.height() - articleHeight - Math.min(lowerOffset, lowerWinOffset));
 
 		if (updateScrollbar) {
-			//if(!scroll) {
-			//	endCloseArticle();
-			//}
 			$window.scrollTop(scrollTop - overhead - articleHeight);
 			// $window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
-		} //else {
-			if (!scroll) {
-				setTimeout(endCloseArticle, SOON);
-			}
-		//}
+		}
+
 
 		// Update the height of the grid to remove space occupied by the article
-		articleHeight = null;
+
 
 	}
 
@@ -201,29 +200,33 @@ var Homepage = (function homepage(defaultVals) {
 		if(isDoingTransition) {
 			return setTimeout(applyScrollClass, SCROLL_TIMEOUT_LEN);
 		}
-		$container.removeClass('scrolling');
-		scrollTimeout = null;
+		//requestAnimationFrame(function() {
+			$container.removeClass('scrolling');
+			scrollTimeout = null;
+	//	});
 	}
 
 	function debouneScrollClassToggling () {
 		if(scrollTimeout) {
 			clearTimeout(scrollTimeout);
 		} else {
-			$container.addClass('scrolling');
+			//requestAnimationFrame(function() {
+				$container.addClass('scrolling');
+			//});
 		}
 
 		scrollTimeout = setTimeout(applyScrollClass, SCROLL_TIMEOUT_LEN);
 	}
 
-	function doLoadAnim(noThreshold) {
-		var foundIndex,
-			scrollTop =  window.pageYOffset,
-			count = 0,
-			$toAnim,
-			lastFoundIndex;
 
+	function doLoadAnim() {
+		var foundIndex = null,
+			$toAnim,
+			count = 0,
+			lastFoundIndex,
+			loadAnimScrollTop = window.pageYOffset;
 		$hidden.each(function (i) {
-			if((!noThreshold || count < ANIMATION_EL_THRESHOLD) && isOnScreen($(this), scrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
+			if(isOnScreen($(this), loadAnimScrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
 				if(count === 0) {
 					foundIndex = i;
 				}
@@ -236,38 +239,55 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(foundIndex !== null) {
 			$toAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
-			requestAnimationFrame(function () {
-				$toAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
-				loadAnimTimeout = false;
-			});
+			setTimeout(function loadAnim() {
+				var moreThanOneFrame = $toAnim.length > ANIMATION_EL_THRESHOLD,
+					$thisAnim;
+				if(moreThanOneFrame) {
+					$thisAnim = $($toAnim.splice(0, ANIMATION_EL_THRESHOLD));
+				} else {
+					$thisAnim = $toAnim;
+				}
+				$thisAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
+
+				if(moreThanOneFrame) {
+					return setTimeout(loadAnim, FRAME);
+				} else {
+					loadAnimTimeout = false;
+				}
+			}, SOON);
 		} else {
 			loadAnimTimeout = false;
 		}
 	}
 
-	function debounceLoadAnim() {
+	function debounceLoadAnim(scrollTop) {
 		if(loadAnimTimeout || !loaded || $hidden.length === 0) {
 			return;
 		}
 		if  (firstScrollEvent) {
-			firstScrollEvent = false;
-			return doLoadAnim(true);
+			doLoadAnim();
+			return firstScrollEvent = false;
 		}
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 4);
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON);
 	}
 
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
-	}
-
-	function unfixArticle() {
-		$article.removeClass('fixed').css('top', articleTop).css('opacity', 1);
-		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
-		updateScrollAnimation = false;
+		noScrollEvents = false;
 	}
 
 	function fadeArticle(opacity) {
 		$article.css('opacity', articleOpacity);
+		isFading = false;
+	}
+
+	function unfixArticle() {
+		fadeArticle();
+		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
+		$article.removeClass('fixed').css('top', articleTop).css('opacity', 1);
+		//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
+		updateScrollAnimation = false;
+		noScrollEvents = false;
 	}
 
 	function onScroll() {
@@ -278,18 +298,22 @@ var Homepage = (function homepage(defaultVals) {
 			return debouneScrollClassToggling();
 		} else if(isDoingTransition) {
 			scrollTop = window.pageYOffset;
-			return endTransition(scrollTop, scrollTop + lowerOffset);
+			return endTransition(scrollTop, articleTop);
 		}
 
 		if (articleHeight !== null) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
+
 				if (!isFixed) {
 					// Set article as fixed
 					//$article.addClass('fixed').css('top', 0);
-					//requestAnimationFrame(fixArticle);
-					fixArticle();
+					noScrollEvents = true;
 					isFixed = true;
+					//return requestAnimationFrame(fixArticle);
+					fixArticle();
+
 				}
+
 					// Put the lower blocks right below the window to start moving up
 					//if (lowerOffset > winHeight) {
 						//$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset + lowerWinOffset));
@@ -297,22 +321,19 @@ var Homepage = (function homepage(defaultVals) {
 
 				//} else {
 					// Start moving up the blocks below the window
-					if (lowerOffset > winHeight) {
-						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
-					} else {
-						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead), 0));
-					}
-
 					val = Math.abs(articleTop - scrollTop) / overhead;
 					if(!menuShown) {
 						$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
 					}
 					// Start fading away the article
 					articleOpacity = 0.6 - (0.625 * val).toFixed(2);
-					fadeArticle();
-					//requestAnimationFrame(fadeArticle);
 
-					//$articleMenu.addClass('hide');
+					if (lowerOffset > winHeight) {
+						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerWinOffset + overhead), -lowerOffset + lowerWinOffset));
+					} else {
+						$animateOnScroll.css('transform', modifyOrigTransform(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead), 0));
+					}
+					$article.css('opacity', articleOpacity);
 					updateScrollAnimation = true;
 				//}
 
@@ -327,12 +348,14 @@ var Homepage = (function homepage(defaultVals) {
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
+					noScrollEvents = true;
+					articleOpacity = 1;
+
 					//requestAnimationFrame(unfixArticle);
 					unfixArticle();
 					isFixed = false;
 					//regularScrolling - false;
 				} else if(updateScrollAnimation) {
-					//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 
 				} else if((scrollTop > articleTop + articleHeight + winHeight)) {
 					closeArticle(false, true, true, scrollTop);
@@ -349,13 +372,13 @@ var Homepage = (function homepage(defaultVals) {
 						$menu.addClass('hide');
 					}*/
 					articleOpacity = 1;
-					requestAnimationFrame(fadeArticle);
+					$article.css('opacity', articleOpacity);
 				}
 			}
 		} else {
 			debounceLoadAnim();
-			debouneScrollClassToggling();
 		}
+		debouneScrollClassToggling();
 	}
 
 	function endResizeTranstion() {
@@ -375,7 +398,6 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(isDoingTransition && $transitioned.hasClass('delay')) {
 			return endTransition(window.pageYOffset, articleTop);
-
 		} else if(noScrollEvents && $transitioned.hasClass('closing')) {
 			scrollTop = window.pageYOffset;
 			scrollOffset = scrollTop - articleTop < 0 ? scrollTop - articleTop : 0;
@@ -390,8 +412,8 @@ var Homepage = (function homepage(defaultVals) {
 			noScrollEvents = false;
 			$body.css('opacity', 1);
 			$container.removeClass('initial');
-			doLoadAnim();
-			//setTimeout(doLoadAnim, SOON);
+			//doLoadAnim();
+			setTimeout(doLoadAnim, SOON);
 			loaded = true;
 
 		} else if(!resized && $transitioned.hasClass('resized')) {
@@ -402,10 +424,6 @@ var Homepage = (function homepage(defaultVals) {
 			filterTimeout = setTimeout(addFilter, SCROLL_TIMEOUT_LEN);
 			setFilter = false;
 		}
-	}
-
-	function endOnClick() {
-		$article.css('opacity', 1);
 	}
 
 	function onClick(e) {
@@ -488,7 +506,9 @@ var Homepage = (function homepage(defaultVals) {
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
 			menuShown = false;
+			isFixed = true;
 
+			$all.find('.shown').removeClass('shown').addClass('visible');
 			$onScreenUpper.removeClass('offScreen').addClass('onScreen')
 				.css('transform', modifyTransform(-upperOffset - offset, true));
 			$offScreenUpper.addClass('offScreen')
@@ -504,13 +524,10 @@ var Homepage = (function homepage(defaultVals) {
 
 			// Show the article, there should probably be more fancy transitions tho
 			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
-			isFixed = true;
 
 			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
 			$articleMenu.removeClass('hide');
-
-			setTimeout(endOnClick, ASAP);
-			//$container.addClass('transition');
+			$article.css('opacity', 1);
 		}
 	}
 
@@ -543,9 +560,6 @@ var Homepage = (function homepage(defaultVals) {
 		resized = false;
 	}
 
-	function doMenuClick() {
-
-	}
 
 	function onMenuClick() {
 		$menu.removeClass('onScreen offScreen hide').addClass('show');
@@ -553,12 +567,6 @@ var Homepage = (function homepage(defaultVals) {
 
 	}
 
-	function doFilterClick() {
-		$hidden = $([]);
-		$all.removeClass('offScreen').addClass('visible');
-		$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter') });
-		noScrollEvents = false;
-	}
 
 	function onFilterClick(e) {
 		var $clicked = $(e.target).closest('li');
@@ -567,12 +575,17 @@ var Homepage = (function homepage(defaultVals) {
 			$body.scrollTop(0);
 			setFilter = true;
 			clearTimeout(filterTimeout);
-			setTimeout(doFilterClick, ASAP);
+			setTimeout(function() {
+				$hidden = $([]);
+				$all.removeClass('offScreen').addClass('visible');
+				$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter') });
+				noScrollEvents = false;
+			}, ASAP);
 		}
 	}
 
 	$menuLines.on('click', onMenuClick);
-	$container.on('click', onClick);
+	$window.on('click', onClick);
 	$menu.on('click', onFilterClick);
 	$container.on('webkitTransitionEnd', onTransitionEnd);
 	$container.imagesLoaded(onLoad);
