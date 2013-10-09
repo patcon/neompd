@@ -15,7 +15,7 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 5,
 		SOON = 60,
 		ASAP = 0,
-		PADDING = parseInt(winHeight / 3, 10),
+		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		ANIMATION_THRESHOLD ,
@@ -37,6 +37,7 @@ var Homepage = (function homepage(defaultVals) {
 		loaded = false,
 		resized = true,
 		setFilter = false,
+		jumpBottom = false,
 		menuShown,
 		isFixed, isFixedBottom,
 		scrollOffset,
@@ -276,7 +277,7 @@ var Homepage = (function homepage(defaultVals) {
 
 	function unfixArticleBottom() {
 		$article.removeClass('fixedBottom').css('top', articleTop).css('opacity', 1);
-		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
+		$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true));
 		updateScrollAnimation = false;
 	}
 
@@ -301,8 +302,9 @@ var Homepage = (function homepage(defaultVals) {
 					// Set article as fixed
 					//$article.addClass('fixed').css('top', 0);
 					//requestAnimationFrame(fixArticleTop);
-					fixArticleTop();
+					//noScrollEvents = true;
 					isFixed = true;
+					fixArticleTop();
 				}
 
 				//} else {
@@ -347,38 +349,45 @@ var Homepage = (function homepage(defaultVals) {
 					isFixedBottom = false;
 				} else if(updateScrollAnimation) {
 					//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
+					$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true));
 				}
 
-			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop <= articleTop + articleHeight)) {
-				/*if (!isFixedBottom) {
+				if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
+					$animateOnScroll.css('transform', modifyTransform(-(underhead - lowerWinOffset),true));
+					jumpBottom = false;
+				}
+
+			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop < articleTop + articleHeight + (underhead - winHeight))) {
+				if (!isFixedBottom) {
 					fixArticleBottom();
 					isFixedBottom = true;
-				}*/
-
-				if (lowerOffset > winHeight) {
-					$animateOnScrollUpper.css('transform', modifyOrigTransform((scrollTop - (articleTop + articleHeight - winHeight + lowerWinOffset)), articleHeight + overhead - winHeight - upperOffset));//overhead + articleHeight - winHeight));
-				} else {
-					//$animateOnScrollUpper.css('transform', modifyOrigTransform((articleTop + articleHeight - scrollTop)/underhead * (upperOffset + underhead), 0));
 				}
 
-				val = Math.abs((scrollTop - (articleTop + articleHeight - winHeight)) / winHeight);
+				if (!jumpBottom) {  //jump blocks futher under the article so the tiles move the right amount to close properly
+					$animateOnScroll.css('transform', modifyTransform(underhead - lowerWinOffset,true));
+					jumpBottom = true;
+				}
+
+				if (lowerOffset > winHeight) {
+					$animateOnScrollUpper.css('transform', modifyOrigTransform((scrollTop - (articleTop + articleHeight - winHeight)) / underhead * (underhead + upperOffset), articleHeight + overhead - winHeight - upperOffset));
+				} else {
+					$animateOnScrollUpper.css('transform', modifyOrigTransform((scrollTop - (articleTop + articleHeight - winHeight)) / underhead * (underhead + upperOffset), 0));
+				}
+				val = 1 - Math.abs((scrollTop - (articleTop + articleHeight - winHeight + underhead)) / underhead);
 				if(!menuShown) {
 					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
 				}
 				//Start fading away the article
 				articleOpacity = 0.6 - (0.625 * val).toFixed(2);
 				fadeArticle();
-				$articleMenu.addClass('hide');
+				//$articleMenu.addClass('hide');
 				updateScrollAnimation = true;
 
-			} else if (scrollTop > articleTop + articleHeight ) {
-					//scroll to end of article
-				if (isFixedBottom) {
-					unfixArticleBottom();
-					isFixedBottom = false;
-				}
-				closeArticle(false, true, true, scrollTop);
+			} else if (scrollTop >= articleTop + articleHeight + (underhead - winHeight)) {
+				closeArticle(false, true, true, scrollTop - (underhead - winHeight));
+				$animateOnScrollUpper.css('transform', modifyOrigTransform(0,0));
 				updateScrollAnimation = false;
+				jumpBottom = false;
 			}
 		} else {
 			debounceLoadAnim();
@@ -484,6 +493,7 @@ var Homepage = (function homepage(defaultVals) {
 			$li = $oldLi;
 			lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
 			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+
 			$onScreenLower = [];
 			$offScreenLower = [];
 			$lower = [$li[0]];
@@ -514,7 +524,7 @@ var Homepage = (function homepage(defaultVals) {
 			$animateOnScrollUpper = $onScreenUpper;
 
 			overhead = Math.max(winHeight, upperOffset);
-			underhead = winHeight;
+			underhead = Math.max(winHeight, lowerWinOffset);
 
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
