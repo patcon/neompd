@@ -103,6 +103,7 @@ var Homepage = (function homepage(defaultVals) {
 	function endCloseArticle() {
 		$all.removeClass('offScreen');
 		noScrollEvents = false;
+		debounceLoadAnim();
 	}
 
 	function closeArticle (scroll, noAnimation, updateScrollbar, scrollTop) {
@@ -181,8 +182,7 @@ var Homepage = (function homepage(defaultVals) {
 		}
 
 		if (updateScrollbar) {
-			$window.scrollTop(scrollTop - overhead - articleHeight);
-			// $window.scrollTop(scrollTop - (lowerOffset * 2) - upperOffset);
+			$window.scrollTop(scrollTop - overhead - lowerOffset);
 		}
 		articleHeight = null;
 
@@ -301,7 +301,7 @@ var Homepage = (function homepage(defaultVals) {
 			doLoadAnim();
 			return firstScrollEvent = false;
 		}
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON);
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 1.5);
 	}
 
 	function fixArticle() {
