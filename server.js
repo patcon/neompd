@@ -26,7 +26,7 @@
     app.get('/articles/:filename', function(req, res) {
         setTimeout(function() {
             res.render(__dirname + '/articles/' + req.params.filename);
-        }, 2000);
+        }, 1000);
     })
 
     app.listen(3333);

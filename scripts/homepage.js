@@ -176,8 +176,11 @@ var Homepage = (function homepage(defaultVals) {
 				$menu.css('transform', 'translate3d(0, 0, 0)');
 			}
 		}
+
+		// Hide and article, update the height of the grid to remove space occupied by the article
 		$articleClose.addClass('hidden').removeClass('shown');
-		$container.css('height', '-=' + (articleHeight + lowerOffset));
+		$container.css('height', '-=' + (articleHeight + underhead + overhead));
+		console.log(articleHeight, underhead);
 
 		if (scroll) {
 			$container.find('.shown').removeClass('shown').addClass('visible');
@@ -193,10 +196,6 @@ var Homepage = (function homepage(defaultVals) {
 		if (updateScrollbar) {
 			$window.scrollTop(scrollTop - overhead - lowerOffset);
 		}
-
-		// Update the height of the grid to remove space occupied by the article
-
-
 	}
 
 	function finishTransition() {
@@ -212,8 +211,7 @@ var Homepage = (function homepage(defaultVals) {
 		$lower.css('transform', modifyTransform(overhead));
 		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 		$container.removeClass('transition').css('height', '+=' + (articleHeight + lowerOffset));
-		$article.removeClass('fadeIn');
-		$articleClose.addClass('shown').css('zIndex', 3);
+		$articleClose.addClass('shown').css('z-index', 3);
 		$menu.addClass('offScreen');
 		noScrollEvents = true;
 		$window.scrollTop(scrollTo);
@@ -367,8 +365,9 @@ var Homepage = (function homepage(defaultVals) {
 
 	function fadeArticle() {
 		$article.css('opacity', articleOpacity);
-		$articleClose.css('opacity', articleOpacity).css('zIndex', articleOpacity === 1 ? 3 : 2);
+		$articleClose.css('opacity', articleOpacity).css('z-index', articleOpacity === 1 ? 3 : 2);
 		opacityTimeout = false;
+		$article.on("transitionend", function() { $article.removeClass('fadeIn'); console.log("huh?"); });
 	}
 
 	function unfixArticle() {
@@ -629,7 +628,7 @@ var Homepage = (function homepage(defaultVals) {
 			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
 			menuShown = false;
 			$articleMenu.removeClass('hidden');
-			$articleClose.removeClass('hidden').css('zIndex', 2);
+			$articleClose.removeClass('hidden').css('z-index', 2);
 
 			// 2nd Step: 
 			// Getting show the loading state and request the article from server
@@ -728,6 +727,7 @@ var Homepage = (function homepage(defaultVals) {
 	$menuLines.on('click', onMenuClick);
 	$menu.on('click', onFilterClick);
 
+	// $article.on("transitionend", function() { $article.removeClass('fadeIn'); console.log("huh?"); });
 	$articleClose.on('click', onCloseClick)
 
 	$container.on('transitionend', onTransitionEnd);
