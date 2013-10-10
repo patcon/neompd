@@ -5,10 +5,11 @@
 </head>
 
 <body>
-	<nav id='articleMenu' class='hide'>
+	<nav id='articleMenu' class='hidden'>
 		<h1>Myplanet Digital</h1>
 		<a id="lines">Show Menu</a>
 	</nav>
+	<a id="close" class="hidden">Close Article</a>
 
 	<nav id='menu'>
 		<input id="searchBox" />
@@ -16,11 +17,11 @@
 			<li data-filter=".tech">Technology</li>
 			<li data-filter="li">Cool Dudes</li>
 			<li data-filter=".design">Design</li>
-			<li data-filter="li">Awesome</li>
+			<li data-filter=".tech">Awesome</li>
 			<li data-filter="li">Duck Tollers</li>
-			<li data-filter="li">Rigby Taylor</li>
+			<li data-filter=".design">Rigby Taylor</li>
 			<li data-filter="li">Jobs</li>
-			<li data-filter="li">Contact Us</li>
+			<li data-filter=".tech">Contact Us</li>
 		</ul>
 		<footer class="adr">
 			<span class="street-address">252 Adelaide Street East</span>
@@ -708,16 +709,6 @@
 				<span class="date">January 14, 1980</span>
 			</a>
 		</li>
-		<li class=' double image'>
-			<a href="http://drbl.in/fWMM">
-				<header>
-					<span class="elem">Land Rights</span><br>
-					<span class="elem">Ain't no</span><br>
-					<span class="elem">Joke, yo</span>
-				</header>
-				<img src="images/a3.jpg">
-			</a>
-		</li>
 		<li>
 			<a href="http://drbl.in/fWMM">
 				<header class="green">
@@ -830,7 +821,7 @@
 
 	<script>
 		var Homepage = {
-			LOADING_Y_OFFSET: 250
+			LOADING_Y_OFFSET: 200
 		};
 	</script>
 	<script src="scripts/isotope.js"></script>
