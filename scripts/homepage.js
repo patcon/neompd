@@ -17,11 +17,11 @@ var Homepage = (function homepage(defaultVals) {
 		SOON = 60,
 		ASAP = 0,
 		PADDING = 10,
-		SCROLL_TIMEOUT_LEN = 200,
+		SCROLL_TIMEOUT_LEN = 500,
 		FRAME = 16,
 		OPACITY_FRAME = 50,
-		ANIMATION_THRESHOLD =  10,
-		MAX_PER_LOAD_DEBOUNCE = 3,
+		ANIMATION_THRESHOLD = 0,
+		MAX_PER_LOAD_DEBOUNCE = 4,
 		ANIMATION_EL_THRESHOLD = 1,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		firstScrollEvent = true,
@@ -36,6 +36,7 @@ var Homepage = (function homepage(defaultVals) {
 		$hidden = $container.find('li'),
 		$toAnim,
 		$animateOnScroll,
+		$animateOnScrollUpper,
 		$article = $('#article'),
 		updateScrollAnimation,
 		noScrollEvents = true,
@@ -43,6 +44,7 @@ var Homepage = (function homepage(defaultVals) {
 		loaded = false,
 		resized = true,
 		setFilter = false,
+		jumpBottom = false,
 		menuShown,
 		isFixed,
 		justShowedArticle = false,
@@ -50,6 +52,7 @@ var Homepage = (function homepage(defaultVals) {
 		articleTop,
 		articleOpacity = 0,
 		overhead,
+		underhead,
 		upperOffset = 0,
 		lowerOffset = 0,
 		upperWinOffset = 0,
@@ -103,6 +106,7 @@ var Homepage = (function homepage(defaultVals) {
 	function endCloseArticle() {
 		$all.removeClass('offScreen');
 		noScrollEvents = false;
+		firstScrollEvent = true;
 		debounceLoadAnim();
 	}
 
@@ -145,14 +149,13 @@ var Homepage = (function homepage(defaultVals) {
 				}
 			});
 
-			//alert($lower.length - count);
+			$article.addClass('fadeOut').css('opacity', 0);
 			if(!noAnimation) {
 				$all.removeClass('offScreen').addClass(isFixed && !justShowedArticle ? 'closing' : 'closingSlow');
 				// $article.addClass('fadeOut');
 				$menu.removeClass('offScreen hide').addClass('closing');
 				noScrollEvents = true;
 			}
-			$article.addClass('fadeOut').css('opacity', 0);
 			$($offScreen).addClass('offScreen');
 			// $upper.css('transform', modifyOrigTransform(articleHeight + scrollOffset, 0, true));
 			// $lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
@@ -235,7 +238,7 @@ var Homepage = (function homepage(defaultVals) {
 	//	});
 	}
 
-	function debouneScrollClassToggling () {
+	function debounceScrollClassToggling () {
 		if(scrollTimeout) {
 			clearTimeout(scrollTimeout);
 		} else {
@@ -301,9 +304,54 @@ var Homepage = (function homepage(defaultVals) {
 			doLoadAnim();
 			return firstScrollEvent = false;
 		}
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 1.5);
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
+	}
+/*
+
+	function doLoadAnim() {
+		var foundIndex = null,
+			scrollTop =  window.pageYOffset,
+			count = 0,
+			$toAnim,
+			lastFoundIndex;
+
+		function anim() {
+			$toAnim.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
+			loadAnimTimeout = false;
+		}
+
+		$hidden.each(function (i) {
+			if((firstScrollEvent || (count <= ANIMATION_EL_THRESHOLD)) && isOnScreen($(this), scrollTop, -LOADING_Y_OFFSET - ANIMATION_THRESHOLD)) {
+				if(count === 0) {
+					foundIndex = i;
+				}
+				count++;
+				lastFoundIndex = i;
+			} else {
+				return count === 0;
+			}
+		});
+
+		if(foundIndex !== null) {
+			$toAnim = ($($hidden.splice(foundIndex, 1 + lastFoundIndex - foundIndex)));
+			requestAnimationFrame(anim);
+		} else {
+			loadAnimTimeout = false;
+		}
 	}
 
+	function debounceLoadAnim() {
+		if(loadAnimTimeout || !loaded || $hidden.length === 0) {
+			return;
+		}
+		if  (firstScrollEvent) {
+			doLoadAnim();
+			return firstScrollEvent = false;
+		}
+
+		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
+	}
+*/
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
 		noScrollEvents = false;
@@ -316,6 +364,7 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function unfixArticle() {
+		articleOpacity = 1;
 		fadeArticle();
 		$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
 		$article.removeClass('fixed').css('top', articleTop).css('opacity', 1);
@@ -329,7 +378,7 @@ var Homepage = (function homepage(defaultVals) {
 			val;
 
 		if(noScrollEvents) {
-			return debouneScrollClassToggling();
+			return debounceScrollClassToggling();
 		} else if(isDoingTransition) {
 			scrollTop = window.pageYOffset;
 			return endTransition(scrollTop, articleTop);
@@ -381,43 +430,55 @@ var Homepage = (function homepage(defaultVals) {
 					updateScrollAnimation = false;
 				//}, ASAP);
 
-			} else if(scrollTop >= articleTop) {
+			} else if(scrollTop >= articleTop && (scrollTop <= articleTop + articleHeight - winHeight)) {
 				// Reset article and lower blocks position
 				if (isFixed) {
 					// $animateOnScroll.css('transform', modifyTransform(lowerOffset - lowerWinOffset + overhead));
 					noScrollEvents = true;
-					articleOpacity = 1;
-
 					//requestAnimationFrame(unfixArticle);
 					unfixArticle();
 					isFixed = false;
 					//regularScrolling - false;
 				} else if(updateScrollAnimation) {
-
-				} else if((scrollTop > articleTop + articleHeight + winHeight)) {
-					closeArticle(false, true, true, scrollTop);
-				} else if (scrollTop > articleTop + articleHeight - endArticleTransition) {
-					if(!menuShown) {
-						val = round(200 * (abs((articleTop + articleHeight - endArticleTransition) - scrollTop) / endArticleTransition));
-						$menu.css('transform', 'translate3d(' + (-250 + (val > 250 ? 250 : val))  + 'px, 0, 0)').removeClass('hide');
-						$articleClose.css('zIndex', val > 175 ? 2 : 3);
-					}
-					//$articleMenu.addClass('hide');
-				} else if(articleOpacity !== 1 && scrollTop <= articleTop + articleHeight) {
-					/*if(!menuShown) {
-						$articleMenu.removeClass('hide');
-						$menu.addClass('hide');
-					}*/
-					articleOpacity = 1;
-					if(! opacityTimeout) {
-						opacityTimeout = setTimeout(fadeArticle, OPACITY_FRAME);
-					}
+					$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true));
 				}
+
+				if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
+					$animateOnScroll.css('transform', modifyTransform(-(underhead - lowerWinOffset),true));
+					jumpBottom = false;
+				}
+			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop < articleTop + articleHeight + (underhead - winHeight))) {
+				if (!jumpBottom) {  //jump blocks futher under the article so the tiles move the right amount to close properly
+					$animateOnScroll.css('transform', modifyTransform(underhead - lowerWinOffset,true));
+					jumpBottom = true;
+				}
+
+				if (lowerOffset > winHeight) {
+					val = round(((scrollTop - (articleTop + articleHeight - winHeight)) / underhead * (underhead + upperOffset)) + articleHeight + overhead - winHeight - upperOffset);
+				} else {
+					val = round((scrollTop - (articleTop + articleHeight - winHeight)) / underhead * (underhead + upperOffset));
+				}
+				$animateOnScrollUpper.css('transform', modifyOrigTransform(val));
+
+				val = 1 - Math.abs((scrollTop - (articleTop + articleHeight - winHeight + underhead)) / underhead);
+				if(!menuShown) {
+					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
+				}
+				//Start fading away the article
+				articleOpacity = 1 - (1 * val).toFixed(2);
+				fadeArticle();
+				//$articleMenu.addClass('hide');
+				updateScrollAnimation = true;
+			}  else if (scrollTop >= articleTop + articleHeight + (underhead - winHeight)) {
+				closeArticle(false, true, true, scrollTop);
+				$animateOnScrollUpper.css('transform', modifyOrigTransform(0,0));
+				updateScrollAnimation = false;
+				jumpBottom = false;
 			}
 		} else {
 			debounceLoadAnim();
 		}
-		debouneScrollClassToggling();
+		debounceScrollClassToggling();
 	}
 
 	function endResizeTranstion() {
@@ -535,8 +596,11 @@ var Homepage = (function homepage(defaultVals) {
 			$lower = $($lower);
 
 			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+			$animateOnScrollUpper = $onScreenUpper;
 
 			overhead = max(winHeight, upperOffset);
+			underhead = max(winHeight, lowerWinOffset);
+
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
 			menuShown = false;
