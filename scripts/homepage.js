@@ -156,7 +156,7 @@ var Homepage = (function homepage(defaultVals) {
 			if(!noAnimation) {
 				$all.removeClass('offScreen').addClass(isFixed && !justShowedArticle ? 'closing' : 'closingSlow');
 				// $article.addClass('fadeOut');
-				$menu.removeClass('offScreen hide').addClass('closing');
+				$menu.removeClass('offScreen hide').addClass('closing').addClass('show');
 				noScrollEvents = true;
 			}
 			$($offScreen).addClass('offScreen');
@@ -169,7 +169,7 @@ var Homepage = (function homepage(defaultVals) {
 			if(!noAnimation) {
 				$lower.css('transform', 'translate3d(0, 0, 0)');
 				$all.removeClass('offScreen').addClass('closing');
-				$menu.removeClass('offScreen hide').addClass('closing');
+				$menu.removeClass('offScreen hide').addClass('closing').addClass('show');
 				noScrollEvents = true;
 			} else {
 				$lower.css('transform', modifyOrigTransform(-lowerOffset - overhead, 0, true));
