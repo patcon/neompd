@@ -281,7 +281,7 @@ var Homepage = (function homepage(defaultVals) {
 		updateScrollAnimation = false;
 	}
 
-	function fadeArticle(opacity) {
+	function fadeArticle() {
 		$article.css('opacity', articleOpacity);
 	}
 
@@ -349,21 +349,22 @@ var Homepage = (function homepage(defaultVals) {
 					isFixedBottom = false;
 				} else if(updateScrollAnimation) {
 					//$animateOnScroll.css('transform', modifyOrigTransform(0, 0, true));
-					$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true));
+					$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true)); // <will> move top tiles bk to original position if user scroll back up from bottom closing traisition state
 				}
 
-				if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
+				if (jumpBottom) { // <will> unjump the blocks under article so tiles go bk to proper position
 					$animateOnScroll.css('transform', modifyTransform(-(underhead - lowerWinOffset),true));
 					jumpBottom = false;
 				}
 
 			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop < articleTop + articleHeight + (underhead - winHeight))) {
+				//scrolling to close article at the bottom
 				if (!isFixedBottom) {
-					fixArticleBottom();
+					//fixArticleBottom();
 					isFixedBottom = true;
 				}
 
-				if (!jumpBottom) {  //jump blocks futher under the article so the tiles move the right amount to close properly
+				if (!jumpBottom) {  // <will> jump blocks futher under the article so the tiles move the right amount to close properly
 					$animateOnScroll.css('transform', modifyTransform(underhead - lowerWinOffset,true));
 					jumpBottom = true;
 				}
@@ -373,6 +374,7 @@ var Homepage = (function homepage(defaultVals) {
 				} else {
 					$animateOnScrollUpper.css('transform', modifyOrigTransform((scrollTop - (articleTop + articleHeight - winHeight)) / underhead * (underhead + upperOffset), 0));
 				}
+
 				val = 1 - Math.abs((scrollTop - (articleTop + articleHeight - winHeight + underhead)) / underhead);
 				if(!menuShown) {
 					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
@@ -521,10 +523,10 @@ var Homepage = (function homepage(defaultVals) {
 			$lower = $($lower);
 
 			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
-			$animateOnScrollUpper = $onScreenUpper;
+			$animateOnScrollUpper = $onScreenUpper; // <will> select the top tiles to animate on bottom close article scroll
 
 			overhead = Math.max(winHeight, upperOffset);
-			underhead = Math.max(winHeight, lowerWinOffset);
+			underhead = Math.max(winHeight, lowerWinOffset);  // <will> buffer value for bottom close article scroll
 
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
