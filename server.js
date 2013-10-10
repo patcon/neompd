@@ -24,7 +24,9 @@
     });
 
     app.get('/articles/:filename', function(req, res) {
-        res.render(__dirname + '/partials/' + req.params.filename);
+        setTimeout(function() {
+            res.render(__dirname + '/articles/' + req.params.filename);
+        }, 2000);
     })
 
     app.listen(3333);

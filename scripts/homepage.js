@@ -15,7 +15,7 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 5,
 		SOON = 60,
 		ASAP = 0,
-		PADDING = parseInt(winHeight / 3, 10),
+		PADDING = 10,
 		SCROLL_TIMEOUT_LEN = 300,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		ANIMATION_THRESHOLD ,
@@ -31,9 +31,11 @@ var Homepage = (function homepage(defaultVals) {
 		$hidden = $container.find('li'),
 		$animateOnScroll,
 		$article = $('#article'),
+		$loading = $('#loading'),
 		updateScrollAnimation,
 		noScrollEvents = true,
 		isDoingTransition = false,
+		blocksAdjusted = false,
 		loaded = false,
 		resized = true,
 		setFilter = false,
@@ -182,9 +184,14 @@ var Homepage = (function homepage(defaultVals) {
 		noScrollEvents = true;
 		$window.scrollTop(scrollTo);
 
+		console.log(lowerOffset);
 		// Adjust the lower blocks and move them where they actually need to be
-		if (lowerOffset > lowerWinOffset) {
-			$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
+		if (!blocksAdjusted) {
+			console.log("huh2");
+			if (lowerOffset > lowerWinOffset) {
+				$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
+			}
+			blocksAdjusted = true;
 		}
 
 		$all.each(function() {
@@ -283,6 +290,8 @@ var Homepage = (function homepage(defaultVals) {
 			scrollTop = window.pageYOffset;
 			return endTransition(scrollTop, scrollTop + lowerOffset);
 		}
+
+		debugger;
 
 		if (articleHeight !== null) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
@@ -422,7 +431,8 @@ var Homepage = (function homepage(defaultVals) {
 			$oldLi,
 			scrollTop,
 			offset,
-			winOffset;
+			winOffset,
+			highestTop;
 
 		if(($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container)) {
 			e.preventDefault();
@@ -442,84 +452,107 @@ var Homepage = (function homepage(defaultVals) {
 			upperOffset = 0,
 			lowerOffset = 0;
 
-			// Inject ajax call that grabs article from server
+			// 1st Step: transition the blocks off the screen
+			// a). Batch the upper blocks
+			while(($li = $li.prev()).length) {
+				li = $li[0];
+				if(isOnScreen($li, scrollTop)) {
+					offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
+					if(offset > upperOffset) upperOffset = offset;
+					$onScreenUpper.push(li);
+				}
+				else {
+					$offScreenUpper.push(li);
+				}
+				$upper.push(li);
+			}
+
+			// b). reset transition variables
+			$li = $oldLi;
+			// lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+			highestTop = getCurTop($li);
+			$onScreenLower = [];
+			$offScreenLower = [];
+			$lower = [$li[0]];
+
+			// c). batch lower blocks
+			while(($li = $li.next()).length) {
+				li = $li[0];
+				if(isOnScreen($li, scrollTop)) {
+					winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+					if (getCurTop($li) < highestTop) highestTop = getCurTop($li);
+					if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
+
+					$onScreenLower.push(li);
+				} else {
+					$offScreenLower.push(li);
+				}
+				$lower.push(li);
+			}
+
+			// d). transition the blocks
+			$onScreenUpper = $($onScreenUpper);
+			$offScreenUpper = $($offScreenUpper);
+			$onScreenLower = $($onScreenLower);
+			$offScreenLower = $($offScreenLower);
+			$upper = $($upper);
+			$lower = $($lower);
+
+			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+
+			overhead = Math.max(winHeight, upperOffset);
+			articleTop = scrollTop + overhead;
+			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
+			menuShown = false;
+
+			// Move upper blocks
+			$onScreenUpper.removeClass('offScreen').addClass('onScreen')
+				.css('transform', modifyTransform(-upperOffset - offset, true));
+			$offScreenUpper.addClass('offScreen')
+				.css('transform', modifyTransform(-upperOffset - offset));
+
+			// Move lower blocks
+			$onScreenLower.removeClass('offScreen').addClass('onScreen')
+				.css('transform', modifyTransform(lowerWinOffset, true));
+			$offScreenLower.addClass('offScreen')
+				.css('transform', modifyTransform(lowerWinOffset));
+			$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
+				.css('transform', modifyTransform(lowerWinOffset, true));
+
+			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
+			$articleMenu.removeClass('hide');
+
+			// 2nd Step: 
+			// Getting show the loading state and request the article from server
+			// Hookup the handler for jumping the blocks to the actual position
+			$loading.removeClass("hidden");
+			blocksAdjusted = false;
+
 			$.get("/articles/photo-ia-the-sctructure-behind.html", function(articleData) {
+				// Inject article
 				$article.html(articleData);
+				$loading.addClass("hidden");
 
 				// Why is it always short by 1424???
 				articleHeight = $article.height() + 1424;
 
-				while(($li = $li.prev()).length) {
-					li = $li[0];
-					if(isOnScreen($li, scrollTop)) {
-						offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
-						if(offset > upperOffset) upperOffset = offset;
-						$onScreenUpper.push(li);
-					}
-					else {
-						$offScreenUpper.push(li);
-					}
-					$upper.push(li);
-				}
-
-				$li = $oldLi;
-				lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
-				lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-				$onScreenLower = [];
-				$offScreenLower = [];
-				$lower = [$li[0]];
-
-				while(($li = $li.next()).length) {
-					li = $li[0];
-					if(isOnScreen($li, scrollTop)) {
-						offset =  scrollTop + articleHeight - getCurTop($li) + PADDING;
-						winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-						if (offset > lowerOffset) lowerOffset = offset;
-						if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
-
-						$onScreenLower.push(li);
-					} else {
-						$offScreenLower.push(li);
-					}
-					$lower.push(li);
-				}
-
-				$onScreenUpper = $($onScreenUpper);
-				$offScreenUpper = $($offScreenUpper);
-				$onScreenLower = $($onScreenLower);
-				$offScreenLower = $($offScreenLower);
-				$upper = $($upper);
-				$lower = $($lower);
-
-				$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
-
-				overhead = Math.max(winHeight, upperOffset);
-				articleTop = scrollTop + overhead;
-				offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-				menuShown = false;
-
-				$onScreenUpper.removeClass('offScreen').addClass('onScreen')
-					.css('transform', modifyTransform(-upperOffset - offset, true));
-				$offScreenUpper.addClass('offScreen')
-					.css('transform', modifyTransform(-upperOffset - offset));
-
-				$onScreenLower.removeClass('offScreen').addClass('onScreen')
-					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
-				$offScreenLower.addClass('offScreen')
-					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset)));
-
-				$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
-					.css('transform', modifyTransform(Math.min(lowerWinOffset, lowerOffset), true));
+				lowerOffset = scrollTop + articleHeight - highestTop + PADDING;
 
 				// Show the article, there should probably be more fancy transitions tho
 				$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0).css('opacity', 0);
 				isFixed = true;
 
-				$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
-				$articleMenu.removeClass('hide');
+				if (blocksAdjusted) {
+					$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
+					$lower.each(function() {
+						this.matrix = $(this).css('transform').match(MATRIX_REGEX);
+					});
+				}
 
 				requestAnimationFrame(endOnClick);
 			});
+			
 
 			//$container.addClass('transition');
 		}
@@ -585,7 +618,7 @@ var Homepage = (function homepage(defaultVals) {
 	$menuLines.on('click', onMenuClick);
 	$container.on('click', onClick);
 	$menu.on('click', onFilterClick);
-	$container.on('webkitTransitionEnd', onTransitionEnd);
+	$container.on('transitionend', onTransitionEnd);
 	$container.imagesLoaded(onLoad);
 	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
