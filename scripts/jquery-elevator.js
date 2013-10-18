@@ -1,87 +1,89 @@
 (function ($) {
 
     $.fn.elevator = function () {
-        var $menuElevator = this,
+        var $elevator = this,
             $document = $(this.get(0).ownerDocument),
             $window = $(window),
-            menuElevatorTop = 0,
-            menuElevatorBottom = $menuElevator.height(),
-            menuElevatorLastScrollTop = $document.scrollTop(),
-            menuElevatorLastScrollBottom = menuElevatorLastScrollTop + $window.height(), // track separately because viewport height may change too during rubberband scroll
-            menuElevatorIsFixed = false;
+            elevatorTop = 0,
+            elevatorBottom = $elevator.height(),
+            lastScrollTop = $document.scrollTop(),
+            lastScrollBottom = lastScrollTop + $window.height(), // track separately because viewport height may change too during rubberband scroll
+            elevatorIsFixed = false;
 
         function animateMenuElevator(viewportTop, viewportHeight) {
             var scrollTop = Math.max(0, viewportTop), // clamp for rubberband scroll
                 scrollBottom = Math.min($document.height(), viewportTop + viewportHeight); // clamp for rubberband scroll
 
-            if (scrollTop > menuElevatorLastScrollTop) {
+            if (scrollTop > lastScrollTop) {
                 // going down, check if need to detach from top or fix on bottom
-                if (scrollBottom >= menuElevatorBottom) {
-                    if (menuElevatorIsFixed) {
+                if (scrollBottom >= elevatorBottom) {
+                    if (elevatorIsFixed) {
                         // compute triggers for top and bottom
-                        menuElevatorTop = menuElevatorLastScrollTop;
-                        menuElevatorBottom = menuElevatorTop + $menuElevator.height();
+                        elevatorTop = lastScrollTop;
+                        elevatorBottom = elevatorTop + $elevator.height();
 
                         // if recalculated bottom is still not visible, absolute-position
-                        if (scrollBottom < menuElevatorBottom) {
-                            menuElevatorIsFixed = false;
+                        if (scrollBottom < elevatorBottom) {
+                            elevatorIsFixed = false;
 
-                            // detach and position
-                            $menuElevator.css({
+                            $elevator.css({
                                 position: 'absolute',
-                                top: menuElevatorTop,
+                                top: elevatorTop,
                                 bottom: 'auto'
                             });
                         }
                     } else {
-                        // reset the triggers to stop fixing
-                        menuElevatorTop = Number.POSITIVE_INFINITY;
-                        menuElevatorBottom = Number.POSITIVE_INFINITY;
-                        menuElevatorIsFixed = true;
-                        $menuElevator.css({
+                        elevatorIsFixed = true;
+
+                        $elevator.css({
                             position: 'fixed',
                             'min-height': '100%',
                             top: 'auto',
                             bottom: 0
                         });
+
+                        // reset the triggers to stop fixing
+                        elevatorTop = Number.POSITIVE_INFINITY;
+                        elevatorBottom = Number.POSITIVE_INFINITY;
                     }
                 }
-            } else if (scrollTop < menuElevatorLastScrollTop) {
+            } else if (scrollTop < lastScrollTop) {
                 // going up, check if need to detach from bottom or fix on top
-                if (scrollTop <= menuElevatorTop) {
-                    if (menuElevatorIsFixed) {
+                if (scrollTop <= elevatorTop) {
+                    if (elevatorIsFixed) {
                         // compute triggers for top and bottom
-                        menuElevatorBottom = menuElevatorLastScrollBottom;
-                        menuElevatorTop = menuElevatorBottom - $menuElevator.height();
+                        elevatorBottom = lastScrollBottom;
+                        elevatorTop = elevatorBottom - $elevator.height();
 
                         // if recalculated bottom is still not visible, absolute-position
-                        if (scrollTop > menuElevatorTop) {
-                            menuElevatorIsFixed = false;
+                        if (scrollTop > elevatorTop) {
+                            elevatorIsFixed = false;
 
-                            // detach and position
-                            $menuElevator.css({
+                            $elevator.css({
                                 position: 'absolute',
-                                top: menuElevatorTop,
+                                top: elevatorTop,
                                 bottom: 'auto'
                             });
                         }
                     } else {
-                        // reset the triggers to stop fixing
-                        menuElevatorTop = Number.NEGATIVE_INFINITY;
-                        menuElevatorBottom = Number.NEGATIVE_INFINITY;
-                        menuElevatorIsFixed = true;
-                        $menuElevator.css({
+                        elevatorIsFixed = true;
+
+                        $elevator.css({
                             position: 'fixed',
                             'min-height': '100%',
                             top: 0,
                             bottom: 'auto'
                         });
+
+                        // reset the triggers to stop fixing
+                        elevatorTop = Number.NEGATIVE_INFINITY;
+                        elevatorBottom = Number.NEGATIVE_INFINITY;
                     }
                 }
             }
 
-            menuElevatorLastScrollTop = scrollTop;
-            menuElevatorLastScrollBottom = scrollBottom;
+            lastScrollTop = scrollTop;
+            lastScrollBottom = scrollBottom;
         }
 
         $document.on('scroll', function () {
