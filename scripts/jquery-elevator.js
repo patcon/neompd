@@ -10,8 +10,9 @@
             menuElevatorLastScrollBottom = menuElevatorLastScrollTop + $window.height(), // track separately because viewport height may change too during rubberband scroll
             menuElevatorIsFixed = false;
 
-        function animateMenuElevator(scrollTop, viewportHeight) {
-            var scrollBottom = Math.min($document.height(), scrollTop + viewportHeight); // rubberband scroll does not adjust for height
+        function animateMenuElevator(viewportTop, viewportHeight) {
+            var scrollTop = Math.max(0, viewportTop), // clamp for rubberband scroll
+                scrollBottom = Math.min($document.height(), viewportTop + viewportHeight); // clamp for rubberband scroll
 
             if (scrollTop > menuElevatorLastScrollTop) {
                 // going down, check if need to detach from top or fix on bottom
@@ -66,8 +67,8 @@
                         }
                     } else {
                         // reset the triggers to stop fixing
-                        menuElevatorTop = 0;
-                        menuElevatorBottom = 0;
+                        menuElevatorTop = Number.NEGATIVE_INFINITY;
+                        menuElevatorBottom = Number.NEGATIVE_INFINITY;
                         menuElevatorIsFixed = true;
                         $menuElevator.css({
                             position: 'fixed',
