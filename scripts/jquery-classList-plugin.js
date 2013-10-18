@@ -6,7 +6,7 @@
 			css = plugin.css,
 			add = DOMTokenList.prototype.add,
 			remove = DOMTokenList.prototype.remove,
-			prefix = document.body.style.hasOwnProperty('webkitTransform') ? 'webkit' : 'moz',
+			transformProp = document.body.style.hasOwnProperty('webkitTransform') ? 'webkitTransform' : 'mozTransform',
 			elem,
 			i,
 			length,
@@ -67,9 +67,9 @@
 					for (i = 0; i < length; i++) {
 						elem = this[i];
 						if(val) {
-							elem.style[prefix + 'Transform'] = val.call(elem, i, elem.style[prefix + 'Transform']);
+							elem.style[transformProp] = val.call(elem, i, elem.style[transformProp]);
 						} else {
-							return elem.style[prefix + 'Transform'];
+							return elem.style[transformProp];
 						}
 					}
 				}

@@ -20,12 +20,12 @@ var Homepage = (function homepage(defaultVals) {
 		ASAP = 0,
 		PADDING = 10,
 		MIN_OPACITY = 0.005,
-		SCROLL_TIMEOUT_LEN = 400,
+		SCROLL_TIMEOUT_LEN = 300,
 		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280,
 		RESIZE_TIMEOUT_LEN = 825,
 		ANIMATION_THRESHOLD = 0,
-		MAX_PER_LOAD_DEBOUNCE = 5,
-		ANIMATION_EL_THRESHOLD = 1,
+		MAX_PER_LOAD_DEBOUNCE = 4,
+		ANIMATION_EL_THRESHOLD = 2,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		firstScrollEvent = true,
 		scrollTimeout,
@@ -127,11 +127,11 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function finalizeEndCloseArticle() {
-		requestAnimationFrame(finalize);
-
 		if(!updateScrollbarOnClose) {
 			$wrap.css('overflow', '');
 			setTimeoutWithRAF(finalize, END_CLOSE_ARTICLE_TIMEOUT_LEN);
+		} else {
+			requestAnimationFrame(finalize);
 		}
 	}
 
@@ -140,7 +140,6 @@ var Homepage = (function homepage(defaultVals) {
 			$wrap.css('overflow', 'visible');
 		}
 		$wrap.css('height', containerHeight);
-
 		setTimeoutWithRAF(finalizeEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
 
@@ -166,25 +165,24 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(scroll) {
 			scrollTop = scrollTop || window.pageYOffset;
-			updateScrollbarOnClose = false;
+			updateScrollbarOnClose = true;
 			scrollOffset = scrollTop - articleTop;
 
 			$articleClose.addClass('hidden').removeClass('shown');
-			if(!isFixed) {
-				$upper.css('transform', modifyTransform(scrollTop - articleTop));
-				$lower.css('transform', modifyTransform(scrollTop - articleTop - articleHeight + winHeight));
-			}
-
-			$animateOnScroll.removeClass('offScreen').addClass('closing');
-			$animateOnScrollUpper.removeClass('offScreen').addClass('closing');
-
-			$upper.css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
-			$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
-
 			$article.addClass('fadeOut').css('opacity', MIN_OPACITY);
 			if(!noAnimation) {
 				$menu.removeClass('offScreen hide').addClass('closing');
 			}
+
+			if(!isFixed) {
+				$lower.css('transform', modifyTransform(scrollTop - articleTop - articleHeight + winHeight));
+				$upper.css('transform', modifyTransform(scrollTop - articleTop + PADDING), true);
+			}
+			$animateOnScroll.removeClass('offScreen').addClass('closing');
+			$animateOnScrollUpper.removeClass('offScreen').addClass('closing');
+
+			$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
+			$upper.css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
 
 		} else {
 			$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset - overhead, 0, true));
@@ -442,13 +440,12 @@ var Homepage = (function homepage(defaultVals) {
 		var	scrollOffset,
 			scrollTop,
 			$transitioned = $(e.target);
-
 		if(isDoingTransition && $transitioned.hasClass('delay')) {
 			return endOnClickTransition(window.pageYOffset, articleTop);
-		} else if(noScrollEvents && $transitioned.hasClass('closing')) {
+		} else if(isClosing && $transitioned.hasClass('closing')) {
 			scrollTop = window.pageYOffset;
 			scrollOffset = scrollTop - articleTop;
-			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset)).removeClass('offScreen');
+			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset));
 			$article.removeClass('fadeOut').removeClass('fixed').css('top', '-9999px');
 			$window.scrollTop(scrollTop - overhead - scrollOffset);
 			requestAnimationFrame(finishEndCloseArticle);
