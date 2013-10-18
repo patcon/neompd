@@ -61,7 +61,8 @@
 		};
 
 		plugin.css = function(attr, val) {
-			if(attr === 'transform' && ( typeof val === 'undefined' || typeof val === 'function')) {
+			var t;
+			if(attr === 'transform' && ((t = typeof val) === 'undefined' || t === 'function')) {
 				if(length = this.length) {
 					for (i = 0; i < length; i++) {
 						elem = this[i];

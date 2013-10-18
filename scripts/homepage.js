@@ -24,8 +24,8 @@ var Homepage = (function homepage(defaultVals) {
 		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280,
 		RESIZE_TIMEOUT_LEN = 825,
 		ANIMATION_THRESHOLD = 0,
-		MAX_PER_LOAD_DEBOUNCE = 6,
-		ANIMATION_EL_THRESHOLD = 2,
+		MAX_PER_LOAD_DEBOUNCE = 5,
+		ANIMATION_EL_THRESHOLD = 1,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		firstScrollEvent = true,
 		scrollTimeout,
@@ -115,6 +115,11 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function finalize() {
+		noScrollEvents = false;
+		articleHeight = null;
+		firstScrollEvent = true;
+		isClosing = false;
+
 		$all.removeClass('offScreen');
 		if(updateScrollAnimation) {
 			debounceLoadAnim();
@@ -122,10 +127,6 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function finalizeEndCloseArticle() {
-		noScrollEvents = false;
-		articleHeight = null;
-		isClosing = false;
-
 		requestAnimationFrame(finalize);
 
 		if(!updateScrollbarOnClose) {
