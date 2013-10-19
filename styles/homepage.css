@@ -49,9 +49,9 @@ body::-webkit-scrollbar  {
 	-moz-transition-duration: 0.7s;
 }
 #grid > li.closing {
-	-webkit-transition-duration: 0.55s !important;
+	-webkit-transition-duration: 0.45s !important;
 	-webkit-transition-timing-function: ease !important;
-	-moz-transition-duration: 0.4s !important;
+	-moz-transition-duration: 0.45s !important;
 	-moz-transition-timing-function: ease !important;
 }
 #grid > li.resized {
