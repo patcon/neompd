@@ -724,7 +724,7 @@
 
 	<article class="hidden" id="article"></article>
 	<img id="loading" class="hidden" src="images/loading.gif" alt="Loading...">
-	
+
 
 	<!-- <article class="short-article hidden" id="article">
 		<p class="prompt">
@@ -751,6 +751,9 @@
 	<script src="scripts/jquery.js"></script>
 	<script src="scripts/jquery-classList-plugin.js"></script>
 
+	<script src="scripts/underscore.js"></script>
+	<script src="scripts/backbone.js"></script>
+
 	<script>
 		var Homepage = {
 			LOADING_Y_OFFSET: 200
@@ -758,4 +761,11 @@
 	</script>
 	<script src="scripts/isotope.js"></script>
 	<script src="scripts/homepage.js"></script>
+	<script src="scripts/router.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			var router = new Router;
+			Backbone.history.start();
+		});
+	</script>
 </body>
