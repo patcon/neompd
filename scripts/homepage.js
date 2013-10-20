@@ -523,18 +523,7 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function onClick(e) {
-		var $onScreenUpper,
-			$onScreenLower,
-			$offScreenUpper,
-			$offScreenLower,
-			$li,
-			li,
-			$clicked,
-			$oldLi,
-			scrollTop,
-			offset,
-			winOffset,
-			highestTop;
+		var $clicked;
 
 		if(($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container)) {
 			e.preventDefault();
@@ -542,126 +531,142 @@ var Homepage = (function homepage(defaultVals) {
 
 			if(articleHeight !== null) {
 				return closeArticle(true);
+			} else {
+				openArticle($clicked);
 			}
-
-			$li = $oldLi = $clicked.closest('li');
-			$onScreenUpper = [];
-			$offScreenUpper = [];
-			$upper = [];
-
-			isDoingTransition = true;
-			scrollTop = window.pageYOffset;
-			upperOffset = 0,
-			lowerOffset = 0;
-
-			// 1st Step: transition the blocks off the screen
-			// a). Batch the upper blocks
-			while(($li = $li.prev()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
-					if(offset > upperOffset) upperOffset = offset;
-					$onScreenUpper.push(li);
-				}
-				else {
-					$offScreenUpper.push(li);
-				}
-				$upper.push(li);
-			}
-
-			// b). reset transition variables
-			$li = $oldLi;
-			// lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
-			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-			highestTop = getCurTop($li);
-			$onScreenLower = [];
-			$offScreenLower = [];
-			$lower = [$li[0]];
-
-			// c). batch lower blocks
-			while(($li = $li.next()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-					if (getCurTop($li) < highestTop) highestTop = getCurTop($li);
-					if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
-
-					$onScreenLower.push(li);
-				} else {
-					$offScreenLower.push(li);
-				}
-				$lower.push(li);
-			}
-
-			// d). transition the blocks
-			$onScreenUpper = $($onScreenUpper);
-			$offScreenUpper = $($offScreenUpper);
-			$onScreenLower = $($onScreenLower);
-			$offScreenLower = $($offScreenLower);
-			$upper = $($upper);
-			$lower = $($lower);
-
-			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
-			$animateOnScrollUpper = $onScreenUpper;
-
-			overhead = max(winHeight, upperOffset);
-			underhead = max(winHeight, lowerWinOffset);
-
-			articleTop = scrollTop + overhead;
-			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-
-			// Move upper blocks
-			$all.find('.shown').removeClass('shown').addClass('visible');
-			$onScreenUpper.removeClass('offScreen').addClass('onScreen')
-				.css('transform', modifyTransform(-upperOffset - offset, true));
-			$offScreenUpper.addClass('offScreen')
-				.css('transform', modifyTransform(-upperOffset - offset));
-
-			// Move lower blocks
-			$onScreenLower.removeClass('offScreen').addClass('onScreen')
-				.css('transform', modifyTransform(lowerWinOffset, true));
-			$offScreenLower.addClass('offScreen')
-				.css('transform', modifyTransform(lowerWinOffset));
-			$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
-				.css('transform', modifyTransform(lowerWinOffset, true));
-
-			$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
-			menuShown = false;
-			$articleMenu.removeClass('hidden');
-			$articleClose.removeClass('hidden').css('z-index', 2);
-
-			// 2nd Step: 
-			// Getting show the loading state and request the article from server
-			// Hookup the handler for jumping the blocks to the actual position
-			$loading.removeClass("hidden");
-			blocksAdjusted = false;
-
-			$.get("/articles/photo-ia-the-sctructure-behind.html", function(articleData) {
-				// Inject article
-				$article.html(articleData);
-				$loading.addClass("hidden");
-
-				// Why is it always short by 1424???
-				articleHeight = $article.height() + 1424;
-
-				lowerOffset = scrollTop + articleHeight - highestTop + PADDING;
-
-				// Show the article, there should probably be more fancy transitions tho
-				articleOpacity = 1;
-				$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0);
-				fadeArticle();
-				isFixed = true;
-				justShowedArticle = true;
-				$article.css('opacity', 1);
-
-				if (blocksAdjusted) {
-					$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
-					$lower.each(function() {
-						this.matrix = $(this).css('transform').match(MATRIX_REGEX);
-					});
-				}
-			});
 		}
+	}
+
+	function openArticle($clicked) {
+		var $onScreenUpper,
+			$onScreenLower,
+			$offScreenUpper,
+			$offScreenLower,
+			$li,
+			li,
+			$oldLi,
+			scrollTop,
+			offset,
+			winOffset,
+			highestTop;
+
+		$li = $oldLi = $clicked.closest('li');
+		$onScreenUpper = [];
+		$offScreenUpper = [];
+		$upper = [];
+
+		isDoingTransition = true;
+		scrollTop = window.pageYOffset;
+		upperOffset = 0,
+		lowerOffset = 0;
+
+		// 1st Step: transition the blocks off the screen
+		// a). Batch the upper blocks
+		while(($li = $li.prev()).length) {
+			li = $li[0];
+			if(isOnScreen($li, scrollTop)) {
+				offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
+				if(offset > upperOffset) upperOffset = offset;
+				$onScreenUpper.push(li);
+			}
+			else {
+				$offScreenUpper.push(li);
+			}
+			$upper.push(li);
+		}
+
+		// b). reset transition variables
+		$li = $oldLi;
+		// lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+		lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+		highestTop = getCurTop($li);
+		$onScreenLower = [];
+		$offScreenLower = [];
+		$lower = [$li[0]];
+
+		// c). batch lower blocks
+		while(($li = $li.next()).length) {
+			li = $li[0];
+			if(isOnScreen($li, scrollTop)) {
+				winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+				if (getCurTop($li) < highestTop) highestTop = getCurTop($li);
+				if (winOffset > lowerWinOffset) lowerWinOffset = winOffset;
+
+				$onScreenLower.push(li);
+			} else {
+				$offScreenLower.push(li);
+			}
+			$lower.push(li);
+		}
+
+		// d). transition the blocks
+		$onScreenUpper = $($onScreenUpper);
+		$offScreenUpper = $($offScreenUpper);
+		$onScreenLower = $($onScreenLower);
+		$offScreenLower = $($offScreenLower);
+		$upper = $($upper);
+		$lower = $($lower);
+
+		$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+		$animateOnScrollUpper = $onScreenUpper;
+
+		overhead = max(winHeight, upperOffset);
+		underhead = max(winHeight, lowerWinOffset);
+
+		articleTop = scrollTop + overhead;
+		offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
+
+		// Move upper blocks
+		$all.find('.shown').removeClass('shown').addClass('visible');
+		$onScreenUpper.removeClass('offScreen').addClass('onScreen')
+			.css('transform', modifyTransform(-upperOffset - offset, true));
+		$offScreenUpper.addClass('offScreen')
+			.css('transform', modifyTransform(-upperOffset - offset));
+
+		// Move lower blocks
+		$onScreenLower.removeClass('offScreen').addClass('onScreen')
+			.css('transform', modifyTransform(lowerWinOffset, true));
+		$offScreenLower.addClass('offScreen')
+			.css('transform', modifyTransform(lowerWinOffset));
+		$oldLi.removeClass('offScreen').addClass('delay onScreen lower')
+			.css('transform', modifyTransform(lowerWinOffset, true));
+
+		$menu.removeClass('offScreen closing show').addClass('hide').css('transform', '');
+		menuShown = false;
+		$articleMenu.removeClass('hidden');
+		$articleClose.removeClass('hidden').css('z-index', 2);
+
+		// 2nd Step:
+		// Getting show the loading state and request the article from server
+		// Hookup the handler for jumping the blocks to the actual position
+		$loading.removeClass("hidden");
+		blocksAdjusted = false;
+
+		$.get("/articles/photo-ia-the-sctructure-behind.html", function(articleData) {
+			// Inject article
+			$article.html(articleData);
+			$loading.addClass("hidden");
+
+			// Why is it always short by 1424???
+			articleHeight = $article.height() + 1424;
+
+			lowerOffset = scrollTop + articleHeight - highestTop + PADDING;
+
+			// Show the article, there should probably be more fancy transitions tho
+			articleOpacity = 1;
+			$article.addClass('fixed fadeIn').removeClass('hidden').css('top', 0);
+			fadeArticle();
+			isFixed = true;
+			justShowedArticle = true;
+			$article.css('opacity', 1);
+
+			if (blocksAdjusted) {
+				$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
+				$lower.each(function() {
+					this.matrix = $(this).css('transform').match(MATRIX_REGEX);
+				});
+			}
+		});
 	}
 
 	function onKeyDown(e) {
