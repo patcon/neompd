@@ -6,7 +6,8 @@ window.Router = Backbone.Router.extend({
     },
 
     index: function() {
-        var self = this;
+        var self = this,
+            view = new TagView();
 
         setTimeout(function() {
             self.once('route', function() {
@@ -15,7 +16,8 @@ window.Router = Backbone.Router.extend({
     },
 
     tag: function(tag) {
-        var self = this;
+        var self = this,
+            view = new TagView();
 
         setTimeout(function() {
             self.once('route', function() {
@@ -24,10 +26,12 @@ window.Router = Backbone.Router.extend({
     },
 
     article: function(tag, article) {
-        var self = this;
+        var self = this,
+            view = new ArticleView({ model: { id: article, tag: tag } });
 
         setTimeout(function() {
             self.once('route', function() {
+                view.destroy();
             });
         }, 0);
     }

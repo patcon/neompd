@@ -211,6 +211,7 @@ var Homepage = (function homepage(defaultVals) {
 		$lower.css('transform', modifyTransform(overhead));
 		$upper.css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 		$container.removeClass('transition').css('height', '+=' + (articleHeight + lowerOffset));
+		console.log('increasing', (articleHeight), (lowerOffset))
 		$articleClose.addClass('shown').css('z-index', 3);
 		$menu.addClass('offScreen');
 		noScrollEvents = true;
@@ -522,27 +523,12 @@ var Homepage = (function homepage(defaultVals) {
 		}
 	}
 
-	function onClick(e) {
-		var $clicked;
 
-		if(($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container)) {
-			e.preventDefault();
-			e.stopPropagation();
-
-			if(articleHeight !== null) {
-				return closeArticle(true);
-			} else {
-				openArticle($clicked);
-			}
-		}
-	}
-
-	function openArticle($clicked) {
+	function openArticle($li) {
 		var $onScreenUpper,
 			$onScreenLower,
 			$offScreenUpper,
 			$offScreenLower,
-			$li,
 			li,
 			$oldLi,
 			scrollTop,
@@ -550,7 +536,7 @@ var Homepage = (function homepage(defaultVals) {
 			winOffset,
 			highestTop;
 
-		$li = $oldLi = $clicked.closest('li');
+		$oldLi = $li;
 		$onScreenUpper = [];
 		$offScreenUpper = [];
 		$upper = [];
@@ -649,6 +635,7 @@ var Homepage = (function homepage(defaultVals) {
 
 			// Why is it always short by 1424???
 			articleHeight = $article.height() + 1424;
+			console.log('article height', articleHeight)
 
 			lowerOffset = scrollTop + articleHeight - highestTop + PADDING;
 
@@ -675,7 +662,7 @@ var Homepage = (function homepage(defaultVals) {
 			if($searchBox.is(':focus')) {
 				return $searchBox.blur();
 			}
-			closeArticle(true);
+			window.location = $articleClose.get(0).href;
 			onMenuClick();
 		}
 	}
@@ -704,10 +691,6 @@ var Homepage = (function homepage(defaultVals) {
 		menuShown = true;
 	}
 
-	function onCloseClick() {
-		closeArticle(true);
-	}
-
 	function onFilterClick(e) {
 		var $clicked = $(e.target).closest('li');
 		if($clicked.length) {
@@ -725,7 +708,6 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 
-	$window.on('click', onClick);
 	$window.on('unload', onUnload);
 	$window.on('resize', onResize);
 
@@ -733,13 +715,34 @@ var Homepage = (function homepage(defaultVals) {
 	$menu.on('click', onFilterClick);
 
 	// $article.on("transitionend", function() { $article.removeClass('fadeIn'); console.log("huh?"); });
-	$articleClose.on('click', onCloseClick)
-
 	$container.on('transitionend', onTransitionEnd);
 	$container.imagesLoaded(onLoad);
 
 	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
+
+	window.TagView = Backbone.View.extend({
+		initialize: function () {
+			console.log('tag view');
+		}
+	});
+
+	window.ArticleView = Backbone.View.extend({
+		initialize: function () {
+			console.log('article view', this.model);
+
+			// for testing purposes, article "id" is the index of the corresponding list item
+			var $li = $container.children().eq(parseInt(this.model.id, 10));
+
+			$articleClose.attr('href', '#tags/' + this.model.tag);
+
+			openArticle($li);
+		},
+
+		destroy: function () {
+			closeArticle(true);
+		}
+	});
 
 	return {
 		upperOffset: function() {

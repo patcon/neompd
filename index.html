@@ -763,6 +763,9 @@
 	<script src="scripts/homepage.js"></script>
 	<script src="scripts/router.js"></script>
 	<script type="text/javascript">
+		// @todo DELETE THIS EVENTUALLY
+		$('#grid > li > a').each(function (index) { $(this).attr('href', '#tags/sampleTag/' + index); });
+
 		$(function() {
 			var router = new Router;
 			Backbone.history.start();
