@@ -94,6 +94,8 @@ window.ArticleView = Backbone.View.extend({
         var self = this;
 
         this.articleTop = 0;
+        this.articleBottom = Math.POSITIVE_INFINITY;
+
         this.lastScrollTime = 0;
 
         this.SCROLLBACK_DISTANCE = 200;
@@ -132,6 +134,8 @@ window.ArticleView = Backbone.View.extend({
             self.loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
+
+                self.articleBottom = self.articleTop + self.$article.height();
             });
         });
 
@@ -146,7 +150,7 @@ window.ArticleView = Backbone.View.extend({
                 self.lastScrollTime = new Date().getTime();
             }
 
-            self.trackBounds($(window).scrollTop());
+            self.trackBounds($(window).scrollTop(), $(window).height());
         }
 
         $(document).on('scroll', onScroll);
@@ -174,10 +178,13 @@ window.ArticleView = Backbone.View.extend({
         }
     },
 
-    trackBounds: function (scrollTop) {
+    trackBounds: function (scrollTop, scrollHeight) {
+        var minScrollTop = this.articleTop - this.SCROLLBACK_DISTANCE,
+            maxScrollBottom = this.articleBottom + this.SCROLLBACK_DISTANCE;
+
         this.$article.toggleClass('aboveBound', (scrollTop <= this.articleTop));
 
-        if (scrollTop + this.SCROLLBACK_DISTANCE < this.articleTop) {
+        if (scrollTop < minScrollTop || scrollTop + scrollHeight > maxScrollBottom) {
             window.location = this.$articleClose.get(0).href;
         }
     },
