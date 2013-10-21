@@ -91,13 +91,54 @@ window.ArticleView = Backbone.View.extend({
     initialize: function () {
         console.log('article view', this.model);
 
-        // for testing purposes, article "id" is the index of the corresponding list item
-        var $li = $('#grid').children().eq(parseInt(this.model.id, 10));
+        var self = this;
 
-        $('#close').attr('href', '#tags/' + this.model.tag);
+        this.$article = $('#article');
+        this.$articleClose = $('#close');
+        this.$container = $('#grid');
+
+        // for testing purposes, article "id" is the index of the corresponding list item
+        this.$li = this.$container.children().eq(parseInt(this.model.id, 10));
+
+        // turn off mouse events
+        this.$container.css('pointer-events', 'none').addClass('backgroundMode');
+
+        // trigger slide transition
+        this.$li.prevAll().addClass('dismissedUp');
+        this.$li.nextAll().andSelf().addClass('dismissedDown');
+
+        this.$articleClose = $('#close').attr('href', '#tags/' + this.model.tag).removeClass('hidden');
+
+        this.$container.isotope({
+            itemSelector: 'li',
+            itemPositionDataEnabled: true
+        }, function () {
+            var position = self.$li.data('isotope-item-position'),
+                scrollTop = $(window).scrollTop(),
+                maxLeeway = $(window).height() * 0.5,
+
+                // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
+                articleTop = (position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y);
+
+            self.$article.css({ position: 'absolute', top: articleTop });
+            $(window).scrollTop(articleTop);
+
+            self.loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
+                self.$article.removeClass('hidden');
+                self.$article.html(data);
+            });
+        });
     },
 
     destroy: function () {
+        this.loadRequest.abort();
+
+        this.$article.addClass('hidden');
+        this.$articleClose.addClass('hidden');
+
+        this.$container.css('pointer-events', 'auto');
+        this.$li.prevAll().removeClass('dismissedUp');
+        this.$li.nextAll().andSelf().removeClass('dismissedDown');
     }
 });
 
