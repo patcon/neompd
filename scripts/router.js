@@ -91,7 +91,8 @@ window.ArticleView = Backbone.View.extend({
     initialize: function () {
         console.log('article view', this.model);
 
-        var self = this;
+        var self = this,
+            scrollAnimationIntervalId;
 
         this.articleTop = 0;
         this.articleBottom = Math.POSITIVE_INFINITY;
@@ -123,7 +124,8 @@ window.ArticleView = Backbone.View.extend({
         }, function () {
             var position = self.$li.data('isotope-item-position'),
                 scrollTop = $(window).scrollTop(),
-                maxLeeway = $(window).height() * 0.5;
+                maxLeeway = $(window).height() * 0.5,
+                loadRequest;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
             self.articleTop = (position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y);
@@ -131,15 +133,23 @@ window.ArticleView = Backbone.View.extend({
             self.$article.css({ position: 'absolute', top: self.articleTop });
             $(window).scrollTop(self.articleTop);
 
-            self.loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
+            loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
 
                 self.articleBottom = self.articleTop + self.$article.height();
             });
+
+            self.once('destroy', function () {
+                loadRequest.abort();
+            })
         });
 
-        this.scrollAnimationIntervalId = setInterval(_.bind(this.animateScrollback, this), 20);
+        scrollAnimationIntervalId = setInterval(_.bind(this.animateScrollback, this), 20);
+
+        this.once('destroy', function () {
+            clearInterval(scrollAnimationIntervalId);
+        });
 
         this.lastScrollWasAutomatic = false;
 
@@ -150,14 +160,14 @@ window.ArticleView = Backbone.View.extend({
                 self.lastScrollTime = new Date().getTime();
             }
 
-            self.trackBounds($(window).scrollTop(), $(window).height());
+            //self.trackBounds($(window).scrollTop(), $(window).height());
         }
 
         $(document).on('scroll', onScroll);
 
-        this.unbindScroll = function () {
+        this.once('destroy', function () {
             $(document).off('scroll', onScroll);
-        }
+        });
     },
 
     animateScrollback: function () {
@@ -190,10 +200,7 @@ window.ArticleView = Backbone.View.extend({
     },
 
     destroy: function () {
-        clearInterval(this.scrollAnimationIntervalId);
-        this.unbindScroll();
-
-        this.loadRequest.abort();
+        this.trigger('destroy');
 
         this.$article.addClass('hidden');
         this.$articleClose.addClass('hidden');

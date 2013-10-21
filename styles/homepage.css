@@ -44,7 +44,7 @@ body[data-ready] {
 	opacity: 1;
 }
 body::-webkit-scrollbar  {
-	width:0;
+	x-width:0;
 }
 #grid > li {
 	list-style:none;
