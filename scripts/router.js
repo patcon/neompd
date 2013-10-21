@@ -94,7 +94,9 @@ window.ArticleView = Backbone.View.extend({
         var self = this;
 
         this.articleTop = 0;
-        this.articleBottom = Math.POSITIVE_INFINITY;
+        this.articleBottom = Number.POSITIVE_INFINITY;
+
+        this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
 
         this.SCROLLBACK_DISTANCE = 200;
         this.SCROLLBACK_DELAY = 1000;
@@ -179,7 +181,7 @@ window.ArticleView = Backbone.View.extend({
                 lastScrollTime = new Date().getTime();
             }
 
-            //this.trackBounds($(window).scrollTop(), $(window).height());
+            this.trackBounds($(window).scrollTop(), $(window).height());
         }, this);
 
         $(document).on('scroll', onScroll);
@@ -191,7 +193,26 @@ window.ArticleView = Backbone.View.extend({
 
     trackBounds: function (scrollTop, scrollHeight) {
         var minScrollTop = this.articleTop - this.SCROLLBACK_DISTANCE,
-            maxScrollBottom = this.articleBottom + this.SCROLLBACK_DISTANCE;
+            maxScrollBottom = this.articleBottom + this.SCROLLBACK_DISTANCE,
+            currentTime = new Date().getTime(),
+            originalScrollTop = scrollTop;
+
+        if (scrollTop > this.articleTop && scrollTop + scrollHeight < this.articleBottom) {
+            // only reset the flag if back *inside* the article and not on the exact top
+            this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
+        } else if (this.keepScrollInArticleUntil > currentTime) {
+            if (scrollTop < this.articleTop) {
+                this.keepScrollInArticleUntil = currentTime + 200;
+                scrollTop = this.articleTop;
+            } else if (scrollTop + scrollHeight > this.articleBottom) {
+                this.keepScrollInArticleUntil = currentTime + 200;
+                scrollTop = this.articleBottom - scrollHeight;
+            }
+        }
+
+        if (scrollTop !== originalScrollTop) {
+            $(window).scrollTop(scrollTop);
+        }
 
         this.$article.toggleClass('aboveBound', (scrollTop <= this.articleTop));
 
