@@ -40,6 +40,9 @@ body {
 	font:12px TradeGothic, Helvetica, sans-serif;
 	background-color: #f9f9f9;
 }
+body[data-ready] {
+	opacity: 1;
+}
 body::-webkit-scrollbar  {
 	width:0;
 }
@@ -75,17 +78,25 @@ body::-webkit-scrollbar  {
 #grid > li {
   	-webkit-transition-property: -webkit-transform;
   	-moz-transition-property: -moz-transform;
-  	opacity:0;
   	width:290px;
   	padding: 0;
   	margin:10px;
   	font-family: Plantin;
 	border-radius: 3px;
+	pointer-events: none;
 }
 #grid > li > a {
+	display:block;
+  	opacity:0;
   	background:#fff url(../images/footer-news.jpg) no-repeat 98% 99%;
 	background-size: 40px 35px;
 	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+
+	-webkit-transform: translate3d(0, 200px, 0);
+}
+#grid > li.read > a {
+  	opacity:1;
+	-webkit-transform: translate3d(0, 0, 0);
 }
 #grid > li.design > a {
 	background-image: url(../images/footer-design.jpg)
@@ -175,9 +186,8 @@ body::-webkit-scrollbar  {
 	z-index: 0;
 }
 #grid > li > a {
-	display:inline-block;
-	-webkit-transition:-webkit-transform 0.5s ease-out;/*, -webkit-filter 0.5s;*/
-	-moz-transition:-moz-transform 0.5s ease-out;/*, -webkit-filter 0.5s;*/
+	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
+	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
 #grid > li > a {
 	border-radius:4px;

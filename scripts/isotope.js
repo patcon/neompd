@@ -3,12 +3,10 @@
  * An exquisite jQuery plugin for magical layouts
  * http://isotope.metafizzy.co
  *
- * Commercial use requires one-time purchase of a commercial license
- * http://isotope.metafizzy.co/docs/license.html
+ * Commercial use requires one-time license fee
+ * http://metafizzy.co/#licenses
  *
- * Non-commercial use is licensed under the MIT License
- *
- * Copyright 2013 Metafizzy
+ * Copyright 2012 David DeSandro / Metafizzy
  */
 
 /*jshint asi: true, browser: true, curly: true, eqeqeq: true, forin: false, immed: false, newcap: true, noempty: true, strict: true, undef: true */
@@ -199,9 +197,6 @@
 
       // set name to vendor specific property
       elem.style[ transformProp ] = valueFns;
-      //console.log('a:' + elem.matrix);
-      //elem.matrix = $(elem).css('transform');
-      //console.log('b:' + elem.matrix);
     };
 
     // ==================== scale ===================
@@ -602,18 +597,13 @@
       return { left: x, top: y };
     },
 
-    _pushPosition : function( $elem, x, y, isUpper ) {
+    _pushPosition : function( $elem, x, y ) {
       x = Math.round( x + this.offset.left );
       y = Math.round( y + this.offset.top );
       var position = this.getPositionStyles( x, y );
       this.styleQueue.push({ $el: $elem, style: position });
       if ( this.options.itemPositionDataEnabled ) {
         $elem.data('isotope-item-position', {x: x, y: y} );
-      }
-      if(isUpper === true) {
-        this.$upper.push($elem[0]);
-      } else if(isUpper === false) {
-        this.$lower.push($elem[0]);
       }
     },
 
@@ -636,12 +626,7 @@
       }
 
       this._processStyleQueue( $elems, callback );
-      if(this.$upper.length || this.$lower.length) {
-        Homepage.setState({
-          $upper: $(this.$upper),
-          $lower: $(this.$lower)
-        });
-      }
+
       this.isLaidOut = true;
     },
 
@@ -726,20 +711,14 @@
       }
 
       // process styleQueue
-      if(this.resized.length) {
-        $(this.resized).removeClass('offScreen').addClass('resized');
+      $.each( this.styleQueue, processor );
+
+      if ( triggerCallbackNow ) {
+        callbackFn();
       }
-      var that = this;
-      setTimeout(function() {
-        $.each( that.styleQueue, processor );
 
-        if ( triggerCallbackNow ) {
-          callbackFn();
-        }
-
-        // clear out queue for next time
-        that.styleQueue = [];
-      },0);
+      // clear out queue for next time
+      this.styleQueue = [];
     },
 
 
@@ -949,15 +928,11 @@
       while (i--) {
         this.masonry.colYs.push( 0 );
       }
-      this.$upper = [];
-      this.$lower = [];
-      this.resized = [];
     },
 
     _masonryLayout : function( $elems ) {
       var instance = this,
           props = instance.masonry;
-
       $elems.each(function(){
         var $this  = $(this),
             //how many columns does this brick span
@@ -974,6 +949,7 @@
               groupY = [],
               groupColY,
               i;
+
           // for each group potential horizontal position
           for ( i=0; i < groupCount; i++ ) {
             // make an array of colY values for that one group
@@ -991,12 +967,12 @@
     //   with the the minY
     _masonryPlaceBrick : function( $brick, setY ) {
       // get the minimum Y value from the columns
-      var y = Math.min.apply( Math, setY ),
+      var minimumY = Math.min.apply( Math, setY ),
           shortCol = 0;
 
       // Find index of short column, the first from the left
       for (var i=0, len = setY.length; i < len; i++) {
-        if ( setY[i] === y ) {
+        if ( setY[i] === minimumY ) {
           shortCol = i;
           break;
         }
@@ -1004,37 +980,20 @@
 
       // position the brick
       var x = this.masonry.columnWidth * shortCol,
-          loadingOffset = $brick.hasClass('shown') || $brick.hasClass('visible') ? 0 : Homepage.LOADING_Y_OFFSET,
-          height = $brick.outerHeight(true),
-          articleTop,
-          isUpper = null,
-          articleHeight;
-
-      if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
-        this.resized.push($brick[0]);
-      	if(y + height > (articleTop = Homepage.articleTop()) && y < (articleHeight + articleTop)) {
-      		y += articleHeight + Homepage.lowerOffset();
-          isUpper = false;
-        } else if(y + height > articleTop) {
-          isUpper = false;
-        } else {
-          isUpper = true;
-        }
-      }
-
-      this._pushPosition( $brick, x, y + loadingOffset, isUpper );
+          y = minimumY;
+      this._pushPosition( $brick, x, y );
 
       // apply setHeight to necessary columns
-      var setHeight = y + height,
+      var setHeight = minimumY + $brick.outerHeight(true),
           setSpan = this.masonry.cols + 1 - len;
-
       for ( i=0; i < setSpan; i++ ) {
         this.masonry.colYs[ shortCol + i ] = setHeight;
       }
+
     },
 
     _masonryGetContainerSize : function() {
-      var containerHeight = Math.max.apply( Math, this.masonry.colYs );// + (Homepage.articleHeight() || 0);
+      var containerHeight = Math.max.apply( Math, this.masonry.colYs );
       return { height: containerHeight };
     },
 
@@ -1043,7 +1002,7 @@
     },
 
     // ====================== fitRows ======================
-/*
+
     _fitRowsReset : function() {
       this.fitRows = {
         x : 0,
@@ -1330,7 +1289,7 @@
     _straightAcrossResizeChanged : function() {
       return true;
     }
-  */
+
   };
 
 
