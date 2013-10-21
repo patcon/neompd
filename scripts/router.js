@@ -20,22 +20,12 @@ function binarySearch(value, first, last, getter) {
     return last;
 }
 
-$(function () {
-    $container = $('#grid');
-
-    function initializeScrollReader() {
-        var hiddenItems = [],
+window.TagView = Backbone.View.extend({
+    initialize: function () {
+        var $container = $('#grid'),
+            hiddenItems = [],
             queuedReadItems = [],
             paintPending = false;
-
-        $container.find('li').each(function (i) {
-            var $item = $(this),
-                position = $item.data('isotope-item-position');
-
-            hiddenItems[i] = { y: position.y, $item: $item };
-        });
-
-        hiddenItems.sort(function (a, b) { return a.y - b.y });
 
         function processQueuedReadItems() {
             if (paintPending) {
@@ -47,7 +37,6 @@ $(function () {
 
                 requestAnimationFrame(function () {
                     queuedReadItems.splice(0, 4).forEach(function (tuple) {
-                        console.log('yup')
                         tuple.$item.addClass('read');
                     });
 
@@ -73,24 +62,25 @@ $(function () {
             processQueuedReadItems();
         }
 
-        $(document).on('scroll', function () {
+        $container.isotope({
+            itemSelector: 'li',
+            itemPositionDataEnabled: true
+        }, function () {
+            $container.children('li:not(.read)').each(function (i) {
+                var $item = $(this),
+                    position = $item.data('isotope-item-position');
+
+                hiddenItems.push({ y: position.y, $item: $item });
+            });
+
+            hiddenItems.sort(function (a, b) { return a.y - b.y });
+
+            $(document).on('scroll', function () {
+                markItemsAsRead();
+            });
+
             markItemsAsRead();
         });
-
-        markItemsAsRead();
-    }
-
-    $container.isotope({
-        itemSelector: 'li',
-        itemPositionDataEnabled: true
-    }, function () {
-        initializeScrollReader();
-    });
-});
-
-window.TagView = Backbone.View.extend({
-    initialize: function () {
-        console.log('tag view');
     }
 });
 
@@ -99,9 +89,9 @@ window.ArticleView = Backbone.View.extend({
         console.log('article view', this.model);
 
         // for testing purposes, article "id" is the index of the corresponding list item
-        var $li = $container.children().eq(parseInt(this.model.id, 10));
+        var $li = $('#grid').children().eq(parseInt(this.model.id, 10));
 
-        $articleClose.attr('href', '#tags/' + this.model.tag);
+        $('#close').attr('href', '#tags/' + this.model.tag);
     },
 
     destroy: function () {
