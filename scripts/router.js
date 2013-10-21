@@ -91,13 +91,10 @@ window.ArticleView = Backbone.View.extend({
     initialize: function () {
         console.log('article view', this.model);
 
-        var self = this,
-            scrollAnimationIntervalId;
+        var self = this;
 
         this.articleTop = 0;
         this.articleBottom = Math.POSITIVE_INFINITY;
-
-        this.lastScrollTime = 0;
 
         this.SCROLLBACK_DISTANCE = 200;
         this.SCROLLBACK_DELAY = 1000;
@@ -145,47 +142,51 @@ window.ArticleView = Backbone.View.extend({
             })
         });
 
-        scrollAnimationIntervalId = setInterval(_.bind(this.animateScrollback, this), 20);
+        this.setupScroll();
+    },
+
+    setupScroll: function () {
+        var lastScrollTime = 0,
+            lastScrollWasAutomatic = false,
+            scrollAnimationIntervalId,
+            onScroll;
+
+        scrollAnimationIntervalId = setInterval(_.bind(function () {
+            var currentTime = new Date().getTime(),
+                scrollTop;
+
+            if (lastScrollTime + this.SCROLLBACK_DELAY > currentTime) {
+                return;
+            }
+
+            scrollTop = $(window).scrollTop();
+
+            if (scrollTop < this.articleTop) {
+                // simple asymptotic animation
+                lastScrollWasAutomatic = true;
+                $(window).scrollTop(scrollTop + Math.ceil(0.2 * (this.articleTop - scrollTop)));
+            }
+        }, this), 20);
 
         this.once('destroy', function () {
             clearInterval(scrollAnimationIntervalId);
         });
 
-        this.lastScrollWasAutomatic = false;
-
-        function onScroll() {
-            if (self.lastScrollWasAutomatic) {
-                self.lastScrollWasAutomatic = false;
+        onScroll = _.bind(function () {
+            if (lastScrollWasAutomatic) {
+                lastScrollWasAutomatic = false;
             } else {
-                self.lastScrollTime = new Date().getTime();
+                lastScrollTime = new Date().getTime();
             }
 
-            //self.trackBounds($(window).scrollTop(), $(window).height());
-        }
+            //this.trackBounds($(window).scrollTop(), $(window).height());
+        }, this);
 
         $(document).on('scroll', onScroll);
 
         this.once('destroy', function () {
             $(document).off('scroll', onScroll);
         });
-    },
-
-    animateScrollback: function () {
-        var currentTime = new Date().getTime(),
-            self = this,
-            scrollTop;
-
-        if (this.lastScrollTime + this.SCROLLBACK_DELAY > currentTime) {
-            return;
-        }
-
-        scrollTop = $(window).scrollTop();
-
-        if (scrollTop < this.articleTop) {
-            // simple asymptotic animation
-            self.lastScrollWasAutomatic = true;
-            $(window).scrollTop(scrollTop + Math.ceil(0.2 * (this.articleTop - scrollTop)));
-        }
     },
 
     trackBounds: function (scrollTop, scrollHeight) {
