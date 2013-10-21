@@ -75,12 +75,15 @@ window.TagView = Backbone.View.extend({
 
             hiddenItems.sort(function (a, b) { return a.y - b.y });
 
-            $(document).on('scroll', function () {
-                markItemsAsRead();
-            });
-
             markItemsAsRead();
         });
+
+        // immediately register scroll callback to be able to clear it before Isotope finishes
+        $(document).on('scroll', markItemsAsRead);
+
+        this.destroy = function () {
+            $(document).off('scroll', markItemsAsRead);
+        }
     }
 });
 
@@ -111,6 +114,7 @@ window.Router = Backbone.Router.extend({
 
         setTimeout(function() {
             self.once('route', function() {
+                view.destroy();
             });
         }, 0);
     },
@@ -121,6 +125,7 @@ window.Router = Backbone.Router.extend({
 
         setTimeout(function() {
             self.once('route', function() {
+                view.destroy();
             });
         }, 0);
     },

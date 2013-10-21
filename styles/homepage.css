@@ -83,7 +83,6 @@ body::-webkit-scrollbar  {
   	margin:10px;
   	font-family: Plantin;
 	border-radius: 3px;
-	pointer-events: none;
 }
 #grid > li > a {
 	display:block;
