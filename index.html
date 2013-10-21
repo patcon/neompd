@@ -767,8 +767,12 @@
 		$('#grid > li > a').each(function (index) { $(this).attr('href', '#tags/sampleTag/' + index); });
 
 		$(function() {
-			var router = new Router;
-			Backbone.history.start();
+		    $('#grid').imagesLoaded(function () {
+				var router = new Router();
+				Backbone.history.start();
+
+			    $(document.body).attr('data-ready', true);
+			});
 		});
 	</script>
 </body>

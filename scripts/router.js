@@ -80,16 +80,12 @@ $(function () {
         markItemsAsRead();
     }
 
-    $container.imagesLoaded(function () {
-        $container.isotope({
-            itemSelector: 'li',
-            itemPositionDataEnabled: true
-        }, function () {
-            initializeScrollReader();
-        });
+    $container.isotope({
+        itemSelector: 'li',
+        itemPositionDataEnabled: true
+    }, function () {
+        initializeScrollReader();
     });
-
-    $(document.body).attr('data-ready', true);
 });
 
 window.TagView = Backbone.View.extend({
