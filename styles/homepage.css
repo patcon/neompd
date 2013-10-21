@@ -430,7 +430,6 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	width:auto;
 }
 #article {
-	-webkit-transform:translateZ(0);
 	display:block;
 	position: absolute;
 	z-index: 1;
@@ -439,6 +438,12 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	right: 0;
 	margin-left:190px;
 	min-height: 100%;
+}
+
+#article.aboveBound .banner {
+	top:0;
+	left:0px;
+	position:fixed;
 }
 
 #article.fixed {

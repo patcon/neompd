@@ -93,6 +93,12 @@ window.ArticleView = Backbone.View.extend({
 
         var self = this;
 
+        this.articleTop = 0;
+        this.lastScrollTime = 0;
+
+        this.SCROLLBACK_DISTANCE = 200;
+        this.SCROLLBACK_DELAY = 1000;
+
         this.$article = $('#article');
         this.$articleClose = $('#close');
         this.$container = $('#grid');
@@ -115,22 +121,71 @@ window.ArticleView = Backbone.View.extend({
         }, function () {
             var position = self.$li.data('isotope-item-position'),
                 scrollTop = $(window).scrollTop(),
-                maxLeeway = $(window).height() * 0.5,
+                maxLeeway = $(window).height() * 0.5;
 
-                // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-                articleTop = (position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y);
+            // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
+            self.articleTop = (position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y);
 
-            self.$article.css({ position: 'absolute', top: articleTop });
-            $(window).scrollTop(articleTop);
+            self.$article.css({ position: 'absolute', top: self.articleTop });
+            $(window).scrollTop(self.articleTop);
 
             self.loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
             });
         });
+
+        this.scrollAnimationIntervalId = setInterval(_.bind(this.animateScrollback, this), 20);
+
+        this.lastScrollWasAutomatic = false;
+
+        function onScroll() {
+            if (self.lastScrollWasAutomatic) {
+                self.lastScrollWasAutomatic = false;
+            } else {
+                self.lastScrollTime = new Date().getTime();
+            }
+
+            self.trackBounds($(window).scrollTop());
+        }
+
+        $(document).on('scroll', onScroll);
+
+        this.unbindScroll = function () {
+            $(document).off('scroll', onScroll);
+        }
+    },
+
+    animateScrollback: function () {
+        var currentTime = new Date().getTime(),
+            self = this,
+            scrollTop;
+
+        if (this.lastScrollTime + this.SCROLLBACK_DELAY > currentTime) {
+            return;
+        }
+
+        scrollTop = $(window).scrollTop();
+
+        if (scrollTop < this.articleTop) {
+            // simple asymptotic animation
+            self.lastScrollWasAutomatic = true;
+            $(window).scrollTop(scrollTop + Math.ceil(0.2 * (this.articleTop - scrollTop)));
+        }
+    },
+
+    trackBounds: function (scrollTop) {
+        this.$article.toggleClass('aboveBound', (scrollTop <= this.articleTop));
+
+        if (scrollTop + this.SCROLLBACK_DISTANCE < this.articleTop) {
+            window.location = this.$articleClose.get(0).href;
+        }
     },
 
     destroy: function () {
+        clearInterval(this.scrollAnimationIntervalId);
+        this.unbindScroll();
+
         this.loadRequest.abort();
 
         this.$article.addClass('hidden');
