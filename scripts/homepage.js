@@ -265,6 +265,7 @@ var Homepage = (function homepage(defaultVals) {
 				if(isDoingTransition) {
 					return;
 				}
+
 				moreThanOneFrame = $toAnim.length > ANIMATION_EL_THRESHOLD;
 				$($toAnim.splice(0, ANIMATION_EL_THRESHOLD))
 					.addClass('shown').removeClass('offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
@@ -293,9 +294,15 @@ var Homepage = (function homepage(defaultVals) {
 		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
 	}
 
+	function endFixArticle() {
+		$articleClose.css('zIndex', 2);
+	}
+
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
+
 		noScrollEvents = false;
+		requestAnimationFrame(endFixArticle)
 	}
 
 	function fadeArticle() {
@@ -344,6 +351,24 @@ var Homepage = (function homepage(defaultVals) {
 		isLowerClosingState = false;
 	}
 
+	function wheel(e) {
+	  e.preventDefault();
+	}
+
+	function disable_scroll() {
+	  if (window.addEventListener) {
+	      window.addEventListener('DOMMouseScroll', wheel, false);
+	  }
+	  window.onmousewheel = document.onmousewheel = wheel;
+	}
+
+	function enable_scroll() {
+	    if (window.removeEventListener) {
+	        window.removeEventListener('DOMMouseScroll', wheel, false);
+	    }
+	    window.onmousewheel = document.onmousewheel = null;
+	}
+
 	function onScroll() {
 		var scrollTop,
 			val;
@@ -360,7 +385,6 @@ var Homepage = (function homepage(defaultVals) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
 				if (!isFixed) {
 					isFixed = true;
-					$articleClose.css('zIndex', 2);
 					fixArticle();
 				} else {
 					if (lowerOffset > winHeight) {
@@ -387,7 +411,7 @@ var Homepage = (function homepage(defaultVals) {
 			} else if(scrollTop >= articleTop && (scrollTop <= articleTop + articleHeight - winHeight)) {
 				if(isLowerClosingState) {
 					$articleClose.css('zIndex', 3);
-					isLowerClosingState = false;
+					return isLowerClosingState = false;
 				}
 				// Reset article and lower blocks position
 				if (isFixed) {
@@ -404,7 +428,7 @@ var Homepage = (function homepage(defaultVals) {
 			} else if ((scrollTop > articleTop + articleHeight - winHeight) && (scrollTop < articleTop + articleHeight + (underhead - winHeight))) {
 				if(!isLowerClosingState) {
 					$articleClose.css('zIndex', 2);
-					isLowerClosingState = true;
+					return isLowerClosingState = true;
 				}
 				if (!jumpBottom) {  //jump blocks futher under the article so the tiles move the right amount to close properly
 					jumpBottom = true;
@@ -583,16 +607,10 @@ var Homepage = (function homepage(defaultVals) {
 			isFixed = true;
 			articleOpacity = 1;
 
-			$body.removeClass('scrolling');
-			$wrap.css('height', '');
-			$container.addClass('transition');
 			$all.find('.shown').removeClass('shown').addClass('visible');
-
-			if(loadAnimTimeout) {
-				$toAnim.addClass('visible offScreen').css('transform', modifyTransform(-LOADING_Y_OFFSET, true));
-				clearTimeout(loadAnimTimeout);
-				loadAnimTimeout = false;
-			}
+			$container.addClass('transition');
+			$wrap.css('height', '');
+			$body.removeClass('scrolling');
 
 			requestAnimationFrame(function() {
 				$onScreenUpper.removeClass('offScreen').addClass('onScreen')
@@ -700,7 +718,7 @@ var Homepage = (function homepage(defaultVals) {
 			return upperOffset;
 		},
 		lowerOffset: function() {
-			return lowerOffset;
+			return lowerWinOffset;
 		},
 		articleHeight: function() {
 			return articleHeight;
@@ -712,6 +730,9 @@ var Homepage = (function homepage(defaultVals) {
 			$upper = state.$upper;
 			$lower = state.$lower;
 			$animateOnScroll = state.$lower.slice(0, $animateOnScroll.length);
+			requestAnimationFrame(function() {
+
+			});
 		},
 		LOADING_Y_OFFSET: LOADING_Y_OFFSET
 	};
