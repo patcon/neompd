@@ -1012,7 +1012,7 @@
 
       if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
         this.resized.push($brick[0]);
-      	if(y + height > (articleTop = Homepage.articleTop()) && y < (articleHeight + articleTop)) {
+      	if(y + height > ((articleTop = Homepage.articleTop())) && y < (articleHeight + articleTop)) {
       		y += articleHeight + Homepage.lowerOffset();
           isUpper = false;
         } else if(y + height > articleTop) {

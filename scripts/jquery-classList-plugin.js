@@ -61,16 +61,18 @@
 		};
 
 		plugin.css = function(attr, val) {
-			var t;
-			if(attr === 'transform' && ((t = typeof val) === 'undefined' || t === 'function')) {
-				if(length = this.length) {
-					for (i = 0; i < length; i++) {
-						elem = this[i];
-						if(val) {
-							elem.style[transformProp] = val.call(elem, i, elem.style[transformProp]);
-						} else {
-							return elem.style[transformProp];
-						}
+			var t,
+				useFn;
+			if(!(length = this.length)) {
+				return this;
+			}
+			if(attr === 'transform' && ((t = typeof val) === 'undefined' || (useFn = t === 'function'))) {
+				for (i = 0; i < length; i++) {
+					elem = this[i];
+					if(useFn === true) {
+						elem.style[transformProp] = val.call(elem, i, elem.style[transformProp]);
+					} else {
+						return elem.style[transformProp];
 					}
 				}
 				return this;
