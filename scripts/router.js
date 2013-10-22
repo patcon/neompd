@@ -116,7 +116,6 @@ window.ArticleView = Backbone.View.extend({
         this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
 
         this.TOP_PAD = 2000; // something to be larger than most screen heights
-        this.SCROLLBACK_DISTANCE = 600;
         this.SCROLLBACK_DELAY = 1000;
 
         this.$article = $('#article');
@@ -142,6 +141,11 @@ window.ArticleView = Backbone.View.extend({
         this.$container.children('li').css({
             '-webkit-transition': 'none'
         });
+
+        function augmentTransform($item, yOffset) {
+            var xform = $item.css('-webkit-transform');
+            $item.css('-webkit-transform', xform + ' translate3d(0px, ' + yOffset + 'px, 0px)');
+        }
 
         this.$container.isotope({
             itemSelector: 'li',
@@ -172,14 +176,11 @@ window.ArticleView = Backbone.View.extend({
                 // add the padding
                 self.$bottomPad.css({ height: articleHeight + 'px' });
 
-                // bump down the rest of the layout
+                // bump down the rest of the article grid items
                 bumpTimeoutId = setTimeout(function () {
                     self.$li.nextAll().andSelf().each(function () {
-                        var $item = $(this),
-                            xform = $item.css('-webkit-transform');
-
-                        $item.css('-webkit-transform', xform + ' translate3d(0px, ' + articleHeight + 'px, 0px)');
-                    }).removeClass('dismissedDown');
+                        augmentTransform($(this), articleHeight);
+                    }).addClass('shifted');
                 }, 500);
 
                 self.once('destroy', function () {
@@ -240,8 +241,8 @@ window.ArticleView = Backbone.View.extend({
     },
 
     trackBounds: function (scrollTop, scrollHeight) {
-        var minScrollTop = this.articleTop - this.SCROLLBACK_DISTANCE,
-            maxScrollBottom = this.articleBottom + this.SCROLLBACK_DISTANCE,
+        var minScrollTop = this.articleTop - scrollHeight, // using screen height to avoid jump if returning to edge of page
+            maxScrollBottom = this.articleBottom + scrollHeight,
             currentTime = new Date().getTime(),
             originalScrollTop = scrollTop;
 
@@ -293,6 +294,7 @@ window.ArticleView = Backbone.View.extend({
         });
 
         this.$li.prevAll().removeClass('dismissedUp');
+        this.$li.nextAll().andSelf().removeClass('dismissedDown shifted');
     }
 });
 
