@@ -115,6 +115,7 @@ window.ArticleView = Backbone.View.extend({
 
         this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
 
+        this.TOP_PAD = 2000; // something to be larger than most screen heights
         this.SCROLLBACK_DISTANCE = 200;
         this.SCROLLBACK_DELAY = 1000;
 
@@ -122,17 +123,25 @@ window.ArticleView = Backbone.View.extend({
         this.$articleClose = $('#close');
         this.$container = $('#grid');
 
+        this.$topPad = $('<div></div>').insertBefore(this.$container);
+        this.$bottomPad = $('<div></div>').insertAfter(this.$container);
+
         // for testing purposes, article "id" is the index of the corresponding list item
         this.$li = this.$container.children().eq(parseInt(this.model.id, 10));
 
         // turn off mouse events
-        this.$container.css('pointer-events', 'none').addClass('backgroundMode');
+        this.$container.css('pointer-events', 'none');
 
         // trigger slide transition
         this.$li.prevAll().addClass('dismissedUp');
         this.$li.nextAll().andSelf().addClass('dismissedDown');
 
         this.$articleClose = $('#close').attr('href', '#tags/' + this.model.tag).removeClass('hidden');
+
+        // disable transitions to perform instant layout
+        this.$container.children('li').css({
+            '-webkit-transition': 'none'
+        });
 
         this.$container.isotope({
             itemSelector: 'li',
@@ -144,16 +153,38 @@ window.ArticleView = Backbone.View.extend({
                 loadRequest;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-            self.articleTop = (position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y);
+            self.articleTop = self.TOP_PAD + ((position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y));
 
             self.$article.css({ position: 'absolute', top: self.articleTop });
+            self.$topPad.css({ height: self.TOP_PAD + 'px' });
             $(window).scrollTop(self.articleTop);
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
+                var articleHeight, bumpTimeoutId;
+
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
 
-                self.articleBottom = self.articleTop + self.$article.height();
+                // calculate dimensions after article is visible
+                articleHeight = self.$article.height();
+                self.articleBottom = self.articleTop + articleHeight;
+
+                // add the padding
+                self.$bottomPad.css({ height: articleHeight + 'px' });
+
+                // bump down the rest of the layout
+                bumpTimeoutId = setTimeout(function () {
+                    self.$li.nextAll().andSelf().each(function () {
+                        var $item = $(this),
+                            xform = $item.css('-webkit-transform');
+
+                        $item.css('-webkit-transform', xform + ' translate3d(0px, ' + articleHeight + 'px, 0px)');
+                    }).removeClass('dismissedDown');
+                }, 500);
+
+                self.once('destroy', function () {
+                    clearTimeout(bumpTimeoutId);
+                })
             });
 
             self.once('destroy', function () {
@@ -239,14 +270,26 @@ window.ArticleView = Backbone.View.extend({
     },
 
     destroy: function () {
+        var scrollTop = $(window).scrollTop(),
+            scrollHeight = $(window).height(),
+            restoredScrollTop = scrollTop + scrollHeight > this.articleBottom ? scrollTop - this.articleBottom + this.articleTop : this.articleTop - this.TOP_PAD;
+
         this.trigger('destroy');
 
+        $(window).scrollTop(restoredScrollTop);
+
+        this.$topPad.remove();
+        this.$bottomPad.remove();
         this.$article.addClass('hidden');
         this.$articleClose.addClass('hidden');
 
+        // re-enable mouse events and transitions
         this.$container.css('pointer-events', 'auto');
+        this.$container.children('li').css({
+            '-webkit-transition': ''
+        });
+
         this.$li.prevAll().removeClass('dismissedUp');
-        this.$li.nextAll().andSelf().removeClass('dismissedDown');
     }
 });
 
