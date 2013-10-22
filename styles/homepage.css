@@ -216,8 +216,6 @@ body::-webkit-scrollbar  {
 	-moz-transform:rotate(-180deg) scale(2.5) translateZ(0);
 }
  #grid.scrolling  > li > a, #grid > li.delay > a, #grid > li.offScreen > a, #grid > li.closing > a {
-	-webkit-transform: none !important;
-	-moz-transform: none !important;
 	box-shadow: none !important;
 	cursor: none !important;
 }

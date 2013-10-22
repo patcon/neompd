@@ -25,7 +25,8 @@ window.TagView = Backbone.View.extend({
         var $container = $('#grid'),
             hiddenItems = [],
             queuedReadItems = [],
-            paintPending = false;
+            paintPending = false,
+            mouseEnableTimeoutId = null;
 
         function processQueuedReadItems() {
             if (paintPending) {
@@ -62,6 +63,20 @@ window.TagView = Backbone.View.extend({
             processQueuedReadItems();
         }
 
+        function disableMouseDuringScroll() {
+            if (mouseEnableTimeoutId !== null) {
+                clearTimeout(mouseEnableTimeoutId);
+            } else {
+                $container.css('pointer-events', 'none').addClass('scrolling');
+            }
+
+            mouseEnableTimeoutId = setTimeout(function () {
+                mouseEnableTimeoutId = null;
+
+                $container.css('pointer-events', '').removeClass('scrolling');
+            }, 100);
+        }
+
         $container.isotope({
             itemSelector: 'li',
             itemPositionDataEnabled: true
@@ -80,9 +95,11 @@ window.TagView = Backbone.View.extend({
 
         // immediately register scroll callback to be able to clear it before Isotope finishes
         $(document).on('scroll', markItemsAsRead);
+        $(document).on('scroll', disableMouseDuringScroll);
 
         this.destroy = function () {
             $(document).off('scroll', markItemsAsRead);
+            $(document).off('scroll', disableMouseDuringScroll);
         }
     }
 });
