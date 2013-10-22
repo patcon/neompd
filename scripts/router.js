@@ -116,7 +116,7 @@ window.ArticleView = Backbone.View.extend({
         this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
 
         this.TOP_PAD = 2000; // something to be larger than most screen heights
-        this.SCROLLBACK_DISTANCE = 200;
+        this.SCROLLBACK_DISTANCE = 600;
         this.SCROLLBACK_DELAY = 1000;
 
         this.$article = $('#article');
@@ -272,7 +272,10 @@ window.ArticleView = Backbone.View.extend({
     destroy: function () {
         var scrollTop = $(window).scrollTop(),
             scrollHeight = $(window).height(),
-            restoredScrollTop = scrollTop + scrollHeight > this.articleBottom ? scrollTop - this.articleBottom + this.articleTop : this.articleTop - this.TOP_PAD;
+            scrollBottom = scrollTop + scrollHeight,
+
+            articleHeight = this.articleBottom - this.articleTop,
+            restoredScrollTop = (scrollBottom > this.articleBottom ? scrollTop - articleHeight : this.articleTop) - this.TOP_PAD;
 
         this.trigger('destroy');
 
