@@ -538,10 +538,9 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	height:350px;
 	background-color: #000;
 }
-#article .title, #article .author, #article .content {
+#article .title, #article .author, #article .content, #article .intro {
 	position: relative;
 	top: -150px;
-	left: -15px;
 	width: 900px;
 	margin: 0 auto;
 }
@@ -597,7 +596,6 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 
 #article .intro {
 	position: relative;
-	left: -125px;
 	font-weight: bold;
 	font-style: italic;
 }
