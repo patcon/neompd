@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<title>Myplanet Digital</title>
+	<%- @getBlock("styles").add(["/styles/homepage.css"]).toHTML() %>
+</head>
+
+<body>
+	<nav id='articleMenu' class='hidden'>
+		<h1>Myplanet Digital</h1>
+		<a id="lines">Show Menu</a>
+	</nav>
+	<a id="close" class="hidden">Close Article</a>
+
+	<nav id='menu'>
+		<input id="searchBox" />
+		<ul>
+			<li data-filter=".tech">Technology</li>
+			<li data-filter="li">Cool Dudes</li>
+			<li data-filter=".design">Design</li>
+			<li data-filter=".tech">Awesome</li>
+			<li data-filter="li">Duck Tollers</li>
+			<li data-filter=".design">Rigby Taylor</li>
+			<li data-filter="li">Jobs</li>
+			<li data-filter=".tech">Contact Us</li>
+		</ul>
+		<!--footer class="adr">
+			<span class="street-address">252 Adelaide Street East</span>
+			<span class="locality">Toronto</span>,
+			<span class="region">ON</span>,
+			<span class="country-name">Canada</span>
+			<span class="postal-code">M5A 3W8</span>
+			<span class="tel">866-232-7456</span>
+			<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
+		</footer-->
+	</nav>
+
+	<div id="grid-wrap">
+		<ul id="grid" class='initial'>
+			<% for post in @getCollection("posts").toJSON(): %>
+				<% if post.tilestyle: %>
+					<li class="<%= post.tag %> <%= post.tilestyle %>">
+						<a href="<%= post.url %>">
+			            	<header class="<%= post.color %>">
+				            	<span class="elem">Practical Advice</span>
+								<span class="elem">For The Agile</span>
+								<span class="elem">Manifesto</span>
+						    </header>
+			                <img src="<%= post.coverimg %>">
+			                <p><%= post.summary %></p>
+			                <span class="author"><%= post.author %></span>
+							<span class="date"><%= @postDate(post.date) %></span>
+			            </a>
+			        </li>
+		        <% else: %>
+		        	<li class="<%= post.tag %>">
+			        	<a href="<%= post.url %>">
+			            	<header class="<%= post.color %>">
+			            	<%= post.header %>
+			            	</header>
+			                <p><%= post.summary %></p>
+			                <span class="author"><%= post.author %></span>
+							<span class="date"><%= post.date %></span>
+			            </a>
+			        </li>
+		        <% end %>
+		    <% end %>
+		</ul>
+	</div>
+
+	<article class="hidden" id="article"></article>
+    <img id="loading" class="hidden" src="images/loading.gif" alt="Loading...">
+
+	<%- @getBlock("scripts").add(["/vendor/jquery.js","/vendor/isotope.js","/vendor/jquery-classList-plugin.js","/scripts/homepage.js"]).toHTML() %>
+
+	<script>
+		var Homepage = {
+			LOADING_Y_OFFSET: 175
+		};
+	</script>
+</body>
