@@ -97,6 +97,8 @@ window.TagView = Backbone.View.extend({
         $(document).on('scroll', markItemsAsRead);
         $(document).on('scroll', disableMouseDuringScroll);
 
+        console.log('tag view')
+
         this.destroy = function () {
             $(document).off('scroll', markItemsAsRead);
             $(document).off('scroll', disableMouseDuringScroll);
@@ -112,11 +114,6 @@ window.ArticleView = Backbone.View.extend({
 
         this.articleTop = 0;
         this.articleBottom = Number.POSITIVE_INFINITY;
-
-        this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
-
-        this.TOP_PAD = 2000; // something to be larger than most screen heights
-        this.SCROLLBACK_DELAY = 1000;
 
         this.$article = $('#article');
         this.$articleClose = $('#close');
@@ -152,122 +149,33 @@ window.ArticleView = Backbone.View.extend({
             itemPositionDataEnabled: true
         }, function () {
             var position = self.$li.data('isotope-item-position'),
+                containerOffset = self.$container.offset(),
+                itemTop = position.y + containerOffset.top,
+
                 scrollTop = $(window).scrollTop(),
                 maxLeeway = $(window).height() * 0.5,
+
                 loadRequest;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-            self.articleTop = self.TOP_PAD + ((position.y > scrollTop + maxLeeway) ? position.y : Math.min(scrollTop, position.y));
+            self.articleTop = ((itemTop > scrollTop + maxLeeway) ? itemTop : Math.min(scrollTop, itemTop));
 
-            self.$article.css({ position: 'absolute', top: self.articleTop });
-            self.$topPad.css({ height: self.TOP_PAD + 'px' });
-            $(window).scrollTop(self.articleTop);
+            self.$topPad.css({ 'margin-top': -self.articleTop + 'px' });
+            self.$bottomPad.css({ 'margin-bottom': -self.$container.outerHeight() + self.articleTop + 'px' });
+            $(window).scrollTop(0);
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
-                var articleHeight, bumpTimeoutId;
-
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
 
                 // calculate dimensions after article is visible
-                articleHeight = self.$article.height();
-                self.articleBottom = self.articleTop + articleHeight;
-
-                // add the padding
-                self.$bottomPad.css({ height: articleHeight + 'px' });
-
-                // bump down the rest of the article grid items
-                bumpTimeoutId = setTimeout(function () {
-                    self.$li.nextAll().andSelf().each(function () {
-                        augmentTransform($(this), articleHeight);
-                    }).addClass('shifted');
-                }, 500);
-
-                self.once('destroy', function () {
-                    clearTimeout(bumpTimeoutId);
-                })
+                self.articleBottom = self.articleTop + self.$article.height();
             });
 
             self.once('destroy', function () {
                 loadRequest.abort();
             })
         });
-
-        this.setupScroll();
-    },
-
-    setupScroll: function () {
-        var lastScrollTime = 0,
-            lastScrollWasAutomatic = false,
-            scrollAnimationIntervalId,
-            onScroll;
-
-        scrollAnimationIntervalId = setInterval(_.bind(function () {
-            var currentTime = new Date().getTime(),
-                scrollTop;
-
-            if (lastScrollTime + this.SCROLLBACK_DELAY > currentTime) {
-                return;
-            }
-
-            scrollTop = $(window).scrollTop();
-
-            if (scrollTop < this.articleTop) {
-                // simple asymptotic animation
-                lastScrollWasAutomatic = true;
-                $(window).scrollTop(scrollTop + Math.ceil(0.2 * (this.articleTop - scrollTop)));
-            }
-        }, this), 20);
-
-        this.once('destroy', function () {
-            clearInterval(scrollAnimationIntervalId);
-        });
-
-        onScroll = _.bind(function () {
-            if (lastScrollWasAutomatic) {
-                lastScrollWasAutomatic = false;
-            } else {
-                lastScrollTime = new Date().getTime();
-            }
-
-            this.trackBounds($(window).scrollTop(), $(window).height());
-        }, this);
-
-        $(document).on('scroll', onScroll);
-
-        this.once('destroy', function () {
-            $(document).off('scroll', onScroll);
-        });
-    },
-
-    trackBounds: function (scrollTop, scrollHeight) {
-        var minScrollTop = this.articleTop - scrollHeight, // using screen height to avoid jump if returning to edge of page
-            maxScrollBottom = this.articleBottom + scrollHeight,
-            currentTime = new Date().getTime(),
-            originalScrollTop = scrollTop;
-
-        if (scrollTop > this.articleTop && scrollTop + scrollHeight < this.articleBottom) {
-            // only reset the flag if back *inside* the article and not on the exact top
-            this.keepScrollInArticleUntil = Number.POSITIVE_INFINITY;
-        } else if (this.keepScrollInArticleUntil > currentTime) {
-            if (scrollTop < this.articleTop) {
-                this.keepScrollInArticleUntil = currentTime + 200;
-                scrollTop = this.articleTop;
-            } else if (scrollTop + scrollHeight > this.articleBottom) {
-                this.keepScrollInArticleUntil = currentTime + 200;
-                scrollTop = this.articleBottom - scrollHeight;
-            }
-        }
-
-        if (scrollTop !== originalScrollTop) {
-            $(window).scrollTop(scrollTop);
-        }
-
-        this.$article.toggleClass('aboveBound', (scrollTop <= this.articleTop));
-
-        if (scrollTop < minScrollTop || scrollTop + scrollHeight > maxScrollBottom) {
-            window.location = this.$articleClose.get(0).href;
-        }
     },
 
     destroy: function () {
@@ -276,7 +184,8 @@ window.ArticleView = Backbone.View.extend({
             scrollBottom = scrollTop + scrollHeight,
 
             articleHeight = this.articleBottom - this.articleTop,
-            restoredScrollTop = (scrollBottom > this.articleBottom ? scrollTop - articleHeight : this.articleTop) - this.TOP_PAD;
+            restoredScrollTop = this.articleTop;
+        console.log('article destroy')
 
         this.trigger('destroy');
 

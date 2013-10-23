@@ -46,6 +46,9 @@ body[data-ready] {
 body::-webkit-scrollbar  {
 	x-width:0;
 }
+#container {
+	overflow: hidden;
+}
 #grid > li {
 	list-style:none;
 	-webkit-transition-duration: 0.7s;
@@ -197,7 +200,7 @@ body::-webkit-scrollbar  {
 	z-index: 0;
 }
 #grid > li > a {
-	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
+	-webkit-transition:-webkit-transform 20.5s ease-out, opacity 20.7s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
 #grid > li > a {
@@ -429,19 +432,11 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 }
 #article {
 	display:block;
-	position: absolute;
-	z-index: 1;
 	opacity: 1;
-	left: 0;
-	right: 0;
-	margin-left:190px;
+	margin-left:160px;
 	min-height: 100%;
-}
-
-#article.aboveBound .banner {
-	top:0;
-	left:0px;
-	position:fixed;
+	padding-top:350px;
+	-webkit-transition:opacity 0.35s ease-in;
 }
 
 #article.fixed {
@@ -451,8 +446,6 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 }
 #article.hidden {
 	opacity:0;
-	position: absolute;
-	-webkit-transform:translate3d(-9999px, -9999px, 0);
 }
 #article.fadeIn {
 	-webkit-transition:opacity 0.85s ease-out;
@@ -533,21 +526,18 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 #article .banner {
 	background: url(../images/article-banner.png) no-repeat;
 	background-size:cover;
-	position: absolute;
-	left:-190px;
-	right: 0;
+	margin-top: -350px;
+	margin-left:-160px;
+	margin-bottom: -150px;
 	height:350px;
 	background-color: #000;
 }
 #article .title, #article .author, #article .content {
 	position: relative;
-	top: -150px;
-	left: -15px;
 	width: 900px;
 	margin: 0 auto;
 }
 #article .title {
-	margin-top:350px;
 }
 #article .title span {
 	display: inline-block;
