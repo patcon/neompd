@@ -289,7 +289,6 @@ body::-webkit-scrollbar  {
 	text-overflow: ellipsis;
 	max-width: 100%;
 	-webkit-transition-duration:0.2s;
-	-webkit-transform: translateZ(0) rotate(0);
 	-webkit-transition-property:-webkit-transform, background-color;
 	-webkit-transition-timing-function: ease-out;
 	-moz-transition-duration:0.2s;
@@ -316,8 +315,8 @@ body::-webkit-scrollbar  {
 }
 #articleMenu > #lines {
 	position: absolute;
-	-webkit-transform:translate3d(72px, 135px, 0);
-	-moz-transform:translate3d(72px, 135px, 0);
+	-webkit-transform:translate(72px, 135px);
+	-moz-transform:translate(72px, 135px);
 	font-size: 0;
 	background-image:url(../images/lines.png);
 	width:28px;
@@ -382,10 +381,10 @@ body::-webkit-scrollbar  {
 	position: absolute;
 	left:26px;
 	font-size: 12px;
-	-webkit-transform:translate3d(0, 132px, 0);
+	-webkit-transform:translate(0, 132px);
 	-webkit-transition-duration:0.4s;
 	-webkit-transition-property: background-image, background-color, left, color, width;
-	-moz-transform:translate3d(0, 132px, 0);
+	-moz-transform:translate(0, 132px);
 	-moz-transition-duration:0.4s;
 	-moz-transition-property: background-image, background-color, left, color, width;
 	padding:4px 4px 4px 30px;

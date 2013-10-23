@@ -21,8 +21,8 @@ var Homepage = (function homepage(defaultVals) {
 		ASAP = 0,
 		PADDING = 10,
 		MIN_OPACITY = 0.005,
-		SCROLL_TIMEOUT_LEN = 200,
-		END_CLOSE_ARTICLE_TIMEOUT_LEN = 320,
+		SCROLL_TIMEOUT_LEN = 275,
+		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280,
 		RESIZE_TIMEOUT_LEN = 825,
 		ANIMATION_THRESHOLD = -PADDING,
 		MAX_PER_LOAD_DEBOUNCE = 4,
@@ -294,12 +294,9 @@ var Homepage = (function homepage(defaultVals) {
 		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
 	}
 
-	function endFixArticle() {
-		$articleClose.css('zIndex', 2);
-	}
-
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
+		$articleClose.css('zIndex', 2);
 
 		noScrollEvents = false;
 		requestAnimationFrame(endFixArticle)
@@ -350,25 +347,6 @@ var Homepage = (function homepage(defaultVals) {
 		updateScrollAnimation = false;
 		isLowerClosingState = false;
 	}
-
-	function wheel(e) {
-	  e.preventDefault();
-	}
-
-	function disable_scroll() {
-	  if (window.addEventListener) {
-	      window.addEventListener('DOMMouseScroll', wheel, false);
-	  }
-	  window.onmousewheel = document.onmousewheel = wheel;
-	}
-
-	function enable_scroll() {
-	    if (window.removeEventListener) {
-	        window.removeEventListener('DOMMouseScroll', wheel, false);
-	    }
-	    window.onmousewheel = document.onmousewheel = null;
-	}
-
 	function onScroll() {
 		var scrollTop,
 			val;
