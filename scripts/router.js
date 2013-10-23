@@ -112,8 +112,14 @@ window.ArticleView = Backbone.View.extend({
 
         var self = this;
 
+        this.itemTop = 0;
         this.articleTop = 0;
-        this.articleBottom = Number.POSITIVE_INFINITY;
+        this.articleHeight = Number.POSITIVE_INFINITY;
+
+        this.SCROLLBACK_DISTANCE = 600;
+
+        this.scrollAboveDistance = 0;
+        this.scrollBelowDistance = 0;
 
         this.$article = $('#article');
         this.$articleClose = $('#close');
@@ -139,6 +145,8 @@ window.ArticleView = Backbone.View.extend({
             '-webkit-transition': 'none'
         });
 
+        this.$container.css('-webkit-transform', 'translate3d(0,0,0)'); // trigger acceleration
+
         function augmentTransform($item, yOffset) {
             var xform = $item.css('-webkit-transform');
             $item.css('-webkit-transform', xform + ' translate3d(0px, ' + yOffset + 'px, 0px)');
@@ -157,6 +165,8 @@ window.ArticleView = Backbone.View.extend({
 
                 loadRequest;
 
+            self.itemTop = itemTop;
+
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
             self.articleTop = ((itemTop > scrollTop + maxLeeway) ? itemTop : Math.min(scrollTop, itemTop));
 
@@ -164,12 +174,14 @@ window.ArticleView = Backbone.View.extend({
             self.$bottomPad.css({ 'margin-bottom': -self.$container.outerHeight() + self.articleTop + 'px' });
             $(window).scrollTop(0);
 
+            self.setupScrollback();
+
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 self.$article.removeClass('hidden');
                 self.$article.html(data);
 
                 // calculate dimensions after article is visible
-                self.articleBottom = self.articleTop + self.$article.height();
+                self.$article.imagesLoaded(function () { self.articleHeight = self.$article.height() });
             });
 
             self.once('destroy', function () {
@@ -178,16 +190,58 @@ window.ArticleView = Backbone.View.extend({
         });
     },
 
+    setupScrollback: function () {
+        onWheel = _.bind(function (e) {
+            var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
+                scrollTop = $(window).scrollTop(),
+                scrollHeight = $(window).height(),
+                bodyHeight = $(document.body).height();
+
+            if (this.scrollAboveDistance > 0 || scrollTop <= 0 && deltaY > 0) {
+                e.preventDefault();
+
+                this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
+                this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
+                this.$container.css('-webkit-transform', 'translate3d(0,' + this.scrollAboveDistance + 'px,0)');
+
+                if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
+                    window.location = this.$articleClose.get(0).href;
+                }
+            } else if (this.scrollBelowDistance > 0 || scrollTop + scrollHeight >= bodyHeight && deltaY < 0) {
+                e.preventDefault();
+
+                this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
+                this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+
+                if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
+                    window.location = this.$articleClose.get(0).href;
+                }
+            }
+        }, this);
+
+        $(document).on('mousewheel', onWheel);
+
+        this.once('destroy', function () {
+            $(document).off('mousewheel', onWheel);
+        });
+    },
+
     destroy: function () {
         var scrollTop = $(window).scrollTop(),
             scrollHeight = $(window).height(),
             scrollBottom = scrollTop + scrollHeight,
 
-            articleHeight = this.articleBottom - this.articleTop,
             restoredScrollTop = this.articleTop;
         console.log('article destroy')
 
         this.trigger('destroy');
+
+        if (this.scrollAboveDistance > 0) {
+            restoredScrollTop = this.itemTop - this.scrollAboveDistance;
+        } else if (this.scrollBelowDistance > 0) {
+            restoredScrollTop = this.itemTop + this.scrollBelowDistance - scrollHeight;
+        }
 
         $(window).scrollTop(restoredScrollTop);
 
@@ -198,12 +252,14 @@ window.ArticleView = Backbone.View.extend({
 
         // re-enable mouse events and transitions
         this.$container.css('pointer-events', 'auto');
+        this.$container.css('-webkit-transform', ''); // trigger acceleration
+        this.$container.removeClass('scrollbackAbove').removeClass('scrollbackBelow');
         this.$container.children('li').css({
             '-webkit-transition': ''
         });
 
         this.$li.prevAll().removeClass('dismissedUp');
-        this.$li.nextAll().andSelf().removeClass('dismissedDown shifted');
+        this.$li.nextAll().andSelf().removeClass('dismissedDown');
     }
 });
 

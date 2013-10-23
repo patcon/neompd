@@ -108,9 +108,17 @@ body::-webkit-scrollbar  {
   	opacity:0;
 	-webkit-transform: translate3d(0, 800px, 0);
 }
-#grid > li.dismissedDown.shifted > a {
+#grid.scrollbackAbove > li.dismissedUp > a,
+#grid.scrollbackBelow > li.dismissedDown > a {
   	opacity:0.8;
 	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition: none;
+}
+#grid.scrollbackAbove > li.dismissedDown > a,
+#grid.scrollbackBelow > li.dismissedUp > a {
+  	opacity:0;
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition: none;
 }
 #grid > li.design > a {
 	background-image: url(../images/footer-design.jpg)
