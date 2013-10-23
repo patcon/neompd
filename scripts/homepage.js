@@ -21,12 +21,12 @@ var Homepage = (function homepage(defaultVals) {
 		ASAP = 0,
 		PADDING = 10,
 		MIN_OPACITY = 0.005,
-		SCROLL_TIMEOUT_LEN = 275,
-		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280,
+		SCROLL_TIMEOUT_LEN = 300,
+		END_CLOSE_ARTICLE_TIMEOUT_LEN = 320,
 		RESIZE_TIMEOUT_LEN = 825,
-		ANIMATION_THRESHOLD = -PADDING,
-		MAX_PER_LOAD_DEBOUNCE = 4,
-		ANIMATION_EL_THRESHOLD = 2,
+		ANIMATION_THRESHOLD = -PADDING * 3,
+		MAX_PER_LOAD_DEBOUNCE = 5,
+		ANIMATION_EL_THRESHOLD = 1,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		firstScrollEvent = true,
 		scrollTimeout,
@@ -82,7 +82,7 @@ var Homepage = (function homepage(defaultVals) {
 
 	function isOnScreen ($el, scrollTop, padding) {
 		var thisTop = getCurTop($el) + (padding || 0),
-			height = $el.height();
+			height = $el.data('isotopeItemPosition').height
 		return (thisTop < (scrollTop + winHeight)) && (((thisTop + height) > scrollTop));
 	}
 
@@ -124,9 +124,7 @@ var Homepage = (function homepage(defaultVals) {
 		$all.removeClass('offScreen');
 
 		debounceScrollClassToggling();
-		if(updateScrollAnimation) {
-			debounceLoadAnim();
-		}
+		debounceLoadAnim();
 	}
 
 	function finalizeEndCloseArticle() {
@@ -296,10 +294,8 @@ var Homepage = (function homepage(defaultVals) {
 
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
-		$articleClose.css('zIndex', 2);
 
 		noScrollEvents = false;
-		requestAnimationFrame(endFixArticle)
 	}
 
 	function fadeArticle() {
@@ -341,8 +337,6 @@ var Homepage = (function homepage(defaultVals) {
 		$menu.addClass('offScreen');
 		$window.scrollTop(scrollTo);
 
-
-
 		isDoingTransition = false;
 		updateScrollAnimation = false;
 		isLowerClosingState = false;
@@ -353,10 +347,11 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(noScrollEvents) {
 			return debounceScrollClassToggling();
-		} else if(isDoingTransition) {
-			return setTimeoutWithRaf(function() {
+		}
+		if(isDoingTransition) {
+			return requestAnimationFrame(function() {
 				endOnClickTransition(window.pageYOffset, articleTop);
-			}, SOON);
+			});
 		}
 
 		if (articleHeight !== null) {
@@ -365,6 +360,11 @@ var Homepage = (function homepage(defaultVals) {
 					isFixed = true;
 					fixArticle();
 				} else {
+					if(!updateScrollAnimation) {
+						updateScrollAnimation = true;
+						return $articleClose.css('zIndex', 2);
+					}
+
 					if (lowerOffset > winHeight) {
 						val = round(-((articleTop - scrollTop)/overhead * (lowerWinOffset + overhead)) -lowerOffset + lowerWinOffset);
 					} else {
@@ -387,18 +387,19 @@ var Homepage = (function homepage(defaultVals) {
 				closeArticle(false, false, scrollTop);
 				updateScrollAnimation = false;
 			} else if(scrollTop >= articleTop && (scrollTop <= articleTop + articleHeight - winHeight)) {
-				if(isLowerClosingState) {
-					$articleClose.css('zIndex', 3);
-					return isLowerClosingState = false;
-				}
+
 				// Reset article and lower blocks position
 				if (isFixed) {
 					noScrollEvents = true;
 					isFixed = false;
 					return unfixArticle();
+				}else if(isLowerClosingState) {
+					$articleClose.css('zIndex', 3);
+					return isLowerClosingState = false;
 				} else if(updateScrollAnimation) {
 					$animateOnScrollUpper.css('transform', modifyOrigTransform(0, 0, true));
 				}
+
 				if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
 					$animateOnScroll.css('transform', modifyTransform(-(underhead - lowerWinOffset),true));
 					jumpBottom = false;
@@ -527,7 +528,7 @@ var Homepage = (function homepage(defaultVals) {
 			while(($li = $li.prev()).length) {
 				li = $li[0];
 				if(isOnScreen($li, scrollTop)) {
-					offset = getCurTop($li) + $li.outerHeight() - scrollTop + PADDING;
+					offset = getCurTop($li) + $li.data('isotopeItemPosition').height - scrollTop + PADDING;
 					if(offset > upperOffset) {
 						upperOffset = offset;
 					}
