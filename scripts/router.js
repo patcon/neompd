@@ -158,7 +158,7 @@ window.ArticleView = Backbone.View.extend({
                 itemTop = position.y + containerOffset.top,
 
                 scrollTop = $(window).scrollTop(),
-                maxLeeway = $(window).height() * 0.5,
+                maxLeeway = $(window).height(),
 
                 loadRequest;
 
@@ -228,6 +228,7 @@ window.ArticleView = Backbone.View.extend({
                 }, this));
 
                 if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
+                    // @todo initalize teardown right here? why wait for hashchange!
                     window.location = this.$articleClose.get(0).href;
                 }
             } else if (this.scrollBelowDistance > 0 || scrollTop + scrollHeight >= bodyHeight && deltaY < 0) {
@@ -242,6 +243,7 @@ window.ArticleView = Backbone.View.extend({
                 }, this));
 
                 if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
+                    // @todo initalize teardown right here? why wait for hashchange!
                     window.location = this.$articleClose.get(0).href;
                 }
             }
