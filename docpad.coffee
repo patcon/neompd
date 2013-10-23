@@ -8,11 +8,11 @@
 docpadConfig = {
 	# ...
 	templateData:
-		#postDate: (date, format="MMMM DD, YYYY") -> return moment(date).format(format)
+		postDate: (date, format="MMMM DD, YYYY") -> return ''
 
-    collections:
-    	posts: ->
-    		@getCollection("html").findAllLive({relativeOutDirPath:'posts'})
+	collections:
+		posts: ->
+			@getCollection("html").findAllLive({relativeOutDirPath:'posts'})
 }
 # Export the DocPad Configuration
 module.exports = docpadConfig
