@@ -381,7 +381,7 @@ body::-webkit-scrollbar  {
 	position: absolute;
 	left:26px;
 	font-size: 12px;
-	-webkit-transform:translate(0, 132px);
+	-webkit-transform:translate3d(0, 132px, 0);
 	-webkit-transition-duration:0.4s;
 	-webkit-transition-property: background-image, background-color, left, color, width;
 	-moz-transform:translate(0, 132px);
