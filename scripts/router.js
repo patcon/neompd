@@ -37,14 +37,14 @@ window.TagView = Backbone.View.extend({
                 paintPending = true;
 
                 requestAnimationFrame(function () {
-                    queuedReadItems.splice(0, 4).forEach(function (tuple) {
-                        tuple.$item.addClass('read');
-                    });
+                    // pop one from queue to be painted
+                    queuedReadItems.shift().$item.addClass('read');
 
+                    // delay next paint to let this one complete
                     setTimeout(function () {
                         paintPending = false;
                         processQueuedReadItems();
-                    }, 200);
+                    }, 50);
                 });
             }
         }
@@ -125,9 +125,6 @@ window.ArticleView = Backbone.View.extend({
         this.$articleClose = $('#close');
         this.$container = $('#grid');
 
-        this.$topPad = $('<div></div>').insertBefore(this.$container);
-        this.$bottomPad = $('<div></div>').insertAfter(this.$container);
-
         // for testing purposes, article "id" is the index of the corresponding list item
         this.$li = this.$container.children().eq(parseInt(this.model.id, 10));
 
@@ -170,14 +167,17 @@ window.ArticleView = Backbone.View.extend({
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
             self.articleTop = ((itemTop > scrollTop + maxLeeway) ? itemTop : Math.min(scrollTop, itemTop));
 
-            self.$topPad.css({ 'margin-top': -self.articleTop + 'px' });
-            self.$bottomPad.css({ 'margin-bottom': -self.$container.outerHeight() + self.articleTop + 'px' });
+            self.$container.css({
+                'margin-top': -self.articleTop + 'px',
+                'margin-bottom': -self.$container.outerHeight() + self.articleTop + 'px'
+            });
             $(window).scrollTop(0);
 
             self.setupScrollback();
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 self.$article.removeClass('hidden');
+                self.$article.css({ position: '', top: '', left: '', right: '' });
                 self.$article.html(data);
 
                 // calculate dimensions after article is visible
@@ -233,7 +233,6 @@ window.ArticleView = Backbone.View.extend({
             scrollBottom = scrollTop + scrollHeight,
 
             restoredScrollTop;
-        console.log('article destroy')
 
         this.trigger('destroy');
 
@@ -245,8 +244,16 @@ window.ArticleView = Backbone.View.extend({
             restoredScrollTop = this.articleTop;
         }
 
-        this.$topPad.remove();
-        this.$bottomPad.remove();
+        this.$article.css({
+            position: 'fixed',
+            top: -scrollTop + 'px',
+            left: 0,
+            right: 0 // @todo proper calculation
+        });
+        this.$container.css({
+            'margin-top': '',
+            'margin-bottom': ''
+        });
         this.$article.addClass('hidden');
         this.$articleClose.addClass('hidden');
 

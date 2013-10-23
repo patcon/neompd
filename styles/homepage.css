@@ -47,6 +47,7 @@ body::-webkit-scrollbar  {
 	x-width:0;
 }
 #container {
+	position: relative;
 	overflow: hidden;
 }
 #grid > li {
@@ -110,9 +111,9 @@ body::-webkit-scrollbar  {
 }
 #grid.scrollbackAbove > li.dismissedUp > a,
 #grid.scrollbackBelow > li.dismissedDown > a {
-  	opacity:0.8;
+  	opacity:1;
 	-webkit-transform: translate3d(0, 0, 0);
-	-webkit-transition: none;
+	-webkit-transition-duration: 0, 0.3s;
 }
 #grid.scrollbackAbove > li.dismissedDown > a,
 #grid.scrollbackBelow > li.dismissedUp > a {
@@ -208,7 +209,7 @@ body::-webkit-scrollbar  {
 	z-index: 0;
 }
 #grid > li > a {
-	-webkit-transition:-webkit-transform 20.5s ease-out, opacity 20.7s ease-out;/*, -webkit-filter 0.5s;*/
+	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
 #grid > li > a {
@@ -444,7 +445,7 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	margin-left:160px;
 	min-height: 100%;
 	padding-top:350px;
-	-webkit-transition:opacity 0.35s ease-in;
+	-webkit-transition:opacity 10.35s ease-in;
 }
 
 #article.fixed {
