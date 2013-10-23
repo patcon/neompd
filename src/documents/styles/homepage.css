@@ -99,6 +99,19 @@ body::-webkit-scrollbar  {
 #grid > li.tech > a {
 	background-image: url(../images/footer-tech.jpg)
 }
+#grid > li.business > a {
+	background-image: url(../images/footer-business.jpg)
+}
+#grid > li.people > a {
+	background-image: url(../images/footer-people.jpg)
+}
+#grid > li.careers > a {
+	background-image: url(../images/footer-careers.jpg)
+}
+#grid > li.culture > a {
+	background-image: url(../images/footer-culture.jpg)
+}
+
 #grid > li.double {
 	width:599px;
 }
@@ -460,155 +473,19 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	-webkit-transition:opacity 0.35s ease-in;
 	-moz-transition:opacity 0.35s ease-in;
 }
-#article img {
-	width: 500px;
-	border-radius: 2px;
+
+#loading {
+        position: fixed;
+        top: 50%;
+        margin-top: -61px;
+        left: 50%;
+        margin-left: -61px;
+        opacity: 1;
+        -webkit-transition:opacity 0.7s;
+        -moz-transition:opacity 0.7s;
 }
 
-#article body {
-	margin: 0;
-	padding: 0;
-	font:12pt TradeGothic, Helvetica, sans-serif;
-	background-color: white;
-	overflow-y: hidden;
-}
-
-#article h2 {
-	font-family: Plantin;
-	font-size: 32px;
-	font-weight: bold;
-	color: #333;
-	margin-bottom: 9px;
-}
-
-#article h3 {
-	font:15px Tradegothic, Helvetica, sans-serif;
-	font-weight: bold;
-	color: #333;
-	display: inline;
-}
-
-#article p {
-	font-family: Plantin;
-	font-size: 20px;
-	line-height: 30px;
-}
-
-#article li {
-	font-family: Plantin;
-	font-size: 20px;
-	line-height: 30px;
-	padding-bottom: 15px;
-}
-
-#article ul {
-	list-style-type:none;
-	margin:0;
-	padding:0;
-}
-
-#article ul.tag-list {
-	display: inline;
-}
-
-#article ul.tag-list li {
-	font-family: Tradegothic;
-	font-size: 15px;
-	font-weight: bold;
-	color:#c5c5c5;
-	margin-left:20px;
-	display: inline;
-}
-
-#article .tag {
-	margin-top:45px;
-}
-
-#article .content {
-	font-family: Plantin;
-	font-size: 22 pt;
-	line-height: 30pt;
-}
-#article .banner {
-	background: url(../images/article-banner.png) no-repeat;
-	background-size:cover;
-	position: absolute;
-	left:-190px;
-	right: 0;
-	height:350px;
-	background-color: #000;
-}
-#article .title, #article .author, #article .content {
-	position: relative;
-	top: -150px;
-	left: -15px;
-	width: 900px;
-	margin: 0 auto;
-}
-#article .title {
-	margin-top:350px;
-}
-#article .title span {
-	display: inline-block;
-	padding-left: 47px;
-	padding-top: 23px;
-	padding-right: 47px;
-	color: white;
-	background-color: black;
-	font: 72px Plantin;
-	font-weight: bold;
-	line-height: 0.9;
-	letter-spacing: -2px;
-}
-
-#article .title-bottom {
-	padding-bottom: 15px;
-}
-
-#article .author {
-	margin: 30px auto;
-}
-
-#article .avatar {
-	padding-right: 10px;
-	width:50px;
-	float: left;
-}
-
-#article .author-name, #article .author-role {
-	color: #333;
-	display: inline-block;
-	float: left;
-	font-size: 14px;
-	font-family: Tradegothic;
-	font-weight: bolder;
-}
-
-#article .author-name {
-	margin-top: 10px;
-	padding-right: 10px;
-	border-right: solid red 1px;
-}
-
-#article .author-role {
-	margin-top: 10px;
-	padding-left: 10px;
-}
-
-#article .intro {
-	position: relative;
-	left: -125px;
-	font-weight: bold;
-	font-style: italic;
-}
-
-#article .date {
-	padding-top: 30px;
-	font-size: 15px;
-	color: #ccc;
-}
-
-#article .content {
-	width:650px;
-	color: #555;
+#loading.hidden {
+        left: 2000%;
+        opacity: 0;
 }

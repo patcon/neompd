@@ -12,6 +12,7 @@ var Homepage = (function homepage(defaultVals) {
 		$menuLines = $body.find('#lines'),
 		$searchBox = $body.find('#searchBox'),
 		$article = $('#article'),
+        $loading = $('#loading'),
 		winHeight = $window.height(),
 		MATRIX_REGEX = /(-?\d+)/g,
 		MATRIX_X = 1,
@@ -594,8 +595,11 @@ var Homepage = (function homepage(defaultVals) {
 				$articleClose.removeClass('hidden').addClass('shown').css('opacity', 1).css('zIndex', 2);
 			});
 			//setTimeoutWithRAF(function() {
-
+			var href = $clicked.parent().attr('data-href');
+			//console.log($clicked.parent().attr('data-href'));
 			//}, SOON);
+			$article.load(href);
+            $loading.addClass("hidden");
 		}
 	}
 
