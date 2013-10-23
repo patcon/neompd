@@ -116,7 +116,7 @@ window.ArticleView = Backbone.View.extend({
         this.articleTop = 0;
         this.articleHeight = Number.POSITIVE_INFINITY;
 
-        this.SCROLLBACK_DISTANCE = 600;
+        this.SCROLLBACK_DISTANCE = 200;
 
         this.scrollAboveDistance = 0;
         this.scrollBelowDistance = 0;
@@ -181,7 +181,7 @@ window.ArticleView = Backbone.View.extend({
                 self.$article.html(data);
 
                 // calculate dimensions after article is visible
-                self.$article.imagesLoaded(function () { self.articleHeight = self.$article.height() });
+                self.$article.imagesLoaded(function () { self.articleHeight = self.$article.outerHeight() });
             });
 
             self.once('destroy', function () {
@@ -192,7 +192,7 @@ window.ArticleView = Backbone.View.extend({
 
     setupScrollback: function () {
         onWheel = _.bind(function (e) {
-            var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
+            var deltaY = e.originalEvent.wheelDeltaY * 0.05, // hardware delta is more than pixel speed
                 scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
                 bodyHeight = $(document.body).height();
@@ -202,7 +202,7 @@ window.ArticleView = Backbone.View.extend({
 
                 this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
                 this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
-                this.$container.css('-webkit-transform', 'translate3d(0,' + this.scrollAboveDistance + 'px,0)');
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
 
                 if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
                     window.location = this.$articleClose.get(0).href;
@@ -212,7 +212,7 @@ window.ArticleView = Backbone.View.extend({
 
                 this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
                 this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
-                this.$container.css('-webkit-transform', 'translate3d(0,' + (this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (this.articleTop - this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
 
                 if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
                     window.location = this.$articleClose.get(0).href;
@@ -232,18 +232,18 @@ window.ArticleView = Backbone.View.extend({
             scrollHeight = $(window).height(),
             scrollBottom = scrollTop + scrollHeight,
 
-            restoredScrollTop = this.articleTop;
+            restoredScrollTop;
         console.log('article destroy')
 
         this.trigger('destroy');
 
         if (this.scrollAboveDistance > 0) {
-            restoredScrollTop = this.itemTop - this.scrollAboveDistance;
+            restoredScrollTop = this.articleTop - this.scrollAboveDistance + this.SCROLLBACK_DISTANCE;
         } else if (this.scrollBelowDistance > 0) {
             restoredScrollTop = this.itemTop + this.scrollBelowDistance - scrollHeight;
+        } else {
+            restoredScrollTop = this.articleTop;
         }
-
-        $(window).scrollTop(restoredScrollTop);
 
         this.$topPad.remove();
         this.$bottomPad.remove();
@@ -260,6 +260,9 @@ window.ArticleView = Backbone.View.extend({
 
         this.$li.prevAll().removeClass('dismissedUp');
         this.$li.nextAll().andSelf().removeClass('dismissedDown');
+
+        // set scroll top only after layout recalculation
+        $(window).scrollTop(restoredScrollTop);
     }
 });
 
