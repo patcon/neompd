@@ -77,10 +77,7 @@ window.TagView = Backbone.View.extend({
             }, 100);
         }
 
-        $container.isotope({
-            itemSelector: 'li',
-            itemPositionDataEnabled: true
-        }, function () {
+        function findHiddenItems() {
             $container.children('li:not(.read)').each(function (i) {
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
@@ -91,7 +88,17 @@ window.TagView = Backbone.View.extend({
             hiddenItems.sort(function (a, b) { return a.y - b.y });
 
             markItemsAsRead();
-        });
+        }
+
+        if ($container.children(':first').data('isotope-item-position')) {
+            setTimeout(findHiddenItems, 0); // async for consistency with initial invocation
+        } else {
+            // initial layout
+            $container.isotope({
+                itemSelector: 'li',
+                itemPositionDataEnabled: true
+            }, findHiddenItems);
+        }
 
         // immediately register scroll callback to be able to clear it before Isotope finishes
         $(document).on('scroll', markItemsAsRead);
@@ -175,6 +182,10 @@ window.ArticleView = Backbone.View.extend({
                 // trigger slide transition
                 self.$li.prevAll().addClass('dismissedUp');
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
+
+                // remove the existing reveal on any tiles not in direct vicinity
+                self.$li.prevAll(':gt(7)').removeClass('read');
+                self.$li.nextAll(':gt(7)').removeClass('read');
 
                 self.$container.css('-webkit-transform', 'translate3d(0,0,0)'); // trigger acceleration
 

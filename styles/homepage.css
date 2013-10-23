@@ -96,10 +96,13 @@ body::-webkit-scrollbar  {
 	border-radius: 3px;
 
 	-webkit-transform: translate3d(0, 200px, 0);
+	-webkit-transition: none;
 }
 #grid > li.read > a {
   	opacity:1;
 	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
+	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
 #grid > li.dismissedUp > a {
   	opacity:0;
@@ -209,10 +212,6 @@ body::-webkit-scrollbar  {
 	-moz-transition-duration: 0.6s, 0.55s;
 	-moz-transition-timing-function: ease-in, ease-out;
 	z-index: 0;
-}
-#grid > li > a {
-	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
-	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
 #grid > li > a {
 	border-radius:4px;
