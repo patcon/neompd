@@ -162,8 +162,6 @@ window.ArticleView = Backbone.View.extend({
 
                 loadRequest;
 
-            console.log('layout done');
-
             self.itemTop = itemTop;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
@@ -228,7 +226,7 @@ window.ArticleView = Backbone.View.extend({
                 }, this));
 
                 if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
-                    // @todo initalize teardown right here? why wait for hashchange!
+                    this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 }
             } else if (this.scrollBelowDistance > 0 || scrollTop + scrollHeight >= bodyHeight && deltaY < 0) {
@@ -243,7 +241,7 @@ window.ArticleView = Backbone.View.extend({
                 }, this));
 
                 if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
-                    // @todo initalize teardown right here? why wait for hashchange!
+                    this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 }
             }
@@ -257,6 +255,12 @@ window.ArticleView = Backbone.View.extend({
     },
 
     destroy: function () {
+        if (this.isDestroyed) {
+            return;
+        } else {
+            this.isDestroyed = true;
+        }
+
         var scrollTop = $(window).scrollTop(),
             scrollHeight = $(window).height(),
             scrollBottom = scrollTop + scrollHeight,
