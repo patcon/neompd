@@ -110,7 +110,9 @@ window.ArticleView = Backbone.View.extend({
     initialize: function () {
         console.log('article view', this.model);
 
-        var self = this;
+        var self = this,
+            gridHasLayout,
+            afterLayout;
 
         this.itemTop = 0;
         this.articleTop = 0;
@@ -133,15 +135,24 @@ window.ArticleView = Backbone.View.extend({
 
         this.$articleClose.attr('href', '#tags/' + this.model.tag);
 
-        // disable transitions to perform instant layout
-        this.$container.children('li').css({
-            '-webkit-transition': 'none'
-        });
+        // initialize layout if necessary (otherwise simulate async callback for consistency)
+        gridHasLayout = !!this.$container.children(':first').data('isotope-item-position');
+        afterLayout = gridHasLayout ? function (callback) { setTimeout(callback, 0); } : function (callback) {
+            // disable transitions to perform instant layout
+            self.$container.children('li').css({ '-webkit-transition': 'none' });
 
-        this.$container.isotope({
-            itemSelector: 'li',
-            itemPositionDataEnabled: true
-        }, function () {
+            self.$container.isotope({
+                itemSelector: 'li',
+                itemPositionDataEnabled: true
+            }, function () {
+                // re-enable transitions
+                self.$container.children('li').css({ '-webkit-transition': '' });
+
+                callback();
+            });
+        }
+
+        afterLayout(function () {
             var position = self.$li.data('isotope-item-position'),
                 containerOffset = self.$container.offset(),
                 itemTop = position.y + containerOffset.top,
@@ -150,6 +161,8 @@ window.ArticleView = Backbone.View.extend({
                 maxLeeway = $(window).height() * 0.5,
 
                 loadRequest;
+
+            console.log('layout done');
 
             self.itemTop = itemTop;
 
@@ -260,10 +273,6 @@ window.ArticleView = Backbone.View.extend({
 
         // re-enable mouse events and transitions
         this.$container.css('pointer-events', 'auto');
-
-        this.$container.children('li').css({
-            '-webkit-transition': ''
-        });
 
         // repaint heavy layout changes
         requestAnimationFrame(_.bind(function () {
