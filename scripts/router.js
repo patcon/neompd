@@ -188,11 +188,9 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.prevAll(':gt(7)').removeClass('read');
                 self.$li.nextAll(':gt(7)').removeClass('read');
 
-                self.$container.css('-webkit-transform', 'translate3d(0,0,0)'); // trigger acceleration
-
                 self.$container.css({
-                    'margin-top': -self.articleTop + 'px',
-                    'margin-bottom': -self.$container.outerHeight() + self.articleTop + 'px'
+                    '-webkit-transform': 'translate3d(0,' + (-self.articleTop) + 'px,0)',
+                    'margin-bottom': -self.$container.outerHeight() + 'px'
                 });
 
                 $(window).scrollTop(0);
@@ -245,7 +243,7 @@ window.ArticleView = Backbone.View.extend({
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
-                        this.$container.css('-webkit-transform', 'translate3d(0,' + (this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
+                        this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                     }, this));
                 }
             } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
@@ -260,7 +258,7 @@ window.ArticleView = Backbone.View.extend({
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
-                        this.$container.css('-webkit-transform', 'translate3d(0,' + (this.articleTop - this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+                        this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
                     }, this));
                 }
             }
@@ -323,7 +321,6 @@ window.ArticleView = Backbone.View.extend({
             });
 
             this.$container.css({
-                'margin-top': '',
                 'margin-bottom': ''
             });
 
