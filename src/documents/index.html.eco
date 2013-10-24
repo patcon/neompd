@@ -49,7 +49,7 @@
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @postDate(post.date) %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM Do YYYY') %></span>
 			            </a>
 			        </li>
 		        <% else: %>
@@ -60,7 +60,7 @@
 			            	</header>
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= post.date %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM Do YYYY') %></span>
 			            </a>
 			        </li>
 		        <% end %>
