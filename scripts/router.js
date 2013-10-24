@@ -125,6 +125,7 @@ window.ArticleView = Backbone.View.extend({
         this.articleTop = 0;
         this.articleHeight = Number.POSITIVE_INFINITY;
 
+        this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
 
         this.scrollAboveDistance = 0;
@@ -219,19 +220,16 @@ window.ArticleView = Backbone.View.extend({
     },
 
     setupScrollback: function () {
-        var inArticleUntil = 0;
+        var allowScrollbackStartTime = 0;
 
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
                 scrollTop = $(window).scrollTop(),
                 currentTime = new Date().getTime();
 
-            if (inArticleUntil > currentTime) {
+            if (allowScrollbackStartTime > currentTime) {
                 // extra wait until existing mouse wheel inertia dies down
-                if (inArticleUntil < Number.POSITIVE_INFINITY) {
-                    inArticleUntil = currentTime + 50;
-                }
-
+                allowScrollbackStartTime = Math.max(allowScrollbackStartTime, currentTime + 50); // max avoids clobbering infinity
                 return;
             }
 
@@ -273,10 +271,10 @@ window.ArticleView = Backbone.View.extend({
                 scrollHeight = $(window).height(),
                 bodyHeight = $(document.body).height();
 
-            if (scrollTop > 0 && scrollTop + scrollHeight < bodyHeight) {
-                inArticleUntil = Number.POSITIVE_INFINITY;
+            if (scrollTop > this.SCROLLBACK_MARGIN && scrollTop + scrollHeight < bodyHeight - this.SCROLLBACK_MARGIN) {
+                allowScrollbackStartTime = Number.POSITIVE_INFINITY; // cannot allow scrollback from here
             } else {
-                inArticleUntil = new Date().getTime() + 50;
+                allowScrollbackStartTime = new Date().getTime() + 50; // allow scrollback after a delay
             }
         }, this);
 
