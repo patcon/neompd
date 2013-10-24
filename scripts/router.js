@@ -219,13 +219,23 @@ window.ArticleView = Backbone.View.extend({
     },
 
     setupScrollback: function () {
+        var inArticleUntil = 0;
+
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
                 scrollTop = $(window).scrollTop(),
-                scrollHeight = $(window).height(),
-                bodyHeight = $(document.body).height();
+                currentTime = new Date().getTime();
 
-            if (this.scrollAboveDistance > 0 || scrollTop <= 0 && deltaY > 0) {
+            if (inArticleUntil > currentTime) {
+                // extra wait until existing mouse wheel inertia dies down
+                if (inArticleUntil < Number.POSITIVE_INFINITY) {
+                    inArticleUntil = currentTime + 50;
+                }
+
+                return;
+            }
+
+            if (scrollTop <= 0 && (this.scrollAboveDistance > 0 || deltaY > 0)) {
                 e.preventDefault();
 
                 this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
@@ -240,7 +250,7 @@ window.ArticleView = Backbone.View.extend({
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                     }, this));
                 }
-            } else if (this.scrollBelowDistance > 0 || scrollTop + scrollHeight >= bodyHeight && deltaY < 0) {
+            } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
                 e.preventDefault();
 
                 this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
@@ -258,10 +268,24 @@ window.ArticleView = Backbone.View.extend({
             }
         }, this);
 
+        onScroll = _.bind(function () {
+            var scrollTop = $(window).scrollTop(),
+                scrollHeight = $(window).height(),
+                bodyHeight = $(document.body).height();
+
+            if (scrollTop > 0 && scrollTop + scrollHeight < bodyHeight) {
+                inArticleUntil = Number.POSITIVE_INFINITY;
+            } else {
+                inArticleUntil = new Date().getTime() + 50;
+            }
+        }, this);
+
         $(document).on('mousewheel', onWheel);
+        $(document).on('scroll', onScroll);
 
         this.once('destroy', function () {
             $(document).off('mousewheel', onWheel);
+            $(document).off('scroll', onScroll);
         });
     },
 
