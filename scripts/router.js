@@ -187,6 +187,9 @@ window.ArticleView = Backbone.View.extend({
                 // remove the existing reveal on any tiles not in direct vicinity
                 self.$li.prevAll(':gt(7)').removeClass('read');
                 self.$li.nextAll(':gt(7)').removeClass('read');
+                self.$li.prevAll(':lt(7)').addClass('read');
+                self.$li.nextAll(':lt(7)').addClass('read');
+                self.$li.addClass('read');
 
                 self.$container.css({
                     '-webkit-transform': 'translate3d(0,' + (-self.articleTop) + 'px,0)',
@@ -218,7 +221,8 @@ window.ArticleView = Backbone.View.extend({
     },
 
     setupScrollback: function () {
-        var allowScrollbackStartTime = 0;
+        var allowScrollbackStartTime = 0,
+            articleIsFixed = false;
 
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
@@ -273,6 +277,44 @@ window.ArticleView = Backbone.View.extend({
                 allowScrollbackStartTime = Number.POSITIVE_INFINITY; // cannot allow scrollback from here
             } else {
                 allowScrollbackStartTime = new Date().getTime() + 50; // allow scrollback after a delay
+            }
+
+            if (scrollTop <= 0) {
+                requestAnimationFrame(_.bind(function () {
+                    this.$article.css({
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        right: 0 // @todo proper calculation
+                    });
+                    this.$container.css({
+                        'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+                    });
+                }, this));
+            } else if (scrollTop + scrollHeight >= bodyHeight) {
+                requestAnimationFrame(_.bind(function () {
+                    this.$article.css({
+                        position: 'fixed',
+                        top: -(bodyHeight - scrollHeight),
+                        left: 0,
+                        right: 0 // @todo proper calculation
+                    });
+                    this.$container.css({
+                        'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+                    });
+                }, this));
+            } else {
+                requestAnimationFrame(_.bind(function () {
+                    this.$article.css({
+                        position: '',
+                        top: '',
+                        left: '',
+                        right: ''
+                    });
+                    this.$container.css({
+                        'margin-bottom': -this.$container.outerHeight() + 'px'
+                    });
+                }, this));
             }
         }, this);
 
