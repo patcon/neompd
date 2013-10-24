@@ -255,9 +255,9 @@ window.ArticleView = Backbone.View.extend({
                 scrollTop = $(window).scrollTop(),
                 currentTime = new Date().getTime();
 
-            if (allowScrollbackStartTime > currentTime) {
+            if (!articleIsFixed || allowScrollbackStartTime > currentTime) {
                 // extra wait until existing mouse wheel inertia dies down
-                allowScrollbackStartTime = Math.max(allowScrollbackStartTime, currentTime + 50); // max avoids clobbering infinity
+                allowScrollbackStartTime = currentTime + 50;
                 return;
             }
 
@@ -298,12 +298,6 @@ window.ArticleView = Backbone.View.extend({
             var scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
                 bodyHeight = $(document.body).height();
-
-            if (scrollTop > this.SCROLLBACK_MARGIN && scrollTop + scrollHeight < bodyHeight - this.SCROLLBACK_MARGIN) {
-                allowScrollbackStartTime = Number.POSITIVE_INFINITY; // cannot allow scrollback from here
-            } else {
-                allowScrollbackStartTime = new Date().getTime() + 50; // allow scrollback after a delay
-            }
 
             if (scrollTop <= 0) {
                 if (!articleIsFixed) {
