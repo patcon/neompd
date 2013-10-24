@@ -49,6 +49,7 @@ var Homepage = (function homepage(defaultVals) {
 		resized = true,
 		setFilter = false,
 		jumpBottom = false,
+		stopMouseWheel = false,
 		menuShown,
 		isFixed,
 		removeOffscreen,
@@ -124,6 +125,7 @@ var Homepage = (function homepage(defaultVals) {
 		if(! updateScrollbarOnClose) {
 			$wrap.css('overflow', 'visible');
 		}
+
 		$wrap.css('height', containerHeight).removeClass('behind');
 		setTimeoutWithRAF(finalizeEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
@@ -339,13 +341,14 @@ var Homepage = (function homepage(defaultVals) {
 
 		if (articleHeight !== null) {
 			if ((scrollTop = window.pageYOffset) < articleTop && (scrollTop > articleTop - overhead)) {
+				stopMouseWheel = true;
 				if (!isFixed) {
 					isFixed = true;
 					fixArticle();
 				} else {
 					if(!updateScrollAnimation) {
 						updateScrollAnimation = true;
-						return $articleClose.css('zIndex', 2);
+						 $articleClose.css('zIndex', 2);
 					}
 
 					if (lowerOffset > winHeight) {
@@ -424,6 +427,19 @@ var Homepage = (function homepage(defaultVals) {
 		} else {
 			debounceLoadAnim();
 			debounceScrollClassToggling();
+		}
+	}
+
+	function onMouseWheel(e) {
+		var deltaY,
+			time;
+		if (stopMouseWheel) {
+			if((deltaY = e.originalEvent.wheelDeltaY) > 0) {
+				e.preventDefault();
+				$window.scrollTop(window.pageYOffset - (deltaY / 15));
+			} else {
+				stopMouseWheel = false;
+			}
 		}
 	}
 
@@ -671,10 +687,10 @@ var Homepage = (function homepage(defaultVals) {
 		}
 	}
 
-
 	$window.on('click', onClick);
 	$window.on('unload', onUnload);
 	$window.on('resize', onResize);
+	$window.on('mousewheel', onMouseWheel);
 
 	$menuLines.on('click', onMenuClick);
 	$menu.on('click', onFilterClick);
