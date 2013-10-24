@@ -46,7 +46,7 @@
 								<span class="elem">For The Agile</span>
 								<span class="elem">Manifesto</span>
 						    </header>
-			                <img src="<%= post.coverimg %>">
+			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
 							<span class="date"><%= @postDate(post.date) %></span>
