@@ -23,15 +23,17 @@ var Homepage = (function homepage(defaultVals) {
 		MIN_OPACITY = 0.005,
 		SCROLL_TIMEOUT_LEN = 200,
 		END_CLOSE_ARTICLE_TIMEOUT_LEN = 220,
-		RESIZE_TIMEOUT_LEN = 825,
-		ANIMATION_THRESHOLD = -PADDING * 3,
-		MAX_PER_LOAD_DEBOUNCE = 4,
-		ANIMATION_EL_THRESHOLD = 2,
+		RESIZE_TIMEOUT_LEN = 850,
+		ANIMATION_THRESHOLD = -100,
+		MAX_PER_LOAD_DEBOUNCE = 5,
+		ANIMATION_EL_THRESHOLD = 1,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
+		LEFT_BAR_OFFSET = 180,
 		firstScrollEvent = true,
 		scrollTimeout,
 		opacityTimeout,
 		loadAnimTimeout,
+		resizeTimeout,
 		filterTimeout,
 		$lower,
 		$offScreenLower,
@@ -122,7 +124,7 @@ var Homepage = (function homepage(defaultVals) {
 		if(! updateScrollbarOnClose) {
 			$wrap.css('overflow', 'visible');
 		}
-		$wrap.css('height', containerHeight);
+		$wrap.css('height', containerHeight).removeClass('behind');
 		setTimeoutWithRAF(finalizeEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
 
@@ -155,14 +157,14 @@ var Homepage = (function homepage(defaultVals) {
 			updateScrollbarOnClose = true;
 			scrollOffset = scrollTop - articleTop;
 			finishScrollClose = function() {
-				$article.addClass('fadeOut').css('opacity', MIN_OPACITY);
-				$articleClose.addClass('fadeOut').removeClass('shown');
-				$menu.removeClass('offScreen hide').addClass('closing' + ((isFixed || isLowerClosingState) ? 'Fast' : '')).css('transform', '');
-
 				$animateOnScroll.removeClass('offScreen').addClass('closing');
 				$animateOnScrollUpper.removeClass('offScreen').addClass('closing');
 				$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset, 0, true));
-				$upper.removeClass('offScreen').addClass('closing').css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
+				$upper.css('transform', modifyOrigTransform(overhead + scrollOffset, 0, true));
+
+				$article.addClass('fadeOut').css('opacity', MIN_OPACITY);
+				$articleClose.addClass('fadeOut').removeClass('shown');
+				$menu.removeClass('offScreen hide').addClass('closing' + ((isFixed || isLowerClosingState) ? 'Fast' : '')).css('transform', '');
 			};
 			if(!isFixed && !isLowerClosingState) {
 				$lower.css('transform', modifyTransform(scrollTop - articleTop - articleHeight + winHeight));
@@ -355,7 +357,7 @@ var Homepage = (function homepage(defaultVals) {
 
 					val = abs(articleTop - scrollTop) / overhead;
 					if(! menuShown) {
-						$menu.css('transform', 'translate3d(' + round(-200 + (200 * val))  + 'px, 0, 0)');
+						$menu.css('transform', 'translate3d(' + round(-LEFT_BAR_OFFSET + (LEFT_BAR_OFFSET * val))  + 'px, 0, 0)');
 					}
 					articleOpacity = (0.6 - (0.625 * val)).toFixed(2);
 					if(! opacityTimeout) {
@@ -405,7 +407,7 @@ var Homepage = (function homepage(defaultVals) {
 
 				val = 1 - abs((scrollTop - (articleTop + articleHeight - winHeight + underhead)) / underhead);
 				if(!menuShown) {
-					$menu.css('transform', 'translate3d(' + (-200 + (200 * val))  + 'px, 0, 0)');
+					$menu.css('transform', 'translate3d(' + (-LEFT_BAR_OFFSET + (LEFT_BAR_OFFSET * val))  + 'px, 0, 0)');
 				}
 
 				articleOpacity = (1 - (1 * val)).toFixed(2);
@@ -454,12 +456,11 @@ var Homepage = (function homepage(defaultVals) {
 			noScrollEvents = false;
 			$body.css('opacity', 1);
 			$container.removeClass('initial');
-			$wrap.css('height', $container.css('height'));
+			$wrap.css('height', $container[0].style.height);
 			setTimeoutWithRAF(doLoadAnim, SCROLL_TIMEOUT_LEN);
 			loaded = true;
 		} else if(!resized && $transitioned.hasClass('resized')) {
 			setTimeout(endResizeTranstion, SOON);
-			winHeight = $window.height();
 			resized = true;
 		} else if(!resized) {
 			$container.removeClass('transition');
@@ -504,7 +505,7 @@ var Homepage = (function homepage(defaultVals) {
 			lowerOffset = 0;
 			articleHeight = $article.height();
 
-			containerHeight = parseInt(($wrap.css('height').replace('px', '') || containerHeight), 10);
+			containerHeight = parseInt(($wrap[0].style.height.replace('px', '') || containerHeight), 10);
 
 			while(($li = $li.prev()).length) {
 				li = $li[0];
@@ -568,22 +569,16 @@ var Homepage = (function homepage(defaultVals) {
 			articleOpacity = 1;
 
 			$body.removeClass('scrolling');
-			$wrap.css('height', '');
+			$wrap.css('height', '').addClass('behind');
 			$container.addClass('transition');
 			$all.find('.shown').removeClass('shown').addClass('visible');
-			$offScreenUpper.addClass('offScreen')
-					.css('transform', modifyTransform(-upperOffset - offset));
-			$offScreenLower.addClass('offScreen')
-				.css('transform', modifyTransform(lOffset));
+			$offScreenUpper.addClass('offScreen').css('transform', modifyTransform(-upperOffset - offset));
+			$offScreenLower.addClass('offScreen').css('transform', modifyTransform(lOffset));
 
 			requestAnimationFrame(function() {
-				$onScreenUpper.removeClass('offScreen').addClass('onScreen')
-					.css('transform', modifyTransform(-upperOffset - offset, true));
-				$onScreenLower.removeClass('offScreen').addClass('onScreen')
-					.css('transform', modifyTransform(lOffset, true));
-				$oldLi.removeClass('offScreen').addClass('delay onScreen')
-					.css('transform', modifyTransform(lOffset, true));
-
+				$onScreenUpper.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(-upperOffset - offset, true));
+				$onScreenLower.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(lOffset, true));
+				$oldLi.removeClass('offScreen').addClass('delay onScreen').css('transform', modifyTransform(lOffset, true));
 
 				$article.addClass('fixed fadeIn').css('top', 0).css('opacity', 1);
 				$menu.removeClass('offScreen closing closingFast show').addClass('hide').css('transform', '');
@@ -606,9 +601,11 @@ var Homepage = (function homepage(defaultVals) {
 	function onLoad(e) {
 		//Modernizr.csstransforms3d = false;
 		$article.css('opacity', MIN_OPACITY);
+
 		$all.find('a').attr('data-href', function() {
 			return this.getAttribute('href');
 		}).removeAttr('href');
+
 		$container.isotope({
 			itemSelector : 'li'
 		});
@@ -618,19 +615,35 @@ var Homepage = (function homepage(defaultVals) {
 		$window.scrollTop(0);
 	}
 
+	function endResize() {
+		winHeight = $window.height();
+		firstScrollEvent = true;
+		noScrollEvents = false;
+		$container.removeClass('transition');
+		if(articleHeight === null) {
+			debounceLoadAnim();
+			containerHeight = parseInt($container[0].style.height.replace('px', ''), 10);
+			$wrap.css('height', containerHeight);
+		}
+	}
+
 	function onResize(e) {
-		//winHeight = $window.height();
-		//noScrollEvents = true;
+		noScrollEvents = true;
+
+		if(articleHeight === null) {
+			if(resized) {
+				$container.addClass('transition');
+			}
+			if(loadAnimTimeout) {
+				clearTimeout(loadAnimTimeout);
+				loadAnimTimeout = null;
+			}
+		}
+		if(resizeTimeout) {
+			clearTimeout(resizeTimeout);
+		}
+		resizeTimeout = setTimeoutWithRAF(endResize, RESIZE_TIMEOUT_LEN);
 		resized = false;
-		if(articleHeight === null) {
-			$container.addClass('transition');
-		}
-		if(articleHeight === null) {
-			clearTimeout(loadAnimTimeout);
-			loadAnimTimeout = false;
-			firstScrollEvent = true;
-			setTimeout(debounceLoadAnim, RESIZE_TIMEOUT_LEN);
-		}
 	}
 
 	function onMenuClick() {
@@ -646,7 +659,6 @@ var Homepage = (function homepage(defaultVals) {
 		var $clicked = $(e.target).closest('li');
 		if($clicked.length) {
 			noScrollEvents = true;
-			$body.scrollTop(0);
 			setFilter = true;
 			clearTimeout(filterTimeout);
 			filterTimeout = setTimeoutWithRAF(function() {
@@ -654,7 +666,8 @@ var Homepage = (function homepage(defaultVals) {
 				$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter') });
 				$hidden = $([]);
 				noScrollEvents = false;
-			}, SOON);
+			}, SOON * 3);
+			$body.scrollTop(0);
 		}
 	}
 
@@ -674,11 +687,8 @@ var Homepage = (function homepage(defaultVals) {
 	$doc.on('keydown', onKeyDown);
 
 	return {
-		upperOffset: function() {
-			return upperOffset;
-		},
-		lowerOffset: function() {
-			return lowerWinOffset;
+		offset: function() {
+			return overhead + lowerOffset;
 		},
 		articleHeight: function() {
 			return articleHeight;
@@ -689,8 +699,8 @@ var Homepage = (function homepage(defaultVals) {
 		setState: function(state) {
 			$upper = state.$upper;
 			$lower = state.$lower;
-			$animateOnScroll = state.$lower.slice(0, $animateOnScroll.length);
-			noScrollEvents = true;
+			$animateOnScroll = $lower.slice(0, $animateOnScroll.length);
+			$animateOnScrollUpper = $upper.slice(-$animateOnScrollUpper.length);
 		},
 		LOADING_Y_OFFSET: LOADING_Y_OFFSET
 	};

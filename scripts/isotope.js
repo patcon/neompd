@@ -1009,12 +1009,12 @@
           height =  data ? data.height : $brick.outerHeight(true),
           articleTop,
           isUpper = null,
-          articleHeight;
+          articleHeight = Homepage.articleHeight();
 
-      if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
+      if(articleHeight !== null) {
         this.resized.push($brick[0]);
       	if(y + height > ((articleTop = Homepage.articleTop())) && y < (articleHeight + articleTop)) {
-      		y += articleHeight + Homepage.lowerOffset();
+      		y += Homepage.offset();
           isUpper = false;
         } else if(y + height > articleTop) {
           isUpper = false;

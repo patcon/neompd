@@ -68,6 +68,9 @@ body::-webkit-scrollbar  {
 	 z-index: 2;
 	 position: relative;
 }
+#grid-wrap.behind {
+	pointer-events:none;
+}
 #grid {
    margin:0;
    padding:0;
@@ -191,6 +194,7 @@ body::-webkit-scrollbar  {
 }
 #grid > li:hover > a {
 	-webkit-transform:scale(1.0175) rotate(-0.4deg) translateZ(0);
+	text-rendering:;
 	-webkit-transition-duration: 0.25s;
 	-moz-transform:rotate(-0.75deg) translateZ(0);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
@@ -254,12 +258,12 @@ body::-webkit-scrollbar  {
 }
 #menu {
 	background:#2a2a2a url(../images/logo.jpg) 37px 23px no-repeat;
-	-webkit-transition-delay:0.35s;
-	-webkit-transition-duration:0.55s;
+	-webkit-transition-delay:0.25s;
+	-webkit-transition-duration:0.65s;
 	-webkit-transition-property:-webkit-transform;
 	-webkit-transition-timing-function: ease;
-	-moz-transition-delay:0.3s;
-	-moz-transition-duration:0.6s;
+	-moz-transition-delay:0.25s;
+	-moz-transition-duration:0.65s;
 	-moz-transition-property:-moz-transform;
 	-moz-transition-timing-function: ease;
 }
