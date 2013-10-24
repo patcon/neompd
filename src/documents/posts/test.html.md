@@ -4,7 +4,7 @@ isPost: true
 tag: "design"
 color: "orange"
 header: "Myplanet Meets DocPad: A Next Generation Web Framework"
-summary: "There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint."
+summary: "How we learned to embrace the simplicity of static site generation and the power of new web browser technology."
 layout: blog
 coverimg: "../images/Banner_1_@2x.jpg"
 tileimg: "../images/a2.jpg"
@@ -13,8 +13,6 @@ author: "Aaron Legaspi"
 date: "2012-09-20"
 tilestyle: "image"
 ---
-
-## How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 
 ### CMS-Free websites
 

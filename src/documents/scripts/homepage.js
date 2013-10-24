@@ -595,11 +595,15 @@ var Homepage = (function homepage(defaultVals) {
 				$articleClose.removeClass('hidden').addClass('shown').css('opacity', 1).css('zIndex', 2);
 			});
 			//setTimeoutWithRAF(function() {
-			var href = $clicked.parent().attr('data-href');
+			//var href = $clicked.parent().attr('data-href');
 			//console.log($clicked.parent().attr('data-href'));
 			//}, SOON);
-			$article.load(href);
-            $loading.addClass("hidden");
+			//$article.load(href);
+            $loading.removeClass("hidden");
+            $.ajax($clicked.parent().attr('data-href')).done(function(data) {
+            	$loading.addClass("hidden");
+            	$article.html(data);
+            });
 		}
 	}
 
