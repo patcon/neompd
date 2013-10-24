@@ -199,8 +199,6 @@ window.ArticleView = Backbone.View.extend({
                 $(window).scrollTop(0);
             });
 
-            self.setupScrollback();
-
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 // second-stage: article layout
                 // @todo cancel on destroy
@@ -210,13 +208,41 @@ window.ArticleView = Backbone.View.extend({
                     self.$article.html(data);
 
                     // calculate dimensions after article is visible @todo is this fired if all images are loaded?
-                    self.$article.imagesLoaded(function () { self.articleHeight = self.$article.outerHeight() });
+                    self.$article.imagesLoaded(function () {
+                        self.articleHeight = self.$article.outerHeight();
+
+                        self.setupScrollback();
+                    });
                 });
             });
 
             self.once('destroy', function () {
                 loadRequest.abort();
             })
+        });
+    },
+
+    performFixArticle: function (top) {
+        this.$article.css({
+            position: 'fixed',
+            top: top + 'px',
+            left: 0,
+            right: 0 // @todo proper calculation
+        });
+        this.$container.css({
+            'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+        });
+    },
+
+    performUnfixArticle: function () {
+        this.$article.css({
+            position: '',
+            top: '',
+            left: '',
+            right: ''
+        });
+        this.$container.css({
+            'margin-bottom': -this.$container.outerHeight() + 'px'
         });
     },
 
@@ -280,41 +306,29 @@ window.ArticleView = Backbone.View.extend({
             }
 
             if (scrollTop <= 0) {
-                requestAnimationFrame(_.bind(function () {
-                    this.$article.css({
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        right: 0 // @todo proper calculation
-                    });
-                    this.$container.css({
-                        'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-                    });
-                }, this));
+                if (!articleIsFixed) {
+                    articleIsFixed = true;
+
+                    requestAnimationFrame(_.bind(function () {
+                        this.performFixArticle(0);
+                    }, this));
+                }
             } else if (scrollTop + scrollHeight >= bodyHeight) {
-                requestAnimationFrame(_.bind(function () {
-                    this.$article.css({
-                        position: 'fixed',
-                        top: -(bodyHeight - scrollHeight),
-                        left: 0,
-                        right: 0 // @todo proper calculation
-                    });
-                    this.$container.css({
-                        'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-                    });
-                }, this));
+                if (!articleIsFixed) {
+                    articleIsFixed = true;
+
+                    requestAnimationFrame(_.bind(function () {
+                        this.performFixArticle(-(bodyHeight - scrollHeight));
+                    }, this));
+                }
             } else {
-                requestAnimationFrame(_.bind(function () {
-                    this.$article.css({
-                        position: '',
-                        top: '',
-                        left: '',
-                        right: ''
-                    });
-                    this.$container.css({
-                        'margin-bottom': -this.$container.outerHeight() + 'px'
-                    });
-                }, this));
+                if (articleIsFixed) {
+                    articleIsFixed = false;
+
+                    requestAnimationFrame(_.bind(function () {
+                        this.performUnfixArticle();
+                    }, this));
+                }
             }
         }, this);
 
