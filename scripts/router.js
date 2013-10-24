@@ -51,10 +51,11 @@ window.TagView = Backbone.View.extend({
 
         function markItemsAsRead() {
             var scrollTop = $(window).scrollTop(),
-                scrollBottom = scrollTop + $(window).height(),
+                scrollHeight = $(window).height(),
+                scrollBottom = scrollTop + scrollHeight,
 
                 hiddenTopGetter = function (i) { return hiddenItems[i].y; },
-                startIndex = binarySearch(scrollTop, 0, hiddenItems.length - 1, hiddenTopGetter),
+                startIndex = binarySearch(scrollTop - scrollHeight, 0, hiddenItems.length - 1, hiddenTopGetter),
                 endIndex = binarySearch(scrollBottom, startIndex, hiddenItems.length - 1, hiddenTopGetter),
 
                 readItems = hiddenItems.splice(startIndex, endIndex - startIndex);
@@ -104,8 +105,6 @@ window.TagView = Backbone.View.extend({
         $(document).on('scroll', markItemsAsRead);
         $(document).on('scroll', disableMouseDuringScroll);
 
-        console.log('tag view')
-
         this.destroy = function () {
             $(document).off('scroll', markItemsAsRead);
             $(document).off('scroll', disableMouseDuringScroll);
@@ -115,8 +114,6 @@ window.TagView = Backbone.View.extend({
 
 window.ArticleView = Backbone.View.extend({
     initialize: function () {
-        console.log('article view', this.model);
-
         var self = this,
             gridHasLayout,
             afterLayout;
@@ -185,10 +182,8 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
 
                 // remove the existing reveal on any tiles not in direct vicinity
-                self.$li.prevAll(':gt(7)').removeClass('read');
-                self.$li.nextAll(':gt(7)').removeClass('read');
-                self.$li.prevAll(':lt(7)').addClass('read');
-                self.$li.nextAll(':lt(7)').addClass('read');
+                self.$li.prevAll().removeClass('read');
+                self.$li.nextAll().removeClass('read');
                 self.$li.addClass('read');
 
                 self.$container.css({
@@ -289,15 +284,29 @@ window.ArticleView = Backbone.View.extend({
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+
+                        var articleItemPosition = this.$li.data('isotope-item-position');
+
+                        this.$li.nextAll('li:not(.read)').each(_.bind(function (i, nextLi) {
+                            var $item = $(nextLi),
+                                position = $item.data('isotope-item-position');
+
+                            if (position.y > articleItemPosition.y + this.scrollBelowDistance) {
+                                return false;
+                            }
+
+                            $item.addClass('read');
+                        }, this));
                     }, this));
                 }
             }
         }, this);
 
         onScroll = _.bind(function () {
+            // @todo there is an ugly snap to top if scrolling past bottom and *without releasing touch* scrolling up into unfix and then back down to bottom
             var scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
-                bodyHeight = $(document.body).height();
+                bodyHeight = $(document).height();
 
             if (scrollTop <= 0) {
                 if (!articleIsFixed) {
