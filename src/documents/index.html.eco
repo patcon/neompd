@@ -42,14 +42,12 @@
 					<li class="<%= post.tag %> <%= post.tilestyle %>">
 						<a href="<%= post.url %>">
 			            	<header class="<%= post.color %>">
-				            	<span class="elem">Practical Advice</span>
-								<span class="elem">For The Agile</span>
-								<span class="elem">Manifesto</span>
+				            	<%- @buildTitle(post.header) %>
 						    </header>
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM Do YYYY') %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 			            </a>
 			        </li>
 		        <% else: %>
@@ -60,7 +58,7 @@
 			            	</header>
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM Do YYYY') %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 			            </a>
 			        </li>
 		        <% end %>

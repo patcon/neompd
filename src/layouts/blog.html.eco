@@ -176,14 +176,6 @@
 			margin-top:45px;
 		}
 
-		#cover {
-			width: 100%;
-			top:0;
-			position: absolute;
-			opacity: 0.3;
-			z-index: 999;
-		}
-
 		body {
 			position: relative;
 		}
@@ -194,19 +186,16 @@
 <div class="banner">
 	<img src="<%= @document.coverimg %>"/>
 	<h1 class="title">
-		<%= @document.header %>
-		<span>Myplanet Meets DocPad:</span>
-		<span>A Next Generation</span>
-		<span class="title-bottom">Web Framework</span>
+		<%- @buildTitle(@document.header) %>
 	</h1>
 </div>
 
 <div class="content">
 
 	<div class="author">
-		<img src="../images/Avatar_1_@2x.png" class="avatar" />
-		<span class="author-name">Common Sense</span>
-		<span class="date">Thursday, Nov 15, 2013</span>
+		<img src="<%= @document.authorimg %>" class="avatar" />
+		<span class="author-name"><%= @document.author %></span>
+		<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
 	</div>
 
 	<%- @content %>

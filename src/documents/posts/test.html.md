@@ -3,11 +3,12 @@ title: "Test article"
 isPost: true
 tag: "design"
 color: "orange"
-header: this is a test
-summary: There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint.
+header: "Myplanet Meets DocPad: A Next Generation Web Framework"
+summary: "There's a lot of talk around biometric authentication since Apple introduced its newest iPhone, which will let users unlock their device with a fingerprint."
 layout: blog
 coverimg: "../images/Banner_1_@2x.jpg"
 tileimg: "../images/a2.jpg"
+authorimg: "../images/Avatar_1_@2x.png"
 author: "Aaron Legaspi"
 date: "2012-09-20"
 tilestyle: "image"
