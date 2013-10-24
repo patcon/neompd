@@ -800,10 +800,24 @@
 	<script src="scripts/jquery-classList-plugin.js"></script>
 
 	<script>
+
+	</script>
+	<script src="scripts/isotope.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+	<script src="scripts/backbone.js"></script>
+	<script src="scripts/router.js"></script>
+	<script>
 		var Homepage = {
 			LOADING_Y_OFFSET: 175
 		};
+
+		// @todo DELETE THIS EVENTUALLY
+		$('#grid > li > a').each(function (index) { $(this).attr('href', '#tags/sampleTag/' + index); });
+
+		$(function() {
+			var router = new Router;
+			Backbone.history.start();
+		});
 	</script>
-	<script src="scripts/isotope.js"></script>
 	<script src="scripts/homepage.js"></script>
 </body>

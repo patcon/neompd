@@ -686,6 +686,27 @@ var Homepage = (function homepage(defaultVals) {
 	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
 
+	window.TagView = Backbone.View.extend({
+		initialize: function () {
+			console.log('tag view');
+		}
+	});
+
+	window.ArticleView = Backbone.View.extend({
+		initialize: function () {
+			console.log('article view', this.model);
+
+			// for testing purposes, article "id" is the index of the corresponding list item
+			var $li = $container.children().eq(parseInt(this.model.id, 10));
+			$articleClose.attr('href', '#tags/' + this.model.tag);
+		},
+
+		destroy: function () {
+			closeArticle(true);
+		}
+	});
+
+
 	return {
 		offset: function() {
 			return overhead + lowerOffset;
