@@ -8,7 +8,7 @@ docpadConfig = {
 	templateData:
 		# Helper Function
 		buildTitle: (header) ->
-			'<span>' + header.split(/\n/).join('</span><br /><span>') + '</span>'
+			'<span>' + header.split(/\n/).join('</span><span>') + '</span>'
 
 	collections:
 		posts: ->

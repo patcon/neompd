@@ -3,7 +3,7 @@ title: "Test article"
 isPost: true
 tag: "design"
 color: "orange"
-header: "Myplanet Meets DocPad: A Next Generation Web Framework"
+header: "Myplanet Meets DocPad:\nA Next Generation Web Framework"
 summary: "How we learned to embrace the simplicity of static site generation and the power of new web browser technology."
 layout: blog
 coverimg: "../images/Banner_1_@2x.jpg"
@@ -29,7 +29,7 @@ Fast-forward to December 2012 when Erin and our Strategy and Support Group were 
 	<img src="../images/img4.jpg"/>
 </div>
 
-Around the same time that the “MP Loves” site was being built we became increasingly interested in alternative ways to experiment and prototype without having to use Drupal, which was often for light back-end sites, setup heavy.  Coincidentally, Savvis Enterprise had an interesting interactivity challenge to solve with their network topologies and our prototyping team embraced Backbone.js to build the highly interactive site by jumping almost immediately into the code.
+Around the same time that the "MP Loves" site was being built we became increasingly interested in alternative ways to experiment and prototype without having to use Drupal, which was often for light back-end sites, setup heavy.  Coincidentally, Savvis Enterprise had an interesting interactivity challenge to solve with their network topologies and our prototyping team embraced Backbone.js to build the highly interactive site by jumping almost immediately into the code.
 
 It felt good to build an application that leveraged new browser capabilities to work offline, save state, behaved almost exactly as you intended to and that only until recently the big boys at Google could build.
 

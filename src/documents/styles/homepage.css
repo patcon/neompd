@@ -148,16 +148,16 @@ body::-webkit-scrollbar  {
 }
 #grid > li.image > a > header > span {
 	background-color: #2a2a2a;
-	padding: 5px 13px 0px 20px;
-	display: inline-block;
-	whitespace: nowrap;
+	box-shadow: 20px 0 0 #2a2a2a,-20px 0 0 #2a2a2a;
+	padding: 12px 0;
+	left: 20px;
+	top: 7px;
+	position: relative;
 }
-#grid > li.image > a > header > span:first-of-type{
-	padding-top:10px;
-}
-#grid > li.image > a > header > span:last-of-type{
-	padding-bottom:5px;
-	padding-right: 5px;
+
+#grid > li.image > a > header > .smalltitle {
+	padding: 7px 0 2px 0;
+	top: 5px;
 }
 #grid > li > a > .orange {
 	background-color:#ee5b33;

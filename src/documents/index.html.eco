@@ -42,7 +42,11 @@
 					<li class="<%= post.tag %> <%= post.tilestyle %>">
 						<a href="<%= post.url %>">
 			            	<header class="<%= post.color %>">
-				            	<%- @buildTitle(post.header) %>
+			            		<% if post.tilestyle is "image": %>
+				            		<span class="smalltitle"><%= post.header %></span>
+			            		<% else: %>
+				            	<span><%= post.header %></span>
+				            	<% end %>
 						    </header>
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
@@ -54,7 +58,7 @@
 		        	<li class="<%= post.tag %>">
 			        	<a href="<%= post.url %>">
 			            	<header class="<%= post.color %>">
-			            	<%= post.header %>
+			            		<span><%= post.header %></span>
 			            	</header>
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
