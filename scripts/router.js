@@ -121,6 +121,7 @@ window.ArticleView = Backbone.View.extend({
         this.itemTop = 0;
         this.articleTop = 0;
         this.articleHeight = Number.POSITIVE_INFINITY;
+        this.articleIsFixed = false;
 
         this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
@@ -134,9 +135,6 @@ window.ArticleView = Backbone.View.extend({
 
         // for testing purposes, article "id" is the index of the corresponding list item
         this.$li = this.$container.children().eq(parseInt(this.model.id, 10));
-
-        // turn off mouse events
-        this.$container.css('pointer-events', 'none');
 
         this.$articleClose.attr('href', '#tags/' + this.model.tag);
 
@@ -182,10 +180,8 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
 
                 // remove the existing reveal on any tiles not in direct vicinity
-                self.$li.prevAll(':gt(7)').removeClass('read');
-                self.$li.nextAll(':gt(7)').removeClass('read');
-                self.$li.prevAll(':lt(7)').addClass('read');
-                self.$li.nextAll(':lt(7)').addClass('read');
+                self.$li.prevAll().removeClass('read');
+                self.$li.nextAll().removeClass('read');
                 self.$li.addClass('read');
 
                 self.$container.css({
@@ -201,7 +197,15 @@ window.ArticleView = Backbone.View.extend({
                 // @todo cancel on destroy
                 requestAnimationFrame(function () {
                     self.$article.removeClass('hidden');
-                    self.$article.css({ position: '', top: '', left: '', right: '' });
+                    self.$article.css({
+                        position: '',
+                        'webkit-transition': 'none',
+                        '-webkit-transform': 'translate3d(0,0,0)',
+                        opacity: 1,
+                        top: '',
+                        left: '',
+                        right: ''
+                    });
                     self.$article.html(data);
 
                     // calculate dimensions after article is visible @todo is this fired if all images are loaded?
@@ -219,21 +223,25 @@ window.ArticleView = Backbone.View.extend({
         });
     },
 
-    performFixArticle: function (top) {
+    performFixArticle: function (top, preserveHeight) {
         this.$article.css({
             position: 'fixed',
+            'webkit-transition': 'none',
+            opacity: 1,
             top: top + 'px',
             left: 0,
             right: 0 // @todo proper calculation
         });
         this.$container.css({
-            'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+            'margin-bottom': preserveHeight ? (-this.$container.outerHeight() + this.articleHeight) + 'px' : ''
         });
     },
 
     performUnfixArticle: function () {
         this.$article.css({
             position: '',
+            'webkit-transition': '',
+            opacity: 1,
             top: '',
             left: '',
             right: ''
@@ -244,15 +252,14 @@ window.ArticleView = Backbone.View.extend({
     },
 
     setupScrollback: function () {
-        var allowScrollbackStartTime = 0,
-            articleIsFixed = false;
+        var allowScrollbackStartTime = 0;
 
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
                 scrollTop = $(window).scrollTop(),
                 currentTime = new Date().getTime();
 
-            if (!articleIsFixed || allowScrollbackStartTime > currentTime) {
+            if (!this.articleIsFixed || allowScrollbackStartTime > currentTime) {
                 // extra wait until existing mouse wheel inertia dies down
                 allowScrollbackStartTime = currentTime + 50;
                 return;
@@ -270,7 +277,10 @@ window.ArticleView = Backbone.View.extend({
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
+                        this.$li.prevAll(':lt(7)').addClass('read');
+                        this.$li.nextAll(':lt(7)').removeClass('read');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
+                        this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE);
                     }, this));
                 }
             } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
@@ -285,7 +295,10 @@ window.ArticleView = Backbone.View.extend({
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
+                        this.$li.prevAll(':lt(7)').removeClass('read');
+                        this.$li.nextAll(':lt(7)').addClass('read');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+                        this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE);
                     }, this));
                 }
             }
@@ -298,24 +311,24 @@ window.ArticleView = Backbone.View.extend({
                 bodyHeight = $(document).height();
 
             if (scrollTop <= 0) {
-                if (!articleIsFixed) {
-                    articleIsFixed = true;
+                if (!this.articleIsFixed) {
+                    this.articleIsFixed = true;
 
                     requestAnimationFrame(_.bind(function () {
-                        this.performFixArticle(0);
+                        this.performFixArticle(0, true);
                     }, this));
                 }
             } else if (scrollTop + scrollHeight >= bodyHeight) {
-                if (!articleIsFixed) {
-                    articleIsFixed = true;
+                if (!this.articleIsFixed) {
+                    this.articleIsFixed = true;
 
                     requestAnimationFrame(_.bind(function () {
-                        this.performFixArticle(-(bodyHeight - scrollHeight));
+                        this.performFixArticle(-(bodyHeight - scrollHeight), true);
                     }, this));
                 }
             } else {
-                if (articleIsFixed) {
-                    articleIsFixed = false;
+                if (this.articleIsFixed) {
+                    this.articleIsFixed = false;
 
                     requestAnimationFrame(_.bind(function () {
                         this.performUnfixArticle();
@@ -356,18 +369,14 @@ window.ArticleView = Backbone.View.extend({
             restoredScrollTop = this.articleTop;
         }
 
-        // re-enable mouse events
-        this.$container.css('pointer-events', 'auto');
-
         // repaint heavy layout changes
-        requestAnimationFrame(_.bind(function () {
-            this.$article.css({
-                position: 'fixed',
-                top: -scrollTop + 'px',
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
+        if (!this.articleIsFixed) {
+            requestAnimationFrame(_.bind(function () {
+                this.performFixArticle(-scrollTop, false);
+            }, this));
+        }
 
+        requestAnimationFrame(_.bind(function () {
             this.$container.css({
                 'margin-bottom': ''
             });
