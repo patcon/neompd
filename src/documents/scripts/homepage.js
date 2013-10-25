@@ -1,3 +1,4 @@
+
 var Homepage = (function homepage(defaultVals) {
 	'use strict';
 
@@ -47,6 +48,7 @@ var Homepage = (function homepage(defaultVals) {
 		updateScrollAnimation,
 		noScrollEvents = true,
 		isDoingTransition = false,
+		blocksAdjusted = false,
 		loaded = false,
 		resized = true,
 		setFilter = false,
@@ -136,7 +138,6 @@ var Homepage = (function homepage(defaultVals) {
 
 		$article.css('top', '-9999px').removeClass('fixed');
 		$articleClose.addClass('hidden').removeClass('shown');
-
 		setTimeoutWithRAF(finishEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
 
@@ -274,7 +275,7 @@ var Homepage = (function homepage(defaultVals) {
 			doLoadAnim();
 			return firstScrollEvent = false;
 		}
-		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
+		loadAnimTimeout = setTimeout(doLoadAnim, SOON * 2);
 	}
 
 	function fixArticle() {
@@ -325,6 +326,13 @@ var Homepage = (function homepage(defaultVals) {
 		isDoingTransition = false;
 		updateScrollAnimation = false;
 		isLowerClosingState = false;
+
+		// if (!blocksAdjusted) {
+		// 	if (lowerOffset > lowerWinOffset) {
+		// 		$lower.css('transform', modifyTransform(lowerOffset - lowerWinOffset));
+		// 	}
+		// 	blocksAdjusted = true;
+		// }
 	}
 	function onScroll() {
 		var scrollTop,
@@ -505,88 +513,100 @@ var Homepage = (function homepage(defaultVals) {
 			scrollTop = window.pageYOffset;
 			upperOffset = 0;
 			lowerOffset = 0;
-			articleHeight = $article.height();
 
-			containerHeight = parseInt(($wrap[0].style.height.replace('px', '') || containerHeight), 10);
+            $loading.removeClass("hidden");
+			blocksAdjusted = false;
 
-			while(($li = $li.prev()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					offset = getCurTop($li) + $li.data('isotopeItemPosition').height - scrollTop + PADDING;
-					if(offset > upperOffset) {
-						upperOffset = offset;
-					}
-					$onScreenUpper.push(li);
-				}
-				else {
-					$offScreenUpper.push(li);
-				}
-				$upper.push(li);
-			}
+			$.get($clicked.parent().attr('data-href'), function(articleData) {
+				// Inject article
+				$article.html(articleData);
+				$loading.addClass("hidden");
 
-			$li = $oldLi;
-			lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
-			lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-			$onScreenLower = [];
-			$offScreenLower = [];
-			$lower = [$li[0]];
+				$article.imagesLoaded(function () {
+					articleHeight = $article.height();
 
-			while(($li = $li.next()).length) {
-				li = $li[0];
-				if(isOnScreen($li, scrollTop)) {
-					offset =  scrollTop + articleHeight - getCurTop($li) + PADDING;
-					winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
-					if (offset > lowerOffset) {
-						lowerOffset = offset;
-					}
-					if (winOffset > lowerWinOffset) {
-						lowerWinOffset = winOffset;
+					containerHeight = parseInt(($wrap[0].style.height.replace('px', '') || containerHeight), 10);
+
+					while(($li = $li.prev()).length) {
+						li = $li[0];
+						if(isOnScreen($li, scrollTop)) {
+							offset = getCurTop($li) + $li.data('isotopeItemPosition').height - scrollTop + PADDING;
+							if(offset > upperOffset) {
+								upperOffset = offset;
+							}
+							$onScreenUpper.push(li);
+						}
+						else {
+							$offScreenUpper.push(li);
+						}
+						$upper.push(li);
 					}
 
-					$onScreenLower.push(li);
-				} else {
-					$offScreenLower.push(li);
-				}
-				$lower.push(li);
-			}
+					$li = $oldLi;
+					lowerOffset = scrollTop + articleHeight - getCurTop($li) + PADDING;
+					lowerWinOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+					$onScreenLower = [];
+					$offScreenLower = [];
+					$lower = [$li[0]];
 
-			$onScreenUpper = $($onScreenUpper);
-			$offScreenUpper = $($offScreenUpper);
-			$onScreenLower = $($onScreenLower);
-			$offScreenLower = $($offScreenLower);
-			$upper = $($upper);
-			$lower = $($lower);
+					while(($li = $li.next()).length) {
+						li = $li[0];
+						if(isOnScreen($li, scrollTop)) {
+							offset =  scrollTop + articleHeight - getCurTop($li) + PADDING;
+							winOffset = scrollTop + winHeight - getCurTop($li) + PADDING;
+							if (offset > lowerOffset) {
+								lowerOffset = offset;
+							}
+							if (winOffset > lowerWinOffset) {
+								lowerWinOffset = winOffset;
+							}
 
-			$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
-			$animateOnScrollUpper = $onScreenUpper;
+							$onScreenLower.push(li);
+						} else {
+							$offScreenLower.push(li);
+						}
+						$lower.push(li);
+					}
 
-			overhead = max(winHeight, upperOffset);
-			underhead = max(winHeight, lowerWinOffset);
+					$onScreenUpper = $($onScreenUpper);
+					$offScreenUpper = $($offScreenUpper);
+					$onScreenLower = $($onScreenLower);
+					$offScreenLower = $($offScreenLower);
+					$upper = $($upper);
+					$lower = $($lower);
 
-			articleTop = scrollTop + overhead;
-			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			lOffset =  min(lowerWinOffset, lowerOffset);
-			menuShown = false;
-			isFixed = true;
-			articleOpacity = 1;
+					$animateOnScroll = $onScreenLower.add($oldLi).add($offScreenLower.slice(0, parseInt($onScreenUpper.length, 10)));
+					$animateOnScrollUpper = $onScreenUpper;
 
-			$body.removeClass('scrolling');
-			$wrap.css('height', '').addClass('behind');
-			$container.addClass('transition');
-			$all.find('.shown').removeClass('shown').addClass('visible');
-			$offScreenUpper.addClass('offScreen').css('transform', modifyTransform(-upperOffset - offset));
-			$offScreenLower.addClass('offScreen').css('transform', modifyTransform(lOffset));
+					overhead = max(winHeight, upperOffset);
+					underhead = max(winHeight, lowerWinOffset);
 
-			requestAnimationFrame(function() {
-				$onScreenUpper.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(-upperOffset - offset, true));
-				$onScreenLower.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(lOffset, true));
-				$oldLi.removeClass('offScreen').addClass('delay onScreen').css('transform', modifyTransform(lOffset, true));
+					articleTop = scrollTop + overhead;
+					offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
+					lOffset =  min(lowerWinOffset, lowerOffset);
+					menuShown = false;
+					isFixed = true;
+					articleOpacity = 1;
 
-				$article.addClass('fixed fadeIn').css('top', 0).css('opacity', 1);
-				$menu.removeClass('offScreen closing closingFast show').addClass('hide').css('transform', '');
-				$articleClose.addClass('shown').removeClass('hidden').css('zIndex', 2).css('opacity', 1);
+					$body.removeClass('scrolling');
+					$wrap.css('height', '').addClass('behind');
+					$container.addClass('transition');
+					$all.find('.shown').removeClass('shown').addClass('visible');
+					$offScreenUpper.addClass('offScreen').css('transform', modifyTransform(-upperOffset - offset));
+					$offScreenLower.addClass('offScreen').css('transform', modifyTransform(lOffset));
 
-				$articleMenu.removeClass('hidden');
+					requestAnimationFrame(function() {
+						$onScreenUpper.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(-upperOffset - offset, true));
+						$onScreenLower.removeClass('offScreen').addClass('onScreen').css('transform', modifyTransform(lOffset, true));
+						$oldLi.removeClass('offScreen').addClass('delay onScreen').css('transform', modifyTransform(lOffset, true));
+
+						$article.addClass('fixed fadeIn').css('top', 0).css('opacity', 1);
+						$menu.removeClass('offScreen closing closingFast show').addClass('hide').css('transform', '');
+						$articleClose.addClass('shown').removeClass('hidden').css('zIndex', 2).css('opacity', 1);
+
+						$articleMenu.removeClass('hidden');
+					});
+				});
 			});
 		}
 	}
