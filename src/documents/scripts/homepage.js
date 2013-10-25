@@ -14,6 +14,7 @@ var Homepage = (function homepage(defaultVals) {
 		$article = $('#article'),
         $loading = $('#loading'),
 		winHeight = $window.height(),
+		COLUMN_WIDTH = $container.children('li:not(.double):first').outerWidth(true), // include margins
 		MATRIX_REGEX = /(-?\d+)/g,
 		MATRIX_X = 1,
 		MATRIX_Y = 2,
@@ -608,7 +609,8 @@ var Homepage = (function homepage(defaultVals) {
 		}).removeAttr('href');
 
 		$container.isotope({
-			itemSelector : 'li'
+			itemSelector : 'li',
+			masonry: { columnWidth : COLUMN_WIDTH }
 		});
 	}
 
@@ -664,7 +666,7 @@ var Homepage = (function homepage(defaultVals) {
 			clearTimeout(filterTimeout);
 			filterTimeout = setTimeoutWithRAF(function() {
 				$all.removeClass('offScreen').addClass('visible');
-				$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter') });
+				$container.addClass('transition').isotope({ filter: $clicked.attr('data-filter'), masonry: { columnWidth: COLUMN_WIDTH } });
 				$hidden = $([]);
 				noScrollEvents = false;
 			}, SOON * 3);
