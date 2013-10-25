@@ -447,6 +447,8 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	min-height: 100%;
 	padding-top:350px;
 	-webkit-transition:opacity 0.35s ease-in;
+
+	background: url(../images/loading.gif) -9999px -9999px no-repeat;
 }
 
 #article.fixed {
@@ -612,6 +614,12 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 #article .content {
 	width:650px;
 	color: #555;
+}
+
+#article.loading {
+	padding: 0;
+	margin: 0;
+	background-position: 50% 50%;
 }
 
 #loading {

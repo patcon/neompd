@@ -161,14 +161,14 @@ window.ArticleView = Backbone.View.extend({
                 itemTop = position.y + containerOffset.top,
 
                 scrollTop = $(window).scrollTop(),
-                maxLeeway = $(window).height(),
+                scrollHeight = $(window).height(),
 
                 loadRequest;
 
             self.itemTop = itemTop;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-            self.articleTop = ((itemTop > scrollTop + maxLeeway) ? itemTop : Math.min(scrollTop, itemTop));
+            self.articleTop = ((itemTop > scrollTop + scrollHeight) ? itemTop : Math.min(scrollTop, itemTop));
 
             // first-stage: re-flow and reposition grid into article mode
             // @todo cancel on destroy
@@ -189,6 +189,18 @@ window.ArticleView = Backbone.View.extend({
                     'margin-bottom': -self.$container.outerHeight() + 'px'
                 });
 
+                // article loading state
+                self.$article.css({
+                    position: '',
+                    'webkit-transition': 'none',
+                    '-webkit-transform': 'translate3d(0,0,0)',
+                    opacity: 1,
+                    top: '',
+                    left: '',
+                    right: '',
+                    'min-height': scrollHeight
+                }).addClass('loading').removeClass('hidden');
+
                 $(window).scrollTop(0);
             });
 
@@ -196,16 +208,7 @@ window.ArticleView = Backbone.View.extend({
                 // second-stage: article layout
                 // @todo cancel on destroy
                 requestAnimationFrame(function () {
-                    self.$article.removeClass('hidden');
-                    self.$article.css({
-                        position: '',
-                        'webkit-transition': 'none',
-                        '-webkit-transform': 'translate3d(0,0,0)',
-                        opacity: 1,
-                        top: '',
-                        left: '',
-                        right: ''
-                    });
+                    self.$article.removeClass('loading');
                     self.$article.html(data);
 
                     // calculate dimensions after article is visible @todo is this fired if all images are loaded?
