@@ -190,7 +190,7 @@ window.ArticleView = Backbone.View.extend({
                 });
 
                 // article loading state
-                self.$article.css({
+                self.$article.empty().css({
                     position: '',
                     '-webkit-transform': 'translate3d(0,0,0)',
                     top: '',
