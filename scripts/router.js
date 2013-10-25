@@ -182,8 +182,10 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
 
                 // remove the existing reveal on any tiles not in direct vicinity
-                self.$li.prevAll().removeClass('read');
-                self.$li.nextAll().removeClass('read');
+                self.$li.prevAll(':gt(7)').removeClass('read');
+                self.$li.nextAll(':gt(7)').removeClass('read');
+                self.$li.prevAll(':lt(7)').addClass('read');
+                self.$li.nextAll(':lt(7)').addClass('read');
                 self.$li.addClass('read');
 
                 self.$container.css({
@@ -284,19 +286,6 @@ window.ArticleView = Backbone.View.extend({
                     requestAnimationFrame(_.bind(function () {
                         this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
-
-                        var articleItemPosition = this.$li.data('isotope-item-position');
-
-                        this.$li.nextAll('li:not(.read)').each(_.bind(function (i, nextLi) {
-                            var $item = $(nextLi),
-                                position = $item.data('isotope-item-position');
-
-                            if (position.y > articleItemPosition.y + this.scrollBelowDistance) {
-                                return false;
-                            }
-
-                            $item.addClass('read');
-                        }, this));
                     }, this));
                 }
             }
