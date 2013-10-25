@@ -1,5 +1,5 @@
 ---
-title: "Test article"
+title: "Myplanet Skeuomorphism vs. Flat Design"
 isPost: true
 tag: "design"
 color: "black"

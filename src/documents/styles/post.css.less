@@ -1,0 +1,249 @@
+@content-left-padding: 250px;
+
+@font-face {
+	font-family: TradeGothic;
+	src: url(../../fonts/Trade-Gothic-LT-Light.otf);
+}
+
+@font-face {
+	font-family: TradeGothic;
+	font-weight: bold;
+	src: url(../../fonts/Trade-Gothic-LT-Bold.ttf);
+}
+
+@font-face {
+	font-family: Plantin;
+	src: url(../../fonts/Plantin-Std.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-weight: bold;
+	src: url(../../fonts/PlantinStd-Bold.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-weight: bold;
+	font-style: italic;
+	src: url(../../fonts/PlantinStd-BoldItalic.otf);
+}
+
+@font-face {
+	font-family: Plantin;
+	font-style: italic;
+	src: url(../../fonts/PlantinStd-Italic.otf);
+}
+
+body {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+}
+
+blockquote {
+	// position: relative;
+	clear: both;
+	width: 1000px;
+	font-family: Plantin;
+	font-weight: bold;
+	font-style: italic;
+	font-size: 2.25em;
+	margin-left: 0;
+	text-indent: 20px;
+}
+
+blockquote:before {
+	content: '\201C';
+	font-size: 1.5em;
+	line-height: 0.1em;
+	margin-right: 0.25em;
+	vertical-align: -0.2em;
+}
+
+blockquote:after {
+	content: '\201D';
+	font-size: 1.5em;
+	line-height: 0.1em;
+	margin-right: 0.25em;
+	vertical-align: -0.2em;
+}
+
+.banner {
+	position: relative;
+	img {
+		width: 100%;
+		height: 370px;
+		background-color: #5d9cec;
+	}
+	h1 {
+		font-family: Plantin;
+		font-weight: bold;
+		font-size: 5.25em;
+		letter-spacing: -3.7px;
+		width: 1100px;
+		left: 73px;
+		line-height: 0.8;
+
+		span {
+			display: inline-block;
+			padding-left: 34px;
+			padding-right: 40px;
+			padding-top: 10px;
+			padding-bottom: 4px;
+			color: white;
+			background-color: black;
+		}
+
+		span:first-child {
+			padding-top: 25px;
+		}
+	}
+}
+
+h1, .content {
+	position: relative;
+	top: -116px;
+	margin: 0 auto;
+}
+
+.content {
+	width: 960px;
+
+	.img_block {
+		position: relative;
+		width: 1000px;
+		height: 576px;
+
+		img {
+			width: 480px;
+			height: 288px;
+			display: inline-block;
+			margin: 0;
+		}
+	}
+
+	img {
+		margin: 0 56px 56px 0;
+		display: block;
+		float: left;
+		width: 480px;
+		height: 288px;
+	}
+
+	.author {
+		margin: 30px auto;
+		overflow-y: hidden;
+
+		.avatar {
+			padding-right: 10px;
+			width:44px;
+			height:44px;
+			float: left;
+			margin: 0;
+		}
+
+		.author-name, .date {
+			font-family: TradeGothic;
+			font-size: 0.9375em;
+			position: relative;
+			top: 15px;
+			padding-left: 7px;
+			letter-spacing: 0.3px;
+		}
+
+		.author-name:after {
+			content: "\25CF";
+			padding-left: 12px;
+			font-size: 0.7em;
+		}
+	}
+
+	h2 {
+		font-family: Plantin;
+		font-weight: normal;
+		font-size: 2.25em;
+		margin: 50px 0 40px;
+		width: 660px;
+		line-height: 1.1;
+		letter-spacing: -0.8;
+	}
+
+	h3 {
+		font-family: Plantin;
+		font-weight: bold;
+		font-style: italic;
+		font-size: 1.6875em;
+		margin: 10px 0;
+		letter-spacing: -1.8px;
+	}
+
+	p {
+		font-family: Plantin;
+		font-size: 1.5em;
+		line-height: 1.4;
+		margin: 37px 0 33px;
+	}
+
+	p:first-of-type:first-letter {
+		font-size: 2em;
+	}
+
+	p:first-of-type {
+		margin-top: 0;
+	}
+
+	li {
+		font-family: Plantin;
+		font-size: 1.5em;
+		line-height: 1.4;
+		margin: 30px 0 0 30px;
+	}
+
+	ol, ul {
+		margin-bottom: 50px;
+	}
+
+	h3, p, ul, ol {
+		padding-left: @content-left-padding;
+	}
+
+	.meteor {
+		float: none;
+		display: block;
+		width:246px;
+		height:115px;
+		margin: 75px 0;
+	}
+
+	footer {
+		margin-top:45px;
+		h3 {
+			display: inline;
+			font-size: 1em;
+			font-family: TradeGothic;
+			font-style: normal;
+			letter-spacing: normal;
+		}
+		ul {
+			padding-left: 20px;
+			display: inline;
+			li {
+				font-family: TradeGothic;
+				font-size: 15px;
+				color:#c5c5c5;
+				margin-left:20px;
+				display: inline;
+			}
+		}
+	}
+}
+
+#cover {
+	width: 100%;
+	top:0;
+	position: absolute;
+	opacity: 0.3;
+	z-index: 999;
+}

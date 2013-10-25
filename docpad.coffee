@@ -13,6 +13,16 @@ docpadConfig = {
 	collections:
 		posts: ->
 			@getCollection("html").findAllLive({relativeOutDirPath:'posts'})
+
+	enabledPlugins:
+		eco: true
+		marked: true
+		less: true
+
+	plugins:
+		eco: {}
+		marked: {}
+		less: {}
 }
 # Export the DocPad Configuration
 module.exports = docpadConfig

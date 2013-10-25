@@ -2,7 +2,7 @@
 <html lang="en" class="no-js">
 <head>
 	<title>Myplanet Digital</title>
-	<%- @getBlock("styles").add(["/styles/homepage.css"]).toHTML() %>
+	<%- @getBlock("styles").add(["styles/homepage.css", "styles/post.css"]).toHTML() %>
 </head>
 
 <body>
