@@ -6,7 +6,7 @@
 			css = plugin.css,
 			add = DOMTokenList.prototype.add,
 			remove = DOMTokenList.prototype.remove,
-			prefix = document.body.style.hasOwnProperty('webkitTransform') ? 'webkit' : 'moz',
+			transformProp = document.body.style.hasOwnProperty('webkitTransform') ? 'webkitTransform' : 'mozTransform',
 			elem,
 			i,
 			length,
@@ -61,16 +61,18 @@
 		};
 
 		plugin.css = function(attr, val) {
-			var t;
-			if(attr === 'transform' && ((t = typeof val) === 'undefined' || t === 'function')) {
-				if(length = this.length) {
-					for (i = 0; i < length; i++) {
-						elem = this[i];
-						if(val) {
-							elem.style[prefix + 'Transform'] = val.call(elem, i, elem.style[prefix + 'Transform']);
-						} else {
-							return elem.style[prefix + 'Transform'];
-						}
+			var t,
+				useFn;
+			if(!(length = this.length)) {
+				return this;
+			}
+			if(attr === 'transform' && ((t = typeof val) === 'undefined' || (useFn = t === 'function'))) {
+				for (i = 0; i < length; i++) {
+					elem = this[i];
+					if(useFn === true) {
+						elem.style[transformProp] = val.call(elem, i, elem.style[transformProp]);
+					} else {
+						return elem.style[transformProp];
 					}
 				}
 				return this;

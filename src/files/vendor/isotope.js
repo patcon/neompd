@@ -602,14 +602,14 @@
       return { left: x, top: y };
     },
 
-    _pushPosition : function( $elem, x, y, isUpper ) {
+    _pushPosition : function( $elem, x, y, isUpper, height ) {
       x = Math.round( x + this.offset.left );
       y = Math.round( y + this.offset.top );
       var position = this.getPositionStyles( x, y );
       this.styleQueue.push({ $el: $elem, style: position });
-      if ( this.options.itemPositionDataEnabled ) {
-        $elem.data('isotope-item-position', {x: x, y: y} );
-      }
+     // if ( this.options.itemPositionDataEnabled ) {
+        $elem.data('isotope-item-position', {x: x, y: y, height:height} );
+      //}
       if(isUpper === true) {
         this.$upper.push($elem[0]);
       } else if(isUpper === false) {
@@ -1005,15 +1005,16 @@
       // position the brick
       var x = this.masonry.columnWidth * shortCol,
           loadingOffset = $brick.hasClass('shown') || $brick.hasClass('visible') ? 0 : Homepage.LOADING_Y_OFFSET,
-          height = $brick.outerHeight(true),
+          data = $brick.data('isotope-item-position'),
+          height =  data ? data.height : $brick.outerHeight(true),
           articleTop,
           isUpper = null,
-          articleHeight;
+          articleHeight = Homepage.articleHeight();
 
-      if(Homepage.articleHeight && (articleHeight = Homepage.articleHeight())) {
+      if(articleHeight !== null) {
         this.resized.push($brick[0]);
-      	if(y + height > (articleTop = Homepage.articleTop()) && y < (articleHeight + articleTop)) {
-      		y += articleHeight + Homepage.lowerOffset();
+      	if(y + height > ((articleTop = Homepage.articleTop())) && y < (articleHeight + articleTop)) {
+      		y += Homepage.offset();
           isUpper = false;
         } else if(y + height > articleTop) {
           isUpper = false;
@@ -1022,7 +1023,7 @@
         }
       }
 
-      this._pushPosition( $brick, x, y + loadingOffset, isUpper );
+      this._pushPosition( $brick, x, y + loadingOffset, isUpper, height );
 
       // apply setHeight to necessary columns
       var setHeight = y + height,
