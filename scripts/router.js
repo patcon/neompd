@@ -404,35 +404,26 @@ window.Router = Backbone.Router.extend({
     },
 
     index: function() {
-        var self = this,
-            view = new TagView();
+        if (this.view) {
+            this.view.destroy();
+        }
 
-        setTimeout(function() {
-            self.once('route', function() {
-                view.destroy();
-            });
-        }, 0);
+        this.view = new TagView();
     },
 
     tag: function(tag) {
-        var self = this,
-            view = new TagView();
+        if (this.view) {
+            this.view.destroy();
+        }
 
-        setTimeout(function() {
-            self.once('route', function() {
-                view.destroy();
-            });
-        }, 0);
+        this.view = new TagView();
     },
 
     article: function(tag, article) {
-        var self = this,
-            view = new ArticleView({ model: { id: article, tag: tag } });
+        if (this.view) {
+            this.view.destroy();
+        }
 
-        setTimeout(function() {
-            self.once('route', function() {
-                view.destroy();
-            });
-        }, 0);
+        this.view = new ArticleView({ model: { id: article, tag: tag } });
     }
 });
