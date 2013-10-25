@@ -192,9 +192,7 @@ window.ArticleView = Backbone.View.extend({
                 // article loading state
                 self.$article.css({
                     position: '',
-                    'webkit-transition': 'none',
                     '-webkit-transform': 'translate3d(0,0,0)',
-                    opacity: 1,
                     top: '',
                     left: '',
                     right: '',
@@ -229,8 +227,6 @@ window.ArticleView = Backbone.View.extend({
     performFixArticle: function (top, preserveHeight) {
         this.$article.css({
             position: 'fixed',
-            'webkit-transition': 'none',
-            opacity: 1,
             top: top + 'px',
             left: 0,
             right: 0 // @todo proper calculation
@@ -243,8 +239,6 @@ window.ArticleView = Backbone.View.extend({
     performUnfixArticle: function () {
         this.$article.css({
             position: '',
-            'webkit-transition': '',
-            opacity: 1,
             top: '',
             left: '',
             right: ''
@@ -283,7 +277,7 @@ window.ArticleView = Backbone.View.extend({
                         this.$li.prevAll(':lt(7)').addClass('read');
                         this.$li.nextAll(':lt(7)').removeClass('read');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
-                        this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE);
+                        this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
                     }, this));
                 }
             } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
@@ -301,7 +295,7 @@ window.ArticleView = Backbone.View.extend({
                         this.$li.prevAll(':lt(7)').removeClass('read');
                         this.$li.nextAll(':lt(7)').addClass('read');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
-                        this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE);
+                        this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
                     }, this));
                 }
             }
@@ -384,10 +378,13 @@ window.ArticleView = Backbone.View.extend({
                 'margin-bottom': ''
             });
 
+            // restore transitions if overridden by scrollback
+            this.$article.css('-webkit-transform', '').css('opacity', '');
+
             this.$article.addClass('hidden');
             this.$articleClose.addClass('hidden');
 
-            this.$container.css('-webkit-transform', ''); // trigger acceleration
+            this.$container.css('-webkit-transform', ''); // reset our repositioning
             this.$container.removeClass('scrollbackAbove').removeClass('scrollbackBelow');
 
             this.$li.prevAll().removeClass('dismissedUp');
