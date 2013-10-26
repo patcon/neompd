@@ -63,6 +63,9 @@ window.ArticleView = Backbone.View.extend({
             self.articleOffset = ((itemTop > scrollTop + scrollHeight) ? 0 : Math.min(scrollTop - itemTop, 0));
 
             // set up for slide transition
+            self.$li.prevAll().removeClass('dismissedUp dismissedDown');
+            self.$li.nextAll().andSelf().removeClass('dismissedUp dismissedDown');
+
             self.$li.prevAll(':lt(8)').addClass('dismissedUp');
             self.$li.nextAll(':lt(8)').andSelf().addClass('dismissedDown');
 
@@ -272,16 +275,12 @@ window.ArticleView = Backbone.View.extend({
             });
 
             // restore transitions if overridden by scrollback
-            this.$article.css('-webkit-transform', '').css('opacity', '');
+            this.$article.css('-webkit-transition', '').css('opacity', '');
 
             this.$article.addClass('hidden');
             this.$articleClose.addClass('hidden');
 
             this.$container.css('-webkit-transform', ''); // reset our repositioning
-            this.$container.removeClass('scrollbackAbove scrollbackBelow');
-
-            this.$li.prevAll().removeClass('dismissedUp');
-            this.$li.nextAll().andSelf().removeClass('dismissedDown');
 
             // set scroll top only after layout recalculation
             $(window).scrollTop(restoredScrollTop);
