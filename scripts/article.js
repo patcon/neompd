@@ -10,9 +10,11 @@ window.ArticleView = Backbone.View.extend({
 
         this.articleIsAtTop = false;
         this.articleIsAtBottom = false;
+        this.viewingArticleBottom = false;
 
         this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
+        this.BOTTOM_TILE_MARGIN = 400;
 
         this.scrollAboveDistance = 0;
         this.scrollBelowDistance = 0;
@@ -117,7 +119,7 @@ window.ArticleView = Backbone.View.extend({
             this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
         } else {
             // ensure there is still some transformation on the container
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop) + 'px,0)');
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (this.viewingArticleBottom ? -this.itemTop + this.articleHeight : -this.articleTop - this.SCROLLBACK_DISTANCE) + 'px,0)');
             this.$article.css('opacity', '').css('-webkit-transition', '');
         }
 
@@ -181,7 +183,19 @@ window.ArticleView = Backbone.View.extend({
             // @todo there is an ugly snap to top if scrolling past bottom and *without releasing touch* scrolling up into unfix and then back down to bottom
             var scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
-                bodyHeight = $(document).height();
+                bodyHeight = $(document).height(),
+                newBottomValue;
+
+            newBottomValue = (scrollTop + scrollHeight >= bodyHeight - this.BOTTOM_TILE_MARGIN);
+            if (newBottomValue !== this.viewingArticleBottom) {
+                this.viewingArticleBottom = newBottomValue;
+
+                // @todo cancel previous RAF request (if multiple scrolls between frames)
+                console.log('viewing bottom', newBottomValue)
+                requestAnimationFrame(_.bind(function () {
+                    this.render();
+                }, this));
+            }
 
             if (scrollTop <= 0) {
                 if (!this.articleIsAtTop) {
