@@ -4,9 +4,10 @@ window.ArticleView = Backbone.View.extend({
             gridHasLayout,
             afterLayout;
 
-        this.itemTop = 0;
-        this.articleTop = 0;
-        this.articleHeight = Number.POSITIVE_INFINITY;
+        this.itemTop = null;
+        this.articleTop = null;
+        this.articleHeight = null;
+
         this.articleIsAtTop = false;
         this.articleIsAtBottom = false;
 
@@ -66,25 +67,13 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.prevAll().addClass('dismissedUp');
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
 
-                // remove the existing reveal on any tiles not in direct vicinity
-                self.$li.prevAll(':gt(7)').removeClass('read');
-                self.$li.nextAll(':gt(7)').removeClass('read');
-                self.$li.prevAll(':lt(8)').addClass('read');
-                self.$li.nextAll(':lt(8)').addClass('read');
-                self.$li.addClass('read');
-
-                self.$container.css('-webkit-transform', 'translate3d(0,' + (-self.articleTop) + 'px,0)');
-                self.$container.css('margin-bottom', -self.$container.outerHeight() + 'px');
+                // remove the existing reveal
+                self.$container.children('li').removeClass('read');
 
                 // article loading state
-                self.$article.empty().css({
-                    position: '',
-                    '-webkit-transform': 'translate3d(0,0,0)',
-                    top: '',
-                    left: '',
-                    right: '',
-                    'min-height': scrollHeight
-                }).addClass('loading').removeClass('hidden');
+                self.$article.empty().css({ 'min-height': scrollHeight }).addClass('loading').removeClass('hidden');
+
+                self.render();
 
                 $(window).scrollTop(0);
             });
@@ -97,6 +86,10 @@ window.ArticleView = Backbone.View.extend({
                     self.$article.html(data);
 
                     // calculate dimensions after article is visible @todo is this fired if all images are loaded?
+                    self.articleHeight = self.$article.outerHeight();
+
+                    self.render();
+
                     self.$article.imagesLoaded(function () {
                         self.articleHeight = self.$article.outerHeight();
 
@@ -128,38 +121,16 @@ window.ArticleView = Backbone.View.extend({
             this.$article.css('opacity', '').css('-webkit-transition', '');
         }
 
-        // article fixed state
-        if (this.articleIsAtTop) {
-            this.$article.css({
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
-            this.$container.css({
-                'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-            });
-        } else if (this.articleIsAtBottom) {
-            this.$article.css({
-                position: 'fixed',
-                top: -($(document).height() - $(window).height()) + 'px',
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
-            this.$container.css({
-                'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-            });
-        } else {
-            this.$article.css({
-                position: '',
-                top: '',
-                left: '',
-                right: ''
-            });
-            this.$container.css({
-                'margin-bottom': -this.$container.outerHeight() + 'px'
-            });
-        }
+        this.$article.css({
+            position: '',
+            '-webkit-transform': 'translate3d(0,0,0)',
+            top: '',
+            left: '',
+            right: ''
+        });
+        this.$container.css({
+            'margin-bottom': -this.$container.outerHeight() + 'px'
+        });
     },
 
     setupScrollback: function () {
@@ -215,26 +186,14 @@ window.ArticleView = Backbone.View.extend({
             if (scrollTop <= 0) {
                 if (!this.articleIsAtTop) {
                     this.articleIsAtTop = true;
-
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
                 }
             } else if (scrollTop + scrollHeight >= bodyHeight) {
                 if (!this.articleIsAtBottom) {
                     this.articleIsAtBottom = true;
-
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
                 }
             } else {
                 if (this.articleIsAtTop || this.articleIsAtBottom) {
                     this.articleIsAtTop = this.articleIsAtBottom = false;
-
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
                 }
             }
         }, this);
@@ -274,6 +233,7 @@ window.ArticleView = Backbone.View.extend({
         requestAnimationFrame(_.bind(function () {
             this.$article.css({
                 position: 'fixed',
+                '-webkit-transform': 'translate3d(0,0,0)',
                 top: -scrollTop + 'px',
                 left: 0,
                 right: 0 // @todo proper calculation
