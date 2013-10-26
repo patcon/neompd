@@ -114,8 +114,8 @@ body::-webkit-scrollbar  {
 	-webkit-transition:-webkit-transform 0.8s ease-out, opacity 1.0s ease-out;/*, -webkit-filter 0.5s;*/
 	-webkit-transform: translate3d(0, 800px, 0);
 }
-#grid[mode=articleAbove] > li.dismissedUp > a,
-#grid[mode=articleBelow] > li.dismissedDown > a {
+#grid[mode=aboveArticle] > li.dismissedUp > a,
+#grid[mode=belowArticle] > li.dismissedDown > a {
   	opacity:1;
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:opacity 0.7s ease-out;

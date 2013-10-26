@@ -115,7 +115,13 @@ window.ArticleView = Backbone.View.extend({
             this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
         } else {
             // ensure there is still some transformation on the container
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (this.viewingArticleBottom ? -this.itemTop + this.articleHeight : -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE) + 'px,0)');
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (
+                this.gridMode === 'dismissing' ? (-this.itemTop - this.articleOffset) : (
+                    this.viewingArticleBottom ?
+                        -this.itemTop + this.articleHeight :
+                        -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE
+                )
+            ) + 'px,0)');
             this.$article.css('opacity', '').css('-webkit-transition', '');
         }
 
@@ -157,7 +163,7 @@ window.ArticleView = Backbone.View.extend({
                     this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
-                    this.gridMode = 'articleAbove';
+                    this.gridMode = 'aboveArticle';
 
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
@@ -173,7 +179,7 @@ window.ArticleView = Backbone.View.extend({
                     this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
-                    this.gridMode = 'articleBelow';
+                    this.gridMode = 'belowArticle';
 
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
