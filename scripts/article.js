@@ -7,7 +7,8 @@ window.ArticleView = Backbone.View.extend({
         this.itemTop = 0;
         this.articleTop = 0;
         this.articleHeight = Number.POSITIVE_INFINITY;
-        this.articleIsFixed = false;
+        this.articleIsAtTop = false;
+        this.articleIsAtBottom = false;
 
         this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
@@ -66,14 +67,14 @@ window.ArticleView = Backbone.View.extend({
                 self.$li.nextAll().andSelf().addClass('dismissedDown');
 
                 // remove the existing reveal on any tiles not in direct vicinity
-                self.$li.prevAll().removeClass('read');
-                self.$li.nextAll().removeClass('read');
+                self.$li.prevAll(':gt(7)').removeClass('read');
+                self.$li.nextAll(':gt(7)').removeClass('read');
+                self.$li.prevAll(':lt(8)').addClass('read');
+                self.$li.nextAll(':lt(8)').addClass('read');
                 self.$li.addClass('read');
 
-                self.$container.css({
-                    '-webkit-transform': 'translate3d(0,' + (-self.articleTop) + 'px,0)',
-                    'margin-bottom': -self.$container.outerHeight() + 'px'
-                });
+                self.$container.css('-webkit-transform', 'translate3d(0,' + (-self.articleTop) + 'px,0)');
+                self.$container.css('margin-bottom', -self.$container.outerHeight() + 'px');
 
                 // article loading state
                 self.$article.empty().css({
@@ -110,28 +111,55 @@ window.ArticleView = Backbone.View.extend({
         });
     },
 
-    performFixArticle: function (top, preserveHeight) {
-        this.$article.css({
-            position: 'fixed',
-            top: top + 'px',
-            left: 0,
-            right: 0 // @todo proper calculation
-        });
-        this.$container.css({
-            'margin-bottom': preserveHeight ? (-this.$container.outerHeight() + this.articleHeight) + 'px' : ''
-        });
-    },
+    render: function () {
+        // scrollback state
+        this.$container.toggleClass('scrollbackAbove', this.scrollAboveDistance > 0);
+        this.$container.toggleClass('scrollbackBelow', this.scrollBelowDistance > 0);
 
-    performUnfixArticle: function () {
-        this.$article.css({
-            position: '',
-            top: '',
-            left: '',
-            right: ''
-        });
-        this.$container.css({
-            'margin-bottom': -this.$container.outerHeight() + 'px'
-        });
+        if (this.scrollAboveDistance > 0) {
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
+            this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+        } else if (this.scrollBelowDistance > 0) {
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+            this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+        } else {
+            // ensure there is still some transformation on the container
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop) + 'px,0)');
+            this.$article.css('opacity', '').css('-webkit-transition', '');
+        }
+
+        // article fixed state
+        if (this.articleIsAtTop) {
+            this.$article.css({
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0 // @todo proper calculation
+            });
+            this.$container.css({
+                'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+            });
+        } else if (this.articleIsAtBottom) {
+            this.$article.css({
+                position: 'fixed',
+                top: -($(document).height() - $(window).height()) + 'px',
+                left: 0,
+                right: 0 // @todo proper calculation
+            });
+            this.$container.css({
+                'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+            });
+        } else {
+            this.$article.css({
+                position: '',
+                top: '',
+                left: '',
+                right: ''
+            });
+            this.$container.css({
+                'margin-bottom': -this.$container.outerHeight() + 'px'
+            });
+        }
     },
 
     setupScrollback: function () {
@@ -139,16 +167,15 @@ window.ArticleView = Backbone.View.extend({
 
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
-                scrollTop = $(window).scrollTop(),
                 currentTime = new Date().getTime();
 
-            if (!this.articleIsFixed || allowScrollbackStartTime > currentTime) {
+            if ((!this.articleIsAtTop && !this.articleIsAtBottom) || allowScrollbackStartTime > currentTime) {
                 // extra wait until existing mouse wheel inertia dies down
                 allowScrollbackStartTime = currentTime + 50;
                 return;
             }
 
-            if (scrollTop <= 0 && (this.scrollAboveDistance > 0 || deltaY > 0)) {
+            if (this.articleIsAtTop && (this.scrollAboveDistance > 0 || deltaY > 0)) {
                 e.preventDefault();
 
                 this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
@@ -159,14 +186,10 @@ window.ArticleView = Backbone.View.extend({
                 } else {
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
-                        this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
-                        this.$li.prevAll(':lt(7)').addClass('read');
-                        this.$li.nextAll(':lt(7)').removeClass('read');
-                        this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
-                        this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+                        this.render();
                     }, this));
                 }
-            } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
+            } else if (this.articleIsAtBottom && (this.scrollBelowDistance > 0 || deltaY < 0)) {
                 e.preventDefault();
 
                 this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
@@ -177,11 +200,7 @@ window.ArticleView = Backbone.View.extend({
                 } else {
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
-                        this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
-                        this.$li.prevAll(':lt(7)').removeClass('read');
-                        this.$li.nextAll(':lt(7)').addClass('read');
-                        this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
-                        this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+                        this.render();
                     }, this));
                 }
             }
@@ -194,27 +213,27 @@ window.ArticleView = Backbone.View.extend({
                 bodyHeight = $(document).height();
 
             if (scrollTop <= 0) {
-                if (!this.articleIsFixed) {
-                    this.articleIsFixed = true;
+                if (!this.articleIsAtTop) {
+                    this.articleIsAtTop = true;
 
                     requestAnimationFrame(_.bind(function () {
-                        this.performFixArticle(0, true);
+                        this.render();
                     }, this));
                 }
             } else if (scrollTop + scrollHeight >= bodyHeight) {
-                if (!this.articleIsFixed) {
-                    this.articleIsFixed = true;
+                if (!this.articleIsAtBottom) {
+                    this.articleIsAtBottom = true;
 
                     requestAnimationFrame(_.bind(function () {
-                        this.performFixArticle(-(bodyHeight - scrollHeight), true);
+                        this.render();
                     }, this));
                 }
             } else {
-                if (this.articleIsFixed) {
-                    this.articleIsFixed = false;
+                if (this.articleIsAtTop || this.articleIsAtBottom) {
+                    this.articleIsAtTop = this.articleIsAtBottom = false;
 
                     requestAnimationFrame(_.bind(function () {
-                        this.performUnfixArticle();
+                        this.render();
                     }, this));
                 }
             }
@@ -252,14 +271,13 @@ window.ArticleView = Backbone.View.extend({
             restoredScrollTop = this.articleTop;
         }
 
-        // repaint heavy layout changes
-        if (!this.articleIsFixed) {
-            requestAnimationFrame(_.bind(function () {
-                this.performFixArticle(-scrollTop, false);
-            }, this));
-        }
-
         requestAnimationFrame(_.bind(function () {
+            this.$article.css({
+                position: 'fixed',
+                top: -scrollTop + 'px',
+                left: 0,
+                right: 0 // @todo proper calculation
+            });
             this.$container.css({
                 'margin-bottom': ''
             });
@@ -271,7 +289,7 @@ window.ArticleView = Backbone.View.extend({
             this.$articleClose.addClass('hidden');
 
             this.$container.css('-webkit-transform', ''); // reset our repositioning
-            this.$container.removeClass('scrollbackAbove').removeClass('scrollbackBelow');
+            this.$container.removeClass('scrollbackAbove scrollbackBelow');
 
             this.$li.prevAll().removeClass('dismissedUp');
             this.$li.nextAll().andSelf().removeClass('dismissedDown');
