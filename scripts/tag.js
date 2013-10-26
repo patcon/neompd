@@ -100,6 +100,8 @@ window.TagView = Backbone.View.extend({
             }, findHiddenItems);
         }
 
+        $container.attr('mode', 'tiles');
+
         // immediately register scroll callback to be able to clear it before Isotope finishes
         $(document).on('scroll', markItemsAsRead);
         $(document).on('scroll', disableMouseDuringScroll);

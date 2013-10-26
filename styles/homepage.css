@@ -98,25 +98,31 @@ body::-webkit-scrollbar  {
 	-webkit-transform: translate3d(0, 200px, 0);
 	-webkit-transition: none;
 }
-#grid > li.read > a {
+#grid[mode=tiles] > li.read > a {
   	opacity:1;
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:-webkit-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.5s ease-out, opacity 0.7s ease-out;/*, -webkit-filter 0.5s;*/
 }
-#grid > li.dismissedUp > a {
+#grid[mode=dismissing] > li.dismissedUp > a {
   	opacity:0;
 	-webkit-transition:-webkit-transform 0.8s ease-out, opacity 1.0s ease-out;/*, -webkit-filter 0.5s;*/
 	-webkit-transform: translate3d(0, -800px, 0);
 }
-#grid > li.dismissedDown > a {
+#grid[mode=dismissing] > li.dismissedDown > a {
   	opacity:0;
 	-webkit-transition:-webkit-transform 0.8s ease-out, opacity 1.0s ease-out;/*, -webkit-filter 0.5s;*/
 	-webkit-transform: translate3d(0, 800px, 0);
 }
-#grid.scrollbackAbove > li.dismissedUp > a,
-#grid.scrollbackBelow > li.dismissedDown > a {
+#grid[mode=articleAbove] > li.dismissedUp > a,
+#grid[mode=articleBelow] > li.dismissedDown > a {
   	opacity:1;
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition:opacity 0.7s ease-out;
+}
+#grid[mode=article] > li.dismissedUp > a,
+#grid[mode=article] > li.dismissedDown > a {
+  	opacity:0;
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:opacity 0.7s ease-out;
 }

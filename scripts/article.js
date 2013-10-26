@@ -12,6 +12,8 @@ window.ArticleView = Backbone.View.extend({
         this.articleIsAtBottom = false;
         this.viewingArticleBottom = false;
 
+        this.gridMode = 'dismissing';
+
         this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
         this.BOTTOM_TILE_MARGIN = 400;
@@ -60,17 +62,14 @@ window.ArticleView = Backbone.View.extend({
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
             self.articleTop = ((itemTop > scrollTop + scrollHeight) ? itemTop : Math.min(scrollTop, itemTop));
 
+            // set up for slide transition
+            self.$li.prevAll(':lt(8)').addClass('dismissedUp');
+            self.$li.nextAll(':lt(8)').andSelf().addClass('dismissedDown');
+
             // first-stage: re-flow and reposition grid into article mode
             // @todo cancel on destroy
             requestAnimationFrame(function () {
                 self.$articleClose.removeClass('hidden');
-
-                // trigger slide transition
-                self.$li.prevAll().addClass('dismissedUp');
-                self.$li.nextAll().andSelf().addClass('dismissedDown');
-
-                // remove the existing reveal
-                self.$container.children('li').removeClass('read');
 
                 // article loading state
                 self.$article.empty().css({ 'min-height': scrollHeight }).addClass('loading').removeClass('hidden');
@@ -78,6 +77,9 @@ window.ArticleView = Backbone.View.extend({
                 self.render();
 
                 $(window).scrollTop(0);
+
+                // remove the existing reveal after rendering (does not affect display)
+                self.$container.children('li').removeClass('read');
             });
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
@@ -108,9 +110,6 @@ window.ArticleView = Backbone.View.extend({
 
     render: function () {
         // scrollback state
-        this.$container.toggleClass('scrollbackAbove', this.scrollAboveDistance > 0);
-        this.$container.toggleClass('scrollbackBelow', this.scrollBelowDistance > 0);
-
         if (this.scrollAboveDistance > 0) {
             this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
             this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
@@ -122,6 +121,9 @@ window.ArticleView = Backbone.View.extend({
             this.$container.css('-webkit-transform', 'translate3d(0,' + (this.viewingArticleBottom ? -this.itemTop + this.articleHeight : -this.articleTop - this.SCROLLBACK_DISTANCE) + 'px,0)');
             this.$article.css('opacity', '').css('-webkit-transition', '');
         }
+
+        // trigger slide transition
+        this.$container.attr('mode', this.gridMode);
 
         this.$article.css({
             position: '',
@@ -157,6 +159,8 @@ window.ArticleView = Backbone.View.extend({
                     this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
+                    this.gridMode = 'articleAbove';
+
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.render();
@@ -171,6 +175,8 @@ window.ArticleView = Backbone.View.extend({
                     this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
+                    this.gridMode = 'articleBelow';
+
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
                         this.render();
@@ -191,7 +197,6 @@ window.ArticleView = Backbone.View.extend({
                 this.viewingArticleBottom = newBottomValue;
 
                 // @todo cancel previous RAF request (if multiple scrolls between frames)
-                console.log('viewing bottom', newBottomValue)
                 requestAnimationFrame(_.bind(function () {
                     this.render();
                 }, this));
@@ -208,6 +213,12 @@ window.ArticleView = Backbone.View.extend({
             } else {
                 if (this.articleIsAtTop || this.articleIsAtBottom) {
                     this.articleIsAtTop = this.articleIsAtBottom = false;
+                    this.gridMode = 'article';
+
+                    // @todo cancel previous RAF request (if multiple scrolls between frames)
+                    requestAnimationFrame(_.bind(function () {
+                        this.render();
+                    }, this));
                 }
             }
         }, this);
