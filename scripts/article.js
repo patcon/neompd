@@ -21,6 +21,8 @@ window.ArticleView = Backbone.View.extend({
         this.scrollAboveDistance = 0;
         this.scrollBelowDistance = 0;
 
+        this.incompleteRenderId = null;
+
         this.$article = $('#article');
         this.$articleClose = $('#close');
         this.$container = $('#grid');
@@ -77,10 +79,10 @@ window.ArticleView = Backbone.View.extend({
                 // article loading state
                 self.$article.empty().css({ 'min-height': scrollHeight }).addClass('loading').removeClass('hidden');
 
-                self.render();
-
                 $(window).scrollTop(0);
             });
+
+            self.render();
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
                 // second-stage: article layout
@@ -92,14 +94,14 @@ window.ArticleView = Backbone.View.extend({
                     // calculate dimensions after article is visible @todo is this fired if all images are loaded?
                     self.articleHeight = self.$article.outerHeight();
 
-                    self.render();
-
                     self.$article.imagesLoaded(function () {
                         self.articleHeight = self.$article.outerHeight();
 
                         self.setupScrollback();
                     });
                 });
+
+                self.render();
             });
 
             self.once('destroy', function () {
@@ -109,39 +111,48 @@ window.ArticleView = Backbone.View.extend({
     },
 
     render: function () {
-        // scrollback state
-        if (this.scrollAboveDistance > 0) {
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
-            this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-        } else if (this.scrollBelowDistance > 0) {
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
-            this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-        } else {
-            // ensure there is still some transformation on the container
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (
-                this.gridMode === 'dismissing' ? (-this.itemTop - this.articleOffset) : (
-                    this.viewingArticleBottom ?
-                        -this.itemTop + this.articleHeight :
-                        -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE
-                )
-            ) + 'px,0)');
-            this.$article.css('opacity', '').css('-webkit-transition', '');
+        // no need to request another render
+        if (this.incompleteRenderId) {
+            return;
         }
 
-        // trigger slide transition
-        this.$container.attr('mode', this.gridMode);
-        console.log('mode', this.gridMode)
+        this.incompleteRenderId = requestAnimationFrame(_.bind(function () {
+            this.incompleteRenderId = null;
 
-        this.$article.css({
-            position: '',
-            '-webkit-transform': 'translate3d(0,0,0)',
-            top: '',
-            left: '',
-            right: ''
-        });
-        this.$container.css({
-            'margin-bottom': -this.$container.outerHeight() + 'px'
-        });
+            // scrollback state
+            if (this.scrollAboveDistance > 0) {
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
+                this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+            } else if (this.scrollBelowDistance > 0) {
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+                this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+            } else {
+                // ensure there is still some transformation on the container
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (
+                    this.gridMode === 'dismissing' ? (-this.itemTop - this.articleOffset) : (
+                        this.viewingArticleBottom ?
+                            -this.itemTop + this.articleHeight :
+                            -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE
+                    )
+                ) + 'px,0)');
+                this.$article.css('opacity', '').css('-webkit-transition', '');
+            }
+
+            // trigger slide transition
+            this.$container.attr('mode', this.gridMode);
+            console.log('mode', this.gridMode)
+
+            this.$article.css({
+                position: '',
+                '-webkit-transform': 'translate3d(0,0,0)',
+                top: '',
+                left: '',
+                right: ''
+            });
+            this.$container.css({
+                'margin-bottom': -this.$container.outerHeight() + 'px'
+            });
+        }, this));
     },
 
     setupScrollback: function () {
@@ -167,11 +178,7 @@ window.ArticleView = Backbone.View.extend({
                     window.location = this.$articleClose.get(0).href;
                 } else {
                     this.gridMode = 'aboveArticle';
-
-                    // @todo cancel previous RAF request (if multiple scrolls between frames)
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
+                    this.render();
                 }
             } else if (this.articleIsAtBottom && (this.scrollBelowDistance > 0 || deltaY < 0)) {
                 e.preventDefault();
@@ -183,11 +190,7 @@ window.ArticleView = Backbone.View.extend({
                     window.location = this.$articleClose.get(0).href;
                 } else {
                     this.gridMode = 'belowArticle';
-
-                    // @todo cancel previous RAF request (if multiple scrolls between frames)
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
+                    this.render();
                 }
             }
         }, this);
@@ -202,11 +205,7 @@ window.ArticleView = Backbone.View.extend({
             newBottomValue = (scrollTop + scrollHeight >= bodyHeight - this.BOTTOM_TILE_MARGIN);
             if (newBottomValue !== this.viewingArticleBottom) {
                 this.viewingArticleBottom = newBottomValue;
-
-                // @todo cancel previous RAF request (if multiple scrolls between frames)
-                requestAnimationFrame(_.bind(function () {
-                    this.render();
-                }, this));
+                this.render();
             }
 
             if (scrollTop <= 0) {
@@ -221,11 +220,7 @@ window.ArticleView = Backbone.View.extend({
                 if (this.articleIsAtTop || this.articleIsAtBottom) {
                     this.articleIsAtTop = this.articleIsAtBottom = false;
                     this.gridMode = 'article';
-
-                    // @todo cancel previous RAF request (if multiple scrolls between frames)
-                    requestAnimationFrame(_.bind(function () {
-                        this.render();
-                    }, this));
+                    this.render();
                 }
             }
         }, this);
@@ -260,6 +255,10 @@ window.ArticleView = Backbone.View.extend({
             restoredScrollTop = this.itemTop + this.scrollBelowDistance - scrollHeight;
         } else {
             restoredScrollTop = this.itemTop + this.articleOffset;
+        }
+
+        if (this.incompleteRenderId) {
+            cancelAnimationFrame(this.incompleteRenderId);
         }
 
         requestAnimationFrame(_.bind(function () {
