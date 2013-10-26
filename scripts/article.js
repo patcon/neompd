@@ -5,7 +5,7 @@ window.ArticleView = Backbone.View.extend({
             afterLayout;
 
         this.itemTop = null;
-        this.articleTop = null;
+        this.articleOffset = null;
         this.articleHeight = null;
 
         this.articleIsAtTop = false;
@@ -60,7 +60,7 @@ window.ArticleView = Backbone.View.extend({
             self.itemTop = itemTop;
 
             // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-            self.articleTop = ((itemTop > scrollTop + scrollHeight) ? itemTop : Math.min(scrollTop, itemTop));
+            self.articleOffset = ((itemTop > scrollTop + scrollHeight) ? 0 : Math.min(scrollTop - itemTop, 0));
 
             // set up for slide transition
             self.$li.prevAll(':lt(8)').addClass('dismissedUp');
@@ -108,14 +108,14 @@ window.ArticleView = Backbone.View.extend({
     render: function () {
         // scrollback state
         if (this.scrollAboveDistance > 0) {
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
             this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
         } else if (this.scrollBelowDistance > 0) {
             this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
             this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
         } else {
             // ensure there is still some transformation on the container
-            this.$container.css('-webkit-transform', 'translate3d(0,' + (this.viewingArticleBottom ? -this.itemTop + this.articleHeight : -this.articleTop - this.SCROLLBACK_DISTANCE) + 'px,0)');
+            this.$container.css('-webkit-transform', 'translate3d(0,' + (this.viewingArticleBottom ? -this.itemTop + this.articleHeight : -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE) + 'px,0)');
             this.$article.css('opacity', '').css('-webkit-transition', '');
         }
 
@@ -246,11 +246,11 @@ window.ArticleView = Backbone.View.extend({
         this.trigger('destroy');
 
         if (this.scrollAboveDistance > 0) {
-            restoredScrollTop = this.articleTop - this.scrollAboveDistance + this.SCROLLBACK_DISTANCE;
+            restoredScrollTop = this.itemTop + this.articleOffset - this.scrollAboveDistance + this.SCROLLBACK_DISTANCE;
         } else if (this.scrollBelowDistance > 0) {
             restoredScrollTop = this.itemTop + this.scrollBelowDistance - scrollHeight;
         } else {
-            restoredScrollTop = this.articleTop;
+            restoredScrollTop = this.itemTop + this.articleOffset;
         }
 
         requestAnimationFrame(_.bind(function () {
