@@ -77,9 +77,6 @@ window.ArticleView = Backbone.View.extend({
                 self.render();
 
                 $(window).scrollTop(0);
-
-                // remove the existing reveal after rendering (does not affect display)
-                self.$container.children('li').removeClass('read');
             });
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
@@ -124,6 +121,7 @@ window.ArticleView = Backbone.View.extend({
 
         // trigger slide transition
         this.$container.attr('mode', this.gridMode);
+        console.log('mode', this.gridMode)
 
         this.$article.css({
             position: '',

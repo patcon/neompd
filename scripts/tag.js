@@ -48,7 +48,7 @@ window.TagView = Backbone.View.extend({
             }
         }
 
-        function markItemsAsRead() {
+        function markItemsAsRead(isImmediate) {
             var scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
                 scrollBottom = scrollTop + scrollHeight,
@@ -59,8 +59,13 @@ window.TagView = Backbone.View.extend({
 
                 readItems = hiddenItems.splice(startIndex, endIndex - startIndex);
 
-            queuedReadItems = queuedReadItems.concat(readItems);
-            processQueuedReadItems();
+            if (isImmediate) {
+                console.log(readItems)
+                $.each(readItems, function () { this.$item.addClass('read') });
+            } else {
+                queuedReadItems = queuedReadItems.concat(readItems);
+                processQueuedReadItems();
+            }
         }
 
         function disableMouseDuringScroll() {
@@ -78,6 +83,10 @@ window.TagView = Backbone.View.extend({
         }
 
         function findHiddenItems() {
+            // remove the existing reveal after rendering (does not affect display yet)
+            // @todo avoid this if already mode=tiles
+            $container.children('li').removeClass('read');
+
             $container.children('li:not(.read)').each(function (i) {
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
@@ -87,7 +96,10 @@ window.TagView = Backbone.View.extend({
 
             hiddenItems.sort(function (a, b) { return a.y - b.y });
 
-            markItemsAsRead();
+            markItemsAsRead(true);
+
+            $container.attr('mode', 'tiles');
+            console.log('mode tiles')
         }
 
         if ($container.children(':first').data('isotope-item-position')) {
@@ -100,15 +112,16 @@ window.TagView = Backbone.View.extend({
             }, findHiddenItems);
         }
 
-        $container.attr('mode', 'tiles');
+        function onScroll() {
+            markItemsAsRead(false);
+            disableMouseDuringScroll();
+        }
 
         // immediately register scroll callback to be able to clear it before Isotope finishes
-        $(document).on('scroll', markItemsAsRead);
-        $(document).on('scroll', disableMouseDuringScroll);
+        $(document).on('scroll', onScroll);
 
         this.destroy = function () {
-            $(document).off('scroll', markItemsAsRead);
-            $(document).off('scroll', disableMouseDuringScroll);
+            $(document).off('scroll', onScroll);
         }
     }
 });
