@@ -1,28 +1,8 @@
-function binarySearch(value, first, last, getter) {
-    var count = 0;
-
-    while(first < last) {
-        var midLine = first + Math.ceil((last - first) / 2);
-        var midValue = getter(midLine);
-
-        if(midValue <= value)
-            first = midLine;
-        else
-            last = midLine - 1;
-
-        // TODO: remove
-        count++;
-        if(count > 100)
-            throw "stuck in a loop for " + first + ' vs ' + last;
-    }
-
-    return last;
-}
-
 window.TagView = Backbone.View.extend({
     initialize: function () {
         var $container = $('#grid'),
             hiddenItems = [],
+
             queuedReadItems = [],
             paintPending = false,
             mouseEnableTimeoutId = null;
@@ -53,14 +33,19 @@ window.TagView = Backbone.View.extend({
                 scrollHeight = $(window).height(),
                 scrollBottom = scrollTop + scrollHeight,
 
-                hiddenTopGetter = function (i) { return hiddenItems[i].y; },
-                startIndex = binarySearch(scrollTop - scrollHeight, 0, hiddenItems.length - 1, hiddenTopGetter),
-                endIndex = binarySearch(scrollBottom, startIndex, hiddenItems.length - 1, hiddenTopGetter),
+                i,
 
-                readItems = hiddenItems.splice(startIndex, endIndex - startIndex);
+                readItems = [];
+
+            // simple brute-force loop
+            for (i = 0; i < hiddenItems.length; i += 1) {
+                if (hiddenItems[i].y < scrollBottom && hiddenItems[i].bottom >= scrollTop) {
+                    readItems.push(hiddenItems.splice(i, 1)[0]);
+                    i -= 1;
+                }
+            }
 
             if (isImmediate) {
-                console.log(readItems)
                 $.each(readItems, function () { this.$item.addClass('read') });
             } else {
                 queuedReadItems = queuedReadItems.concat(readItems);
@@ -91,10 +76,8 @@ window.TagView = Backbone.View.extend({
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
 
-                hiddenItems.push({ y: position.y, $item: $item });
+                hiddenItems.push({ y: position.y, $item: $item, bottom: position.y + $item.outerHeight(true) });
             });
-
-            hiddenItems.sort(function (a, b) { return a.y - b.y });
 
             markItemsAsRead(true);
 
