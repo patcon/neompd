@@ -14,8 +14,8 @@ window.ArticleView = Backbone.View.extend({
         this.SCROLLBACK_DISTANCE = 400;
         this.BOTTOM_TILE_MARGIN = 400;
 
-        this.scrollAboveDistance = 0;
-        this.scrollBelowDistance = 0;
+        this.scrollAboveAmount = 0;
+        this.scrollBelowAmount = 0;
 
         this.incompleteRenderId = null;
 
@@ -112,7 +112,7 @@ window.ArticleView = Backbone.View.extend({
             articleFixed = true;
             articleShift = 0;
             containerShift = 0;
-            updatedScrollTop = this.itemTop;
+            updatedScrollTop = this.itemTop + this.SCROLLBACK_DISTANCE;
         } else if (newMode === 'belowArticle') {
             articleFixed = true;
             articleShift = (-$(window).scrollTop());
@@ -128,7 +128,7 @@ window.ArticleView = Backbone.View.extend({
                 updatedScrollTop = 0;
             } else if (newMode === 'articleFromTop') {
                 // coming from above
-                containerShift = -this.itemTop;
+                containerShift = -this.itemTop - this.SCROLLBACK_DISTANCE;
                 updatedScrollTop = 0;
             } else {
                 // coming from below
@@ -170,10 +170,10 @@ window.ArticleView = Backbone.View.extend({
             this.incompleteRenderId = null;
 
             // scrollback state
-            if (this.scrollAboveDistance > 0) {
-                this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-            } else if (this.scrollBelowDistance > 0) {
-                this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+            if (this.scrollAboveAmount > 0) {
+                this.$article.css('opacity', 1 - this.scrollAboveAmount).css('-webkit-transition', 'none');
+            } else if (this.scrollBelowAmount > 0) {
+                this.$article.css('opacity', 1 - this.scrollBelowAmount).css('-webkit-transition', 'none');
             } else {
                 this.$article.css('opacity', '').css('-webkit-transition', '');
             }
@@ -220,16 +220,17 @@ window.ArticleView = Backbone.View.extend({
         onScroll = _.bind(function () {
             // @todo there is an ugly snap to top if scrolling past bottom and *without releasing touch* scrolling up into unfix and then back down to bottom
             var scrollTop = $(window).scrollTop(),
-                scrollHeight = $(window).height();
+                scrollHeight = $(window).height(),
+                bodyHeight = $(document).height();
 
             if (this.gridMode === 'aboveArticle') {
-                if (scrollTop > this.itemTop) {
-                    this.scrollAboveDistance = 0;
+                if (scrollTop > this.itemTop + this.SCROLLBACK_DISTANCE) {
+                    this.scrollAboveAmount = 0;
                     this.changeLayout('articleFromTop');
                 } else {
-                    this.scrollAboveDistance = this.itemTop - scrollTop;
+                    this.scrollAboveAmount = (this.itemTop + this.SCROLLBACK_DISTANCE - scrollTop) / this.SCROLLBACK_DISTANCE;
 
-                    if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
+                    if (this.scrollAboveAmount >= 1) {
                         window.location = this.$articleClose.get(0).href;
                     }
                 }
@@ -237,12 +238,13 @@ window.ArticleView = Backbone.View.extend({
                 this.render();
             } else if (this.gridMode === 'belowArticle') {
                 if (scrollTop + scrollHeight < this.itemTop) {
-                    this.scrollBelowDistance = 0;
+                    this.scrollBelowAmount = 0;
                     this.changeLayout('articleFromBottom');
                 } else {
-                    this.scrollBelowDistance = scrollTop + scrollHeight - this.itemTop;
+                    // use screen height or whatever leftover space there is in the grid to scroll
+                    this.scrollBelowAmount = (scrollTop + scrollHeight - this.itemTop) / Math.min(scrollHeight, bodyHeight - this.itemTop);
 
-                    if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
+                    if (this.scrollBelowAmount >= 1) {
                         window.location = this.$articleClose.get(0).href;
                     }
                 }

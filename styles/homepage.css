@@ -120,6 +120,12 @@ body::-webkit-scrollbar  {
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:opacity 0.7s ease-out;
 }
+#grid[mode=aboveArticle] > li.dismissedDown > a,
+#grid[mode=belowArticle] > li.dismissedUp > a {
+  	opacity:0.4;
+	-webkit-transform: translate3d(0, 0, 0);
+	-webkit-transition:opacity 1.5s ease-out;
+}
 #grid[mode=articleFromTop] > li.dismissedUp > a,
 #grid[mode=articleFromBottom] > li.dismissedDown > a {
   	opacity:0;
