@@ -192,7 +192,7 @@ window.ArticleView = Backbone.View.extend({
 
             // scrollback state
             if (this.gridMode === 'aboveArticle') {
-                this.$article.css('opacity', 1 - this.scrollAboveAmount).css('-webkit-transition', 'none');
+                this.$article.css('-webkit-transition', 'none').css('opacity', Math.max(0.01, 1 - this.scrollAboveAmount));
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': '',
                     '-webkit-transform': ''
@@ -202,7 +202,7 @@ window.ArticleView = Backbone.View.extend({
                     '-webkit-transform': 'translate3d(0,' + (1 - this.scrollAboveAmount) * (this.SCROLLBACK_DISTANCE + scrollHeight) + 'px,0)'
                 });
             } else if (this.gridMode === 'belowArticle') {
-                this.$article.css('opacity', 1 - this.scrollBelowAmount).css('-webkit-transition', 'none');
+                this.$article.css('-webkit-transition', 'none').css('opacity', Math.max(0.01, 1 - this.scrollBelowAmount));
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': 'none',
                     '-webkit-transform': 'translate3d(0,' + (this.scrollBelowAmount - 1) * scrollHeight * 2 + 'px,0)'
@@ -274,9 +274,9 @@ window.ArticleView = Backbone.View.extend({
                     this.changeLayout('articleFromTop');
                     this.render();
                 } else {
-                    this.scrollAboveAmount = (this.itemTop + this.SCROLLBACK_DISTANCE - scrollTop) / this.SCROLLBACK_DISTANCE;
+                    this.scrollAboveAmount = Math.min(1, (this.itemTop + this.SCROLLBACK_DISTANCE - scrollTop) / this.SCROLLBACK_DISTANCE);
 
-                    if (this.scrollAboveAmount >= 1) {
+                    if (this.scrollAboveAmount === 1) {
                         window.location = this.$articleClose.get(0).href;
                     }
                 }
@@ -289,9 +289,9 @@ window.ArticleView = Backbone.View.extend({
                     this.render();
                 } else {
                     // use screen height or whatever leftover space there is in the grid to scroll
-                    this.scrollBelowAmount = (scrollTop + scrollHeight - this.itemTop) / Math.min(scrollHeight, bodyHeight - this.itemTop);
+                    this.scrollBelowAmount = Math.min(1, (scrollTop + scrollHeight - this.itemTop) / Math.min(scrollHeight, bodyHeight - this.itemTop));
 
-                    if (this.scrollBelowAmount >= 1) {
+                    if (this.scrollBelowAmount === 1) {
                         window.location = this.$articleClose.get(0).href;
                     }
                 }
@@ -324,37 +324,49 @@ window.ArticleView = Backbone.View.extend({
 
         this.trigger('destroy');
 
-        if (this.incompleteRenderId) {
-            cancelAnimationFrame(this.incompleteRenderId);
-        }
+        // queue up one final render to set opacity and transforms at maximums
+        this.render();
 
+        // queue up style cleanup after final render
         requestAnimationFrame(_.bind(function () {
             this.$articleClose.addClass('hidden');
-
-            // restore transitions if overridden by scrollback
-            this.$article.css('-webkit-transition', '');
             this.$article.addClass('hidden');
-            this.$article.css('opacity', '');
 
-            this.$li.prevAll('.dismissedUp').children().css({
-                '-webkit-transition': '',
-                '-webkit-transform': ''
-            });
-            this.$li.nextAll('.dismissedDown').andSelf().children().css({
-                '-webkit-transition': '',
-                '-webkit-transform': ''
-            });
+            if (this.gridMode === 'aboveArticle') {
+                // request computed state to make sure transitions are starting from zero point
+                this.$article.css('opacity');
 
-            // add grid flow first to maintain document size
-            this.$container.css({
-                'position': 'relative',
-                '-webkit-transform': 'translate3d(0,0,0)'
-            });
+                // clear animation state
+                this.$article.css('-webkit-transition', '');
+                this.$article.css('opacity', '');
+                this.$li.nextAll('.dismissedDown').andSelf().children().css({
+                    '-webkit-transform': '',
+                    '-webkit-transition': ''
+                });
+            } else if (this.gridMode === 'belowArticle') {
+                // request computed state to make sure transitions are starting from zero point
+                this.$article.css('opacity');
 
-            this.$article.css({
-                position: 'fixed',
-                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
-            });
+                // clear animation state
+                this.$article.css('-webkit-transition', '');
+                this.$article.css('opacity', '');
+                this.$li.prevAll('.dismissedUp').children().css({
+                    '-webkit-transform': '',
+                    '-webkit-transition': ''
+                });
+            } else {
+                // add grid flow first to maintain document size
+                // @todo this should be immediate instead of RAF
+                this.$container.css({
+                    'position': 'relative',
+                    '-webkit-transform': 'translate3d(0,0,0)'
+                });
+
+                this.$article.css({
+                    position: 'fixed',
+                    '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+                });
+            }
         }, this));
     }
 });

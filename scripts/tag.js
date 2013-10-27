@@ -15,16 +15,18 @@ window.TagView = Backbone.View.extend({
             if (queuedReadItems.length) {
                 paintPending = true;
 
-                requestAnimationFrame(function () {
-                    // pop one from queue to be painted
-                    queuedReadItems.shift().$item.addClass('read');
-
-                    // delay next paint to let this one complete
-                    setTimeout(function () {
+                // delay next paint to let previous one complete
+                // @todo cancel on destroy
+                setTimeout(function () {
+                    requestAnimationFrame(function () {
                         paintPending = false;
+
+                        // pop one from queue to be painted
+                        queuedReadItems.shift().$item.addClass('read');
+
                         processQueuedReadItems();
-                    }, 50);
-                });
+                    });
+                }, 50);
             }
         }
 
@@ -81,10 +83,14 @@ window.TagView = Backbone.View.extend({
 
             markItemsAsRead(true);
 
-            requestAnimationFrame(function () {
-                console.log('mode tiles')
-                $container.attr('mode', 'tiles');
-            });
+            // delay initial render until possible transitions have completed painting
+            // @todo cancel on destroy
+            setTimeout(function () {
+                requestAnimationFrame(function () {
+                    console.log('mode tiles')
+                    $container.attr('mode', 'tiles');
+                });
+            }, 200);
         }
 
         if ($container.children(':first').data('isotope-item-position')) {

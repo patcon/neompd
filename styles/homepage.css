@@ -115,12 +115,12 @@ body::-webkit-scrollbar  {
 }
 
 #grid[mode=dismissing] > li.dismissedUp > a {
-  	opacity:0;
+  	opacity:0.01;
 	-webkit-transition:-webkit-transform 0.8s ease-out, opacity 1.0s ease-out;/*, -webkit-filter 0.5s;*/
 	-webkit-transform: translate3d(0, -800px, 0);
 }
 #grid[mode=dismissing] > li.dismissedDown > a {
-  	opacity:0;
+  	opacity:0.01;
 	-webkit-transition:-webkit-transform 0.8s ease-out, opacity 1.0s ease-out;/*, -webkit-filter 0.5s;*/
 	-webkit-transform: translate3d(0, 800px, 0);
 }
@@ -136,12 +136,12 @@ body::-webkit-scrollbar  {
 }
 #grid[mode=articleFromTop] > li.dismissedUp > a,
 #grid[mode=articleFromBottom] > li.dismissedDown > a {
-  	opacity:0;
+  	opacity:0.01;
 	-webkit-transition:opacity 0.7s ease-out;
 }
 #grid[mode=articleFromBottom] > li.dismissedUp > a,
 #grid[mode=articleFromTop] > li.dismissedDown > a {
-  	opacity:0;
+  	opacity:0.01;
   	-webkit-transition: none;
 }
 #grid > li.design > a {
