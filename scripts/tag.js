@@ -67,7 +67,7 @@ window.TagView = Backbone.View.extend({
             }, 100);
         }
 
-        function findHiddenItems() {
+        function initialSetup() {
             // remove the existing reveal after rendering (does not affect display yet)
             // @todo avoid this if already mode=tiles
             $container.children('li').removeClass('read');
@@ -81,23 +81,25 @@ window.TagView = Backbone.View.extend({
 
             markItemsAsRead(true);
 
-            $container.attr('mode', 'tiles');
-            console.log('mode tiles')
+            requestAnimationFrame(function () {
+                console.log('mode tiles')
+                //$container.attr('mode', 'tiles');
+            });
         }
 
         if ($container.children(':first').data('isotope-item-position')) {
-            setTimeout(findHiddenItems, 0); // async for consistency with initial invocation
+            setTimeout(initialSetup, 0); // async for consistency with initial invocation
         } else {
             // initial layout
             $container.isotope({
                 itemSelector: 'li',
                 itemPositionDataEnabled: true
-            }, findHiddenItems);
+            }, initialSetup);
         }
 
         function onScroll() {
             markItemsAsRead(false);
-            disableMouseDuringScroll();
+            //disableMouseDuringScroll();
         }
 
         // immediately register scroll callback to be able to clear it before Isotope finishes

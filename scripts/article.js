@@ -65,8 +65,7 @@ window.ArticleView = Backbone.View.extend({
             self.articleOffset = ((itemTop > scrollTop + scrollHeight) ? 0 : Math.min(scrollTop - itemTop, 0));
 
             // set up for slide transition
-            self.$li.prevAll().removeClass('dismissedUp dismissedDown');
-            self.$li.nextAll().andSelf().removeClass('dismissedUp dismissedDown');
+            self.$container.children().removeClass('dismissedUp dismissedDown');
 
             self.$li.prevAll(':lt(8)').addClass('dismissedUp');
             self.$li.nextAll(':lt(8)').andSelf().addClass('dismissedDown');
@@ -175,7 +174,6 @@ window.ArticleView = Backbone.View.extend({
 
             // trigger slide transition
             this.$container.attr('mode', this.gridMode);
-            console.log('mode', this.gridMode)
         }, this));
     },
 
@@ -223,6 +221,8 @@ window.ArticleView = Backbone.View.extend({
                 scrollHeight = $(window).height(),
                 bodyHeight = $(document).height(),
                 newBottomValue;
+
+            console.log('article scroll')
 
             newBottomValue = (scrollTop + scrollHeight >= bodyHeight - this.BOTTOM_TILE_MARGIN);
             if (newBottomValue !== this.viewingArticleBottom) {
@@ -292,16 +292,20 @@ window.ArticleView = Backbone.View.extend({
             this.$article.css('opacity', '');
 
             // immediately recalculate layout
-            this.$article.css({
-                position: 'fixed',
-                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
-            });
+            console.timeStamp('resettingMargin')
             this.$container.css({
                 'margin-bottom': '',
                 '-webkit-transform': 'translate3d(0,0,0)'
             });
 
+            console.timeStamp('fixingArticle')
+            this.$article.css({
+                position: 'fixed',
+                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+            });
+
             // set scroll top only after layout recalculation
+            console.timeStamp('restoringScroll')
             $(window).scrollTop(restoredScrollTop);
         }, this));
     }
