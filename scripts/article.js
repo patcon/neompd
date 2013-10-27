@@ -79,7 +79,7 @@ window.ArticleView = Backbone.View.extend({
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
 
-                    if (position.y < scrollTop + scrollHeight) {
+                    if (position.y < scrollTop + scrollHeight - self.articleOffset) {
                         $item.addClass('dismissedDown');
                     } else {
                         return false;
@@ -191,41 +191,35 @@ window.ArticleView = Backbone.View.extend({
             this.incompleteRenderId = null;
 
             // scrollback state
-            if (this.scrollAboveAmount > 0) {
+            if (this.gridMode === 'aboveArticle') {
                 this.$article.css('opacity', 1 - this.scrollAboveAmount).css('-webkit-transition', 'none');
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': '',
-                    '-webkit-transform': '',
-                    'opacity': ''
+                    '-webkit-transform': ''
                 });
                 this.$li.nextAll('.dismissedDown').andSelf().children().css({
                     '-webkit-transition': 'none',
-                    '-webkit-transform': 'translate3d(0,' + (1 - this.scrollAboveAmount) * (this.SCROLLBACK_DISTANCE + scrollHeight) + 'px,0)',
-                    'opacity': this.scrollAboveAmount
+                    '-webkit-transform': 'translate3d(0,' + (1 - this.scrollAboveAmount) * (this.SCROLLBACK_DISTANCE + scrollHeight) + 'px,0)'
                 });
-            } else if (this.scrollBelowAmount > 0) {
+            } else if (this.gridMode === 'belowArticle') {
                 this.$article.css('opacity', 1 - this.scrollBelowAmount).css('-webkit-transition', 'none');
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': 'none',
-                    '-webkit-transform': 'translate3d(0,' + (this.scrollBelowAmount - 1) * scrollHeight * 2 + 'px,0)',
-                    'opacity': this.scrollBelowAmount
+                    '-webkit-transform': 'translate3d(0,' + (this.scrollBelowAmount - 1) * scrollHeight * 2 + 'px,0)'
                 });
                 this.$li.nextAll('.dismissedDown').andSelf().children().css({
                     '-webkit-transition': '',
-                    '-webkit-transform': '',
-                    'opacity': ''
+                    '-webkit-transform': ''
                 });
             } else {
                 this.$article.css('opacity', '').css('-webkit-transition', '');
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': '',
-                    '-webkit-transform': '',
-                    'opacity': ''
+                    '-webkit-transform': ''
                 });
                 this.$li.nextAll('.dismissedDown').andSelf().children().css({
                     '-webkit-transition': '',
-                    '-webkit-transform': '',
-                    'opacity': ''
+                    '-webkit-transform': ''
                 });
             }
 
@@ -278,6 +272,7 @@ window.ArticleView = Backbone.View.extend({
                 if (scrollTop > this.itemTop + this.SCROLLBACK_DISTANCE) {
                     this.scrollAboveAmount = 0;
                     this.changeLayout('articleFromTop');
+                    this.render();
                 } else {
                     this.scrollAboveAmount = (this.itemTop + this.SCROLLBACK_DISTANCE - scrollTop) / this.SCROLLBACK_DISTANCE;
 
@@ -291,6 +286,7 @@ window.ArticleView = Backbone.View.extend({
                 if (scrollTop + scrollHeight < this.itemTop) {
                     this.scrollBelowAmount = 0;
                     this.changeLayout('articleFromBottom');
+                    this.render();
                 } else {
                     // use screen height or whatever leftover space there is in the grid to scroll
                     this.scrollBelowAmount = (scrollTop + scrollHeight - this.itemTop) / Math.min(scrollHeight, bodyHeight - this.itemTop);
@@ -342,13 +338,11 @@ window.ArticleView = Backbone.View.extend({
 
             this.$li.prevAll('.dismissedUp').children().css({
                 '-webkit-transition': '',
-                '-webkit-transform': '',
-                'opacity': ''
+                '-webkit-transform': ''
             });
             this.$li.nextAll('.dismissedDown').andSelf().children().css({
                 '-webkit-transition': '',
-                '-webkit-transform': '',
-                'opacity': ''
+                '-webkit-transform': ''
             });
 
             // add grid flow first to maintain document size
