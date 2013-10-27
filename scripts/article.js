@@ -8,11 +8,7 @@ window.ArticleView = Backbone.View.extend({
         this.articleOffset = null;
         this.articleHeight = null;
 
-        this.articleIsAtTop = false;
-        this.articleIsAtBottom = false;
-        this.viewingArticleBottom = false;
-
-        this.gridMode = 'dismissing';
+        this.gridMode = null;
 
         this.SCROLLBACK_MARGIN = 20;
         this.SCROLLBACK_DISTANCE = 400;
@@ -78,10 +74,9 @@ window.ArticleView = Backbone.View.extend({
 
                 // article loading state
                 self.$article.empty().css({ 'min-height': scrollHeight }).addClass('loading').removeClass('hidden');
-
-                $(window).scrollTop(0);
             });
 
+            self.changeLayout('dismissing');
             self.render();
 
             loadRequest = $.get('/articles/photo-ia-the-sctructure-behind.html', function (data) {
@@ -110,6 +105,57 @@ window.ArticleView = Backbone.View.extend({
         });
     },
 
+    changeLayout: function (newMode) {
+        var articleFixed, articleShift, containerShift, updatedScrollTop;
+
+        if (newMode === 'aboveArticle') {
+            articleFixed = true;
+            articleShift = 0;
+            containerShift = 0;
+            updatedScrollTop = this.itemTop;
+        } else if (newMode === 'belowArticle') {
+            articleFixed = true;
+            articleShift = (-$(window).scrollTop());
+            containerShift = 0;
+            updatedScrollTop = this.itemTop - $(window).height();
+        } else {
+            articleFixed = false;
+            articleShift = 0;
+
+            if (newMode !== 'articleFromBottom') {
+                // coming from above
+                containerShift = (-this.itemTop - this.articleOffset);
+                updatedScrollTop = 0;
+            } else {
+                // coming from below
+                containerShift = (-this.itemTop + $(window).height());
+                updatedScrollTop = this.articleHeight - $(window).height();
+            }
+        }
+
+        // immediately update layout-relevant stuff
+        this.$container.css({
+            position: articleFixed ? 'relative' : 'fixed',
+            '-webkit-transform': 'translate3d(0,' + containerShift + 'px,0)',
+            top: 0,
+            left: 0,
+            right: 0 // @todo proper calculation
+        });
+
+        this.$article.css({
+            position: articleFixed ? 'fixed' : 'relative',
+            '-webkit-transform': 'translate3d(0,' + articleShift + 'px,0)',
+            top: 0,
+            left: 0,
+            right: 0 // @todo proper calculation
+        });
+
+        // set new mode and then trigger onscroll
+        this.gridMode = newMode;
+
+        $(window).scrollTop(updatedScrollTop);
+    },
+
     render: function () {
         // no need to request another render
         if (this.incompleteRenderId) {
@@ -119,53 +165,13 @@ window.ArticleView = Backbone.View.extend({
         this.incompleteRenderId = requestAnimationFrame(_.bind(function () {
             this.incompleteRenderId = null;
 
-            this.$wrapper.css({
-                'min-height': this.articleHeight + 'px'
-            });
-
-            this.$container.css({
-                position: 'fixed',
-                top: 0,
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
-
-            // shared across article position modes
-            this.$article.css({
-                top: 0,
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
-
             // scrollback state
             if (this.scrollAboveDistance > 0) {
-                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-
-                this.$article.css({
-                    position: 'fixed',
-                    '-webkit-transform': 'translate3d(0,0,0)'
-                });
             } else if (this.scrollBelowDistance > 0) {
-                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + $(window).height() - this.scrollBelowDistance) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-
-                this.$article.css({
-                    position: 'fixed',
-                    '-webkit-transform': 'translate3d(0,' + (-$(window).scrollTop()) + 'px,0)'
-                });
             } else {
-                // ensure there is still some transformation on the container
-                if (this.gridMode === 'dismissing') {
-                    this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset) + 'px,0)');
-                }
-
                 this.$article.css('opacity', '').css('-webkit-transition', '');
-
-                this.$article.css({
-                    position: 'relative',
-                    '-webkit-transform': 'translate3d(0,0,0)'
-                });
             }
 
             // trigger slide transition
@@ -178,68 +184,58 @@ window.ArticleView = Backbone.View.extend({
 
         onWheel = _.bind(function (e) {
             var deltaY = e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
-                currentTime = new Date().getTime();
+                currentTime = new Date().getTime(),
 
-            if ((!this.articleIsAtTop && !this.articleIsAtBottom) || allowScrollbackStartTime > currentTime) {
-                // extra wait until existing mouse wheel inertia dies down
+                scrollTop = $(window).scrollTop(),
+                scrollHeight = $(window).height(),
+                bodyHeight = $(document).height();
+
+            // ignore if not in article scroll mode
+            if (this.gridMode === 'aboveArticle' || this.gridMode === 'belowArticle') {
+                return;
+            }
+
+            // extra wait until existing mouse wheel inertia dies down
+            if (allowScrollbackStartTime > currentTime) {
                 allowScrollbackStartTime = currentTime + 50;
                 return;
             }
 
-            if (this.articleIsAtTop && (this.scrollAboveDistance > 0 || deltaY > 0)) {
-                e.preventDefault();
-
-                this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
-
-                if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
-                    window.location = this.$articleClose.get(0).href;
-                } else {
-                    this.gridMode = 'aboveArticle';
-                    this.render();
-                }
-            } else if (this.articleIsAtBottom && (this.scrollBelowDistance > 0 || deltaY < 0)) {
-                e.preventDefault();
-
-                this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
-
-                if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
-                    window.location = this.$articleClose.get(0).href;
-                } else {
-                    this.gridMode = 'belowArticle';
-                    this.render();
-                }
+            if (scrollTop <= 0 && deltaY > 0) {
+                this.changeLayout('aboveArticle');
+                this.render();
+            } else if (scrollTop + scrollHeight >= bodyHeight && deltaY < 0) {
+                this.changeLayout('belowArticle');
+                this.render();
+            } else {
+                // otherwise, prevent acting until mouse wheel inertia dies down
+                allowScrollbackStartTime = currentTime + 50;
             }
         }, this);
 
         onScroll = _.bind(function () {
             // @todo there is an ugly snap to top if scrolling past bottom and *without releasing touch* scrolling up into unfix and then back down to bottom
             var scrollTop = $(window).scrollTop(),
-                scrollHeight = $(window).height(),
-                bodyHeight = $(document).height(),
-                newBottomValue;
+                scrollHeight = $(window).height();
 
-            console.log('article scroll')
+            if (this.gridMode === 'aboveArticle') {
+                if (scrollTop > this.itemTop) {
+                    this.scrollAboveDistance = 0;
+                    this.changeLayout('articleFromTop');
+                } else {
+                    this.scrollAboveDistance = this.itemTop - scrollTop;
+                }
 
-            newBottomValue = (scrollTop + scrollHeight >= bodyHeight - this.BOTTOM_TILE_MARGIN);
-            if (newBottomValue !== this.viewingArticleBottom) {
-                this.viewingArticleBottom = newBottomValue;
                 this.render();
-            }
+            } else if (this.gridMode === 'belowArticle') {
+                if (scrollTop + scrollHeight < this.itemTop) {
+                    this.scrollBelowDistance = 0;
+                    this.changeLayout('articleFromBottom');
+                } else {
+                    this.scrollBelowDistance = scrollTop + scrollHeight - this.itemTop;
+                }
 
-            if (scrollTop <= 0) {
-                if (!this.articleIsAtTop) {
-                    this.articleIsAtTop = true;
-                }
-            } else if (scrollTop + scrollHeight >= bodyHeight) {
-                if (!this.articleIsAtBottom) {
-                    this.articleIsAtBottom = true;
-                }
-            } else {
-                if (this.articleIsAtTop || this.articleIsAtBottom) {
-                    this.articleIsAtTop = this.articleIsAtBottom = false;
-                    this.gridMode = 'article';
-                    this.render();
-                }
+                this.render();
             }
         }, this);
 
@@ -299,12 +295,7 @@ window.ArticleView = Backbone.View.extend({
             });
 
             // take off height minimum after elements are at their intended size
-            this.$wrapper.css({
-                'min-height': ''
-            });
-
             // set scroll top only after layout recalculation
-            console.timeStamp('restoringScroll')
             $(window).scrollTop(restoredScrollTop);
         }, this));
     }

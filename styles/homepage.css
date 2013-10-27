@@ -120,8 +120,8 @@ body::-webkit-scrollbar  {
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:opacity 0.7s ease-out;
 }
-#grid[mode=article] > li.dismissedUp > a,
-#grid[mode=article] > li.dismissedDown > a {
+#grid[mode=articleFromTop] > li.dismissedUp > a,
+#grid[mode=articleFromBottom] > li.dismissedDown > a {
   	opacity:0;
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:opacity 0.7s ease-out;
