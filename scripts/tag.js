@@ -83,7 +83,7 @@ window.TagView = Backbone.View.extend({
 
             requestAnimationFrame(function () {
                 console.log('mode tiles')
-                //$container.attr('mode', 'tiles');
+                $container.attr('mode', 'tiles');
             });
         }
 

@@ -122,9 +122,13 @@ window.ArticleView = Backbone.View.extend({
             articleFixed = false;
             articleShift = 0;
 
-            if (newMode !== 'articleFromBottom') {
-                // coming from above
+            if (newMode === 'dismissing') {
+                // initial transition
                 containerShift = (-this.itemTop - this.articleOffset);
+                updatedScrollTop = 0;
+            } else if (newMode === 'articleFromTop') {
+                // coming from above
+                containerShift = -this.itemTop;
                 updatedScrollTop = 0;
             } else {
                 // coming from below
@@ -224,6 +228,10 @@ window.ArticleView = Backbone.View.extend({
                     this.changeLayout('articleFromTop');
                 } else {
                     this.scrollAboveDistance = this.itemTop - scrollTop;
+
+                    if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
+                        window.location = this.$articleClose.get(0).href;
+                    }
                 }
 
                 this.render();
@@ -233,6 +241,10 @@ window.ArticleView = Backbone.View.extend({
                     this.changeLayout('articleFromBottom');
                 } else {
                     this.scrollBelowDistance = scrollTop + scrollHeight - this.itemTop;
+
+                    if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
+                        window.location = this.$articleClose.get(0).href;
+                    }
                 }
 
                 this.render();
@@ -263,14 +275,6 @@ window.ArticleView = Backbone.View.extend({
 
         this.trigger('destroy');
 
-        if (this.scrollAboveDistance > 0) {
-            restoredScrollTop = this.itemTop + this.articleOffset - this.scrollAboveDistance + this.SCROLLBACK_DISTANCE;
-        } else if (this.scrollBelowDistance > 0) {
-            restoredScrollTop = this.itemTop + this.scrollBelowDistance - scrollHeight;
-        } else {
-            restoredScrollTop = this.itemTop + this.articleOffset;
-        }
-
         if (this.incompleteRenderId) {
             cancelAnimationFrame(this.incompleteRenderId);
         }
@@ -283,20 +287,16 @@ window.ArticleView = Backbone.View.extend({
             this.$article.addClass('hidden');
             this.$article.css('opacity', '');
 
-            // remove article flow before adding grid flow to avoid bumping document size
-            this.$article.css({
-                position: 'fixed',
-                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
-            });
-
+            // add grid flow first to maintain document size
             this.$container.css({
                 'position': 'relative',
                 '-webkit-transform': 'translate3d(0,0,0)'
             });
 
-            // take off height minimum after elements are at their intended size
-            // set scroll top only after layout recalculation
-            $(window).scrollTop(restoredScrollTop);
+            this.$article.css({
+                position: 'fixed',
+                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+            });
         }, this));
     }
 });
