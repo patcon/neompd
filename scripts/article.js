@@ -119,13 +119,38 @@ window.ArticleView = Backbone.View.extend({
         this.incompleteRenderId = requestAnimationFrame(_.bind(function () {
             this.incompleteRenderId = null;
 
+            // shared across article position modes
+            this.$article.css({
+                top: 0,
+                left: 0,
+                right: 0 // @todo proper calculation
+            });
+
             // scrollback state
             if (this.scrollAboveDistance > 0) {
                 this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+
+                this.$container.css({
+                    'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+                });
+
+                this.$article.css({
+                    position: 'fixed',
+                    '-webkit-transform': 'translate3d(0,0,0)'
+                });
             } else if (this.scrollBelowDistance > 0) {
                 this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
+
+                this.$container.css({
+                    'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
+                });
+
+                this.$article.css({
+                    position: 'fixed',
+                    '-webkit-transform': 'translate3d(0,' + (-this.articleHeight + 50) + 'px,0)'
+                });
             } else {
                 // ensure there is still some transformation on the container
                 this.$container.css('-webkit-transform', 'translate3d(0,' + (
@@ -135,23 +160,22 @@ window.ArticleView = Backbone.View.extend({
                             -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE
                     )
                 ) + 'px,0)');
+
                 this.$article.css('opacity', '').css('-webkit-transition', '');
+
+                this.$article.css({
+                    position: 'relative',
+                    '-webkit-transform': 'translate3d(0,0,0)'
+                });
+
+                this.$container.css({
+                    'margin-bottom': -this.$container.outerHeight() + 'px'
+                });
             }
 
             // trigger slide transition
             this.$container.attr('mode', this.gridMode);
             console.log('mode', this.gridMode)
-
-            this.$article.css({
-                position: '',
-                '-webkit-transform': 'translate3d(0,0,0)',
-                top: '',
-                left: '',
-                right: ''
-            });
-            this.$container.css({
-                'margin-bottom': -this.$container.outerHeight() + 'px'
-            });
         }, this));
     },
 
@@ -174,7 +198,6 @@ window.ArticleView = Backbone.View.extend({
                 this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
 
                 if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
-                    this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
                     this.gridMode = 'aboveArticle';
@@ -186,7 +209,6 @@ window.ArticleView = Backbone.View.extend({
                 this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
 
                 if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
-                    this.destroy(); // initialize teardown animation without waiting for hash-change
                     window.location = this.$articleClose.get(0).href;
                 } else {
                     this.gridMode = 'belowArticle';
@@ -262,24 +284,22 @@ window.ArticleView = Backbone.View.extend({
         }
 
         requestAnimationFrame(_.bind(function () {
-            this.$article.css({
-                position: 'fixed',
-                '-webkit-transform': 'translate3d(0,0,0)',
-                top: -scrollTop + 'px',
-                left: 0,
-                right: 0 // @todo proper calculation
-            });
-            this.$container.css({
-                'margin-bottom': ''
-            });
-
-            // restore transitions if overridden by scrollback
-            this.$article.css('-webkit-transition', '').css('opacity', '');
-
-            this.$article.addClass('hidden');
             this.$articleClose.addClass('hidden');
 
-            this.$container.css('-webkit-transform', ''); // reset our repositioning
+            // restore transitions if overridden by scrollback
+            this.$article.css('-webkit-transition', '');
+            this.$article.addClass('hidden');
+            this.$article.css('opacity', '');
+
+            // immediately recalculate layout
+            this.$article.css({
+                position: 'fixed',
+                '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+            });
+            this.$container.css({
+                'margin-bottom': '',
+                '-webkit-transform': 'translate3d(0,0,0)'
+            });
 
             // set scroll top only after layout recalculation
             $(window).scrollTop(restoredScrollTop);
