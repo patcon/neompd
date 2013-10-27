@@ -24,6 +24,7 @@ window.ArticleView = Backbone.View.extend({
         this.incompleteRenderId = null;
 
         this.$article = $('#article');
+        this.$wrapper = $('#article').parent();
         this.$articleClose = $('#close');
         this.$container = $('#grid');
 
@@ -118,6 +119,17 @@ window.ArticleView = Backbone.View.extend({
         this.incompleteRenderId = requestAnimationFrame(_.bind(function () {
             this.incompleteRenderId = null;
 
+            this.$wrapper.css({
+                'min-height': this.articleHeight + 'px'
+            });
+
+            this.$container.css({
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0 // @todo proper calculation
+            });
+
             // shared across article position modes
             this.$article.css({
                 top: 0,
@@ -130,45 +142,29 @@ window.ArticleView = Backbone.View.extend({
                 this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollAboveDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
 
-                this.$container.css({
-                    'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-                });
-
                 this.$article.css({
                     position: 'fixed',
                     '-webkit-transform': 'translate3d(0,0,0)'
                 });
             } else if (this.scrollBelowDistance > 0) {
-                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
+                this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + $(window).height() - this.scrollBelowDistance) + 'px,0)');
                 this.$article.css('opacity', 1 - this.scrollBelowDistance / this.SCROLLBACK_DISTANCE).css('-webkit-transition', 'none');
-
-                this.$container.css({
-                    'margin-bottom': (-this.$container.outerHeight() + this.articleHeight) + 'px'
-                });
 
                 this.$article.css({
                     position: 'fixed',
-                    '-webkit-transform': 'translate3d(0,' + (-this.articleHeight + 50) + 'px,0)'
+                    '-webkit-transform': 'translate3d(0,' + (-$(window).scrollTop()) + 'px,0)'
                 });
             } else {
                 // ensure there is still some transformation on the container
-                this.$container.css('-webkit-transform', 'translate3d(0,' + (
-                    this.gridMode === 'dismissing' ? (-this.itemTop - this.articleOffset) : (
-                        this.viewingArticleBottom ?
-                            -this.itemTop + this.articleHeight :
-                            -this.itemTop - this.articleOffset - this.SCROLLBACK_DISTANCE
-                    )
-                ) + 'px,0)');
+                if (this.gridMode === 'dismissing') {
+                    this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop - this.articleOffset) + 'px,0)');
+                }
 
                 this.$article.css('opacity', '').css('-webkit-transition', '');
 
                 this.$article.css({
                     position: 'relative',
                     '-webkit-transform': 'translate3d(0,0,0)'
-                });
-
-                this.$container.css({
-                    'margin-bottom': -this.$container.outerHeight() + 'px'
                 });
             }
 
@@ -291,17 +287,20 @@ window.ArticleView = Backbone.View.extend({
             this.$article.addClass('hidden');
             this.$article.css('opacity', '');
 
-            // immediately recalculate layout
-            console.timeStamp('resettingMargin')
-            this.$container.css({
-                'margin-bottom': '',
-                '-webkit-transform': 'translate3d(0,0,0)'
-            });
-
-            console.timeStamp('fixingArticle')
+            // remove article flow before adding grid flow to avoid bumping document size
             this.$article.css({
                 position: 'fixed',
                 '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+            });
+
+            this.$container.css({
+                'position': 'relative',
+                '-webkit-transform': 'translate3d(0,0,0)'
+            });
+
+            // take off height minimum after elements are at their intended size
+            this.$wrapper.css({
+                'min-height': ''
             });
 
             // set scroll top only after layout recalculation
