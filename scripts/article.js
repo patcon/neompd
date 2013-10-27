@@ -186,15 +186,47 @@ window.ArticleView = Backbone.View.extend({
         }
 
         this.incompleteRenderId = requestAnimationFrame(_.bind(function () {
+            var scrollHeight = $(window).height();
+
             this.incompleteRenderId = null;
 
             // scrollback state
             if (this.scrollAboveAmount > 0) {
                 this.$article.css('opacity', 1 - this.scrollAboveAmount).css('-webkit-transition', 'none');
+                this.$li.prevAll('.dismissedUp').children().css({
+                    '-webkit-transition': '',
+                    '-webkit-transform': '',
+                    'opacity': ''
+                });
+                this.$li.nextAll('.dismissedDown').andSelf().children().css({
+                    '-webkit-transition': 'none',
+                    '-webkit-transform': 'translate3d(0,' + (1 - this.scrollAboveAmount) * (this.SCROLLBACK_DISTANCE + scrollHeight) + 'px,0)',
+                    'opacity': this.scrollAboveAmount
+                });
             } else if (this.scrollBelowAmount > 0) {
                 this.$article.css('opacity', 1 - this.scrollBelowAmount).css('-webkit-transition', 'none');
+                this.$li.prevAll('.dismissedUp').children().css({
+                    '-webkit-transition': 'none',
+                    '-webkit-transform': 'translate3d(0,' + (this.scrollBelowAmount - 1) * scrollHeight * 2 + 'px,0)',
+                    'opacity': this.scrollBelowAmount
+                });
+                this.$li.nextAll('.dismissedDown').andSelf().children().css({
+                    '-webkit-transition': '',
+                    '-webkit-transform': '',
+                    'opacity': ''
+                });
             } else {
                 this.$article.css('opacity', '').css('-webkit-transition', '');
+                this.$li.prevAll('.dismissedUp').children().css({
+                    '-webkit-transition': '',
+                    '-webkit-transform': '',
+                    'opacity': ''
+                });
+                this.$li.nextAll('.dismissedDown').andSelf().children().css({
+                    '-webkit-transition': '',
+                    '-webkit-transform': '',
+                    'opacity': ''
+                });
             }
 
             // trigger slide transition
@@ -307,6 +339,17 @@ window.ArticleView = Backbone.View.extend({
             this.$article.css('-webkit-transition', '');
             this.$article.addClass('hidden');
             this.$article.css('opacity', '');
+
+            this.$li.prevAll('.dismissedUp').children().css({
+                '-webkit-transition': '',
+                '-webkit-transform': '',
+                'opacity': ''
+            });
+            this.$li.nextAll('.dismissedDown').andSelf().children().css({
+                '-webkit-transition': '',
+                '-webkit-transform': '',
+                'opacity': ''
+            });
 
             // add grid flow first to maintain document size
             this.$container.css({
