@@ -64,8 +64,27 @@ window.ArticleView = Backbone.View.extend({
             // set up for slide transition
             self.$container.children().removeClass('dismissedUp dismissedDown');
 
-            self.$li.prevAll(':lt(8)').addClass('dismissedUp');
-            self.$li.nextAll(':lt(8)').andSelf().addClass('dismissedDown');
+            self.$li.prevAll().each(function () {
+                var $item = $(this),
+                    position = $item.data('isotope-item-position');
+
+                    if (position.y + $item.outerHeight(true) > scrollTop) {
+                        $item.addClass('dismissedUp');
+                    } else {
+                        return false;
+                    }
+            });
+            self.$li.addClass('dismissedDown');
+            self.$li.nextAll().each(function () {
+                var $item = $(this),
+                    position = $item.data('isotope-item-position');
+
+                    if (position.y < scrollTop + scrollHeight) {
+                        $item.addClass('dismissedDown');
+                    } else {
+                        return false;
+                    }
+            });
 
             // first-stage: re-flow and reposition grid into article mode
             // @todo cancel on destroy
