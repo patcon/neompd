@@ -20,32 +20,36 @@
 		h1 {
 			font-family: Plantin;
 			font-weight: bold;
-			font-size: 5.25em;
+			font-size: 7em;
 			letter-spacing: -3.7px;
 			width: 1100px;
-			left: 73px;
 			line-height: 0.8;
+
+			margin: -118px auto 0px;
 
 			span {
 				display: inline-block;
+				margin-left: 76px;
 				padding-left: 34px;
-				padding-right: 40px;
-				padding-top: 10px;
-				padding-bottom: 4px;
+				padding-right: 42px;
+				padding-top: 9px;
+				padding-bottom: 5px;
 				color: white;
 				background-color: black;
+			}
+
+			span:first-of-type {
+				padding-top:25px;
 			}
 		}
 	}
 
-	h1, .content {
-		position: relative;
-		top: -110px;
-		margin: 0 auto;
-	}
-
 	.content {
-		width: 960px;
+		position: relative;
+		margin: 0 auto;
+		width: 960px-@content-left-padding;
+		padding-top: 33px;
+		padding-left: @content-left-padding;
 
 		blockquote {
 			// position: relative;
@@ -97,66 +101,64 @@
 		}
 
 		.author {
-			margin: 30px auto;
+			margin-bottom: 44px;
 			overflow-y: hidden;
+			padding-left: 2px;
+			line-height: 50px;
+			margin-left: -@content-left-padding;
 
 			.avatar {
-				padding-right: 10px;
 				width:44px;
 				height:44px;
-				float: left;
+				border-radius: 22px;
 				margin: 0;
 			}
 
 			.author-name, .date {
 				font-family: TradeGothic;
-				font-size: 0.9375em;
-				position: relative;
-				top: 15px;
-				padding-left: 7px;
+				font-size: 1.2em;
+				margin-left: 15px;
 				letter-spacing: 0.3px;
 			}
 
 			.author-name:after {
 				content: "\25CF";
 				padding-left: 12px;
+				padding-bottom: 2px;
 				font-size: 0.7em;
 			}
 		}
 
-		h2 {
+		.summary {
 			font-family: Plantin;
 			font-weight: normal;
-			font-size: 2.25em;
-			margin: 50px 0 40px;
+			font-size: 2.875em;
+			margin-bottom: 42px;
 			width: 660px;
 			line-height: 1.1;
 			letter-spacing: -0.8;
+			margin-left: -@content-left-padding;
 		}
 
-		h3 {
+		h2 {
 			font-family: Plantin;
 			font-weight: bold;
 			font-style: italic;
-			font-size: 1.6875em;
-			margin: 10px 0;
+			font-size: 2.25em;
+			margin-bottom: 18px;
 			letter-spacing: -1.8px;
-			overflow-y: hidden;
 		}
 
 		p {
 			font-family: Plantin;
-			font-size: 1.5em;
-			line-height: 1.4;
-			margin: 37px 0 33px;
+			font-size: 1.8em;
+			line-height: 1.5;
+			margin: 0px 0 33px;
 		}
 
 		p:first-of-type:first-letter {
-			font-size: 2em;
-		}
-
-		p:first-of-type {
-			margin-top: 0;
+			font-size: 2.5em;
+			line-height: 1em;
 		}
 
 		li {
@@ -168,10 +170,6 @@
 
 		ol, ul {
 			margin-bottom: 50px;
-		}
-
-		h3, p, ul, ol {
-			padding-left: @content-left-padding;
 		}
 
 		.meteor {

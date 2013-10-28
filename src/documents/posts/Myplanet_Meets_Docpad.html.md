@@ -3,7 +3,7 @@ title: "Test article"
 isPost: true
 tag: "technology"
 color: "green"
-header: Myplanet Meets DocPad: A Next Generation Web Framework
+header: "Myplanet Meets DocPad:\nA Next Generation\nWeb Framework"
 summary: How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 layout: blog
 coverimg: "../images/Banner_1_@2x.jpg"
@@ -13,7 +13,7 @@ date: "2013-07-18"
 tilestyle: "image"
 ---
 
-## How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
+## CMS-Free websites
 
 Almost a year ago today Patrick (our DevOps Imagineer) shared an enlightening article around how Development Seed (a once very prominent Drupal based company) was now building what they called "CMS-Free Websites". In essence, they were using external APIs to supplement basic web development paradigms allowing for their teams to build on scalable and fault-tolerant infrastructure.
 
