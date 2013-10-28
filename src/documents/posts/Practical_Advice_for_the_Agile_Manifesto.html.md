@@ -10,7 +10,7 @@ coverimg: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/cover.jpg"
 tileimg: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/tile.jpg"
 authorimg: "/images/avatar/Steph_Brown.png"
 author: ""
-date: "2013-m-d"
+date: "2013-09-13"
 tilestyle: "image"
 ---
 
