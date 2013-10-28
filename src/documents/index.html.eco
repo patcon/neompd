@@ -15,14 +15,9 @@
 	<nav id='menu'>
 		<input id="searchBox" />
 		<ul>
-			<li data-filter=".tech">Technology</li>
-			<li data-filter="li">Cool Dudes</li>
-			<li data-filter=".design">Design</li>
-			<li data-filter=".tech">Awesome</li>
-			<li data-filter="li">Duck Tollers</li>
-			<li data-filter=".design">Rigby Taylor</li>
-			<li data-filter="li">Jobs</li>
-			<li data-filter=".tech">Contact Us</li>
+			<% for tag in @getCollection("tags").toJSON(): %>
+				<li data-filter=".<%= tag.name.replace(/\..*$/, '') %>"><%= tag.label %></li>
+			<% end %>
 		</ul>
 		<!--footer class="adr">
 			<span class="street-address">252 Adelaide Street East</span>

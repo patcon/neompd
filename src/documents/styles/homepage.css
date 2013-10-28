@@ -99,8 +99,8 @@ body::-webkit-scrollbar  {
 #grid > li.design > a {
 	background-image: url(../images/footer-design.jpg)
 }
-#grid > li.tech > a {
-	background-image: url(../images/footer-tech.jpg)
+#grid > li.technology > a {
+	background-image: url(../images/footer-technology.jpg)
 }
 #grid > li.business > a {
 	background-image: url(../images/footer-business.jpg)
@@ -127,6 +127,8 @@ body::-webkit-scrollbar  {
 #grid > li >  a > img {
 	padding:0;
 	width:100%;
+	border-top-right-radius: 3px;
+	border-top-left-radius: 3px;
 }
 #grid > li > a > header {
 	font-size:24px;
@@ -148,6 +150,7 @@ body::-webkit-scrollbar  {
 }
 #grid > li.image.double > a > header > span {
 	font-size: 50px;
+	border-top-left-radius: 3px;
 }
 #grid > li.image > a > header > span {
 	background-color: #2a2a2a;
@@ -156,6 +159,7 @@ body::-webkit-scrollbar  {
 	left: 20px;
 	top: 7px;
 	position: relative;
+	border-top-left-radius: 3px;
 }
 
 #grid > li.image > a > header > .smalltitle {
