@@ -76,6 +76,8 @@ window.TagView = Backbone.View.extend({
         }
 
         function initialSetup() {
+            var scrollTop = $(window).scrollTop();
+
             // remove the existing reveal after rendering (does not affect display yet)
             // @todo avoid this if already mode=tiles
             $container.children('li:not(.dismissedUp):not(.dismissedDown)').removeClass('read');
@@ -86,6 +88,13 @@ window.TagView = Backbone.View.extend({
             $container.children('li:not(.read)').each(function (i) {
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
+
+                // set up direction of animation
+                if (position.y < scrollTop) {
+                    $item.addClass('startAbove').removeClass('startBelow');
+                } else {
+                    $item.addClass('startBelow').removeClass('startAbove');
+                }
 
                 hiddenItems.push({ y: position.y, $item: $item, bottom: position.y + $item.outerHeight(true) });
             });
