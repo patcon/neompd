@@ -3,8 +3,11 @@ window.TagView = Backbone.View.extend({
         var $container = $('#grid'),
             hiddenItems = [],
 
+            allowRevealingTiles = false,
             queuedReadItems = [],
             paintPending = false,
+            paintStartTimeoutId = null,
+            revealTimeoutId = null,
             mouseEnableTimeoutId = null;
 
         function processQueuedReadItems() {
@@ -17,7 +20,14 @@ window.TagView = Backbone.View.extend({
 
                 // delay next paint to let previous one complete
                 // @todo cancel on destroy
-                setTimeout(function () {
+                revealTimeoutId = setTimeout(function () {
+                    // skip revealing tiles until tile paint is enabled, to avoid paint bunching
+                    if (!allowRevealingTiles) {
+                        paintPending = false;
+                        processQueuedReadItems();
+                        return;
+                    }
+
                     requestAnimationFrame(function () {
                         paintPending = false;
 
@@ -30,7 +40,7 @@ window.TagView = Backbone.View.extend({
             }
         }
 
-        function markItemsAsRead(isImmediate) {
+        function markItemsAsRead() {
             var scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
                 scrollBottom = scrollTop + scrollHeight,
@@ -47,12 +57,8 @@ window.TagView = Backbone.View.extend({
                 }
             }
 
-            if (isImmediate) {
-                $.each(readItems, function () { this.$item.addClass('read') });
-            } else {
-                queuedReadItems = queuedReadItems.concat(readItems);
-                processQueuedReadItems();
-            }
+            queuedReadItems = queuedReadItems.concat(readItems);
+            processQueuedReadItems();
         }
 
         function disableMouseDuringScroll() {
@@ -72,7 +78,10 @@ window.TagView = Backbone.View.extend({
         function initialSetup() {
             // remove the existing reveal after rendering (does not affect display yet)
             // @todo avoid this if already mode=tiles
-            $container.children('li').removeClass('read');
+            $container.children('li:not(.dismissedUp):not(.dismissedDown)').removeClass('read');
+
+            // convert tiles visible during article-view into revealed ones
+            $container.children('.dismissedUp, .dismissedDown').addClass('read');
 
             $container.children('li:not(.read)').each(function (i) {
                 var $item = $(this),
@@ -81,13 +90,13 @@ window.TagView = Backbone.View.extend({
                 hiddenItems.push({ y: position.y, $item: $item, bottom: position.y + $item.outerHeight(true) });
             });
 
-            markItemsAsRead(true);
-
             // delay initial render until possible transitions have completed painting
             // @todo cancel on destroy
-            setTimeout(function () {
+            paintStartTimeoutId = setTimeout(function () {
                 requestAnimationFrame(function () {
-                    console.log('mode tiles')
+                    allowRevealingTiles = true;
+
+                    markItemsAsRead();
                     $container.attr('mode', 'tiles');
                 });
             }, 200);
@@ -104,7 +113,7 @@ window.TagView = Backbone.View.extend({
         }
 
         function onScroll() {
-            markItemsAsRead(false);
+            markItemsAsRead();
             //disableMouseDuringScroll();
         }
 
@@ -112,6 +121,9 @@ window.TagView = Backbone.View.extend({
         $(document).on('scroll', onScroll);
 
         this.destroy = function () {
+            clearTimeout(paintStartTimeoutId);
+            clearTimeout(revealTimeoutId);
+
             $(document).off('scroll', onScroll);
         }
     }
