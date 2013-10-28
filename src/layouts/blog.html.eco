@@ -1,30 +1,32 @@
-<div class="banner">
-	<img src="<%= @document.coverimg %>"/>
-	<h1 class="title">
-		<%- @buildTitle(@document.header) %>
-	</h1>
-</div>
-
-<div class="content">
-
-	<div class="author">
-		<img src="<%= @document.authorimg %>" class="avatar" />
-		<span class="author-name"><%= @document.author %></span>
-		<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
+<div class="post">
+	<div class="banner">
+		<img src="<%= @document.coverimg %>"/>
+		<h1 class="title">
+			<span><%- @buildTitle(@document.header) %></span>
+		</h1>
 	</div>
 
-	<h2><%= @document.summary %></h2>
+	<div class="content">
 
-	<%- @content %>
+		<div class="author">
+			<img src="<%= @document.authorimg %>" class="avatar" />
+			<span class="author-name"><%= @document.author %></span>
+			<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
+		</div>
 
-	<div class="meteor"></div>
+		<h2><%= @document.summary %></h2>
 
-	<footer>
-		<h3>TAGS</h3>
-			<ul class="tag-list">
-				<li>Design</li>
-				<li>Technology</li>
-				<li>Agile</li>
-			</ul>
-	</footer>
+		<%- @content %>
+
+		<div class="meteor"></div>
+
+		<footer>
+			<h3>TAGS</h3>
+				<ul class="tag-list">
+					<li>Design</li>
+					<li>Technology</li>
+					<li>Agile</li>
+				</ul>
+		</footer>
+	</div>
 </div>
