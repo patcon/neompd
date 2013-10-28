@@ -99,8 +99,8 @@ body::-webkit-scrollbar  {
 #grid > li.design > a {
 	background-image: url(../images/footer-design.jpg)
 }
-#grid > li.tech > a {
-	background-image: url(../images/footer-tech.jpg)
+#grid > li.technology > a {
+	background-image: url(../images/footer-technology.jpg)
 }
 #grid > li.business > a {
 	background-image: url(../images/footer-business.jpg)
