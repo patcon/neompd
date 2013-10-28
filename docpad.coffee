@@ -13,6 +13,8 @@ docpadConfig = {
 	collections:
 		posts: ->
 			@getCollection("html").findAllLive({relativeOutDirPath:'posts'})
+		tags: ->
+			@getCollection("documents").findAllLive({relativeOutDirPath:'tags'})
 
 	enabledPlugins:
 		eco: true

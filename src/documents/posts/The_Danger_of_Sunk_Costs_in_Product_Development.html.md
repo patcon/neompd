@@ -1,7 +1,7 @@
 ---
 title: "The Danger of Sunk Costs in Product Development"
 isPost: true
-tag: "Product Development"
+tag: "business"
 color: "black"
 header: The Danger of Sunk Costs in Product Development
 summary: Commitment is a valuable trait in product development.
