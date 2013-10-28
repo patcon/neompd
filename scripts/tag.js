@@ -10,10 +10,6 @@ window.TagView = Backbone.View.extend({
             revealTimeoutId = null,
             mouseEnableTimeoutId = null;
 
-        requestAnimationFrame(_.bind(function () {
-            $('#menu').removeClass('inArticle');
-        }, this));
-
         function processQueuedReadItems() {
             if (paintPending) {
                 return;

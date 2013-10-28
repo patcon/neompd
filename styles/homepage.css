@@ -303,9 +303,6 @@ body::-webkit-scrollbar  {
 	-moz-transition-property:-moz-transform;
 	-moz-transition-timing-function: ease-out;
 }
-#menu.inArticle {
-	-webkit-transform: translate3d(-190px, 0, 0);
-}
 #menu > ul, #menu > ul > li {
 	list-style:none;
 	color:#fff;

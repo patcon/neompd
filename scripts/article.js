@@ -29,10 +29,6 @@ window.ArticleView = Backbone.View.extend({
 
         this.$articleClose.attr('href', '#tags/' + this.model.tag);
 
-        requestAnimationFrame(_.bind(function () {
-            $('#menu').addClass('inArticle');
-        }, this));
-
         // initialize layout if necessary (otherwise simulate async callback for consistency)
         gridHasLayout = !!this.$container.children(':first').data('isotope-item-position');
         afterLayout = gridHasLayout ? function (callback) { setTimeout(callback, 0); } : function (callback) {
