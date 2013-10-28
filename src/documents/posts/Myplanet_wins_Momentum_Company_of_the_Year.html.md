@@ -23,13 +23,3 @@ Myplanet was honoured to win Momentum Company of the Year at last week's gala. T
 To see our profile video from the event, click [here.](https://vimeo.com/67731276) It was a great evening that we were incredibly proud to be a part of. Thanks to the YTA for their ongoing support!!
 
 Our Director Jason Cottrell pictured with[ other winners](http://www.yorktech.ca/ytanews?mode=PostView&amp;bmi=1306493) (far left).
-
-
-
-
-
-
-
-
-
-  

@@ -10,7 +10,7 @@ coverimg: "/images/articles//cover.jpg"
 tileimg: "/images/articles//tile.jpg"
 authorimg: "/images/avatar/.png"
 author: ""
-date: "2013-m-d"
+date: "2013-10-10"
 tilestyle: "image"
 ---
 
