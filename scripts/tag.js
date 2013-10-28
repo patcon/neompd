@@ -123,7 +123,7 @@ window.TagView = Backbone.View.extend({
 
         function onScroll() {
             markItemsAsRead();
-            //disableMouseDuringScroll();
+            disableMouseDuringScroll();
         }
 
         // immediately register scroll callback to be able to clear it before Isotope finishes

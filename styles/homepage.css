@@ -117,6 +117,7 @@ body::-webkit-scrollbar  {
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:-webkit-transform 0.4s ease-out, opacity 0.9s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.4s ease-out, opacity 0.9s ease-out;/*, -webkit-filter 0.5s;*/
+	pointer-events: auto;
 }
 
 #grid[mode=dismissing] > li.dismissedUp > a {
@@ -240,12 +241,12 @@ body::-webkit-scrollbar  {
 	border-radius:4px;
 	color:#222;
 }
-#grid > li:hover > a {
+#grid[mode=tiles] > li:hover > a {
 	-webkit-transform:rotate(-0.75deg) translateZ(0);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 
 }
- #grid > li:active > a  {
+#grid[mode=tiles] > li:active > a  {
  	-webkit-transition-delay:0.175s;
 	-webkit-transform:rotate(-180deg) scale(2.5) translateZ(0);
 	-moz-transition-delay:0.175s;
