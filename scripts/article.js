@@ -58,8 +58,8 @@ window.ArticleView = Backbone.View.extend({
 
             self.itemTop = itemTop;
 
-            // if the link top would be within top half of the screen, show article where screen is, otherwise anchor article to link and move scroll top
-            self.articleOffset = ((itemTop > scrollTop + scrollHeight) ? 0 : Math.min(scrollTop - itemTop, 0));
+            // offset of the view relative to our anchor item
+            self.articleOffset = scrollTop - itemTop;
 
             // set up for slide transition
             self.$container.children().removeClass('dismissedUp dismissedDown');
@@ -68,10 +68,8 @@ window.ArticleView = Backbone.View.extend({
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
 
-                    if (position.y + $item.outerHeight(true) > scrollTop) {
+                    if (position.y + $item.outerHeight(true) > scrollTop - self.articleOffset) {
                         $item.addClass('dismissedUp');
-                    } else {
-                        return false;
                     }
             });
             self.$li.addClass('dismissedDown');
@@ -81,8 +79,6 @@ window.ArticleView = Backbone.View.extend({
 
                     if (position.y < scrollTop + scrollHeight - self.articleOffset) {
                         $item.addClass('dismissedDown');
-                    } else {
-                        return false;
                     }
             });
 
@@ -333,9 +329,6 @@ window.ArticleView = Backbone.View.extend({
             this.$article.addClass('hidden');
 
             if (this.gridMode === 'aboveArticle') {
-                // request computed state to make sure transitions are starting from zero point
-                this.$article.css('opacity');
-
                 // clear animation state
                 this.$article.css('-webkit-transition', '');
                 this.$article.css('opacity', '');
@@ -344,9 +337,6 @@ window.ArticleView = Backbone.View.extend({
                     '-webkit-transition': ''
                 });
             } else if (this.gridMode === 'belowArticle') {
-                // request computed state to make sure transitions are starting from zero point
-                this.$article.css('opacity');
-
                 // clear animation state
                 this.$article.css('-webkit-transition', '');
                 this.$article.css('opacity', '');
