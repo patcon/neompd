@@ -52,52 +52,41 @@
 		padding-left: @content-left-padding;
 
 		blockquote {
-			// position: relative;
 			clear: both;
-			width: 1000px;
-			font-family: Plantin;
-			font-weight: bold;
-			font-style: italic;
-			font-size: 2.25em;
-			margin-left: 0;
-			text-indent: 20px;
+
+			p {
+				text-indent: 85px;
+				font-family: Plantin;
+				font-weight: bold;
+				font-style: italic;
+				font-size: 2.65em;
+			}
+			margin: 0 0 0 (-@content-left-padding - 45px);
 		}
 
-		blockquote:before {
-			content: '\201C';
-			font-size: 1.5em;
-			line-height: 0.1em;
-			margin-right: 0.25em;
-			vertical-align: -0.2em;
-		}
-
-		blockquote:after {
-			content: '\201D';
-			font-size: 1.5em;
-			line-height: 0.1em;
-			margin-right: 0.25em;
-			vertical-align: -0.2em;
-		}
-
-		.img_block {
-			position: relative;
-			width: 1000px;
-			height: 576px;
-
+		.image-block {
 			img {
+				display: block;
 				width: 480px;
 				height: 288px;
-				display: inline-block;
 				margin: 0;
+			}
+			img:nth-child(2n) {
+				margin: -288px 0 0 480px;
 			}
 		}
 
-		img {
-			margin: 0 56px 56px 0;
+		.full-width {
+			width: 1000px;
+			margin-left:-@content-left-padding;
+		}
+
+		p img {
+			margin: 0 56px 36px 0;
 			display: block;
-			float: left !important;
+			float:left;
+			margin-left: -@content-left-padding;
 			width: 480px;
-			height: 288px;
 		}
 
 		.author {
@@ -112,6 +101,7 @@
 				height:44px;
 				border-radius: 22px;
 				margin: 0;
+				float: left;
 			}
 
 			.author-name, .date {
@@ -156,7 +146,7 @@
 			margin: 0px 0 33px;
 		}
 
-		p:first-of-type:first-letter {
+		> p:first-of-type:first-letter {
 			font-size: 2.5em;
 			line-height: 1em;
 		}
