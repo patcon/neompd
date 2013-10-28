@@ -56,6 +56,8 @@ window.ArticleView = Backbone.View.extend({
 
                 loadRequest;
 
+            self.setupKeyboard();
+
             // find the middle item on the screen
             self.$container.children().each(function () {
                 var $item = $(this),
@@ -236,6 +238,20 @@ window.ArticleView = Backbone.View.extend({
             // trigger slide transition
             this.$container.attr('mode', this.gridMode);
         }, this));
+    },
+
+    setupKeyboard: function () {
+        var onKeyPress = _.bind(function (e) {
+            if (e.keyCode === 27) {
+                window.location = this.$articleClose.get(0).href;
+            }
+        }, this);
+
+        $('body').on('keydown', onKeyPress);
+
+        this.once('destroy', function () {
+            $('body').off('keydown', onKeyPress);
+        });
     },
 
     setupScrollback: function () {
