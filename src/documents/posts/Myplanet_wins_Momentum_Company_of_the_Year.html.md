@@ -1,14 +1,14 @@
 ---
 title: "Myplanet wins Momentum Company of the Year"
 isPost: true
-tag: "News"
-color: "pink"
+tag: "culture"
+color: "green"
 header: Myplanet wins Momentum Company of the Year
 summary: Last week we earned the title of 'Momentum Company of the Year' at York Tech Alliance's Technology Leadership Awards.
 layout: blog
 coverimg: "/images/articles/Myplanet_wins_Momentum_Company_of_the_Year/cover.jpg"
 tileimg: "/images/articles/Myplanet_wins_Momentum_Company_of_the_Year/tile.jpg"
-authorimg: "../images/Avatar_1_@2x.png"
+authorimg: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-06-03"
 tilestyle: "double image"

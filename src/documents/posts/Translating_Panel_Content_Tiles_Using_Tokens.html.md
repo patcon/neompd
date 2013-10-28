@@ -1,14 +1,14 @@
 ---
-title: "Test article"
+title: "Translating Panel Content Titles Using Tokens"
 isPost: true
 tag: "technology"
 color: "black"
 header: Translating Panel Content Titles Using Tokens 
 summary: We recently encountered a specific situation with a Drupal site that had to be retro-fitted for translation.
 layout: blog
-coverimg: ""
-tileimg: ""
-authorimg: "../images/Avatar_1_@2x.png"
+coverimg: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/cover.jpg"
+tileimg: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/tile.jpg"
+authorimg: "../images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-07-10"
 tilestyle: "image"

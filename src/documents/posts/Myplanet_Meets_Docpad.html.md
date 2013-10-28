@@ -1,13 +1,14 @@
 ---
-title: "Test article"
+title: "Myplanet Meets DocPad"
 isPost: true
 tag: "technology"
 color: "green"
 header: Myplanet Meets DocPad: A Next Generation Web Framework
 summary: How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 layout: blog
-coverimg: "../images/Banner_1_@2x.jpg"
-tileimg: "../images/a2.jpg"
+coverimg: "/images/articles/Myplanet_Meets_Docpad/cover.jpg"
+tileimg: "/images/articles/Myplanet_Meets_Docpad/tile.jpg"
+authorimg: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-07-18"
 tilestyle: "image"

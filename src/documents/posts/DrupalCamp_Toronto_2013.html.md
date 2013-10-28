@@ -1,14 +1,14 @@
 ---
-title: "Test article"
+title: "DrupalCamp Toronto 2013"
 isPost: true
 tag: "technology"
 color: "pink"
 header: DrupalCamp Toronto 2013	
 summary: This weekend I had the pleasure of attending DrupalCamp Toronto with my fellow Myplaneteers.
 layout: blog
-coverimg: ""
-tileimg: ""
-authorimg: "../images/Avatar_1_@2x.png"
+coverimg: "/images/articles/DrupalCamp_Toronto_2013/cover.jpg"
+tileimg: "/images/articles/DrupalCamp_Toronto_2013/tile.jpg"
+authorimg: "/images/avatar/Torey_Tafner.png"
 author: "Torey Tafner"
 date: "2013-05-15"
 tilestyle: "image"

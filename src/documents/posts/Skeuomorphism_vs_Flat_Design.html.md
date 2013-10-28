@@ -6,9 +6,9 @@ color: "black"
 header: Skeuomorphism vs. Flat Design
 summary: The forthcoming iOS 7 represents a new direction in design for Apple.
 layout: blog
-coverimg: ""
-tileimg: ""
-authorimg: "../images/Avatar_1_@2x.png"
+coverimg: "/images/articles/Skeuomorphism_vs_Flat_Design/cover.jpg"
+tileimg: "/images/articles/Skeuomorphism_vs_Flat_Design/tile.jpg"
+authorimg: "../images/avatar/Brett_Luchman.png"
 author: "Brett Luchman"
 date: "2013-07-04"
 tilestyle: "image"
