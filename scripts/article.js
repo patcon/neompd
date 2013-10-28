@@ -7,6 +7,7 @@ window.ArticleView = Backbone.View.extend({
         this.itemTop = null;
         this.articleOffset = null;
         this.articleHeight = null;
+        this.lastArticleScrollTop = 0;
 
         this.gridMode = null;
 
@@ -24,8 +25,7 @@ window.ArticleView = Backbone.View.extend({
         this.$articleClose = $('#close');
         this.$container = $('#grid');
 
-        // for testing purposes, article "id" is the index of the corresponding list item
-        this.$li = this.$container.children().eq(parseInt(this.model.id, 10));
+        this.$li = null;
 
         this.$articleClose.attr('href', '#tags/' + this.model.tag);
 
@@ -47,14 +47,28 @@ window.ArticleView = Backbone.View.extend({
         }
 
         afterLayout(function () {
-            var position = self.$li.data('isotope-item-position'),
-                containerOffset = self.$container.offset(),
-                itemTop = position.y + containerOffset.top,
+            var containerOffset = self.$container.offset(),
+                position,
+                itemTop,
 
                 scrollTop = $(window).scrollTop(),
                 scrollHeight = $(window).height(),
 
                 loadRequest;
+
+            // find the middle item on the screen
+            self.$container.children().each(function () {
+                var $item = $(this),
+                    position = $item.data('isotope-item-position');
+
+                    if (position.y >= scrollTop + scrollHeight * 0.5) {
+                        self.$li = $item;
+                        return false;
+                    }
+            });
+
+            position = self.$li.data('isotope-item-position');
+            itemTop = position.y + containerOffset.top;
 
             self.itemTop = itemTop;
 
@@ -293,6 +307,8 @@ window.ArticleView = Backbone.View.extend({
                 }
 
                 this.render();
+            } else {
+                this.lastArticleScrollTop = scrollTop;
             }
         }, this);
 
@@ -354,7 +370,7 @@ window.ArticleView = Backbone.View.extend({
 
                 this.$article.css({
                     position: 'fixed',
-                    '-webkit-transform': 'translate3d(0,' + (-scrollTop) + 'px,0)'
+                    '-webkit-transform': 'translate3d(0,' + (-this.lastArticleScrollTop) + 'px,0)'
                 });
             }
         }, this));
