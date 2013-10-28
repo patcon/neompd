@@ -1,6 +1,6 @@
 <div class="post">
 	<div class="banner">
-		<img src="<%= @document.coverimg %>"/>
+		<div class="background-strip" style="background-image: url('<%= @document.coverimg %>')"></div>
 		<h1 class="title">
 			<span><%- @buildTitle(@document.header) %></span>
 		</h1>
