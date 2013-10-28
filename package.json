@@ -11,7 +11,8 @@
     "docpad-plugin-eco": "~2.0.2",
     "docpad-plugin-moment": "~2.0.2",
     "docpad-plugin-less": "~2.2.0",
-    "docpad-plugin-marked": "~2.1.1"
+    "docpad-plugin-marked": "~2.1.1",
+    "docpad-plugin-sunny": "~3.0.0"
   },
   "main": "node_modules/docpad/bin/docpad-server",
   "scripts": {
