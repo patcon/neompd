@@ -44,3 +44,19 @@ We were now ready to show the world the power yet simplicity of SaaSy and contri
 
 Our plan by month end is to have an alpha community release of SaaSy available. Benjamin also has other highly valuable DocPad contributions he'll be getting out this month that will support SaaSy and push DocPad's capabilities greatly forward.
 We look forward to sharing our experiences with DocPad and SaaSy back with you. If you’re in the Toronto area join us next Tuesday at the upcoming Node.js meetup. Details will be announced shortly! 
+
+## Bulleted Points
+
+Fast-forward to December 2012 when Erin and our Strategy and Support Group were looking for something to take their pre-existing markdown documentation and get it presentable for clients without a lot of maintenance overhead. After a recommendation to use Jekyll (a static site generator), Erin and team rapidly prototyped and built what's now called our "MP Loves" collection of sites; a resource for our clients to support their engagements with Myplanet.
+
+## Numbered Lists
+
+1. Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu.
+2. Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu. 
+3. Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu. 
+
+## Bulleted Lists
+
+- Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu.
+- Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu.
+- Commodo erat vitae nunc convallis lacinia. Duis at ligula sapien. Nunc consequat ullamcovrper tortor, ac vestibulum nisi volutpat eu.
