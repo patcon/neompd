@@ -16,10 +16,15 @@ docpadConfig = {
 		marked: true
 		less: true
 
-	plugins:
-		eco: {}
-		marked: {}
-		less: {}
+  plugins:
+    eco: {}
+    less: {}
+    marked: {}
+    sunny:
+      configFromEnv: true
+      envPrefixes: [
+        "DOCPAD_SUNNY_"
+      ]
 }
 # Export the DocPad Configuration
 module.exports = docpadConfig
