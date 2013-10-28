@@ -11,7 +11,7 @@ tileimg: "/images/articles/Skeuomorphism_vs_Flat_Design/tile.jpg"
 authorimg: "../images/avatar/Brett_Luchman.png"
 author: "Brett Luchman"
 date: "2013-07-04"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 Like a great online marketer who understands that the offline world must be considered when defining a sales strategy, so must a great designer consider familiar offline concepts to assist users in completing their online goals.

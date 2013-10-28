@@ -11,7 +11,7 @@ tileimg: "/images/articles/So_you_wanna_OOP_with_JavaScript/tile.jpg"
 authorimg: "../images/avatar/Anand_Sharma.png"
 author: "Anand Sharma"
 date: "2013-06-25"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 ## Disclaimer: JavaScript is not your typical, run-of-the-mill Object Oriented language. It is an object-oriented language but not in a typical way.

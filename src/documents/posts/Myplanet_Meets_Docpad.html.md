@@ -11,7 +11,7 @@ tileimg: "/images/articles/Myplanet_Meets_Docpad/tile.jpg"
 authorimg: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-07-18"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 ## How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
