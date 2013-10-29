@@ -13,7 +13,6 @@
 	<a id="close" class="hidden">Close Article</a>
 
 	<nav id='menu'>
-		<input id="searchBox" />
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li data-filter=".<%= tag.name.replace(/\..*$/, '') %>"><%= tag.label %></li>

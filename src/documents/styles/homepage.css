@@ -120,7 +120,7 @@ body::-webkit-scrollbar  {
 }
 #grid > li > a > header, #grid > li >  a > img, #grid > li >  a > p, #grid > li > a > span {
 	display: inline-block;
-	font-size:12px;
+	font-size:14px;
 	margin:0;
 	padding:20px;
 }
@@ -133,12 +133,14 @@ body::-webkit-scrollbar  {
 #grid > li > a > header {
 	font-size:24px;
 	color:#fff;
+	font-weight: bold;
 	background-color: #2a2a2a;
-	min-height: 70px;
+	letter-spacing: -.1px;
+	min-height: 60px;
 	width:250px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
-	text-shadow:0 1px 1px rgba(0, 0, 0, 0.2);
+	text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 }
 #grid > li.double > a > header {
 	width:559px;
@@ -175,10 +177,10 @@ body::-webkit-scrollbar  {
 #grid > li > a > .pink {
 	background-color:#f45d96;
 }
-#grid > li >  a > p {
-	min-height: 130px;
-	line-height: 21px;
-	padding: 18px;
+#grid > li > a > p {
+	line-height: 20px;
+	letter-spacing: -.2px;
+	padding: 25px;
 }
 #grid > li > a > span {
 	font-family: TradeGothic;
@@ -186,7 +188,7 @@ body::-webkit-scrollbar  {
 	color:#bbb;
 	width:auto;
 	padding-right: 0;
-	padding-bottom: 12px;
+	padding-bottom: 15px;
 	font-size: 10px;
 }
 #grid > li.visible, #grid > li.shown {
@@ -291,6 +293,7 @@ body::-webkit-scrollbar  {
 	color:#fff;
 	padding:0;
 	font-size: 13px;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 #menu > ul {
 	position: absolute;
@@ -301,12 +304,12 @@ body::-webkit-scrollbar  {
 }
 #menu > ul > li {
 	background: #414141;
-	border-radius: 2px;
-	margin: 16px 27px 0;
+	border-radius: 4px;
+	margin: 9px 27px 0;
 	cursor: pointer;
 	width: auto;
 	display: inline-block;
-	padding: 9px 8px 3px;
+	padding: 11px 14px 5px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
@@ -395,35 +398,7 @@ body::-webkit-scrollbar  {
 	-webkit-transition-delay:0;
 	-moz-transition-delay:0;
 }
-#menu > #searchBox {
-	background-color: #2a2a2a;
-	background-image:url(../images/white-search.png);
-	background-repeat: no-repeat;
-	background-position: 10px 6px;
-	border-radius: 12px;
-	box-shadow: rgba(0, 0, 0, 0.6) 0 2px 1px inset, rgba(255, 255, 255, 0.2) 0 1px 0;
-	border:0 none;
-	color:#ddd;
-	position: absolute;
-	left:26px;
-	font-size: 12px;
-	-webkit-transform:translate3d(0, 132px, 0);
-	-webkit-transition-duration:0.4s;
-	-webkit-transition-property: background-image, background-color, left, color, width;
-	-moz-transform:translate(0, 132px);
-	-moz-transition-duration:0.4s;
-	-moz-transition-property: background-image, background-color, left, color, width;
-	padding:4px 4px 4px 30px;
-	width: 80px;
-}
-#menu > #searchBox:focus {
-	outline: none;
-	background-color: #ddd;
-	background-image:url(../images/search.png);
-	color:#000;
-	left:15px;
-	width:112px;
-}
+
 #menu.show {
 	-webkit-transition-delay:0;
 	-webkit-transition-duration:0.275s;
@@ -435,18 +410,11 @@ body::-webkit-scrollbar  {
 	-moz-transition-timing-function: ease-out;
 }
 footer.adr {
-	position: absolute;
-	bottom: 7px;
-	left: 10px;
-	background: url(../images/footer-toronto.png) 40px 0 no-repeat;
-	width: 150px;
 	text-transform: none;
-	color:#727272;
-	font-size:11px;
+	font-size: 11px;
 	text-align: center;
 	line-height: 14px;
-	padding-top:63px;
-	text-shadow:0 1px 1px rgba(0,0,0,0.1);
+	text-shadow: 0 1px 1px rgba(0,0,0,0.1);
 	-webkit-transform: translateZ(0);
 	-moz-transform: translateZ(0);
 }
