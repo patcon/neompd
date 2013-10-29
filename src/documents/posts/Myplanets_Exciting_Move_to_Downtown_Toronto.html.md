@@ -11,7 +11,7 @@ tileimg: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/tile.jpg"
 authorimg: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-05-01"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 With an expansionist fervour that would make even the British Empire blush, we've annexed one office after another as our team has grown. Today we have five offices in our building, occupying nearly half the top floor and earning us dirty looks from cohabitants who don't appreciate the constant blaring of Lionel Richie's Greatest Hits.
