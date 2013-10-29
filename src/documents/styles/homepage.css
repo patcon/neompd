@@ -337,13 +337,16 @@ body::-webkit-scrollbar  {
 	display: none;
 }
 #articleMenu > #lines {
-	position: absolute;
+	position: fixed;
+	left: -10px;
+	width: 52px;
+	height: 52px;
 	-webkit-transform:translate(72px, 135px);
 	-moz-transform:translate(72px, 135px);
 	font-size: 0;
 	background-image:url(../images/lines.png);
-	width:28px;
-	height: 20px;
+	width:52px;
+	height: 52px;
 	cursor: pointer;
 }
 #close {
