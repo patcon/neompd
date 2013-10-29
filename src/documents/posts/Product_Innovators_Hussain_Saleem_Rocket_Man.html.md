@@ -11,7 +11,7 @@ tileimg: "/images/articles/Product_Innovators_Hussain_Saleem_Rocket_Man/tile.jpg
 authorimg: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-04-30"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 Using open data to provide up-to-the-second information about when the next bus or streetcar is arriving, Rocket Man creator **Hussain Saleem** is one of Toronto's most widely appreciated product innovators.

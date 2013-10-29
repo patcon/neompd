@@ -11,7 +11,7 @@ tileimg: "/images/articles/Product_Innovators_How_To_Acquire_Your_First_Customer
 authorimg: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-04-29"
-tilestyle: "image"
+tilestyle: ""
 ---
 
 Kitchener-Waterloo is an interesting town. Buoyed initially by the success of RIM, KW is now the de-facto startup capital of Canada, boasting many of the most promising new ventures in the country.
