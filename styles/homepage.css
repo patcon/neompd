@@ -116,13 +116,11 @@ body::-webkit-scrollbar  {
 	-webkit-transform: translate3d(0, 0, 0);
 	-webkit-transition:-webkit-transform 0.4s ease-out, opacity 0.9s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.4s ease-out, opacity 0.9s ease-out;/*, -webkit-filter 0.5s;*/
-	pointer-events: auto;
-	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
-#grid[mode=tiles].scrolling > li.read > a {
-	pointer-events: none;
-	box-shadow: none;
+#grid[mode=tiles].stationary > li.read > a {
+	box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+	pointer-events: auto;
 }
 
 #grid[mode=dismissing] > li.dismissedUp > a {

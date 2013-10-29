@@ -63,8 +63,10 @@ window.ArticleView = Backbone.View.extend({
                 var $item = $(this),
                     position = $item.data('isotope-item-position');
 
+                    self.$li = $item; // remember lowest item
+
+                    // don't look after reaching middle of screen
                     if (position.y >= scrollTop + scrollHeight * 0.5) {
-                        self.$li = $item;
                         return false;
                     }
             });
@@ -180,6 +182,8 @@ window.ArticleView = Backbone.View.extend({
         this.$article.css({
             position: articleFixed ? 'fixed' : 'relative',
             '-webkit-transform': 'translate3d(0,' + articleShift + 'px,0)',
+            '-webkit-transition': articleFixed ? 'none' : '',
+            opacity: articleFixed ? 1 : '',
             top: 0,
             left: 0,
             right: 0 // @todo proper calculation
@@ -204,7 +208,7 @@ window.ArticleView = Backbone.View.extend({
 
             // scrollback state
             if (this.gridMode === 'aboveArticle') {
-                this.$article.css('-webkit-transition', 'none').css('opacity', Math.max(0.01, 1 - this.scrollAboveAmount));
+                this.$article.css('opacity', Math.max(0.01, 1 - this.scrollAboveAmount));
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': '',
                     '-webkit-transform': ''
@@ -214,7 +218,7 @@ window.ArticleView = Backbone.View.extend({
                     '-webkit-transform': 'translate3d(0,' + (1 - this.scrollAboveAmount) * (this.SCROLLBACK_DISTANCE + scrollHeight) + 'px,0)'
                 });
             } else if (this.gridMode === 'belowArticle') {
-                this.$article.css('-webkit-transition', 'none').css('opacity', Math.max(0.01, 1 - this.scrollBelowAmount));
+                this.$article.css('opacity', Math.max(0.01, 1 - this.scrollBelowAmount));
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transition': 'none',
                     '-webkit-transform': 'translate3d(0,' + (this.scrollBelowAmount - 1) * scrollHeight * 2 + 'px,0)'
@@ -382,6 +386,8 @@ window.ArticleView = Backbone.View.extend({
 
                 this.$article.css({
                     position: 'fixed',
+                    '-webkit-transition': '',
+                    opacity: '',
                     '-webkit-transform': 'translate3d(0,' + (-this.lastArticleScrollTop) + 'px,0)'
                 });
             }

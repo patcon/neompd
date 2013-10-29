@@ -65,13 +65,13 @@ window.TagView = Backbone.View.extend({
             if (mouseEnableTimeoutId !== null) {
                 clearTimeout(mouseEnableTimeoutId);
             } else {
-                $container.addClass('scrolling');
+                $container.removeClass('stationary');
             }
 
             mouseEnableTimeoutId = setTimeout(function () {
                 mouseEnableTimeoutId = null;
 
-                $container.removeClass('scrolling');
+                $container.addClass('stationary');
             }, 200);
         }
 
@@ -106,6 +106,7 @@ window.TagView = Backbone.View.extend({
                     allowRevealingTiles = true;
 
                     markItemsAsRead();
+                    $container.toggleClass('stationary', (mouseEnableTimeoutId === null));
                     $container.attr('mode', 'tiles');
                 });
             }, 200);
