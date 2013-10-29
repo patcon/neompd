@@ -5,16 +5,17 @@
 	margin: 0;
 	padding: 0;
 	font-size: 100%;
+	background-color: #fff;
 
 	.banner {
 		position: relative;
+		z-index: 1;
 
 		.background-strip {
 			display: block;
 			background: #5d9cec none 50% 50% no-repeat; // set up for per-article banner background
 			background-size: cover;
-
-			height: 370px;
+			height: 480px;
 			lala: 0;
 		}
 
@@ -48,9 +49,26 @@
 	.content {
 		position: relative;
 		margin: 0 auto;
-		width: 960px-@content-left-padding;
+		width: 670px;
 		padding-top: 33px;
 		padding-left: @content-left-padding;
+
+		&:before {
+			content:'';
+			display: block;
+
+			margin: -210px -260px -200px (-@content-left-padding - 260px);
+			height: 410px;
+			background: url('/images/top_strip_doodles.png') 50% 0 no-repeat,
+		}
+
+		.meteor {
+			display: block;
+
+			margin: -190px -260px 0px (-@content-left-padding - 260px);
+			height: 410px;
+			background: url('/images/bottom_strip_doodles.png') 50% 100% no-repeat;
+		}
 
 		blockquote {
 			clear: both;
@@ -133,12 +151,12 @@
 		.summary {
 			font-family: Plantin;
 			font-weight: normal;
-			font-size: 2.875em;
+			font-size: 2.475em;
 			margin-bottom: 42px;
 			width: 660px;
 			line-height: 1.1;
-			letter-spacing: -0.8;
 			margin-left: -@content-left-padding;
+			color: #242424;
 		}
 
 		h2 {
@@ -155,6 +173,7 @@
 			font-size: 1.8em;
 			line-height: 1.5;
 			margin: 0px 0 33px;
+			color: #242424;
 		}
 
 		> p:first-of-type:first-letter {
@@ -175,16 +194,9 @@
 			}
 		}
 
-		.meteor {
-			float: none;
-			display: block;
-			width:246px;
-			height:115px;
-			margin: 75px 0;
-		}
-
 		footer {
-			margin-top:45px;
+			border-top: 1px solid #eee;
+
 			h3 {
 				display: inline;
 				font-size: 1em;
