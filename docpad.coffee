@@ -11,6 +11,8 @@ docpadConfig = {
 		tags: ->
 			@getCollection("documents").findAllLive({relativeOutDirPath:'tags'})
 
+	skipUnsupportedPlugins: false
+
 	enabledPlugins:
 		eco: true
 		marked: true
