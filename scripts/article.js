@@ -362,16 +362,12 @@ window.ArticleView = Backbone.View.extend({
 
             if (this.gridMode === 'aboveArticle') {
                 // clear animation state
-                this.$article.css('-webkit-transition', '');
-                this.$article.css('opacity', '');
                 this.$li.nextAll('.dismissedDown').andSelf().children().css({
                     '-webkit-transform': '',
                     '-webkit-transition': ''
                 });
             } else if (this.gridMode === 'belowArticle') {
                 // clear animation state
-                this.$article.css('-webkit-transition', '');
-                this.$article.css('opacity', '');
                 this.$li.prevAll('.dismissedUp').children().css({
                     '-webkit-transform': '',
                     '-webkit-transition': ''

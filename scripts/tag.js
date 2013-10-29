@@ -65,14 +65,14 @@ window.TagView = Backbone.View.extend({
             if (mouseEnableTimeoutId !== null) {
                 clearTimeout(mouseEnableTimeoutId);
             } else {
-                $container.css('pointer-events', 'none').addClass('scrolling');
+                $container.addClass('scrolling');
             }
 
             mouseEnableTimeoutId = setTimeout(function () {
                 mouseEnableTimeoutId = null;
 
-                $container.css('pointer-events', '').removeClass('scrolling');
-            }, 100);
+                $container.removeClass('scrolling');
+            }, 200);
         }
 
         function initialSetup() {
