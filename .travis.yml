@@ -5,6 +5,7 @@ node_js:
 
 env:
   global:
+    - NODE_ENV=production
     - DOCPAD_SUNNY_CONTAINER=test.neo.mpdagile.com
     - DOCPAD_SUNNY_CONTAINER_REGION=us-west-2
 
