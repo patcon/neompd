@@ -1,7 +1,7 @@
 ---
 title: "Programmers Must Consider Accessibility"
 isPost: true
-tag: "technology"
+tag: "technology design"
 color: "black"
 header: Accessibility should be considered throughout development.
 summary: Accessibility should be considered throughout development.
