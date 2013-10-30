@@ -56,18 +56,9 @@
 		&:before {
 			content:'';
 			display: block;
-
 			margin: -210px -260px -200px (-@content-left-padding - 260px);
 			height: 410px;
 			background: url('/images/top_strip_doodles.png') 50% 0 no-repeat,
-		}
-
-		.meteor {
-			display: block;
-
-			margin: -190px -260px 0px (-@content-left-padding - 260px);
-			height: 410px;
-			background: url('/images/bottom_strip_doodles.png') 50% 100% no-repeat;
 		}
 
 		blockquote {
@@ -196,8 +187,18 @@
 
 		footer {
 			border-top: 1px solid #eee;
-			padding-top: 45px;
-			padding-bottom: 300px;
+			padding-top: 59px;
+			margin-top: 253px;
+			padding-bottom: 200px;
+			height: 100px;
+
+			&:before {
+				display: block;
+				content: '';
+				margin: -470px -260px 45px (-@content-left-padding - 260px);
+				height: 410px;
+				background: url('/images/bottom_strip_doodles.png') 50% 100% no-repeat;
+			}
 
 			h3 {
 				display: inline;
@@ -211,13 +212,26 @@
 				display: inline;
 				li {
 					font-family: TradeGothic;
-					font-size: 1.3em;
+					font-size: 1.2em;
 					color:#fff;
-					background-color: #2a2a2a;
+					background-color: #414141;
 					margin-left:15px;
 					display: inline;
-					padding:10px;
-					border-radius:5px;
+					padding: 11px 14px 5px;
+					border-radius:4px;
+					cursor:pointer;
+					text-shadow:0 1px 1px rgba(0,0,0,0.3);
+					text-transform: uppercase;
+					-webkit-transition-duration: 0.2s;
+					-webkit-transition-property: background-color;
+					-webkit-transition-timing-function: ease-out;
+					-moz-transition-duration: 0.2s;
+					-moz-transition-property: background-color;
+					-moz-transition-timing-function: ease-out;
+
+					&:hover {
+						background:#29d09a;
+					}
 				}
 			}
 		}
