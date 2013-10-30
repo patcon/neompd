@@ -15,6 +15,6 @@
     "docpad-plugin-sunny": "~3.0.0"
   },
   "scripts": {
-    "postinstall": "node_modules/.bin/docpad sunny-deploy --offline"
+    "deploy": "node_modules/.bin/docpad deploy-sunny --offline"
   }
 }
