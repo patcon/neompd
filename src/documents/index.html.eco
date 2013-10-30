@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html class="no-js">
 <head>
+	<meta charset="utf-8"> 
 	<title>Myplanet Digital</title>
 	<link rel="stylesheet" href="styles/homepage.css">
 	<link rel="stylesheet" href="styles/post.css">
 </head>
 
 <body>
-	<nav id='articleMenu' class='hidden'>
+	<nav id="articleMenu" class="hidden">
 		<h1>Myplanet Digital</h1>
 		<a id="lines">Show Menu</a>
 	</nav>
 	<a id="close" class="hidden">Close Article</a>
 
-	<nav id='menu'>
+	<nav id="menu">
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li data-filter=".<%= tag.name.replace(/\..*$/, '') %>"><%= tag.label %></li>
@@ -31,7 +32,7 @@
 	</nav>
 
 	<div id="grid-wrap">
-		<ul id="grid" class='initial'>
+		<ul id="grid" class="initial">
 			<% for post in @getCollection("posts").toJSON(): %>
 				<% if post.tilestyle: %>
 					<li class="<%= post.tag %> <%= post.tilestyle %>">
