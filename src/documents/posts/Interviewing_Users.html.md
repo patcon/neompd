@@ -3,7 +3,7 @@ title: "Interviewing Users"
 isPost: true
 tag: "design"
 color: "black"
-header: Interviewing Users' By Steve Portigal
+header: "Interviewing Users\nBy Steve Portigal"
 summary: Steve Portigal's new book examines techniques that uncover compelling insights during user research.
 layout: blog
 coverimg: "/images/articles/Interviewing_Users/cover.jpg"

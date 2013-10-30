@@ -3,7 +3,7 @@ title: "Myplanet's Exciting Move to Downtown Toronto"
 isPost: true
 tag: "culture"
 color: "green"
-header: Myplanet's Exciting Move to Downtown Toronto
+header: "Myplanet's Exciting\nMove to Downtown\nToronto"
 summary: As far back as most Myplaneteers can remember, Markham has been our home.
 layout: blog
 coverimg: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/cover.jpg"
