@@ -1,7 +1,6 @@
 ---
-title: "5 Cardinal Sins of Web Usability"
-isPost: true
-tag: "design"
+title: "5 Cardinal Sins\nof Web Usability"
+tag: "design usability"
 color: "black"
 header: 5 Cardinal Sins of Web Usability
 summary: Different users may have different goals when they visit a website, but they have one thing in common: they all want to achieve their goals quickly and easily.
