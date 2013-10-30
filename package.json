@@ -7,7 +7,7 @@
     "npm": "1.3"
   },
   "dependencies": {
-    "docpad": "git://github.com/unframework/docpad.git#572e5875228b35f723f9e97f8c305ceb3782e91a",
+    "docpad": "~6.54.2",
     "docpad-plugin-eco": "~2.0.2",
     "docpad-plugin-moment": "~2.0.2",
     "docpad-plugin-less": "~2.2.0",
