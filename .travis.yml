@@ -24,4 +24,4 @@ after_success: npm run-script deploy
 
 branches:
   only:
-    - 1-heroku-deploy
+    - docpad
