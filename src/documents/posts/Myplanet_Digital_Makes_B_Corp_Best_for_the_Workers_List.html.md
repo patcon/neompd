@@ -3,7 +3,7 @@ title: "Myplanet Digital Makes B Corp 'Best for the Workers' List"
 isPost: true
 tag: "culture"
 color: "orange"
-header: Myplanet Digital Makes B Corp 'Best for the Workers' List
+header: "Myplanet Digital Makes\nB Corp 'Best for the\nWorkers' List"
 summary: We're honoured to be recognized by B Lab as one of the 79 companies across 39 industries and 6 countries that have created the most positive impact for their workers.
 layout: blog
 coverimg: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Workers_List/cover.jpg"

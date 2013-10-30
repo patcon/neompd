@@ -142,7 +142,8 @@ body::-webkit-scrollbar  {
 	background-color: #2a2a2a;
 	letter-spacing: -.1px;
 	min-height: 60px;
-	width:250px;
+	width:240px;
+	padding:20px 25px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
@@ -168,6 +169,22 @@ body::-webkit-scrollbar  {
 	position: relative;
 	border-top-left-radius: 3px;
 }
+
+/*Add color to title on the tiles with images*/
+/*#grid > li.image > a > header.orange > span {
+	background-color: #ee5b33;
+	box-shadow: 20px 0 0 #ee5b33,-20px 0 0 #ee5b33;
+}
+
+#grid > li.image > a > header.green > span {
+	background-color: #29d09a;
+	box-shadow: 20px 0 0 #29d09a,-20px 0 0 #29d09a;
+}
+
+#grid > li.image > a > header.pink > span {
+	background-color: #f45d96;
+	box-shadow: 20px 0 0 #f45d96,-20px 0 0 #f45d96;
+}*/
 
 #grid > li.image > a > header > .smalltitle {
 	padding: 7px 0 2px 0;
