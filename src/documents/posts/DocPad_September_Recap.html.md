@@ -20,19 +20,16 @@ Here is an update from Benjamin that highlights all of the strides DocPad made d
 
 ## Core Releases ##
 
-- v6.53.0 September 17, 2013
+* v6.53.0 September 17, 2013
   - Improved configuration loading
   - Improved locale support
   - Fixed subscribe and tos metrics
-
-- v6.52.2 September 12, 2013
+* v6.52.2 September 12, 2013
   - Fixed completion callback errors
   - Better iconv loading
-
-- v6.52.1 September 8, 2013
+* v6.52.1 September 8, 2013
   - Fixed “structure already exists” errors when scaffolding
-
-- v6.52.0 September 8, 2013
+* v6.52.0 September 8, 2013
   - Improved statistic reporting
   - Fixed DocPad::getBlocks() return value
   - DocPad now exists gracefully instead of forcefully
