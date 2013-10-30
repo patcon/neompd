@@ -22,7 +22,7 @@ As of version 2.x:
 
 ### **Blocks**
 
-### From each individual block's configuration page (click "configure" on the block management screen), you can:
+From each individual block's configuration page (click "configure" on the block management screen), you can:
 
 *   Disable or set the HTML5 element to use as the block wrapper,
 *   Enable or disable an inner div,
@@ -34,7 +34,7 @@ As of version 2.x:
 
 ### **Panel panes**
 
-### By changing the pane style to "Clean markup" (click the gear in the top-right of a pane and click "Change" under "Style"), you can:
+By changing the pane style to "Clean markup" (click the gear in the top-right of a pane and click "Change" under "Style"), you can:
 
 *   Disable or set the HTML5 element to use as the pane wrapper,
 *   Enable or disable an inner div,
@@ -46,7 +46,7 @@ As of version 2.x:
 
 ### **Panel regions**
 
-### By changing the region style to "Clean markup" (click the gear in the top-left of a region and click "Change" under "Style"; or click "Display settings" on the panel itself), you can:
+By changing the region style to "Clean markup" (click the gear in the top-left of a region and click "Change" under "Style"; or click "Display settings" on the panel itself), you can:
 
 *   Disable or set the HTML5 element to use as the region wrapper,
 *   Enable or disable an inner div,
@@ -56,7 +56,7 @@ As of version 2.x:
 
 ### **Panel Layouts**
 
-### Layouts have been provided to take advantage of Clean Markup's ability to output the minimal amount of markup.
+Layouts have been provided to take advantage of Clean Markup's ability to output the minimal amount of markup.
 
 1.  **One Column Clean**: one region and single wrapper.
 2.  **One Column Reset**: one region with no wrapper.

@@ -26,7 +26,7 @@ In any case, the guiding principles of the Photoshop IA framework are actually f
 
 <img src="../images/20131906115440.png">
 
-### Color makes for great meta data
+## Color makes for great meta data
 
 There's a reason Adobe has been including the ability to color code your folders for a while now, and it’s a piece of functionality that I've adopted as a key part of my workflow. Color coding my Photoshop folders adds a lot of contextual meta data that not only helps me keep track of what portion of the comp I am working in or viewing (when there are a hundred open folders), but it also alerts me to it's current state (e.g., done, not done, supplementary, etc.) which I find useful when managing multiple comps at once.
 
@@ -34,7 +34,7 @@ I can also tell you that this is a subtle nuance that has helped both myself and
 
 <img src="../images/20131906120950.png">
 
-### Folder hierarchy delivers valuable perspective
+## Folder hierarchy delivers valuable perspective
 
 This one is fairly straightforward: structure your comp like you would a site in HTML. I always begin with the more invisible / supplementary elements (much like the scripts in the header tag of an HTML page) which includes things like the deprecated assets folder that house buttons, text styles and other elements that I'm no longer using. The tools folder follows and is packed with goodies like interaction cursors, grid frameworks, color palettes and wireframes from our client design studio – all things that will hopefully aid me in the design work to come.
 
@@ -42,23 +42,20 @@ After that, I work my way down the site in a linear fashion by beginning with th
 
 <img src="../images/20131906120459.png">
 
-### Nesting folders helps you manage large sections with ease
+## Nesting folders helps you manage large sections with ease
 
 Nesting isn't just for yellow throated New England warblers. Leveraging the 'top-down' style of folder hierarchy that we just looked at, I apply the same thinking when creating the internal elements (e.g., buttons, tabs, etc.) so that there's an inherent consistency as you dive deeper into the design comp.
 
 Because most elements are made of a background (or visual) and content (e.g., text / iconography), we can structure our folders in such a way that helps us quickly find and interact with all the elements that make up a particular section of a page. Not only does this make finding elements easier, but it also keeps the larger components (think a full analytical graph) in check because they live in easily manageable folders within a larger root folder or section.
 
-### In short, what are the benefits?
+## In short, what are the benefits?
 
-• Logical ordering makes for smoother collaboration with fellow teammates (both design and dev)
+- Logical ordering makes for smoother collaboration with fellow teammates (both design and dev)
+- Color coding provides useful contextual at-a-glance information on folder state and purpose
+- Large and complex design comps are simplified through nesting, making components easier to find, tweak and use
+- And lastly, no one ever has to get a comp from you with a thousand scattered “copy 14” layers
 
-• Color coding provides useful contextual at-a-glance information on folder state and purpose
-
-• Large and complex design comps are simplified through nesting, making components easier to find, tweak and use
-
-• And lastly, no one ever has to get a comp from you with a thousand scattered “copy 14” layers
-
-### It's a starting point, but there's always room for improvement.
+## It's a starting point, but there's always room for improvement.
 
 I'm sure there are a ton of things that still have room for iteration, and for that I look to my friends and colleagues for critique. One thing that I will admit I am currently stuck on is that all the folders tend to slightly blend in to one another when fully expanded. I've tried appending, prepending and messing with the upper / lowercase nature of the folder and layer names and have not quite yet worked out a perfect solution.
 

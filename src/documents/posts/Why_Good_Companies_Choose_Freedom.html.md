@@ -41,6 +41,7 @@ As an entrepreneur-type by nature, I felt suffocated.
 How, then, does one both maintain some semblance of consistent order while also promoting an entrepreneurial ethos and environment?
 
 I would argue that there are three key attributes:
+
 1. Frameworks and communication over process;
 2. Entrepreneurs over taskmasters, and;
 3. Freedom over hierarchy.
