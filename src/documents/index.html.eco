@@ -2,7 +2,8 @@
 <html lang="en" class="no-js">
 <head>
 	<title>Myplanet Digital</title>
-	<%- @getBlock("styles").add(["styles/homepage.css", "styles/post.css"]).toHTML() %>
+	<link rel="stylesheet" href="styles/homepage.css">
+	<link rel="stylesheet" href="styles/post.css">
 </head>
 
 <body>

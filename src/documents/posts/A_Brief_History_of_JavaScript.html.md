@@ -1,8 +1,9 @@
 ---
 title: "A Brief Historyof JavaScript"
-tag: "technology javascript"
+isPost: true
+tag: "technology"
 color: "orange"
-header: "A Brief History\nof JavaScript"
+header: "A Brief History of\nJavaScript"
 summary: "It’s been five years since the first copies of Douglas Crockford’s “JavaScript: the Good Parts” hit bookshelves. A lot has changed since."
 layout: blog
 coverimg: "/images/articles/A_Brief_History_of_JavaScript/cover.jpg"

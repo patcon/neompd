@@ -3,7 +3,7 @@ title: "Myplanet wins Momentum Company of the Year"
 isPost: true
 tag: "culture"
 color: "green"
-header: Myplanet wins Momentum Company of the Year
+header: "Myplanet wins\nMomentum Company\nof the Year"
 summary: Last week we earned the title of 'Momentum Company of the Year' at York Tech Alliance's Technology Leadership Awards.
 layout: blog
 coverimg: "/images/articles/Myplanet_wins_Momentum_Company_of_the_Year/cover.jpg"

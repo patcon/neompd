@@ -124,6 +124,11 @@ body::-webkit-scrollbar  {
 	margin:0;
 	padding:20px;
 }
+
+#grid > li >  a > p {
+	display: block;
+}
+
 #grid > li >  a > img {
 	padding:0;
 	width:100%;

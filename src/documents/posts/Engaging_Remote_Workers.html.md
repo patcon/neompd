@@ -18,17 +18,21 @@ We value in-person collaboration whenever possible, and we encourage our teams t
 
 Those who work from the office are immersed in our company culture just by nature of physical proximity. A casual joke, a smile, a compliment - these things are lost on remote workers who don't have a consistent audio/video lifeline to the rest of the team. How can we make sure they don't feel isolated?
 
-First, we've rolled out a quarterly "Engagement Week" where our remote team members spend a week on-site at our Toronto HQ getting re-immersed in the company culture. It's tremendously effective, but, absent any ongoing efforts, the initial bump in engagement soon fades. <span style="line-height: 1.538em;">What they really need is to experience the electricity in the air every day, and not just during our engagement week or stand-up meetings.</span>
+First, we've rolled out a quarterly "Engagement Week" where our remote team members spend a week on-site at our Toronto HQ getting re-immersed in the company culture. It's tremendously effective, but, absent any ongoing efforts, the initial bump in engagement soon fades. What they really need is to experience the electricity in the air every day, and not just during our engagement week or stand-up meetings.
 
-<span style="line-height: 1.538em;">One of the keys to ensuring your team stays passionate is to inspire them and let them know they are valued members of the team, their presence is appreciated, and their input is valued. This is no different for remote workers; in fact, it is even more important. Sometimes you forget to call one of them in before it's too late. Sometimes a discussion just happens ad-hoc and the remote team member didn't have the chance to be part of it. That's not fair.</span>
+One of the keys to ensuring your team stays passionate is to inspire them and let them know they are valued members of the team, their presence is appreciated, and their input is valued. This is no different for remote workers; in fact, it is even more important. Sometimes you forget to call one of them in before it's too late. Sometimes a discussion just happens ad-hoc and the remote team member didn't have the chance to be part of it. That's not fair.
 
 Most of my responsibilities as Head of Special Projects involve rolling out initiatives that live at the intersection of operations and technology. As we grow, we will continue to have a portion of our teams that are remote, and some Toronto-based team members will need to work from home from time to time. Others will have to travel to a client site and will want to stay connected to home base.
 
 In that spirit, Myplanet is proud to announce our first **_official_** telepresence implementation.
 
+<div class="full-width">
 [![](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-1-thumb.png)](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-1.jpg)
 
-[![](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-2-thumb.png)](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-2.jpg)We're not quite yet at the robotic level (see [here](http://mashable.com/2012/12/25/beam/) an example here of a telepresence robot), but one of our larger teams now has an open audio/video channel for all of their remote workers to promote serendipitous interactions and reduce the sense of isolation.
+[![](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-2-thumb.png)](http://myplanetdigital.com/sites/default/files/blog/telepresence-2013-2.jpg)
+</div>
+
+We're not quite yet at the robotic level (see [here](http://mashable.com/2012/12/25/beam/) an example here of a telepresence robot), but one of our larger teams now has an open audio/video channel for all of their remote workers to promote serendipitous interactions and reduce the sense of isolation.
 
 We started with Skype, but that didn't quite cut it. Even with Skype Premium it requires someone to initiate and someone to accept the call.  Calls get ended eventually or people get accidentally forgotten. Instead, we use Google Hangout and a dedicated computer connected to a big screen that has our Hangout always open with a permanent URL. It allows people to drop in and out as desired and isn't connected to a single person's computer that shuts down at the end of the day.
 

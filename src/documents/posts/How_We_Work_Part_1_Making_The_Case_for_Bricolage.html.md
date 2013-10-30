@@ -1,9 +1,9 @@
 ---
-title: "How We Work,\n Part 1: Making The Case\n for Bricolage"
+title: "How We Work, Part 1: Making The Case for Bricolage"
 isPost: true
 tag: "culture"
 color: "green"
-header: How We Work, Part 1: Making The Case for Bricolage
+header: "How We Work,\n Part 1: Making The Case\n for Bricolage"
 summary: This series examines the ways in which our process has evolved to support our clients, staff, and quality of work, arguing collectively that a process ‘bricolage’ is critical to creating amazing digital products.
 layout: blog
 coverimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/cover.jpg"
@@ -20,9 +20,9 @@ Agile purists, human-centered advocates, lean UXers. Manifestos, credos, value-l
 
 ## Making The Case For Bricolage
 
-> “Interdisciplinary” is quickly becoming a buzz phrase in our industry, but with good, substantiated reason.
-
 When it comes to designing and building digital products, five to seven heads—each with an approach unique to its discipline—are better than one. Yes, we’re aware of the potential impacts of groupthink, and as designers and developers we’ve all attended at least one brainstorming session that was more unproductive debate than creative revelation. But at its core, the idea that a diversity of perspectives can lead to a more interesting, creative, or innovative idea is relatively pedestrian.
+
+> “Interdisciplinary” is quickly becoming a buzz phrase in our industry, but with good, substantiated reason.
 
 I’ve always maintained that this logic should apply universally. Picking and choosing and combining and remixing the best parts with different perspectives—what the Ivory Tower might call “[bricolage](http://en.wikipedia.org/wiki/Bricolage)”—seems like a logical way to approach a problem, be it mashing up James Brown and the Beastie Boys or developing a process for building digital products. When it comes to the latter, there are so many methodologies that build in mechanisms for collaborative, iterative, interdisciplinary, and lateral problem-solving. But how open are practitioners to modifying these frameworks themselves? 
 
