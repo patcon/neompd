@@ -8,7 +8,7 @@ summary: This series examines the ways in which our process has evolved to suppo
 layout: blog
 coverimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/cover.jpg"
 tileimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/tile.jpg"
-authorimg: "/images/avatar/.png"
+authorimg: "/images/avatar/Erik_Von_Stackelberg.png"
 author: ""
 date: "2013-10-10"
 tilestyle: "image"
@@ -18,9 +18,9 @@ tilestyle: "image"
 
 Agile purists, human-centered advocates, lean UXers. Manifestos, credos, value-laden proclamations. In UX design and development circles, there’s certainly no shortage of opinion when it comes to the ideal process for building a successful digital product. Relativist arguments and trump cards abound (“if you had to modify the method, you’re doing it wrong;“ “the rules require that you abandon all rules”; “it’s not true x or y”). Yet, does the dogmatic prescription of one, true method really facilitate the creation of a meaningful user experience in a professional services context? What does Agile look like outside of software product development and where do the rules need to bend to serve clients effectively? This series examines the ways in which our process has evolved to support our clients, staff, and quality of work, arguing collectively that a process ‘[bricolage](http://en.wikipedia.org/wiki/Bricolage)’ is critical to creating amazing digital products.
 
-## Making The Case For Bricolage
-
 > “Interdisciplinary” is quickly becoming a buzz phrase in our industry, but with good, substantiated reason.
+
+## Making The Case For Bricolage
 
 When it comes to designing and building digital products, five to seven heads—each with an approach unique to its discipline—are better than one. Yes, we’re aware of the potential impacts of groupthink, and as designers and developers we’ve all attended at least one brainstorming session that was more unproductive debate than creative revelation. But at its core, the idea that a diversity of perspectives can lead to a more interesting, creative, or innovative idea is relatively pedestrian.
 
