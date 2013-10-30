@@ -1,6 +1,5 @@
 ---
 title: "Myplanet Meets DocPad"
-isPost: true
 tag: "technology docpad"
 color: "green"
 header: "Myplanet Meets DocPad:\nA Next Generation\nWeb Framework"
