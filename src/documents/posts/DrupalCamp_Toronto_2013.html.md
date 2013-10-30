@@ -1,7 +1,7 @@
 ---
 title: "DrupalCamp Toronto 2013"
 isPost: true
-tag: "technology"
+tag: "technology culture events"
 color: "pink"
 header: "DrupalCamp\nToronto 2013"
 summary: This weekend I had the pleasure of attending DrupalCamp Toronto with my fellow Myplaneteers.

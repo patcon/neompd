@@ -1,7 +1,7 @@
 ---
 title: "How We Work, Part 2: Examining Structure & Roles"
 isPost: true
-tag: "culture"
+tag: "culture design"
 color: "green"
 header: "How We Work, Part 2:\nExamining Structure & Roles"
 summary: At Myplanet, we’ve explored both ends of the spectrum when it comes to adopting the roles that Agile (and in particular, Scrum) prescribes.

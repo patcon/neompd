@@ -1,7 +1,7 @@
 ---
 title: "Why Good Companies Choose Freedom"
 isPost: true
-tag: "business"
+tag: "business culture"
 color: "black"
 header: Why Good Companies Choose Freedom
 summary: As companies grow rapidly, management often grasps for "process" as a way to deal with increasing complexity. Success depends on their ability to fight this urge.

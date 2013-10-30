@@ -1,7 +1,7 @@
 ---
 title: "Practical Advice for the Agile Manifesto"
 isPost: true
-tag: "business"
+tag: "business technology design culture"
 color: "black"
 header: Practical Advice for the Agile Manifesto
 summary: This is the first article in a three-part series, guest authored by Paul Heidema, Partner & Vice President of Training and Development at Berteig Consulting.

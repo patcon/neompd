@@ -1,4 +1,5 @@
 # MPD Website
+[![Build Status](https://travis-ci.org/myplanetdigital/neompd.png?branch=docpad)](https://travis-ci.org/myplanetdigital/neompd)
 
 ## Prerequisites
 
