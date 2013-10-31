@@ -27,8 +27,6 @@ _Migrating to Drupal 7_ covers four possible migration strategies:
 *   Converting a Wordpress site into a Drupal site using Migrate
 *   Upgrading from Drupal 6 to 7
 
-![](/sites/default/files/images/20131504112147.png)
-
 ## Importing flat datasets
 
 The [Feeds module](http://drupal.org/project/feeds) makes it easy to import simple datasets that can be contained in a single file, such as a CSV, XML or JSON file, into nodes of a certain type.

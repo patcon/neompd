@@ -18,6 +18,6 @@ tilestyle: "image"
 
 In this video, Michael explains how communities like these can foster idea generation, motivation and an 'intrapreneurship' mentality (smaller teams focusing on one specific product within a larger organization).
 
-<<  EMBED VIDEO >>
+<!-- <<  EMBED VIDEO >> -->
 
 In [Part Three](http://www.youtube.com/watch?v=Vxnd0aa6T24) of our series, Michael discusses lead generation and how Vidyard uses an iterative development model to constantly improve the product. And finally in [Part Four](http://www.youtube.com/watch?v=BseWzaFX_AE), Michael explains how lean user experience design impacts product development. 

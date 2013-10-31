@@ -19,11 +19,11 @@ Below this paragraph is a completely black image, 300 pixels by 300 pixels in si
 
 Somewhere in this image, in a randomly selected position, is a single pixel that has a JavaScript attached to it. Click on that pixel, and a message will appear. Happy hunting!
 
-img[]
+![](/images/articles/Programmers_Must_Consider_Accessibility/body_1.jpg)
 
 Obviously this is a silly and contrived example. How about this one though?
 
-img[]
+img[javascript_menu.jpg]
 
 The image above is a snapshot from Gmail. The menu is largely created via JavaScript. I left Firebug open so that you can get a feel for what a text-to-voice reader would see.
 

@@ -56,35 +56,33 @@ You'll obviously need to enable your module (in addition to the [token module](h
 
 Now let's see how we can use the new token inside of panels.
 
-<img src="/images/20130907111954.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_1.jpg)
 
 As you can see, we need to first add something into your panel that lets it know that you are going to be using tokens. After you add in tokens, you'll see your new tokens listed.
 
-<img src="/images/20130907111843.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_2.jpg)
 
-<img src="/images/20130907112024.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_3.jpg)
 
-<img src="/images/20130907112235.jpg">
-
-<img src="/images/20130907112355.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_4.jpg)
 
 Now we can actually change our content title to a token.
 
-<img src="/images/20130907112535.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_5.jpg)
 
 The token appears in the list of available substitutions, so you don't need to remember it.
 
-<img src="/images/20130907112722.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_6.jpg)
 
 ou'll need to select the "Use context keywords" option so that panels knows that it needs to make substitutions on tokens in this content item.
 
 Aside: We can also use tokens inside of content itself.
 
-<img src="/images/20130907112802.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_7.jpg)
 
 If you are exporting your panel to code (i.e. with features), the token will appear in the actual code as well.
 
-<img src="/images/20130907112904.jpg">
+![](/images/articles/Translating_Panel_Content_Titles_Using_Tokens/body_8.jpg)
 
 As you can see, using tokens is a simple method, producing clean, easy to document code, for translating items in Drupal that are otherwise hard to make translatable.
 

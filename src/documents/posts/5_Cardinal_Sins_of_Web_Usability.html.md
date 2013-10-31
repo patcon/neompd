@@ -34,7 +34,7 @@ Web users interpret blue text and underlined text as being hyperlinks. A word th
 
 _Here’s a screen capture from a bed and breakfast lodging directory. Because the name of the listings are in blue, users have a strong expectation that they should be able to click on the names to see additional details about the property. However, this text is not clickable – users must instead click the “View Listing” button to see property details. (In order to make this call-to-action more obvious, the site could have made this button look more clickable by adding drop shadowing, or shading the button so that it appeared more 3D.)_
 
-![](/sites/default/files/images/20130204140217.jpg)
+![](/images/articles/5_Cardinal_Sins_of_Web_Usability/body_1.jpg)
 
 **Make visited links look different than unclicked links.**
 
@@ -72,7 +72,7 @@ While some useful content (e.g., archive or related content links, navigation li
 
 _This is one of Ryanair’s old site designs. With their placement down the left edge of the page and their large and colourful format, it’s not clear whether the items “Cheap Car Hires”, “Cheap Hotels”, etc. are actual links for booking within RyanAir, or if they’re advertisements.  The area for inputting booking information also looks cluttered and ad-like, and the search bar is located on the left side of the page instead of the expected top right. _
 
-![](/sites/default/files/images/20130204140446.jpg)
+![](/images/articles/5_Cardinal_Sins_of_Web_Usability/body_2.jpg)
 
 **Avoid pop-ups.**
 

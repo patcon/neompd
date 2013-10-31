@@ -22,7 +22,7 @@ We listened to you, O brave equestrian city-dwellers, and today we're pleased to
 
 Now when I say brand new, I should probably clarify. I actually mean **nearly 200 years old. **Completed in 1834, the Bank of Upper Canada Building is one of the oldest financial services buildings in Canada. William Lyon Mackenzie and the Reformers even tried to break into it once to steal the gold within, albeit unsuccessfully.
 
-<img src="/images/20130105111736.jpg">
+![](/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/body_1.jpg)
 
 It's a National Historic Site of Canada, meaning that we're pretty limited in our ability to modify the exterior and certain aspects of the interior. But that's okay with us - we've hired a great design firm to help us transform the building into a space we'll be proud to call home. Three stories tall and with a majestic catwalk overlooking the expansive third floor atrium, the Bank of Upper Canada Building will be cozier than a Taunton on a cold winter's night when all is said and done.
 
@@ -30,4 +30,5 @@ We'll be providing updates on the progress of the design and construction as we 
 
 ## Pre-construction shots of the interior:
 
-![](/sites/default/files/images/20132808130128.jpg)![](/sites/default/files/images/20132808130138.jpg)![](/sites/default/files/images/20132808130141.jpg)![](/sites/default/files/images/20132808130143.jpg)
+![](/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/body_2.jpg)
+![](/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/body_3.jpg)

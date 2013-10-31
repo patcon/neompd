@@ -16,8 +16,6 @@ tilestyle: "image"
 
 I've been following Steve Portigal's work for many years and have used many of his approaches and methods in my own design research. So, when I heard that Steve was writing a book on the art and craft of design research, I immediately ordered a copy. After reading 'Interviewing Users' I wanted to share my impressions and thoughts.
 
-<img src="">
-
 The book was really insightful and inspiring from beginning to end. I found that Steve was able to capture the essence of many techniques and methodologies at expert level depth, while still delivering novice level understanding. As an experienced design researcher, this allowed me to easily grasp new ideas and learn extremely nuanced elements about common practices I was already familiar with. The use of case studies and stories from the field, quickly and vividly illustrate these points.
 
 At many points in the book, I found myself stopping to think about integrating new ideas into my own practice. This not only helped reveal gaps in my process, but also new ways to improve and expand on existing methods and techniques. I also eagerly shared these new insights with colleagues at Myplanet, from fellow researchers and designers to product owners and account leads.
