@@ -10,7 +10,6 @@ var Homepage = (function homepage(defaultVals) {
 		$articleMenu = $body.find('#articleMenu'),
 		$articleClose = $body.find('#close'),
 		$menuLines = $body.find('#lines'),
-		$searchBox = $body.find('#searchBox'),
 		$article = $('#article'),
 		winHeight = $window.height(),
 		DATA_ITEM_ATTR = 'isotopeItemPosition',
@@ -813,15 +812,6 @@ var Homepage = (function homepage(defaultVals) {
 		}
 	}
 
-	function onKeyDown(e) {
-		if (e.keyCode === 27) {
-			if($searchBox.is(':focus')) {
-				return $searchBox.blur();
-			}
-			closeArticle(true);
-		}
-	}
-
 	function onLoad(e) {
 		//Modernizr.csstransforms3d = false;
 		$article.css('opacity', MIN_OPACITY);
@@ -922,7 +912,11 @@ var Homepage = (function homepage(defaultVals) {
 	$articleClose.on('click', onCloseClick);
 
 	$doc.on('scroll', onScroll);
-	$doc.on('keydown', onKeyDown);
+	$doc.on('keydown', function (e) {
+        if (e.keyCode === 27) {
+            closeArticle(true);
+        }
+    });
 
 	$container.on('webkitTransitionEnd transitionend', onTransitionEnd);
 	$article.on('webkitTransitionEnd transitionend', onArticleTransitionEnd);
