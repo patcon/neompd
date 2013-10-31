@@ -13,9 +13,6 @@ var Homepage = (function homepage(defaultVals) {
 		$searchBox = $body.find('#searchBox'),
 		$article = $('#article'),
 		winHeight = $window.height(),
-		MATRIX_REGEX = /(-?\d+)/g,
-		MATRIX_X = 1,
-		MATRIX_Y = 2,
 		DATA_ITEM_ATTR = 'isotopeItemPosition',
 		FRAME = 20,
 		SOON = FRAME * 3,
@@ -107,8 +104,17 @@ var Homepage = (function homepage(defaultVals) {
 		return setTimeout(requestAnimationFrame.bind(this, fn), t);
 	}
 
+    function parseMatrix(s) {
+        var tokens = /\((.+)\)/.exec(s)[1].split(",");
+
+        return {
+            x: parseInt(tokens[0], 10),
+            y: parseInt(tokens[1], 10)
+        };
+    }
+
 	function getCurTop ($el) {
-		return parseInt($el.css('transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
+		return parseMatrix($el.css('transform')).y;
 	}
 
 	function isOnScreen ($el, scrollTop, padding, elTop) {
@@ -119,15 +125,14 @@ var Homepage = (function homepage(defaultVals) {
 
 	function modifyTransform (offset) {
 		return function(i, val) {
-			val = val.match(MATRIX_REGEX);
-			return 'translate3d(' + val[MATRIX_X] + 'px, ' + (parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
+            var matrix = parseMatrix(val);
+			return 'translate3d(' + matrix.x + 'px, ' + (matrix.y + offset) + 'px, 0)';
 		};
 	}
 
 	function modifyOrigTransform (offset, padding) {
 		return function() {
-			var val = this.matrix;
-			return 'translate3d(' + val[MATRIX_X] + 'px, ' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
+			return 'translate3d(' + this.matrix.x + 'px, ' + ((padding || 0) + this.matrix.y + parseInt(offset, 10)) + 'px, 0)';
 		};
 	}
 
@@ -525,7 +530,7 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function updateMatrixPos() {
-		this.matrix = $(this).css('transform').match(MATRIX_REGEX);
+        this.matrix = parseMatrix($(this).css('transform'));
 	}
 
 	function addFilter() {
