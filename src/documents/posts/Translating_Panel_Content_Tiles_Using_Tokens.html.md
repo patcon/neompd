@@ -37,7 +37,7 @@ $test</span><span class="pun">[</span><span class="str">'test_panel_translation_
 	</span><span class="pun">);</span><span class="pln">
 </span><span class="pun">}</span></code></pre>
 
-The code, above, lets Drupal know what this module produces in the way of tokens. The $type array contains information that will be displayed about the module itself, and the $test array contains information about the token itself. You can add many tokens into the $test array, of course (and name the array appropriately for your module as well).
+The code, above, lets Drupal know what this module produces in the way of tokens. The $type array contains information that will be displayed about the module itself, and the $test array contains information about the token itself. You can add many tokens into the $test array, of course <!-- (and name the array appropriately for your module as well).
 
     <span class="pln">
     </span><span class="com">/**
@@ -50,7 +50,7 @@ The code, above, lets Drupal know what this module produces in the way of tokens
     	</span><span class="pun">);</span><span class="pln">
     </span><span class="pun">}</span>
 
-The code, above, actually produces the contents of the token. Note that we have wrapped our text in t(), so it is translatable.
+The code, above, actually produces the contents of the token. Note that we have wrapped our text in t(), so it is translatable. -->
 
 You'll obviously need to enable your module (in addition to the [token module](https://drupal.org/project/token)) and clear your cache.
 
