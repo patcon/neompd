@@ -26,11 +26,7 @@ Most of my responsibilities as Head of Special Projects involve rolling out init
 
 In that spirit, Myplanet is proud to announce our first **_official_** telepresence implementation.
 
-<div class="full-width">
 [![](/images/articles/Engaging_Remote_Workers/body_1.jpg)
-
-[![](/images/articles/Engaging_Remote_Workers/body_2.jpg)
-</div>
 
 We're not quite yet at the robotic level (see [here](http://mashable.com/2012/12/25/beam/) an example here of a telepresence robot), but one of our larger teams now has an open audio/video channel for all of their remote workers to promote serendipitous interactions and reduce the sense of isolation.
 

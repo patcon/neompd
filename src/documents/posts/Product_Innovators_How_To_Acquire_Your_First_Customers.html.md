@@ -22,7 +22,7 @@ I made the trek from our Toronto HQ to Kitchener-Waterloo to meet with Vidyard f
 
 In Part One of our three-part interview, Michael talks about how he was able to acquire his first customers and prove that there was demand for his product.
 
-<script type="text/javascript" id="vidyard_embed_code_kCCEKQqeEjFPB3YiogTuDQ" src="//embed.vidyard.com/embed/kCCEKQqeEjFPB3YiogTuDQ/lightbox?v=2.2"></script>
-<div><div class="vidyard_wrapper" onclick="fn_vidyard_kCCEKQqeEjFPB3YiogTuDQ();">![Myplanet Product Innovators - VidYard Video #1](http://embed.vidyard.com/embed/kCCEKQqeEjFPB3YiogTuDQ/thumbnail.jpg)<div class="vidyard_play_button">[](javascript:void(0);)</div></div></div>
+<!-- <script type="text/javascript" id="vidyard_embed_code_kCCEKQqeEjFPB3YiogTuDQ" src="//embed.vidyard.com/embed/kCCEKQqeEjFPB3YiogTuDQ/lightbox?v=2.2"></script>
+<div><div class="vidyard_wrapper" onclick="fn_vidyard_kCCEKQqeEjFPB3YiogTuDQ();">![Myplanet Product Innovators - VidYard Video #1](http://embed.vidyard.com/embed/kCCEKQqeEjFPB3YiogTuDQ/thumbnail.jpg)<div class="vidyard_play_button">[](javascript:void(0);)</div></div></div> -->
 
 In [Part Two](http://www.youtube.com/watch?v=UF_A9sHKG6M) of the series, Michael discusses startup incubator models and applying this thinking to larger organizations.  In[Part Three](http://www.youtube.com/watch?v=Vxnd0aa6T24), Michael discusses lead generation and how Vidyard uses an iterative development model to constantly improve the product. And finally, in [Part Four](http://www.youtube.com/watch?v=BseWzaFX_AE), Michael explains how lean user experience design impacts product development. Thanks to Michael for sharing his insight with us!
