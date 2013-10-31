@@ -3,7 +3,7 @@ title: "Myplanet Skeuomorphism vs. Flat Design"
 isPost: true
 tag: "design"
 color: "black"
-header: Skeuomorphism vs.\nFlat Design
+header: "Skeuomorphism vs.\nFlat Design"
 summary: The forthcoming iOS 7 represents a new direction in design for Apple.
 layout: blog
 coverimg: "/images/articles/Skeuomorphism_vs_Flat_Design/cover.jpg"

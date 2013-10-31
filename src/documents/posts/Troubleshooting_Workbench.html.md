@@ -3,7 +3,7 @@ title: "Troubleshooting Workbench \n"
 isPost: true
 tag: "technology"
 color: "black"
-header: Troubleshooting Workbench
+header: "Troubleshooting Workbench"
 summary: A handy guide to some of the common problems encountered when trying to set up Workbench in Drupal.
 layout: blog
 coverimg: "/images/articles/Troubleshooting_Workbench/cover.jpg"

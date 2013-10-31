@@ -3,7 +3,7 @@ title: "UX Lessons From The USSR: The Trouble With Manifestos"
 isPost: true
 tag: "design"
 color: "black"
-header: UX Lessons From The USSR:\nThe Trouble With Manifestos
+header: "UX Lessons From The USSR:\nThe Trouble With Manifestos"
 summary: Our Creative Director spoke recently at FITC Toronto about the intersection of user experience and process.
 layout: blog
 coverimg: "/images/articles/UX_Lessons_From_The_USSR_The_Trouble_With_Manifestos/cover.jpg"

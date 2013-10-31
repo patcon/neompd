@@ -3,7 +3,7 @@ title: "How Top Companies Are Embracing Humanity"
 isPost: true
 tag: "culture"
 color: "orange"
-header: How Top Companies\nAre Embracing\nHumanity
+header: "How Top Companies\nAre Embracing\nHumanity"
 summary: I believe that we can all live happy, effective and deliberate lives - and that our organizations can help.
 layout: blog
 coverimg: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/cover.jpg"
