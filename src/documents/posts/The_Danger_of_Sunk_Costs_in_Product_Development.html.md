@@ -3,7 +3,7 @@ title: "The Danger of Sunk Costs in Product Development"
 isPost: true
 tag: "business design culture"
 color: "green"
-header: The Danger of Sunk Costs in Product Development
+header: The Danger of Sunk Costs\nin Product Development
 summary: Embracing creative destruction to build better products.
 layout: blog
 coverimg: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/cover.jpg"

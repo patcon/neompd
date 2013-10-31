@@ -3,7 +3,7 @@ title: "Translating Panel Content Titles Using Tokens"
 isPost: true
 tag: "technology"
 color: "black"
-header: Translating Panel Content Titles Using Tokens 
+header: Translating Panel Content\nTitles Using Tokens 
 summary: We recently encountered a specific situation with a Drupal site that had to be retro-fitted for translation.
 layout: blog
 coverimg: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/cover.jpg"

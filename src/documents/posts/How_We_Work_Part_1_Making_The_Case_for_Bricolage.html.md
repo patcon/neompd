@@ -3,7 +3,7 @@ title: "How We Work, Part 1: Making The Case for Bricolage"
 isPost: true
 tag: "culture design"
 color: "green"
-header: "How We Work,\n Part 1: Making The Case\n for Bricolage"
+header: "How We Work,\nPart 1: Making The Case\nfor Bricolage"
 summary: This series examines the ways in which our process has evolved to support our clients, staff, and quality of work, arguing collectively that a process ‘bricolage’ is critical to creating amazing digital products.
 layout: blog
 coverimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/cover.jpg"

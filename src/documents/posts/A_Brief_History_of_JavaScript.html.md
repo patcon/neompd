@@ -1,5 +1,5 @@
 ---
-title: "A Brief Historyof JavaScript"
+title: "A Brief History of JavaScript"
 isPost: true
 tag: "technology"
 color: "orange"

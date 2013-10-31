@@ -3,7 +3,7 @@ title: "The agency model is broken: Why we sell teams, not projects"
 isPost: true
 tag: "business"
 color: "green"
-header: The agency model is broken: Why we sell teams, not projects
+header: The agency model\nis broken:\nWhy we sell teams,\nnot projects
 summary: The agency model is broken. Here's how we're trying to fix it.
 layout: blog
 coverimg: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not_projects/cover.jpg"
