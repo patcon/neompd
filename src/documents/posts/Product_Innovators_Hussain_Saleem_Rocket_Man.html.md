@@ -40,8 +40,6 @@ I'm not earning any money from it. The ads that appear on the app are a feed fro
 
 Initially it was just red pins indicating locations of stops, but we didn’t include direction. That required extra work and calculation. Now at any given stop you can get the arrival time of the vehicle traveling in your desired direction. We also added a very simple search functionality. Much like Google Maps, you don’t need a specific address to find somewhere you’re looking for. Things like landmarks and restaurants can be searched from directly within the app. And we’ve recently added a favourites screen so you can easily, access the 2 or 3 stops. A lot of work went into it under the hub. Making the service more reliable, making the application very robust, having accurate data delivered as soon as possible to the user without blocking their interactions with the device.  
 
-![](/sites/default/files/images/20130305121032.jpg)
-
 **What's in store for the future of Rocket Man? Any plans to launch a similar app for other cities? **
 
 I recently launched Rocket Man for Blackberry 10. I'd been getting lots of requests to extend it beyond iOS. If enough people were to request that I build it for Android, I might try &amp; make time for that too.  I thought about launching it in other cities, but I don’t think that it can turn into business. It’s more of a service that people should have access to. I might open source it when I can no longer maintain it, and let other manage the source control. Then other developers could repurpose it in their own cities. I think one of the most interesting takeaways from the app is in the in the usage data. If the TTC was willing to take that data back &amp; analyze it, they could perhaps find ways to improve their service. 
