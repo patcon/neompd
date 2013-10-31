@@ -8,7 +8,7 @@ summary: The forthcoming iOS 7 represents a new direction in design for Apple.
 layout: blog
 coverimg: "/images/articles/Skeuomorphism_vs_Flat_Design/cover.jpg"
 tileimg: "/images/articles/Skeuomorphism_vs_Flat_Design/tile.jpg"
-authorimg: "../images/avatar/Brett_Luchman.png"
+authorimg: ""
 author: "Brett Luchman"
 date: "2013-07-04"
 tilestyle: ""
@@ -20,7 +20,7 @@ Flat design &amp; [skeuomorphism](http://www.bbc.co.uk/news/magazine-22840833) h
 
 Skeuomorphism is a design style originally championed by Steve Jobs in order to assist a novice user with the most intuitive interface. It allows users to interact instinctively with an application based on their recognitive experience in the offline world.
 
-<img src="/images/20130407185758.jpg">
+![](/images/articles/Skeuomorphism_vs_Flat_Design/body_1.jpg)
 
 [At WWDC](https://developer.apple.com/wwdc/) 2013, Apple announced that iOS7 would introduce flat iconography for the first time. Flat design supports functionality over stylistic detail, omitting things like rounded edges, shadows and gradients. For Apple, this represents an entirely new chapter in their design philosophy - something that wasn’t entirely well received at WWDC.
 

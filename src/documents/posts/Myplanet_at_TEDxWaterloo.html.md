@@ -8,7 +8,7 @@ summary: As an organizer and host of TEDxWaterloo, I wanted to share a few of th
 layout: blog
 coverimg: "/images/articles/Myplanet_at_TEDxWaterloo/cover.jpg"
 tileimg: "/images/articles/Myplanet_at_TEDxWaterloo/tile.jpg"
-authorimg: "/images/avatar/Ramy_Nassar.png"
+authorimg: ""
 author: "Ramy Nassar"
 date: "2013-04-16"
 tilestyle: ""
