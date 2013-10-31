@@ -1,6 +1,6 @@
 <div class="post">
 	<div class="banner">
-		<div class="background-strip" style="background-image: url('<%= @document.coverimg %>')"></div>
+		<div class="background-strip <%= @document.color %>" style="background-image: url('<%= @document.coverimg %>')"></div>
 		<h1 class="title">
 			<%- '<span>' + @document.header.split(/\n/).join('</span><span>') + '</span>' %>
 		</h1>
