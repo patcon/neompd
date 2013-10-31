@@ -138,7 +138,6 @@ body::-webkit-scrollbar  {
 #grid > li > a > header {
 	font-size:24px;
 	color:#fff;
-	font-weight: bold;
 	background-color: #2a2a2a;
 	letter-spacing: -.1px;
 	min-height: 60px;
@@ -467,13 +466,16 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	left: 0;
 	right: 0;
 	top:-9999px;
+
 	min-height: 100%;
 }
+
 #article.fixed {
 	top:0;
 	position:fixed;
 	opacity:1;
 }
+
 #article.fadeIn {
 	-webkit-transition:opacity 0.7s ease-out;
 	-webkit-transition-delay:0.1s;
@@ -486,13 +488,13 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 }
 
 #article.loaded > * {
-	-webkit-transition:opacity 0.525s ease-in-out;
+	-webkit-transition:opacity 0.35s ease-in-out;
 	-webkit-transition-delay:0.2s;
 	-webkit-transform:translateZ(0);
 	opacity:1;
 }
 #article.loaded > .banner {
-	-webkit-transition:opacity 0.725s ease-in-out;
+	-webkit-transition:opacity 0.55s ease-in-out;
 }
 #article.fadeOut {
 	-webkit-transition:opacity 0.35s ease-out;
@@ -514,3 +516,4 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	-webkit-transition-duration:0.3s;
 	-moz-transition-duration:0.425s;
 }
+
