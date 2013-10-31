@@ -1,16 +1,25 @@
-(function($) {
+(function($, undefined) {
 	'use strict';
 
-	if (document.body.hasOwnProperty('classList')) {
+	if (document.body.classList !== undefined) {
 		var plugin = jQuery.fn,
 			css = plugin.css,
 			add = DOMTokenList.prototype.add,
 			remove = DOMTokenList.prototype.remove,
-			transformProp = document.body.style.hasOwnProperty('webkitTransform') ? 'webkitTransform' : 'mozTransform',
+            transformProps = "trasform webkitTransform MozTransform msTransform OTransform".split(" "),
+			transformProp,
 			elem,
 			i,
 			length,
 			multi;
+
+        for (i = 0, length = transformProps.length; i < length && !transformProp; i++) {
+            transformProp = transformProps[i];
+
+            if (document.body.style[transformProp] === undefined) {
+                transformProp = undefined;
+            }
+        }
 
 		plugin.hasClass = function(selector) {
 			length = this.length;
