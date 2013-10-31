@@ -3,7 +3,7 @@ title: "Interviewing Users"
 isPost: true
 tag: "design"
 color: "black"
-header: Interviewing Users' By Steve Portigal
+header: "Interviewing Users\nBy Steve Portigal"
 summary: Steve Portigal's new book examines techniques that uncover compelling insights during user research.
 layout: blog
 coverimg: "/images/articles/Interviewing_Users/cover.jpg"
@@ -15,8 +15,6 @@ tilestyle: "image"
 ---
 
 I've been following Steve Portigal's work for many years and have used many of his approaches and methods in my own design research. So, when I heard that Steve was writing a book on the art and craft of design research, I immediately ordered a copy. After reading 'Interviewing Users' I wanted to share my impressions and thoughts.
-
-<img src="">
 
 The book was really insightful and inspiring from beginning to end. I found that Steve was able to capture the essence of many techniques and methodologies at expert level depth, while still delivering novice level understanding. As an experienced design researcher, this allowed me to easily grasp new ideas and learn extremely nuanced elements about common practices I was already familiar with. The use of case studies and stories from the field, quickly and vividly illustrate these points.
 

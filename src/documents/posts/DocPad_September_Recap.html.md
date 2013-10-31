@@ -3,7 +3,7 @@ title: "DocPad September Recap"
 isPost: true
 tag: "technology"
 color: "black"
-header: DocPad September Recap
+header: "DocPad September\nRecap"
 summary: What the DocPad community accomplished in September 2013.
 layout: blog
 coverimg: "/images/articles/DocPad_September_Recap/cover.jpg"
@@ -69,7 +69,7 @@ As well as [all the amazing 3rd party plugins](http://npmjs.org/keyword/docpad-p
 
 ## Documentation Rethinking ##
 
-We got a huge amount of interest in improving our documentation! [So much](https://github.com/docpad/documentation/issues) that we’ve actually put together some [criteria for documentation changes](https://github.com/docpad/documentation/issues/63) and are brainstorming [ways to improve the documentation](https://github.com/docpad/website/issues/56)and [improve the website](https://github.com/docpad/website/issues/47) as well.
+We got a huge amount of interest in improving our documentation! [So much](https://github.com/docpad/documentation/issues) that we’ve actually put together some [criteria for documentation changes](https://github.com/docpad/documentation/issues/63) and are brainstorming [ways to improve the documentation](https://github.com/docpad/website/issues/56) and [improve the website](https://github.com/docpad/website/issues/47) as well.
 
 ## A place for requesting Trainings and Meetups ##
 

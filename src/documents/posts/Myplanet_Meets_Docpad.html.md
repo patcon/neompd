@@ -29,6 +29,8 @@ Fast-forward to December 2012 when Erin and our Strategy and Support Group were 
 	</div>
 </div>
 
+[]
+
 Around the same time that the “MP Loves” site was being built we became increasingly interested in alternative ways to experiment and prototype without having to use Drupal, which was often for light back-end sites, setup heavy.  Coincidentally, Savvis Enterprise had an interesting interactivity challenge to solve with their network topologies and our prototyping team embraced Backbone.js to build the highly interactive site by jumping almost immediately into the code.
 
 It felt good to build an application that leveraged new browser capabilities to work offline, save state, behaved almost exactly as you intended to and that only until recently the big boys at Google could build. Further, with the release of many SaaS based web development tools, like Easel.io for front-end development, Cloud9 as a web-based IDE and Kinvey as a BaaS there was little reason that our now client-heavy JS code ever had to hit our local development environments. From this and our painful battle with getting Drupal to play well with CI best practices it felt like there was a better way to deliver more value faster for our clients in instances where the back-end rigour of Drupal wasn’t a necessity.

@@ -3,7 +3,7 @@ title: "Launching With Zero Update Hooks"
 isPost: true
 tag: "technology"
 color: "black"
-header: Launching With Zero Update Hooks
+header: "Launching With Zero\nUpdate Hooks"
 summary: ...and 5 other reasons to use Drupal's custom_config module.
 layout: blog
 coverimg: "/images/articles//cover.jpg"

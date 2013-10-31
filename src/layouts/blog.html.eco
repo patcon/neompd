@@ -18,14 +18,10 @@
 
 		<%- @content %>
 
-		<div class="meteor"></div>
-
 		<footer>
 			<h3>TAGS</h3>
 				<ul class="tag-list">
-					<li>Design</li>
-					<li>Technology</li>
-					<li>Agile</li>
+					<%- '<li>' + @document.tag.split(" ").join('</li><li>') + '</li>' %>
 				</ul>
 		</footer>
 	</div>

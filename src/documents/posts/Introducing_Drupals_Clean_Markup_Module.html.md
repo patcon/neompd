@@ -3,7 +3,7 @@ title: "Introducing Drupal's Clean Markup Module"
 isPost: true
 tag: "technology"
 color: "black"
-header: Introducing Drupal's Clean Markup Module
+header: "Introducing Drupal's\nClean Markup Module"
 summary: We're excited to announce the official release of the Clean Markup module.
 layout: blog
 coverimg: "/images/articles/Introducing_Drupals_Clean_Markup_Module/cover.jpg"

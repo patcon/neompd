@@ -124,6 +124,11 @@ body::-webkit-scrollbar  {
 	margin:0;
 	padding:20px;
 }
+
+#grid > li >  a > p {
+	display: block;
+}
+
 #grid > li >  a > img {
 	padding:0;
 	width:100%;
@@ -137,7 +142,8 @@ body::-webkit-scrollbar  {
 	background-color: #2a2a2a;
 	letter-spacing: -.1px;
 	min-height: 60px;
-	width:250px;
+	width:240px;
+	padding:20px 25px;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
@@ -163,6 +169,22 @@ body::-webkit-scrollbar  {
 	position: relative;
 	border-top-left-radius: 3px;
 }
+
+/*Add color to title on the tiles with images*/
+/*#grid > li.image > a > header.orange > span {
+	background-color: #ee5b33;
+	box-shadow: 20px 0 0 #ee5b33,-20px 0 0 #ee5b33;
+}
+
+#grid > li.image > a > header.green > span {
+	background-color: #29d09a;
+	box-shadow: 20px 0 0 #29d09a,-20px 0 0 #29d09a;
+}
+
+#grid > li.image > a > header.pink > span {
+	background-color: #f45d96;
+	box-shadow: 20px 0 0 #f45d96,-20px 0 0 #f45d96;
+}*/
 
 #grid > li.image > a > header > .smalltitle {
 	padding: 7px 0 2px 0;
@@ -214,10 +236,10 @@ body::-webkit-scrollbar  {
 	color:#222;
 }
 #grid > li:hover > a {
-	-webkit-transform:scale(1.0175) rotate(-0.4deg) translateZ(0);
-	text-rendering:;
+	-webkit-transform:scale(1.0175) translateZ(0);
+	/*text-rendering:;*/
 	-webkit-transition-duration: 0.25s;
-	-moz-transform:rotate(-0.75deg) translateZ(0);
+	-moz-transform:translateZ(0);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 	color:#111;
 }
@@ -318,19 +340,16 @@ body::-webkit-scrollbar  {
 	-webkit-transition-property:-webkit-transform, background-color;
 	-webkit-transition-timing-function: ease-out;
 	-moz-transition-duration:0.2s;
-	-moz-transform: translateZ(0) rotate(0);
 	-moz-transition-property:-moz-transform, background-color;
 	-moz-transition-timing-function: ease-out;
 	text-shadow:0 1px 1px rgba(0,0,0,0.3);
 }
 #menu > ul > li:hover {
 	background:#29d09a;
-	-webkit-transform: translateZ(0) rotate(-1deg);
-	-moz-transform: translateZ(0) rotate(-1deg);
 }
 #menu > ul > li:active {
-	-webkit-transform: translateZ(0) scale(1.075) rotate(-0.75deg);
-	-moz-transform: translateZ(0) scale(1.075) rotate(-0.75deg);
+	-webkit-transform: translateZ(0) scale(1.075);
+	-moz-transform: translateZ(0) scale(1.075);
 }
 #articleMenu {
 	background:url(../images/logo-black.png) 37px 23px no-repeat;
