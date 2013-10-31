@@ -610,12 +610,11 @@ var Homepage = (function homepage(defaultVals) {
 		setTimeout(updateUrl, SOON * 2);
 	}
 
-	function openArticle(e, $li) {
+	function openArticle(linkUrl, $li) {
 		var $onScreenUpper,
 			$onScreenLower,
 			$offScreenUpper,
 			li,
-			$clicked,
 			$oldLi,
 			scrollTop,
 			liTop,
@@ -623,12 +622,7 @@ var Homepage = (function homepage(defaultVals) {
 			lOffset,
 			winOffset;
 
-		if(e === null || (($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container))) {
-			if(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			}
-
+		if(true /* @todo remove this, keeping for indent level for easier merge/refactor for now */) {
 			if(isClosing || isDoingTransition) {
 				return;
 			}
@@ -636,7 +630,7 @@ var Homepage = (function homepage(defaultVals) {
 				return closeArticle(true);
 			}
 
-			$li = $oldLi = e ? $clicked.closest('li') : $li;
+			$oldLi = $li;
 			$onScreenUpper = [];
 			$offScreenUpper = [];
 			$upper = [];
@@ -645,7 +639,7 @@ var Homepage = (function homepage(defaultVals) {
 			upperOffset = 0;
 			lowerOffset = 0;
 
-			articleHeight = e ? winHeight : $article.height();
+			articleHeight = linkUrl ? winHeight : $article.height();
 			containerHeight = parseInt(($wrap[0].style.height.replace('px', '') || containerHeight), 10);
 
 			while(($li = $li.prev()).length) {
@@ -710,9 +704,9 @@ var Homepage = (function homepage(defaultVals) {
 			menuShown = false;
 			isFixed = true;
 			justOpenedArticle = true;
-			curXHR = !!e;
+			curXHR = !!linkUrl;
 			articleOpacity = 1;
-			clickedUrl = e ? $oldLi.attr('data-href') : '';
+			clickedUrl = linkUrl ? linkUrl : '';
 
 			$body.removeClass('scrolling');
 			$wrap.css('height', '');//.addClass('behind');
@@ -724,12 +718,12 @@ var Homepage = (function homepage(defaultVals) {
 			//requestAnimationFrame(function() {
 				$onScreenUpper.removeClass('offScreen').addClass('onScreen');
 				$onScreenLower.removeClass('offScreen').addClass('onScreen');
-				$oldLi.removeClass('offScreen').addClass('delay ' + (e === null ? 'fwdBtn ' : '') + 'onScreen');
+				$oldLi.removeClass('offScreen').addClass('delay ' + (linkUrl === null ? 'fwdBtn ' : '') + 'onScreen');
 
 				$upper.css('transform', modifyTransform(-upperOffset - offset));
 				$lower.css('transform', modifyTransform(lOffset));
 
-				$article.addClass('fixed fadeIn' + (e ? ' loading' : '')).css('top', 0).css('opacity', 1).css('backgroundPosition', e ? ('50% ' + (floor(winHeight / 2) - LOADING_GIF_HEIGHT) + 'px') : '');
+				$article.addClass('fixed fadeIn' + (linkUrl ? ' loading' : '')).css('top', 0).css('opacity', 1).css('backgroundPosition', linkUrl ? ('50% ' + (floor(winHeight / 2) - LOADING_GIF_HEIGHT) + 'px') : '');
 				$menu.removeClass('offScreen closing closingFast show').addClass('hide').css('transform', '');
 				$articleClose.addClass('shown').removeClass('hidden').css('zIndex', 2).css('opacity', 1);
 
@@ -914,7 +908,15 @@ var Homepage = (function homepage(defaultVals) {
 		$window.on('mousewheel', onMouseWheel);
 	}
 
-	$container.on('click', openArticle);
+	$container.on('click', '> li > a', function (e) {
+        var $link = $(this),
+            $li = $link.closest('li');
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        openArticle($li.attr('data-href'), $li);
+    });
 	$menuLines.on('click', onMenuClick);
 	$menu.on('click', onFilterClick);
 	$articleClose.on('click', onCloseClick);
