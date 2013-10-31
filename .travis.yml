@@ -1,0 +1,27 @@
+language: node_js
+
+node_js:
+  - "0.10"
+
+env:
+  global:
+    - NODE_ENV=production
+    - DOCPAD_SUNNY_CONTAINER=test.neo.mpdagile.com
+    - DOCPAD_SUNNY_CONTAINER_REGION=us-west-2
+
+    # DOCPAD_SUNNY_ACCOUNT
+    - secure: "s+UScKYOoHagCYHlb1b1coEVkvz0FL7pDNukMOqLWRrpghuek/dyk+lkULayMW+l9uv7pgMJMw15Q/tu8Od4Q9MtRWiaICW4YEm3h6Si05bEVGYoXUmsvf5gEpJQ1+Dp0ezzovOKsKtx73elu4qQpLId0uFZnZeX9hfyD/3Hnao="
+
+    # DOCPAD_SUNNY_SECRETKEY
+    - secure: "JsBk4RdXMAQpige7yC0YX9laQUldKJ8h6LymSxuxjwBDyk4zl1l2asbvDW6cwT4xMa/3x35hKps9Vy6vU6zQ0FFiJYCEUiJ3XxWqPO5SNy1pXRvlyU5li68Tww3S35d65LmHMIWlfkt8rwMR6J6/BQCDjmH9WcCkDhDShhPW3ok="
+
+install: npm install
+
+# This will later be a test suite.
+script: true
+
+after_success: npm run-script deploy
+
+branches:
+  only:
+    - docpad

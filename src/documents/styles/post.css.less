@@ -105,8 +105,8 @@
 		p img {
 			margin: 0 56px 36px 0;
 			display: block;
-			float:left;
-			margin-left: -@content-left-padding;
+			// float:left;
+			// margin-left: -@content-left-padding;
 			width: 480px;
 		}
 
@@ -190,8 +190,13 @@
 				}
 
 				ul {
-					list-style-type: disc;
+					list-style-type: none;
 					font-size:0.6em;
+
+					li:before {
+						content: '\2014';
+						padding-right: 5px;
+					}
 				}
 			}
 		}
