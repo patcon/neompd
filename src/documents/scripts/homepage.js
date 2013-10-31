@@ -31,9 +31,9 @@
 			MAX_PER_LOAD_DEBOUNCE = 6,
 			ANIMATION_EL_THRESHOLD = 3,
 			WHEEL_TIMEOUT = 90,
-			WHEEL_FRICTION = 35,
+			WHEEL_FRICTION = 30,
 			WHEEL_TURN_FACTOR = 120,
-			LOWER_WHEEL_FRICTION = 12,
+			LOWER_WHEEL_FRICTION = 20,
 			LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 			LEFT_BAR_OFFSET = 200,
 			LOADING_GIF_HEIGHT = 122,
@@ -445,7 +445,7 @@
 
 						if(!isFixed) {
 							fadeArticle();
-							addFrictionToMouseWheel = !curXHR;
+							addFrictionToMouseWheel = true;
 							return isFixed = true;
 						} else if(! opacityTimeout) {
 							opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
