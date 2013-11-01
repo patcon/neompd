@@ -477,6 +477,7 @@ var Homepage = (function homepage(defaultVals) {
 					resetBlocks = false;
 				} else if(isLowerClosingState) {
 					$articleClose.css('zIndex', 3);
+					$wrap.addClass('behind');
 					articleOpacity = 1;
 					if(! opacityTimeout) {
 						opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
