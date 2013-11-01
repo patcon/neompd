@@ -1,0 +1,5 @@
+/*global require */
+
+require([], function () {
+
+});
