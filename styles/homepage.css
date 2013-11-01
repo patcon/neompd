@@ -460,11 +460,13 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 	margin-left:190px;
 	min-height: 100%;
 }
+
 #article.fixed {
 	top:0;
 	position:fixed;
 	opacity:1;
 }
+
 #article.fadeIn {
 	-webkit-transition:opacity 0.7s ease-out;
 	-webkit-transition-delay:0.1s;
@@ -477,20 +479,20 @@ footer.adr > span.locality, footer.adr > span.country-name, footer.adr > span.re
 }
 
 #article.loaded > * {
-	-webkit-transition:opacity 0.525s ease-in-out;
-	-webkit-transition-delay:0.2s;
+	-webkit-transition:opacity 0.475s ease-in-out;
+	-webkit-transition-delay:0.15s;
 	-webkit-transform:translateZ(0);
 	opacity:1;
 }
 #article.loaded > .banner {
-	-webkit-transition:opacity 0.725s ease-in-out;
+	-webkit-transition:opacity 0.625s ease-in-out;
 }
 #article.fadeOut {
 	-webkit-transition:opacity 0.35s ease-out;
 	-moz-transition:opacity 0.35s ease-out;
 }
 #article.loading {
-	background:url(../images/loading.gif) no-repeat center 300px;
+	background:url(../images/loading.gif) no-repeat;
 	-webkit-transform:translate3d(-95px, 0, 0);
 }
 

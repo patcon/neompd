@@ -18,8 +18,8 @@ var Homepage = (function homepage(defaultVals) {
 		MATRIX_Y = 2,
 		DATA_ITEM_ATTR = 'isotopeItemPosition',
 		FRAME = 20,
-		SOON = FRAME * 3,
-		OPACITY_TIMEOUT = FRAME,
+		SOON = FRAME * 2,
+		OPACITY_TIMEOUT = FRAME * 2,
 		ASAP = 0,
 		PADDING = 10,
 		MIN_OPACITY = 0.005,
@@ -30,13 +30,13 @@ var Homepage = (function homepage(defaultVals) {
 		ANIMATION_THRESHOLD = -100,
 		MAX_PER_LOAD_DEBOUNCE = 6,
 		ANIMATION_EL_THRESHOLD = 3,
-		WHEEL_TIMEOUT = 90,
-		WHEEL_FRICTION = 35,
+		WHEEL_TIMEOUT = 95,
+		WHEEL_FRICTION = 24,
+		LOWER_WHEEL_FRICTION = 24,
 		WHEEL_TURN_FACTOR = 120,
-		LOWER_WHEEL_FRICTION = 12,
 		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
 		LEFT_BAR_OFFSET = 200,
-		LOADING_GIF_HEIGHT = 122,
+		LOADING_GIF_HEIGHT = 66,
 		firstScrollEvent = true,
 		scrollTimeout,
 		opacityTimeout,
@@ -61,7 +61,7 @@ var Homepage = (function homepage(defaultVals) {
 		lowerOffset = 0,
 		lowerWinOffset = 0,
 		containerHeight,
-		updateScrollAnimation,
+		resetBlocks,
 		noScrollEvents = true,
 		isDoingTransition = false,
 		loaded = false,
@@ -71,8 +71,7 @@ var Homepage = (function homepage(defaultVals) {
 		addFrictionToMouseWheel = false,
 		addFrictionToMouseWheelLower = false,
 		popStateScroll = null,
-		popStateScrollPadding = 0,
-		userTriggered = true,
+		pressedBackBtn = true,
 		menuShown,
 		isFixed,
 		justOpenedArticle,
@@ -136,9 +135,9 @@ var Homepage = (function homepage(defaultVals) {
 		}
 		if(curXHR && curXHR.abort) {
 			curXHR.abort();
-			curXHR = null;
 			doneLoading = true;
 		}
+		curXHR = null;
 
 		noScrollEvents = false;
 		articleHeight = null;
@@ -194,7 +193,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		noScrollEvents = true;
 		isClosing = true;
-		userTriggered = false;
+		pressedBackBtn = false;
 
 		if(pressedButtonToClose) {
 			scrollTop = scrollTop || window.pageYOffset;
@@ -233,7 +232,7 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function goBackAndRemoveScrollClass() {
-		if(! userTriggered) {
+		if(! pressedBackBtn) {
 			history.back();
 		}
 		setTimeoutWithRAF(endGoBackAndRemoveScrollClass, SOON);
@@ -360,8 +359,7 @@ var Homepage = (function homepage(defaultVals) {
 		}
 		$animateOnScroll.css('transform', modifyOrigTransform(0));
 		$article.removeClass('fixed').css('top', articleTop);
-
-		unfixTimeout = setTimeoutWithRAF(finishUnFixArticle, SOON);
+		unfixTimeout = setTimeoutWithRAF(finishUnFixArticle, SOON * 2);
 	}
 
 	function handleNavigation(e) {
@@ -369,6 +367,7 @@ var Homepage = (function homepage(defaultVals) {
 			count = 0,
 			centerElCount,
 			navEach,
+			thisPressedBackBtn,
 			$me,
 			$clicked;
 		if(!loaded) {
@@ -377,8 +376,7 @@ var Homepage = (function homepage(defaultVals) {
 
 		if(articleHeight !== null) { //back button
 			closeArticle(true);
-			userTriggered = true;
-			popStateScrollPadding = 0;
+			thisPressedBackBtn = true;
 		} else if(!isClosing) {      //forward button
 			noScrollEvents = true;
 			scrollTop = window.pageYOffset;
@@ -391,38 +389,46 @@ var Homepage = (function homepage(defaultVals) {
 				return count < centerElCount;
 			}).addClass('offScreen');
 
+			thisPressedBackBtn = false;
 			openArticle(null, $clicked);
-			popStateScrollPadding = overhead;
-			userTriggered = false;
 		}
 
-		if(!userTriggered || !justOpenedArticle) {
+		if(!popStateScroll && (!thisPressedBackBtn || !justOpenedArticle)) {
 			popStateScroll = scrollTop || window.pageYOffset;
 		}
+		pressedBackBtn = thisPressedBackBtn;
+	}
+
+	function moveFixedItems(scrollTop) {
+		var val;
+		if (lowerOffset > winHeight) {
+			val = floor(-((articleTop - scrollTop)/overhead * (lowerWinOffset + overhead)) -lowerOffset + lowerWinOffset);
+		} else {
+			val = floor(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead));
+		}
+		$animateOnScroll.css('transform', modifyOrigTransform(val));
 	}
 
 	function onScroll() {
 		var scrollTop,
 			factor,
 			isAtTop,
+			isAtBottom,
 			val;
-		if(popStateScroll) {
-			$window.scrollTop(popStateScroll + (articleHeight !== null ? popStateScrollPadding : 0));
-			popStateScrollPadding = 0;
+		if(popStateScroll !== null) {
+			$window.scrollTop(popStateScroll);
 			return popStateScroll = null;
 		}
-		if(popStateScrollPadding) {
-			popStateScrollPadding = 0;
-		}
-		if(noScrollEvents) {
+
+		if(noScrollEvents === true) {
 			return;
 		}
-		if(isDoingTransition) {
+		if(isDoingTransition === true) {
 			noScrollEvents = true;
 			return requestAnimationFrame(endOpenArticleTransition);
 		}
 
-		if (articleHeight) {
+		if (articleHeight !== null) {
 			if ((isAtTop = (scrollTop = window.pageYOffset) <= articleTop)) {
 				if(scrollTop > articleTop - overhead) {
 					if (!isFixed) {
@@ -431,27 +437,22 @@ var Homepage = (function homepage(defaultVals) {
 						justOpenedArticle = false;
 					}
 
-					if (lowerOffset > winHeight) {
-						val = floor(-((articleTop - scrollTop)/overhead * (lowerWinOffset + overhead)) -lowerOffset + lowerWinOffset);
-					} else {
-						val = floor(-(articleTop - scrollTop)/overhead * (lowerOffset + overhead));
-					}
-					$animateOnScroll.css('transform', modifyOrigTransform(val));
+					moveFixedItems(scrollTop);
 
 					val = abs(articleTop - scrollTop) / overhead;
 					articleOpacity = (0.8 - (0.825 * val)).toFixed(2);
 
 					if(!isFixed) {
 						fadeArticle();
-						addFrictionToMouseWheel = curXHR ? false : true;
+						addFrictionToMouseWheel = !curXHR;
 						return isFixed = true;
-					} else if(!opacityTimeout) {
+					} else if(! opacityTimeout) {
 						opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
 					}
 
-					if(!updateScrollAnimation) {
+					if(!resetBlocks) {
 						$articleClose.css('zIndex', 2);
-						updateScrollAnimation = true;
+						resetBlocks = true;
 					}
 
 					if(! menuShown) {
@@ -465,14 +466,15 @@ var Homepage = (function homepage(defaultVals) {
 				if (isFixed) {
 					isFixed = false;
 					justOpenedArticle = false;
-					updateScrollAnimation = true;
+					resetBlocks = true;
+					jumpBottom = true;
 					unfixArticle();
-				} else if (updateScrollAnimation) {
+				} else if (resetBlocks) {
 					$animateOnScrollUpper.css('transform', modifyOrigTransform(0));
 					if(! menuShown) {
 						$menu.css('transform', 'translate3d(' + (-LEFT_BAR_OFFSET) + 'px, 0, 0)');
 					}
-					updateScrollAnimation = false;
+					resetBlocks = false;
 				} else if(isLowerClosingState) {
 					$articleClose.css('zIndex', 3);
 					articleOpacity = 1;
@@ -480,21 +482,18 @@ var Homepage = (function homepage(defaultVals) {
 						opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
 					}
 					isLowerClosingState = false;
-				}
-				if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
-					$animateOnScroll.css('transform', modifyTransform(-(underhead - lowerWinOffset)));
+				} else if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
+					$animateOnScroll.css('transform', modifyOrigTransform(underhead - lowerWinOffset));
 					jumpBottom = false;
 				}
 			} else if ((scrollTop > val) && (scrollTop < val + underhead)) {
-				if (!jumpBottom) {  //jump blocks futher under the article so the tiles move the right amount to close properly
-					$animateOnScroll.css('transform', modifyTransform(underhead - lowerWinOffset));
-					addFrictionToMouseWheelLower = true;
-					jumpBottom = true;
-				} else if(!isLowerClosingState) {
+				if(!isLowerClosingState) {
+					addFrictionToMouseWheelLower = !curXHR;
 					$wrap.removeClass('behind');
 					isLowerClosingState = true;
-				} else if(jumpBottom) {
+				} else if(!jumpBottom) {
 					$articleClose.css('zIndex', 2);
+					jumpBottom = true;
 				}
 
 				if (lowerOffset > winHeight) {
@@ -514,7 +513,7 @@ var Homepage = (function homepage(defaultVals) {
 				if(! opacityTimeout) {
 					opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
 				}
-				updateScrollAnimation = true;
+				resetBlocks = true;
 			}  else if (scrollTop >= val + underhead) {
 				closeArticle(false, true, scrollTop);
 			}
@@ -568,28 +567,33 @@ var Homepage = (function homepage(defaultVals) {
 	}
 
 	function onArticleTransitionEnd() {
-		if(doneLoading === false) {
-			$article.removeClass('loading fadeOut').addClass('loaded');
-			doneLoading = -1;
-		} else if(doneLoading === -1) {
-			$article.removeClass('loaded');
-			articleHeight = $article.height();
-			$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
-			lowerOffset += articleHeight - winHeight;
-			$lower.css('transform', modifyTransform(articleHeight - winHeight)).each(updateMatrixPos);
+		var scrollTop;
+		if(!isClosing) {
+			if(doneLoading === false) {
+				articleHeight = $article[0].scrollHeight;
+				lowerOffset += articleHeight - winHeight;
+				$article.removeClass('loading fadeOut').addClass('loaded');
+				doneLoading = -1;
+			} else if(doneLoading === -1) {
+				$article.removeClass('loaded');
+				$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
+				$lower.css('transform', modifyOrigTransform(articleHeight - winHeight)).each(updateMatrixPos);
+				if((scrollTop = window.pageYOffset) < articleTop) {
+					moveFixedItems(scrollTop);
+				}
 
-			$window.scrollTop(articleTop);
-
-			doneLoading = true;
+				curXHR = null;
+				doneLoading = true;
+			}
 		}
 	}
 
 	function endOpenArticleTransition() {
 		var scrollTop = window.pageYOffset;
 		$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
-		$lower.addClass('offScreen').removeClass('onScreen delay fwdBtn').css('transform', modifyTransform(overhead + (lowerOffset > lowerWinOffset ? lowerOffset - lowerWinOffset : 0)));
-		$upper.addClass('offScreen').removeClass('onScreen').css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 		$articleClose.removeClass('shown').css('zIndex', 3);
+		$lower.addClass('offScreen').removeClass('onScreen delay fwdBtn').css('transform', modifyTransform(overhead + lowerOffset - lowerWinOffset));
+		$upper.addClass('offScreen').removeClass('onScreen').css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
 
 		$article.removeClass('fadeIn');
 		$menu.addClass('offScreen');
@@ -599,11 +603,11 @@ var Homepage = (function homepage(defaultVals) {
 		$all.each(updateMatrixPos);
 
 		isDoingTransition = false;
-		updateScrollAnimation = false;
+		resetBlocks = false;
 		isLowerClosingState = false;
 		doneClosing = false;
 
-		setTimeout(updateUrl, SOON * 2);
+		setTimeout(updateUrl, SOON * 3);
 	}
 
 	function openArticle(e, $li) {
@@ -641,7 +645,7 @@ var Homepage = (function homepage(defaultVals) {
 			upperOffset = 0;
 			lowerOffset = 0;
 
-			articleHeight = e ? winHeight : $article.height();
+			articleHeight = e ? winHeight : $article[0].scrollHeight;
 			containerHeight = parseInt(($wrap[0].style.height.replace('px', '') || containerHeight), 10);
 
 			while(($li = $li.prev()).length) {
@@ -702,7 +706,7 @@ var Homepage = (function homepage(defaultVals) {
 
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			lOffset =  min(lowerWinOffset, lowerOffset);
+			//lOffset =  min(lowerWinOffset, lowerOffset);
 			menuShown = false;
 			isFixed = true;
 			justOpenedArticle = true;
@@ -723,7 +727,7 @@ var Homepage = (function homepage(defaultVals) {
 				$oldLi.removeClass('offScreen').addClass('delay ' + (e === null ? 'fwdBtn ' : '') + 'onScreen');
 
 				$upper.css('transform', modifyTransform(-upperOffset - offset));
-				$lower.css('transform', modifyTransform(lOffset));
+				$lower.css('transform', modifyTransform(lowerWinOffset));
 
 				$article.addClass('fixed fadeIn' + (e ? ' loading' : '')).css('top', 0).css('opacity', 1).css('backgroundPosition', e ? ('50% ' + (floor(winHeight / 2) - LOADING_GIF_HEIGHT) + 'px') : '');
 				$menu.removeClass('offScreen closing closingFast show').addClass('hide').css('transform', '');
@@ -828,9 +832,12 @@ var Homepage = (function homepage(defaultVals) {
 		//Modernizr.csstransforms3d = false;
 		$article.css('opacity', MIN_OPACITY);
 
-		$all.find('a').attr('data-href', function() {
-			return this.getAttribute('href');
-		}).removeAttr('href');
+		$all.attr('data-href', function() {
+			var $link = $(this).find('a'),
+				href = $link.attr('href');
+			$link.removeAttr('href');
+			return href;
+		});
 
 		$container.isotope({
 			itemSelector : 'li'
@@ -917,7 +924,9 @@ var Homepage = (function homepage(defaultVals) {
 
 	$container.on('webkitTransitionEnd transitionend', onTransitionEnd);
 	$article.on('webkitTransitionEnd transitionend', onArticleTransitionEnd);
-	$container.imagesLoaded(onLoad);
+
+	//$container.imagesLoaded(onLoad);
+	$window.on('load', onLoad);
 
 	return {
 		offset: function() {
