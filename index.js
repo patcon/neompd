@@ -1,5 +1,7 @@
 /*global require */
 
-require([], function () {
+require([ './testTileSet', './TileFieldView' ], function (tileSet, TileFieldView) {
+    'use strict';
 
+    var tileField = new TileFieldView(tileSet);
 });
