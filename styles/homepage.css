@@ -176,27 +176,24 @@ body::-webkit-scrollbar  {
 }
 #grid > li.shown {
 	-webkit-transition-property: opacity, -webkit-transform;
-	-webkit-transition-duration: 0.715s, 0.525s;
+	-webkit-transition-duration: 0.685s, 0.475s;
 	-webkit-transition-timing-function: ease-in, ease-out;
 	-moz-transition-property: opacity, -moz-transform;
-	-moz-transition-duration: 0.6s, 0.55s;
+	-moz-transition-duration: 0.625s, 0.5s;
 	-moz-transition-timing-function: ease-in, ease-out;
-	z-index: 0;
 }
 #grid > li > a {
 	display:inline-block;
 	-webkit-transition:-webkit-transform 0.5s ease-out;/*, -webkit-filter 0.5s;*/
 	-moz-transition:-moz-transform 0.5s ease-out;/*, -webkit-filter 0.5s;*/
-}
-#grid > li > a {
 	border-radius:4px;
 	color:#222;
 }
 #grid > li:hover > a {
-	-webkit-transform:scale(1.0175) rotate(-0.4deg) translateZ(0);
+	-webkit-transform:scale(1.0175) rotate(-0.4deg);
 	text-rendering:;
 	-webkit-transition-duration: 0.25s;
-	-moz-transform:rotate(-0.75deg) translateZ(0);
+	-moz-transform:scale(1.0175) rotate(-0.75deg);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.15);
 	color:#111;
 }
@@ -206,9 +203,9 @@ body::-webkit-scrollbar  {
 #grid > li:active > a  {
  	-webkit-transition-delay:0.185s;
  	-webkit-transition-duration: 0.5s;
-	-webkit-transform:rotate(-170deg) scale(2.75) translateZ(0);
+	-webkit-transform:rotate(-170deg) scale(2.75);
 	-moz-transition-delay:0.175s;
-	-moz-transform:rotate(-170deg) scale(2.75) translateZ(0);
+	-moz-transform:rotate(-170deg) scale(2.75);
 }
 
 #grid > li:hover > a > header,  #grid > li:active > a > header {
@@ -284,8 +281,6 @@ body::-webkit-scrollbar  {
 	position: absolute;
 	top:159px;
 	width:128px;
-	-webkit-transform: translateZ(0);
-	-moz-transform: translateZ(0);
 }
 #menu > ul > li {
 	background: #414141;
@@ -299,7 +294,6 @@ body::-webkit-scrollbar  {
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	max-width: 100%;
-	-webkit-transform:translateZ(0);
 	-webkit-transition-duration:0.2s;
 	-webkit-transition-property:-webkit-transform, background-color;
 	-webkit-transition-timing-function: ease-out;
@@ -326,8 +320,8 @@ body::-webkit-scrollbar  {
 }
 #articleMenu > #lines {
 	position: absolute;
-	-webkit-transform:translate3d(72px, 135px, 0);
-	-moz-transform:translate3d(72px, 135px, 0);
+	-webkit-transform:translate(72px, 135px);
+	-moz-transform:translate(72px, 135px);
 	font-size: 0;
 	background-image:url(../images/lines.png);
 	width:28px;

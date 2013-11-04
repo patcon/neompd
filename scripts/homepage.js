@@ -1,6 +1,7 @@
-var Homepage = (function homepage(defaultVals) {
+var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	'use strict';
 
+	/* Cached Jquery DOM Items */
 	var $window = $(window),
 		$doc = $(document),
 		$body = $(document.body),
@@ -12,82 +13,107 @@ var Homepage = (function homepage(defaultVals) {
 		$menuLines = $body.find('#lines'),
 		$searchBox = $body.find('#searchBox'),
 		$article = $('#article'),
-		winHeight = $window.height(),
+
+	/* Dynamic heights that need to be updated */
+		winHeight = $window.height(), //height of the viewport
+		containerHeight, //height of the masonry container
+		articleHeight = null, //height of the article, if === null, there is no visible article
+
+	/* Constants to help parse the translate3d values from style.transform and from Isotope data  */
 		MATRIX_REGEX = /(-?\d+)/g,
 		MATRIX_X = 1,
 		MATRIX_Y = 2,
 		DATA_ITEM_ATTR = 'isotopeItemPosition',
+
+	/* Rendering timeout constants */
 		FRAME = 20,
 		SOON = FRAME * 2,
-		OPACITY_TIMEOUT = FRAME * 2,
+		OPACITY_TIMEOUT = FRAME,
+		OPACITY_TIMEOUT_LOWER = FRAME * 2,
 		ASAP = 0,
-		PADDING = 10,
-		MIN_OPACITY = 0.005,
-		SCROLL_TIMEOUT_LEN = 300,
-		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280,
-		LOAD_DELAY_TIMEOUT_LEN = 400,
-		RESIZE_TIMEOUT_LEN = 850,
-		ANIMATION_THRESHOLD = -100,
-		MAX_PER_LOAD_DEBOUNCE = 6,
-		ANIMATION_EL_THRESHOLD = 3,
-		WHEEL_TIMEOUT = 95,
-		WHEEL_FRICTION = 24,
-		LOWER_WHEEL_FRICTION = 24,
-		WHEEL_TURN_FACTOR = 120,
-		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET,
+
+	/*Page Rendering Constants */
+		PADDING = 10,  // padding between masonry items   todo: remove this
 		LEFT_BAR_OFFSET = 200,
 		LOADING_GIF_HEIGHT = 66,
-		firstScrollEvent = true,
-		scrollTimeout,
-		opacityTimeout,
-		loadAnimTimeout,
-		resizeTimeout,
-		filterTimeout,
-		unfixTimeout,
-		$lower,
-		$offScreenLower,
-		$upper,
-		$all = $container.find('li'),
-		$hidden = $container.find('li'),
-		$animateOnScroll = [],
-		$animateOnScrollUpper = [],
-		$toLoadAnim,
-		articleHeight = null,
-		articleTop,
-		articleOpacity = 0,
-		overhead,
-		underhead,
-		upperOffset = 0,
-		lowerOffset = 0,
-		lowerWinOffset = 0,
-		containerHeight,
-		resetBlocks,
-		noScrollEvents = true,
-		isDoingTransition = false,
-		loaded = false,
-		resized = true,
-		setFilter = false,
-		jumpBottom = false,
-		addFrictionToMouseWheel = false,
-		addFrictionToMouseWheelLower = false,
-		popStateScroll = null,
-		pressedBackBtn = true,
-		menuShown,
-		isFixed,
-		justOpenedArticle,
-		finishCloseEventWhenScrollEnds,
-		isLowerClosingState,
-		isClosing,
-		clickedUrl,
-		curXHR,
-		updateScrollbarOnClose,
+		MIN_OPACITY = 0.005, // the minimum amount of opacity to give the article so (0 could cause it to be removed from GPU memory, so we don't "totally" hide it)
+		LOADING_Y_OFFSET = defaultVals.LOADING_Y_OFFSET, //how far to animate the itms during the "infinite scroll" transition
+		ANIMATION_THRESHOLD = -100,  // how much to offset when determining if a masonry item is onscreen (or not) for the "infinite scroll" transition, a negative value will leave that much whitespace at the bottom - a positive value could be a perf hit but looks nicer for the user
+
+	/* Debouncing event timeouts */
+		SCROLL_TIMEOUT_LEN = 300,  // how long to wait before re-applying the non-scrolling styles
+		END_CLOSE_ARTICLE_TIMEOUT_LEN = 280, // how long to wait before adding heavy style calcuations (like changing page height) during the closeArticle transition
+		LOAD_DELAY_TIMEOUT_LEN = 400, // min time to show the loading icon for  todo: refactor or remove this
+		RESIZE_TIMEOUT_LEN = 850, // how long to wait before filtering masonry items after a page resize
+
+	/* Page Event Constants */
+		MAX_PER_LOAD_DEBOUNCE = 6, // number of items to do the "infinite scroll" transition on before debouncing
+		ANIMATION_EL_THRESHOLD = 3, // number of items to render per frame during the "infinite scroll" transition (note must be less than or equal to MAX_PER_LOAD_DEBOUNCE)
+		WHEEL_TIMEOUT = 100, // the maximum amount a single swipe (mousewheel) event should take - we use this to find the first swipe and apply friction
+		WHEEL_FRICTION = 24, // how much friction to apply to a single swipe NOTE this is currently webkit specific and can be approximated by 3. IE 6 is 2* friction, 3 is "no friction", 24 is 8 times friction etc
+		LOWER_WHEEL_FRICTION = 24, // how much friction to apply at the bottom of an article
+		WHEEL_TURN_FACTOR = 120, // in webkit, if a "swipe" is a multiple of 120, it is a mousewheel event and not a swipe
+
+	/* Page State Globals */
+		firstScrollEvent = true, // boolean value to determine if the next scroll event is the first one in the masonry view
+		$all = $container.find('li'), // all masonry items
+		$lower, // in article view, items that are below the clicked item
+		$offScreenLower, // in article view, items that are below the clicked item AND offscreen
+		$animateOnScroll = [], // in article view, items that are below the clicked item AND onscreen
+		$upper, // in article view, items that are above the clicked item
+		$animateOnScrollUpper = [], //in article view, items that are above the clicked item AND onscreen
+		articleTop, //the scrollTop of the article
+		articleOpacity = 0, //How much opacity the article has (to be applied after opacityTimeout fires)
+		upperOffset = 0, //In article view, this is how many Y pixels we needed to subtract from $upper
+		lowerOffset = 0, //In article view, this is how many Y pixels we needed to add to $lower
+		overhead, //In article view, this is how many Y pixels we needed to subtract from $upper if an article is less than 100% height   todo: remove this
+		underhead, //In article view, this is how many Y pixels we needed to add to $lower if an article is less than 100% height         todo: remove this
+		lowerWinOffset = 0, //In article view, this is how many Y pixels we need to add to $lower to make them transition off the screen, but no further
+		resetBlocks,  //When scrolling, this let's us know if we need to move the blower blocks up to allow for a scroll to close at the the top
+		jumpBottom = false,  //When scrolling, this let's us know if we need to move the lower blocks down to allow for a scroll to close at the bottom
+		noScrollEvents = true, //Cancel our scroll event handler
+		isDoingTransition = false, //We're currently opening an article with a transition
+		loaded = false, //the Page is loaded
+		resized = true, //the page's resize handler has fired
+		setFilter = false, //a left side bar filter is about to be set
+		addFrictionToMouseWheel = false, //Add friction to the mousewheel for the next "swipe" when scrolling up
+		addFrictionToMouseWheelLower = false, //Add friction to the mousewheel for the next "swipe" when scrolling down
+		popStateScroll = null, //Add friction to the mousewheel for the next "swipe" when scrolling up
+		pressedBackBtn = true, //The back button was just pressed
+		lastWasPressedBackBtn, //The back button was pressed to return from the previous article
+		menuShown, //The menu was shown by the user in article view
+		isFixed, //In article view, the article has a css position of fixed, this is at the "top" of an article
+		isLowerClosingState, //This indicates that the users is near the bottom of an article and about to close
+		justOpenedArticle, //In article view, the article was just opened, this is used to avoid fixing and refixing just after an article is opened
+		finishCloseEventWhenScrollEnds, //This indicates that on the next debounced scroll event, we must clean up the navigation for a user (ie they scrolled to close an article)
+		isClosing, //This keeps track of whether we're currently running a close transition
+		closingScrollOffset, //the amount we're adjusting the blocks before closing with the closing transition
+		doneClosing, //Flag indicating whether we've done the transitionEnd for the 'closing' transition
+		doneLoading, //Flag inidcating whether we've done the transitionEnd for the article loading transition
+		clickedUrl, //This is the URL that the user just clicked on
+		curXHR = null, // The XHR used to AJAX in articles, this is set to null when it's not executing
+		updateScrollbarOnClose, //Used by close article in function unwinding to pass around state - basically this is true when the user scrolled to close
+		modifyTranformStaticOffset, //Used by modifyTransform and modifyOrigTransform's static Implementations to avoid creating anonFns
+
+	/* Infinite Scroll state vars */
+		$hidden = $container.find('li'), //all hidden masory items, this will be modifed by the "infinite scroll" transition
+		$toLoadAnim, //items that were onscreen and need to be shown on the next "infinite scroll" animation frame
 		loadAnimFoundIndex,
 		loadAnimCount,
 		loadAnimLastFoundIndex,
 		loadAnimScrollTop,
 		loadAnimOffset,
-		doneClosing,
-		doneLoading,
+
+	/* Timeouts, used for clearing and setting timeouts */
+		scrollTimeout, //debounce scroll class timeout
+		loadAnimTimeout, //debounce infinite scroll timeout
+		resizeTimeout, //delay resize page event timeout
+		opacityTimeout, //delay opacity transition timeout (during article view scroll)
+		filterTimeout, //apply opacity filter timeout
+		unfixTimeout, //delay unfixing of article timeout
+
+
+	/* Cached quick lookup and vendor prefixes, could probably remove these */
 		setTimeout = window.setTimeout,
 		clearTimeout = window.clearTimeout,
 		parseInt = window.parseInt,
@@ -101,38 +127,98 @@ var Homepage = (function homepage(defaultVals) {
 			return ~~ num;
 		};
 
+
+
+/********************************************************************************
+	HELPERS
+********************************************************************************/
+/* Delay execution of a requesAnimationFrame, used to spread rendering across frames */
 	function setTimeoutWithRAF(fn, t) {
 		return setTimeout(requestAnimationFrame.bind(this, fn), t);
 	}
 
+/* Get the current Y position of a given masonry item */
 	function getCurTop ($el) {
 		return parseInt($el.css('transform').match(MATRIX_REGEX)[MATRIX_Y], 10);
 	}
 
+/* Determine if masonry items are on the screen */
 	function isOnScreen ($el, scrollTop, padding, elTop) {
 		var thisTop = (elTop || getCurTop($el)) + (padding || 0),
 			height = $el.data(DATA_ITEM_ATTR).height;
 		return (thisTop < (scrollTop + winHeight)) && (((thisTop + height) > scrollTop));
 	}
 
+/* Move a masonry item from its current Y position by a given offset - Static impl to avoid creating Anon Fns */
+	function modifyTransformStatic(i, val) {
+		val = val.match(MATRIX_REGEX);
+		return 'translate3d(' + val[MATRIX_X] + 'px, ' + (parseInt(val[MATRIX_Y], 10) + modifyTranformStaticOffset) + 'px, 0)';
+	}
 	function modifyTransform (offset) {
-		return function(i, val) {
-			val = val.match(MATRIX_REGEX);
-			return 'translate3d(' + val[MATRIX_X] + 'px, ' + (parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
-		};
+		modifyTranformStaticOffset = offset;
+		return modifyTransformStatic;
 	}
 
-	function modifyOrigTransform (offset, padding) {
-		return function() {
-			var val = this.matrix;
-			return 'translate3d(' + val[MATRIX_X] + 'px, ' + ((padding || 0) + parseInt(val[MATRIX_Y], 10) + offset) + 'px, 0)';
-		};
+/* Move a masonry item from its post openArticle position by a given offset - Static impl to avoid creating Anon Fns */
+	function modifyOrigTranformStatic(i, val) {
+		val = this.matrix;
+		return 'translate3d(' + val[MATRIX_X] + 'px, ' + (parseInt(val[MATRIX_Y], 10) + modifyTranformStaticOffset) + 'px, 0)';
+	}
+	function modifyOrigTransform (offset) {
+		modifyTranformStaticOffset = offset;
+		return modifyOrigTranformStatic;
 	}
 
+/* This is called on popState, we handle the forward and back buttons here */
+	function handleNavigation(e) {
+		var scrollTop,
+			count = 0,
+			len,
+			centerElCount,
+			$clicked;
+
+		//webkit calls popState when the page first loads, ignore that
+		if(!loaded) {
+			return;
+		}
+
+		if(articleHeight !== null) { //back button
+			closeArticle(true);
+			pressedBackBtn = true;
+		} else if(!isClosing) {      //forward button
+			noScrollEvents = true;
+			scrollTop = window.pageYOffset;
+			centerElCount = (len = $animateOnScroll.length) ? len / 2 : 4;
+			$all.each(function() {
+				var $me = $(this);
+				if(isOnScreen($me, scrollTop)) {
+					$clicked = $me;
+					count++;
+				}
+				return count < centerElCount;
+			}).addClass('offScreen');
+
+			pressedBackBtn = false;
+			openArticle(null, $clicked);
+		}
+		//if the user didn't scroll when the article was open
+		if(!justOpenedArticle || ((isClosing || lastWasPressedBackBtn) && !pressedBackBtn)) {
+			popStateScroll = scrollTop || window.pageYOffset;
+		}
+		lastWasPressedBackBtn = pressedBackBtn;
+	}
+
+
+/********************************************************************************
+	CLOSE ARTICLE
+********************************************************************************/
+
+/* The last of the closeArticle pipline functions to run, this function cleans up the height of the page, resets state and gets ready for when the user is finished scrolling */
 	function finalizeEndCloseArticle() {
 		if(!updateScrollbarOnClose) {
 			$wrap.css('overflow', '');
 		}
+		//cancel the current article loading as the user is trying to close that article
 		if(curXHR && curXHR.abort) {
 			curXHR.abort();
 			doneLoading = true;
@@ -142,20 +228,25 @@ var Homepage = (function homepage(defaultVals) {
 		noScrollEvents = false;
 		articleHeight = null;
 		firstScrollEvent = true;
-		finishCloseEventWhenScrollEnds = true;
 
+		 //we will have some cleaning up to do when the user is done scrolling, this is why we debouceScrollClassToggling here
+		finishCloseEventWhenScrollEnds = true;
 		debounceScrollClassToggling();
 	}
 
+/*  Move the article offscreen, and also begin the cleaning up of the height of the page. Note that when closing without scrolling, this fn will be called after the 'close' transition is over */
 	function finishEndCloseArticle() {
-		if(! updateScrollbarOnClose) {
+		if(! updateScrollbarOnClose) { //if the user is scrolling down to close, we need to apply the overlow visible immediately, otherwise we can wait until finalizeEndCloseArticle
 			$wrap.css('overflow', 'visible');
 		}
+		//set the page wrapper back to the old page height
 		$wrap.css('height', containerHeight).removeClass('behind');
+
 		$article.removeClass('loading loaded');
 		setTimeoutWithRAF(finalizeEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
 
+/*  Move the article offscreen, and also begin the cleaning up of the height of the page */
 	function endCloseArticle() {
 		$offScreenLower.css('transform', modifyOrigTransform(-lowerOffset - overhead));
 
@@ -165,23 +256,26 @@ var Homepage = (function homepage(defaultVals) {
 		setTimeoutWithRAF(finishEndCloseArticle, END_CLOSE_ARTICLE_TIMEOUT_LEN);
 	}
 
-	function endFinishScrollClose() {
+/*  After a user closes an article without scrolling, we hide the article on subsuquent animationFrames */
+	function endfinishNonScrollClose() {
 		$article.addClass('fadeOut').css('opacity', MIN_OPACITY);
 		$articleClose.addClass('fadeOut').removeClass('shown');
 	}
 
-	function finishScrollClose(ts, scrollTop) {
-		var scrollOffset = (scrollTop || window.pageYOffset) - articleTop;
+/*  After a user closes an article without scrolling, we move the masonry items back to their old position and reshow the menu */
+	function finishNonScrollClose(ts, scrollTop) {
+		closingScrollOffset = (scrollTop || window.pageYOffset) - articleTop;
 
 		$animateOnScroll.removeClass('offScreen').addClass('closing');
 		$animateOnScrollUpper.removeClass('offScreen').addClass('closing');
-		$lower.css('transform', modifyOrigTransform(-lowerOffset + scrollOffset));
-		$upper.css('transform', modifyOrigTransform(overhead + scrollOffset));
+		$lower.css('transform', modifyOrigTransform(-lowerOffset + closingScrollOffset));
+		$upper.css('transform', modifyOrigTransform(overhead + closingScrollOffset));
 		$menu.removeClass('offScreen hide').addClass('closing' + ((isFixed || isLowerClosingState) ? 'Fast' : '')).css('transform', '');
 
-		setTimeoutWithRAF(endFinishScrollClose, FRAME);
+		setTimeoutWithRAF(endfinishNonScrollClose, FRAME);
 	}
 
+/*  Close a currently open article, this is the only entry point to closing an article (scrolling or not) */
 	function closeArticle (pressedButtonToClose, updateScrollbarPos, scrollTop) {
 		if(articleHeight === null || isDoingTransition) {
 			return;
@@ -191,6 +285,7 @@ var Homepage = (function homepage(defaultVals) {
 			opacityTimeout = false;
 		}
 
+		//dont allow any scrollevents through and also prevent articles from being closed twice
 		noScrollEvents = true;
 		isClosing = true;
 		pressedBackBtn = false;
@@ -199,14 +294,17 @@ var Homepage = (function homepage(defaultVals) {
 			scrollTop = scrollTop || window.pageYOffset;
 			updateScrollbarOnClose = true;
 
+			//move the masonry items to the right spot if they are "far" apart so the transition looks smooth
 			if(justOpenedArticle || (!isFixed && !isLowerClosingState)) {
 				$lower.css('transform', modifyTransform(scrollTop - articleTop - articleHeight + winHeight));
 				$upper.css('transform', modifyTransform(scrollTop - articleTop - (justOpenedArticle && !clickedUrl ? overhead + scrollTop - articleTop : 0)));
 
-				return requestAnimationFrame(finishScrollClose);
+				return requestAnimationFrame(finishNonScrollClose);
 			}
-			finishScrollClose(null, scrollTop);
-		} else {
+			//otherwise run the transition immediately
+			finishNonScrollClose(null, scrollTop);
+		} else { //this is when a user scrolled to close
+			//move the onscreen masonry items and the menu back to their original position and kick of the closeArticle function pipline
 			$animateOnScroll.css('transform', modifyOrigTransform(-lowerOffset - overhead));
 
 			if(updateScrollbarOnClose = updateScrollbarPos) {
@@ -214,14 +312,24 @@ var Homepage = (function homepage(defaultVals) {
 			}
 			$menu.css('transform', 'translate3d(0, 0, 0)');
 
+			//get rid of the overhead we created so that the user could scroll to close
 			if(updateScrollbarOnClose) {
 				$window.scrollTop(articleTop - overhead);
 			}
 
+			//kick off the close Article pipeline
 			setTimeoutWithRAF(endCloseArticle, FRAME);
 		}
 	}
 
+
+
+
+/********************************************************************************
+	SCROLL DEBOUNCING
+********************************************************************************/
+
+/* After closing an article, we wait until the user is DONE scrolling, we then remove the scrolling class and clean up the article */
 	function endGoBackAndRemoveScrollClass() {
 		$all.removeClass('offScreen');
 		$body.removeClass('scrolling');
@@ -231,6 +339,7 @@ var Homepage = (function homepage(defaultVals) {
 		debounceLoadAnim();
 	}
 
+/* After closing an article, we wait until the user is DONE scrolling, and then kick off a clean up */
 	function goBackAndRemoveScrollClass() {
 		if(! pressedBackBtn) {
 			history.back();
@@ -238,6 +347,7 @@ var Homepage = (function homepage(defaultVals) {
 		setTimeoutWithRAF(endGoBackAndRemoveScrollClass, SOON);
 	}
 
+/* Remove the scrolling class after the user is done scrolling in masonry view */
 	function removeScrollClass() {
 		if(finishCloseEventWhenScrollEnds) {
 			finishCloseEventWhenScrollEnds = false;
@@ -248,16 +358,19 @@ var Homepage = (function homepage(defaultVals) {
 		scrollTimeout = null;
 	}
 
+/* Add the scrolling class when the user starts scrolling in masonry view */
 	function addScrollClass() {
 		$body.addClass('scrolling');
 	}
 
+/* Add the scrolling class when the user starts scrolling in masonry view on the next animation frame */
 	function applyScrollClass() {
 		if(articleHeight === null) {
 			requestAnimationFrame(removeScrollClass);
 		}
 	}
 
+/* Handle debouncing of adding/removing scrolling class */
 	function debounceScrollClassToggling () {
 		if(scrollTimeout) {
 			clearTimeout(scrollTimeout);
@@ -268,6 +381,14 @@ var Homepage = (function homepage(defaultVals) {
 		scrollTimeout = setTimeout(applyScrollClass, SCROLL_TIMEOUT_LEN);
 	}
 
+
+
+
+/********************************************************************************
+	INFINITE SCROLL
+********************************************************************************/
+
+/* RAF Loop the actually applies the infinite scroll transition over multiple frames based on ANIMATION_EL_THRESHOLD */
 	function loadAnim() {
 		if(isDoingTransition) {
 			return setTimeoutWithRAF(loadAnim, SOON * 4);
@@ -282,6 +403,7 @@ var Homepage = (function homepage(defaultVals) {
 		loadAnimTimeout = false;
 	}
 
+/* Determine if a masonry item is onscreen, this Fn is to be called by $.each */
 	function loadAnimEach(i) {
 		if(isOnScreen($(this), loadAnimScrollTop, loadAnimOffset)) {
 			if(loadAnimCount === 0) {
@@ -297,6 +419,7 @@ var Homepage = (function homepage(defaultVals) {
 		}
 	}
 
+/* Determine if hidden masonry items were scrolled onscreen and if there were, they need the infinite scroll transition applied */
 	function doLoadAnim() {
 		if(isDoingTransition || $hidden.length === 0) {
 			return;
@@ -310,18 +433,22 @@ var Homepage = (function homepage(defaultVals) {
 		$hidden.each(loadAnimEach);
 
 		if(loadAnimFoundIndex !== null) {
+			//splice out the actual DOM items to be animated and kick off the animation
 			$toLoadAnim = ($($hidden.splice(loadAnimFoundIndex, 1 + loadAnimLastFoundIndex - loadAnimFoundIndex)));
 			requestAnimationFrame(loadAnim);
 		} else {
+			//nothing to animate
 			loadAnimTimeout = false;
 		}
 	}
 
+/* Debounce the infinite scroll transition*/
 	function debounceLoadAnim() {
 		//$all.removeClass('offScreen');
 		if(loadAnimTimeout || !loaded) {
 			return;
 		}
+		//on the first scroll event in the masonry view, no need to debounce
 		if  (firstScrollEvent) {
 			doLoadAnim();
 			return firstScrollEvent = false;
@@ -329,6 +456,15 @@ var Homepage = (function homepage(defaultVals) {
 		loadAnimTimeout = setTimeout(doLoadAnim,  SOON * 2);
 	}
 
+
+
+
+
+/********************************************************************************
+	ON SCROLL IN ARTICLE VIEW
+********************************************************************************/
+
+/*Fade the article, called by RAF */
 	function fadeArticle() {
 		//never set opacity to 0 so webkit can recomposite layers
 		if(articleOpacity < MIN_OPACITY) {
@@ -339,6 +475,7 @@ var Homepage = (function homepage(defaultVals) {
 		opacityTimeout = false;
 	}
 
+/*Fix the article, this is called when the user is scrolling up to close */
 	function fixArticle() {
 		$article.addClass('fixed').css('top', 0);
 		if(unfixTimeout) {
@@ -347,58 +484,24 @@ var Homepage = (function homepage(defaultVals) {
 		$wrap.removeClass('behind');
 	}
 
+/* Second step of unfixing the article, called by RAF */
 	function finishUnFixArticle() {
 		$wrap.addClass('behind');
 		unfixTimeout = false;
 	}
 
+/*UnFix the article, this is called when the user is scrolling down out of the fixed article view */
 	function unfixArticle() {
 		articleOpacity = 1;
 		if(! opacityTimeout) {
-			opacityTimeout = requestAnimationFrame(fadeArticle);
+		//	opacityTimeout = requestAnimationFrame(fadeArticle);
 		}
 		$animateOnScroll.css('transform', modifyOrigTransform(0));
 		$article.removeClass('fixed').css('top', articleTop);
 		unfixTimeout = setTimeoutWithRAF(finishUnFixArticle, SOON * 2);
 	}
 
-	function handleNavigation(e) {
-		var scrollTop,
-			count = 0,
-			centerElCount,
-			navEach,
-			thisPressedBackBtn,
-			$me,
-			$clicked;
-		if(!loaded) {
-			return;
-		}
-
-		if(articleHeight !== null) { //back button
-			closeArticle(true);
-			thisPressedBackBtn = true;
-		} else if(!isClosing) {      //forward button
-			noScrollEvents = true;
-			scrollTop = window.pageYOffset;
-			centerElCount = $animateOnScroll.length ? $animateOnScroll.length / 2 : 5;
-			$all.each(function() {
-				if(isOnScreen($me = $(this), scrollTop)) {
-					$clicked = $me;
-					count++;
-				}
-				return count < centerElCount;
-			}).addClass('offScreen');
-
-			thisPressedBackBtn = false;
-			openArticle(null, $clicked);
-		}
-
-		if(!popStateScroll && (!thisPressedBackBtn || !justOpenedArticle)) {
-			popStateScroll = scrollTop || window.pageYOffset;
-		}
-		pressedBackBtn = thisPressedBackBtn;
-	}
-
+/* When the article is fixed and the user scrolls, we adjust the onscreen lower masonry items with the scroll event */
 	function moveFixedItems(scrollTop) {
 		var val;
 		if (lowerOffset > winHeight) {
@@ -409,30 +512,53 @@ var Homepage = (function homepage(defaultVals) {
 		$animateOnScroll.css('transform', modifyOrigTransform(val));
 	}
 
+	function doJumpBottom() {
+		$animateOnScroll.css('transform', modifyOrigTransform(underhead - lowerWinOffset));
+	}
+
+	function doResetBlocks() {
+		$animateOnScrollUpper.css('transform', modifyOrigTransform(0));
+		if(! menuShown) {
+			$menu.css('transform', 'translate3d(' + (-LEFT_BAR_OFFSET) + 'px, 0, 0)');
+		}
+		$articleClose.css('zIndex', 3);
+		$wrap.addClass('behind');
+		if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
+			requestAnimationFrame(doJumpBottom);
+			jumpBottom = false;
+		}
+	}
+
+/* This is the main onscroll handler, all the magin happens here, check inline comments */
 	function onScroll() {
 		var scrollTop,
 			factor,
 			isAtTop,
 			isAtBottom,
 			val;
+		//reset the scrollbar after the URL bar changes
 		if(popStateScroll !== null) {
 			$window.scrollTop(popStateScroll);
 			return popStateScroll = null;
 		}
-
+		//don't allow any scroll events to occur, this is mostly used to prevent this listener from firing after WE update the scrolltop (not the user)
 		if(noScrollEvents === true) {
 			return;
 		}
+		//if we're doing the open article transition (the user is restless!), we need to clean up from that before allowing any other scroll events
 		if(isDoingTransition === true) {
 			noScrollEvents = true;
 			return requestAnimationFrame(endOpenArticleTransition);
 		}
 
+		//run this code when the article is open
 		if (articleHeight !== null) {
 			if ((isAtTop = (scrollTop = window.pageYOffset) <= articleTop)) {
 				if(scrollTop > articleTop - overhead) {
 					if (!isFixed) {
 						fixArticle();
+						addFrictionToMouseWheel = !curXHR;
+						return isFixed = true;
 					} else {
 						justOpenedArticle = false;
 					}
@@ -442,12 +568,8 @@ var Homepage = (function homepage(defaultVals) {
 					val = abs(articleTop - scrollTop) / overhead;
 					articleOpacity = (0.8 - (0.825 * val)).toFixed(2);
 
-					if(!isFixed) {
-						fadeArticle();
-						addFrictionToMouseWheel = !curXHR;
-						return isFixed = true;
-					} else if(! opacityTimeout) {
-						opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
+					if(! opacityTimeout) {
+						fadeArticle();//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
 					}
 
 					if(!resetBlocks) {
@@ -459,7 +581,7 @@ var Homepage = (function homepage(defaultVals) {
 						$menu.css('transform', 'translate3d(' + (-LEFT_BAR_OFFSET + floor(LEFT_BAR_OFFSET * val))  + 'px, 0, 0)');
 					}
 				} else {
-					closeArticle(false, false, scrollTop)
+					closeArticle(false, false, scrollTop);
 				}
 			} else if(scrollTop <= (val = articleTop + articleHeight - winHeight)) {
 				// Reset article and lower blocks position
@@ -470,22 +592,15 @@ var Homepage = (function homepage(defaultVals) {
 					jumpBottom = true;
 					unfixArticle();
 				} else if (resetBlocks) {
-					$animateOnScrollUpper.css('transform', modifyOrigTransform(0));
-					if(! menuShown) {
-						$menu.css('transform', 'translate3d(' + (-LEFT_BAR_OFFSET) + 'px, 0, 0)');
-					}
+					requestAnimationFrame(doResetBlocks);
 					resetBlocks = false;
 				} else if(isLowerClosingState) {
-					$articleClose.css('zIndex', 3);
-					$wrap.addClass('behind');
 					articleOpacity = 1;
 					if(! opacityTimeout) {
-						opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
+						fadeArticle();
+						//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT_LOWER);
 					}
 					isLowerClosingState = false;
-				} else if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
-					$animateOnScroll.css('transform', modifyOrigTransform(underhead - lowerWinOffset));
-					jumpBottom = false;
 				}
 			} else if ((scrollTop > val) && (scrollTop < val + underhead)) {
 				if(!isLowerClosingState) {
@@ -512,24 +627,27 @@ var Homepage = (function homepage(defaultVals) {
 
 				articleOpacity = (1 - (1.1 * val)).toFixed(2);
 				if(! opacityTimeout) {
-					opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
+					fadeArticle();
+					//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT_LOWER);
 				}
 				resetBlocks = true;
 			}  else if (scrollTop >= val + underhead) {
 				closeArticle(false, true, scrollTop);
 			}
-		} else {
+		} else { //run this code when the article is NOT open
 			debounceLoadAnim();
 			debounceScrollClassToggling();
 		}
 	}
 
+
+
+/********************************************************************************
+	OPEN ARTICLE
+********************************************************************************/
+
 	function updateMatrixPos() {
 		this.matrix = $(this).css('transform').match(MATRIX_REGEX);
-	}
-
-	function addFilter() {
-		$container.removeClass('transition');
 	}
 
 	function updateAndShowArticle() {
@@ -569,28 +687,38 @@ var Homepage = (function homepage(defaultVals) {
 
 	function onArticleTransitionEnd() {
 		var scrollTop;
-		if(!isClosing) {
-			if(doneLoading === false) {
-				articleHeight = $article[0].scrollHeight;
-				lowerOffset += articleHeight - winHeight;
-				$article.removeClass('loading fadeOut').addClass('loaded');
-				doneLoading = -1;
-			} else if(doneLoading === -1) {
-				$article.removeClass('loaded');
-				$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
-				$lower.css('transform', modifyOrigTransform(articleHeight - winHeight)).each(updateMatrixPos);
-				if((scrollTop = window.pageYOffset) < articleTop) {
-					moveFixedItems(scrollTop);
-				}
 
+		if(doneLoading === false) {
+			if(isClosing || articleHeight === null) {
 				curXHR = null;
-				doneLoading = true;
+				return doneLoading = true;
 			}
+			articleHeight = $article[0].scrollHeight;
+			lowerOffset += articleHeight - winHeight;
+			$article.removeClass('loading fadeOut').addClass('loaded');
+			doneLoading = -1;
+			//isDoingTransition = true;
+		} else if(doneLoading === -1) {
+			//noScrollEvents = true;
+			$article.removeClass('loaded');
+			$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
+			$lower.css('transform', modifyOrigTransform(articleHeight - winHeight)).each(updateMatrixPos);
+			if((scrollTop = window.pageYOffset) < articleTop) {
+				moveFixedItems(scrollTop);
+			}
+			isDoingTransition = false;
+			curXHR = null;
+			doneLoading = true;
 		}
 	}
 
 	function endOpenArticleTransition() {
-		var scrollTop = window.pageYOffset;
+		var scrollTop;
+		if(isClosing || articleHeight === null) {
+			return;
+		}
+
+		scrollTop = window.pageYOffset;
 		$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
 		$articleClose.removeClass('shown').css('zIndex', 3);
 		$lower.addClass('offScreen').removeClass('onScreen delay fwdBtn').css('transform', modifyTransform(overhead + lowerOffset - lowerWinOffset));
@@ -606,7 +734,6 @@ var Homepage = (function homepage(defaultVals) {
 		isDoingTransition = false;
 		resetBlocks = false;
 		isLowerClosingState = false;
-		doneClosing = false;
 
 		setTimeout(updateUrl, SOON * 3);
 	}
@@ -711,6 +838,7 @@ var Homepage = (function homepage(defaultVals) {
 			menuShown = false;
 			isFixed = true;
 			justOpenedArticle = true;
+			doneClosing = false;
 			curXHR = !!e;
 			articleOpacity = 1;
 			clickedUrl = e ? 'article.html' : '';
@@ -744,17 +872,21 @@ var Homepage = (function homepage(defaultVals) {
 			scrollTop,
 			$transitioned = $(e.target);
 
+		if(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		}
+
 		if(isDoingTransition && $transitioned.hasClass('delay')) {
-			return endOpenArticleTransition();
+			endOpenArticleTransition();
 		} else if(isClosing && $transitioned.hasClass('closing') && ! doneClosing) {
 			scrollTop = window.pageYOffset;
-			scrollOffset = scrollTop - articleTop;
-			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - scrollOffset));
+			$all.addClass('offScreen').removeClass('closing').css('transform', modifyTransform(-overhead - closingScrollOffset));
 			$article.removeClass('fadeOut').removeClass('fixed').css('top', '-9999px');
 			$articleClose.removeClass('fadeOut').addClass('hidden');
 			noScrollEvents = true;
 			doneClosing = true;
-			$window.scrollTop(scrollTop - overhead - scrollOffset);
+			$window.scrollTop(scrollTop - overhead - closingScrollOffset);
 			requestAnimationFrame(finishEndCloseArticle);
 		} else if(!loaded && $container.hasClass('initial')) {
 			$hidden.addClass('offScreen');
@@ -775,6 +907,11 @@ var Homepage = (function homepage(defaultVals) {
 			setFilter = false;
 		}
 	}
+
+
+/********************************************************************************
+	MOUSE WHEEL FRICTION
+********************************************************************************/
 
 	function handleMouseWheelFriction(e) {
 		var now,
@@ -814,11 +951,18 @@ var Homepage = (function homepage(defaultVals) {
 
 	function onMouseWheel(e) {
 		if(addFrictionToMouseWheel) {
-			handleMouseWheelFriction(e.originalEvent);
+			handleMouseWheelFriction(e);
 		} else if(addFrictionToMouseWheelLower) {
-			handleLowerMouseWheelFriction(e.originalEvent);
+			handleLowerMouseWheelFriction(e);
 		}
 	}
+
+
+
+
+/********************************************************************************
+	SIMPLE EVENT HANDLERS
+********************************************************************************/
 
 	function onKeyDown(e) {
 		if (e.keyCode === 27) {
@@ -896,6 +1040,10 @@ var Homepage = (function homepage(defaultVals) {
 		noScrollEvents = false;
 	}
 
+	function addFilter() {
+		$container.removeClass('transition');
+	}
+
 	function onFilterClick(e) {
 		var $clicked = $(e.target).closest('li');
 		if($clicked.length) {
@@ -907,28 +1055,40 @@ var Homepage = (function homepage(defaultVals) {
 		}
 	}
 
+
+
+
+/********************************************************************************
+	EVENT HANDLER INVOCATION
+********************************************************************************/
+
 	$window.on('unload', onUnload);
 	$window.on('resize', onResize);
 	$window.on('popstate', handleNavigation);
-
-	if(document.location.href.toLowerCase().indexOf('?nofriction') === -1) {
-		$window.on('mousewheel', onMouseWheel);
-	}
 
 	$container.on('click', openArticle);
 	$menuLines.on('click', onMenuClick);
 	$menu.on('click', onFilterClick);
 	$articleClose.on('click', onCloseClick);
-
-	$doc.on('scroll', onScroll);
 	$doc.on('keydown', onKeyDown);
 
-	$container.on('webkitTransitionEnd transitionend', onTransitionEnd);
-	$article.on('webkitTransitionEnd transitionend', onArticleTransitionEnd);
+	//native handlers for extra perf
+	window.addEventListener('scroll', onScroll, true);
+	$container[0].addEventListener('webkitTransitionEnd', onTransitionEnd);
+	$article[0].addEventListener('webkitTransitionEnd', onArticleTransitionEnd);
+	if(document.location.href.toLowerCase().indexOf('?nofriction') === -1) {
+		window.addEventListener('mousewheel', onMouseWheel, true);
+	}
 
 	//$container.imagesLoaded(onLoad);
 	$window.on('load', onLoad);
 
+
+
+
+/********************************************************************************
+	HOMEPAGE OBJECT
+********************************************************************************/
 	return {
 		offset: function() {
 			return overhead + lowerOffset;
@@ -948,4 +1108,4 @@ var Homepage = (function homepage(defaultVals) {
 		LOADING_Y_OFFSET: LOADING_Y_OFFSET
 	};
 
-}(Homepage));
+}(Homepage, window, jQuery));
