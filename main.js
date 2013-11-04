@@ -2,7 +2,7 @@
 
 require.config({
     paths: {
-        'jquery': '//code.jquery.com/jquery-2.0.0.min'
+        'jquery': 'bower_components/jquery/jquery'
     },
     shim: {
         'jquery': {
