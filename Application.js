@@ -19,13 +19,14 @@ define([
     }
 
     Application.prototype.onHashChange = function () {
-        var hash = window.location.hash;
+        var hash = window.location.hash,
+            slug = hash; // @todo determine slug from hash 
 
         if (this.currentArticle) {
             this.currentArticle.destroy();
         }
 
-        this.currentArticle = window.location.hash ? new Article() : null; // @todo this of course
+        this.currentArticle = slug ? new Article(slug) : null; // @todo this of course
 
         $(this).trigger('navigated');
     };

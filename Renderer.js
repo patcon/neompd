@@ -11,6 +11,7 @@ define([
         this.application = application;
 
         this.$grid = $('<div class="tile-grid"></div>').appendTo('#content');
+        this.$content = $('<div class="article"></div>').appendTo('#content');
 
         for (n in this.application.articles) {
             $li = $('<li></li>').appendTo(this.$grid);
@@ -27,12 +28,22 @@ define([
         if (this.application.currentArticle) {
             console.log('article view');
 
-            $(this.application.currentArticle).on('destroyed', function () {
-                console.log('article destroyed');
-            })
+            this.$grid.hide();
+
+            this.application.currentArticle.done(function (html) {
+                this.$content.html(html);
+            }.bind(this));
+
+            $(this.application.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
         } else {
             console.log('tile view');
+            this.$grid.show();
         }
+    };
+
+    Renderer.prototype.onArticleDestroyed = function () {
+        console.log('article destroyed');
+        this.$content.empty();
     };
 
     return Renderer;
