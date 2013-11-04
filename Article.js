@@ -1,24 +1,24 @@
 /*global define */
 
 define([
-	'jquery'
+    'jquery'
 ], function ($) {
     'use strict';
 
     function Article() {
-		var content = $.Deferred();
+        var content = $.Deferred();
 
-		content.promise(this);
+        content.promise(this);
 
-		this.testTimeoutId = window.setTimeout(function () {
-			content.resolve('<p>FUCK YEAH RON SWANSON</p>');
-		}.bind(this), 500);
+        this.testTimeoutId = window.setTimeout(function () {
+            content.resolve('<p>FUCK YEAH RON SWANSON</p>');
+        }.bind(this), 500);
     }
 
     Article.prototype.destroy = function () {
-    	window.clearTimeout(this.testTimeoutId);
+        window.clearTimeout(this.testTimeoutId);
 
-    	$(this).trigger('destroyed');
+        $(this).trigger('destroyed');
     };
 
     return Article;

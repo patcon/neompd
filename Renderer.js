@@ -1,14 +1,14 @@
 /*global define */
 
 define([
-	'jquery'
+    'jquery'
 ], function ($) {
     'use strict';
 
     function Renderer(application) {
         var n, $li;
 
-    	this.application = application;
+        this.application = application;
 
         this.$grid = $('<div class="tile-grid"></div>').appendTo('#content');
 
@@ -18,21 +18,21 @@ define([
         }
 
         // initial render
-    	this.onPageChange();
+        this.onPageChange();
 
-    	$(this.application).on('navigated', this.onPageChange.bind(this));
+        $(this.application).on('navigated', this.onPageChange.bind(this));
     }
 
     Renderer.prototype.onPageChange = function () {
-    	if (this.application.currentArticle) {
-			console.log('article view');			
+        if (this.application.currentArticle) {
+            console.log('article view');
 
-    		$(this.application.currentArticle).on('destroyed', function () {
-    			console.log('article destroyed');
-    		})
-    	} else {
-			console.log('tile view');
-    	}
+            $(this.application.currentArticle).on('destroyed', function () {
+                console.log('article destroyed');
+            })
+        } else {
+            console.log('tile view');
+        }
     };
 
     return Renderer;
