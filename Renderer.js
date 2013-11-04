@@ -24,15 +24,23 @@ define([
             $('<a href=""></a>').attr('href', tileId).appendTo($li).html(this.application.articles[tileId]);
 
             tileDims[tileId] = {
-                width: $li.outerWidth(),
-                height: $li.outerHeight()
+                width: $li.outerWidth(true),
+                height: $li.outerHeight(true)
             };
 
             this.$tiles[tileId] = $li;
         }
 
         this.layout = new TileLayout(tileDims);
-        this.layout.doLayout(this.$content.width(), this.setTilePosition.bind(this));
+
+        var refreshLayout = (function () {
+            this.layout.doLayout(this.$content.width(), this.setTilePosition.bind(this));
+        }).bind(this);
+
+        refreshLayout(this);
+
+        // todo: debounce
+        $(window).on("resize", refreshLayout);
 
         // initial render
         this.onPageChange();
