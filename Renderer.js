@@ -1,22 +1,38 @@
 /*global define */
 
 define([
-    'jquery'
-], function ($) {
+    'jquery',
+    "./TileLayout"
+], function ($, TileLayout) {
     'use strict';
 
     function Renderer(application) {
-        var n, $li;
+        var tileId, $li, tileDims = {};
 
         this.application = application;
 
-        this.$grid = $('<div class="tile-grid"></div>').appendTo('#content');
+        this.$grid = $('<ul class="tile-grid"></ul>').appendTo('#content').css({
+            position: 'relative'
+        });
+
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
-        for (n in this.application.articles) {
+        this.$tiles = {};
+
+        for (tileId in this.application.articles) {
             $li = $('<li></li>').appendTo(this.$grid);
-            $('<a href=""></a>').attr('href', n).appendTo($li).html(this.application.articles[n]);
+            $('<a href=""></a>').attr('href', tileId).appendTo($li).html(this.application.articles[tileId]);
+
+            tileDims[tileId] = {
+                width: $li.outerWidth(),
+                height: $li.outerHeight()
+            };
+
+            this.$tiles[tileId] = $li;
         }
+
+        this.layout = new TileLayout(tileDims);
+        this.layout.doLayout(this.$content.width(), this.setTilePosition.bind(this));
 
         // initial render
         this.onPageChange();
@@ -44,6 +60,14 @@ define([
     Renderer.prototype.onArticleDestroyed = function () {
         console.log('article destroyed');
         this.$content.empty();
+    };
+
+    Renderer.prototype.setTilePosition = function (tileId, x, y) {
+        this.$tiles[tileId].css({
+            position: 'absolute',
+            left: x,
+            top: y
+        });
     };
 
     return Renderer;
