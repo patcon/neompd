@@ -108,7 +108,8 @@ For Views to fulfill the above requirements:
 
 * Change the base table of the view from "node" to "node_revision" (when creating a view on `admin/structure/views/add` page there is a field called "Show" where we can choose the instance to be shown in the view. For our purposes, set this field to "Content revisions")
 * The view should derive content from fields revision tables (marked as "Content historical data")
-* Set an argument for the view to get argument from current "vid", not from "nid" (in the "Contextual filters" area add "Content revision: Vid" argument). The type of this argument should be "PHP Code". In the "PHP contextual filter code" set custom a function that determines the correct node revision vid:
+
+<!-- * Set an argument for the view to get argument from current "vid", not from "nid" (in the "Contextual filters" area add "Content revision: Vid" argument). The type of this argument should be "PHP Code". In the "PHP contextual filter code" set custom a function that determines the correct node revision vid:
 
         function get_node_revision_by_nid($nid = NULL) {
             if (arg(0) == 'node' && $nid == NULL) {
@@ -134,6 +135,6 @@ For Views to fulfill the above requirements:
                 }
                 return $vid;
             }
-        }
+        } -->   
 
-I'm Anna and I approve this message ;)
+I'm Anna and I approve this message ;) 

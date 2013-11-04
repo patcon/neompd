@@ -8,7 +8,7 @@ summary: At Myplanet, we’ve explored both ends of the spectrum when it comes t
 layout: blog
 coverimg: "/images/articles/How_We_Work_Part_2_Examining_Structure_&_Roles/cover.jpg"
 tileimg: "/images/articles/How_We_Work_Part_2_Examining_Structure_&_Roles/tile.jpg"
-authorimg: "/images/avatar/Erik_von_Stackelberg.png"
+authorimg: "/images/avatar/Erik_Von_Stackelberg.png"
 author: "Erik von Stackelberg"
 date: "2013-04-14"
 tilestyle: "image"
