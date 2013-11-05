@@ -10,7 +10,7 @@ define([], function () {
             gridWidth = Number.MAX_VALUE,
             gridMax,
             columns = [],
-            x,
+            x, i, length, column,
             shortestColumn;
 
         for (tileId in this.tiles) {
@@ -22,7 +22,7 @@ define([], function () {
             columns.push({
                 x: x,
                 height: 0
-            })
+            });
         }
 
         // todo: bail out if # columns hasn't changed? -- but needs knowledge of why doLayout is triggered
@@ -30,11 +30,13 @@ define([], function () {
         for (tileId in this.tiles) {
             shortestColumn = null;
 
-            columns.forEach(function (column) {
+            for (i = 0, length = columns.length; i < length; i++) {
+                column = columns[i];
+
                 if (!shortestColumn || column.height < shortestColumn.height) {
                     shortestColumn = column;
                 }
-            });
+            }
 
             setPosition(tileId, shortestColumn.x, shortestColumn.height);
 
