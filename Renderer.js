@@ -22,26 +22,28 @@ define([
 
         this.gridOffsetInArticle = null;
 
+        this.app.tileField.doLayout(this.$content.outerWidth());
+
         this.updateGridViewport();
-
-        var refreshLayout = (function () {
-            this.app.tileField.doLayout(this.$content.width());
-
-            if (!this.app.currentArticle) {
-                this.$content.css({ height: this.app.tileField.height });
-            }
-        }).bind(this);
-
-        refreshLayout();
+        this.updateMode();
 
         for (tileId in this.app.tileField.tileMap) {
             this.createTile(tileId, this.app.tileField.tileMap[tileId]);
         }
 
         // todo: debounce
-        $(window).on('resize', refreshLayout);
+        $(window).on('resize', this.onResize.bind(this));
         $(window).on('scroll', this.onScroll.bind(this));
-        $(this.app).on('navigated', this.onPageChange.bind(this));
+
+        $(this.app.tileField).on('changed', function () {
+            if (!this.app.currentArticle) {
+                this.$content.css({ height: this.app.tileField.height });
+            }
+        }.bind(this));
+
+        $(this.app).on('navigated', function () {
+            this.updateMode();
+        }.bind(this));
     }
 
     Renderer.prototype.createTile = function (tileId, tile) {
@@ -173,7 +175,7 @@ define([
         this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
     };
 
-    Renderer.prototype.onPageChange = function () {
+    Renderer.prototype.updateMode = function () {
         var articleOffset = this.$content.offset();
 
         if (this.app.currentArticle) {
@@ -210,6 +212,7 @@ define([
 
                 // set minimum content height to extend to grid size
                 this.$content.css({ height: this.app.tileField.height });
+                this.$content.empty();
 
                 $(this).trigger('tilesRestored');
             }
@@ -218,13 +221,16 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         console.log('article destroyed');
-        this.$content.empty();
     };
 
     Renderer.prototype.onScroll = function () {
         this.updateGridViewport();
 
         $(this).trigger('viewport');
+    };
+
+    Renderer.prototype.onResize = function () {
+        this.app.tileField.doLayout(this.$content.outerWidth());
     };
 
     return Renderer;

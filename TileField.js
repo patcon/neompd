@@ -32,6 +32,7 @@ define([ 'jquery' ], function ($) {
 
     TileField.prototype.doLayout = function (containerWidth) {
         var tileId,
+            originalHeight = this.height,
             gridMax,
             columns = [],
             x, i, length, column,
@@ -69,6 +70,10 @@ define([ 'jquery' ], function ($) {
         });
 
         this.height = columns[0].height;
+
+        if (this.height !== originalHeight) {
+            $(this).trigger('changed');
+        }
     };
 
     TileField.prototype.setTilePosition = function (tileId, x, y) {
