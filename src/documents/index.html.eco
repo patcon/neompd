@@ -34,9 +34,10 @@
 	<div id="grid-wrap">
 		<ul id="grid" class="initial">
 			<% for post in @getCollection("posts").toJSON(): %>
+                <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
 				<% if post.tilestyle: %>
-					<li class="<%= post.tag %> <%= post.tilestyle %>">
-						<a href="<%= post.url %>">
+					<li>
+						<a class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
 			            	<header class="<%= post.color %>">
 			            		<% if post.tilestyle is "image": %>
 				            		<span class="smalltitle"><%= post.header %></span>
@@ -51,8 +52,8 @@
 			            </a>
 			        </li>
 		        <% else: %>
-		        	<li class="<%= post.tag %>">
-			        	<a href="<%= post.url %>">
+		        	<li>
+			        	<a class="<%= post.tag %>" href="<%= post.hash %>">
 			            	<header class="<%= post.color %>">
 			            		<span><%= post.header %></span>
 			            	</header>
