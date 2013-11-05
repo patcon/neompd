@@ -2,22 +2,22 @@ define([ 'jquery' ], function ($) {
     'use strict';
 
     function TileField(articleMap) {
-        var href,
+        var articleId,
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
         this.tileMap = {};
 
-        for (href in articleMap) {
-            $li = $('<li><a href=""></a></li>').appendTo($stage);
-            $li.find('a').html(articleMap[href]);
+        for (articleId in articleMap) {
+            $li = $('<li></li>').appendTo($stage);
+            $li.html(articleMap[articleId]);
 
-            this.tileMap[href] = {
+            this.tileMap[articleId] = {
                 x: 0,
                 y: 0,
                 width: $li.outerWidth(true),
                 height: $li.outerHeight(true),
-                html: articleMap[href]
+                html: articleMap[articleId]
             };
         }
 

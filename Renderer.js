@@ -49,7 +49,7 @@ define([
             renderTile,
             checkReveal;
 
-        $('<a href=""></a>').attr('href', tileId).appendTo($li).html(tile.html);
+        $li.html(tile.html);
 
         $li.css({
             position: 'absolute',
