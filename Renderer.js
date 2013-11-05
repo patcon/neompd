@@ -174,11 +174,13 @@ define([
     };
 
     Renderer.prototype.onPageChange = function () {
+        var articleOffset = this.$content.offset();
+
         if (this.app.currentArticle) {
             console.log('article view');
 
             if (this.gridOffsetInArticle === null) {
-                this.gridOffsetInArticle = -this.gridViewportTop;
+                this.gridOffsetInArticle = -this.gridViewportTop - articleOffset.top;
 
                 // @todo reset scrolltop to zero, but only if loading a new article
                 this.$grid.css({
