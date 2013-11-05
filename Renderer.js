@@ -16,29 +16,35 @@ define([
 
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
+        this.updateGridViewport();
+
         var refreshLayout = (function () {
             this.app.tileField.doLayout(this.$content.width());
         }).bind(this);
+
+        refreshLayout();
 
         for (tileId in this.app.tileField.tileMap) {
             this.createTile(tileId, this.app.tileField.tileMap[tileId]);
         }
 
-        refreshLayout(); // @todo run before creating tiles
-
         // todo: debounce
         $(window).on('resize', refreshLayout);
+        $(window).on('scroll', this.onScroll.bind(this));
         $(this.app).on('navigated', this.onPageChange.bind(this));
     }
 
     Renderer.prototype.createTile = function (tileId, tile) {
-        var $li = $('<li></li>').appendTo(this.$grid);
+        var $li = $('<li></li>').appendTo(this.$grid),
+            isRevealed = false,
+            checkReveal;
 
         $('<a href=""></a>').attr('href', tileId).appendTo($li).html(tile.html);
 
         $li.css({
             position: 'absolute',
-            transition: 'top 1s, left 1s',
+            transition: 'top 1s, left 1s, opacity 1.5s',
+            opacity: 0,
             left: tile.x,
             top: tile.y
         });
@@ -48,7 +54,36 @@ define([
                 left: tile.x,
                 top: tile.y
             });
+
+            checkReveal();
         }.bind(this));
+
+        checkReveal = function () {
+            if (isRevealed) {
+                return;
+            }
+
+            if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
+                isRevealed = true;
+
+                $li.css({
+                    opacity: 1
+                });
+            }
+        }.bind(this);
+
+        checkReveal();
+
+        $(this).on('viewport', checkReveal);
+    };
+
+    Renderer.prototype.updateGridViewport = function () {
+        var scrollTop = $(window).scrollTop(),
+            scrollHeight = $(window).height(),
+            gridOffset = this.$grid.offset();
+
+        this.gridViewportTop = scrollTop - gridOffset.top;
+        this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
     };
 
     Renderer.prototype.onPageChange = function () {
@@ -71,6 +106,12 @@ define([
     Renderer.prototype.onArticleDestroyed = function () {
         console.log('article destroyed');
         this.$content.empty();
+    };
+
+    Renderer.prototype.onScroll = function () {
+        this.updateGridViewport();
+
+        $(this).trigger('viewport');
     };
 
     return Renderer;
