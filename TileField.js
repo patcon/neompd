@@ -1,44 +1,44 @@
 define([ 'jquery' ], function ($) {
     'use strict';
 
-    function TileField(articleMap) {
-        var articleId,
+    function TileField(tileMap) {
+        var tileId,
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
         this.tileMap = {};
         this.height = 0;
+        this.columnWidth = Number.MAX_VALUE;
 
-        for (articleId in articleMap) {
+        for (tileId in tileMap) {
             $li = $('<li></li>').appendTo($stage);
-            $li.html(articleMap[articleId]);
+            $li.html(tileMap[tileId]);
 
-            this.tileMap[articleId] = {
+            this.tileMap[tileId] = {
                 x: 0,
                 y: 0,
                 width: $li.outerWidth(true),
                 height: $li.outerHeight(true),
-                html: articleMap[articleId]
+                html: tileMap[tileId]
             };
         }
 
         $stage.remove();
+
+        for (tileId in this.tileMap) {
+            this.columnWidth = Math.min(this.columnWidth, this.tileMap[tileId].width);
+        }
     }
 
     TileField.prototype.doLayout = function (containerWidth) {
         var tileId,
-            gridWidth = Number.MAX_VALUE,
             gridMax,
             columns = [],
             x, i, length, column,
-            shortestColumn;
+            targetColumn;
 
-        for (tileId in this.tileMap) {
-            gridWidth = Math.min(gridWidth, this.tileMap[tileId].width);
-        }
-
-        // todo: what to do when containerWidth < gridWidth -- or don't allow it
-        for (x = 0, gridMax = containerWidth - gridWidth; x < gridMax; x += gridWidth) {
+        // todo: what to do when containerWidth < columnWidth -- or don't allow it
+        for (x = 0, gridMax = containerWidth - this.columnWidth; x < gridMax; x += this.columnWidth) {
             columns.push({
                 x: x,
                 height: 0
@@ -48,19 +48,19 @@ define([ 'jquery' ], function ($) {
         // todo: bail out if # columns hasn't changed? -- but needs knowledge of why doLayout is triggered
 
         for (tileId in this.tileMap) {
-            shortestColumn = null;
+            targetColumn = null;
 
             for (i = 0, length = columns.length; i < length; i++) {
                 column = columns[i];
 
-                if (!shortestColumn || column.height < shortestColumn.height) {
-                    shortestColumn = column;
+                if ((!targetColumn || column.height < targetColumn.height) && 1) {
+                    targetColumn = column;
                 }
             }
 
-            this.setTilePosition(tileId, shortestColumn.x, shortestColumn.height);
+            this.setTilePosition(tileId, targetColumn.x, targetColumn.height);
 
-            shortestColumn.height += this.tileMap[tileId].height;
+            targetColumn.height += this.tileMap[tileId].height;
         }
 
         // sort columns by height and use tallest as total field height
