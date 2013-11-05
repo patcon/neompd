@@ -9,7 +9,7 @@ define([
 
     function Application(articles) {
         var hash = window.location.hash,
-            slug = hash; // @todo determine slug from hash
+            slug = getSlug(hash); // @todo determine slug from hash
 
         this.currentTag = null; // null is homepage, otherwise tag ID
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
@@ -32,9 +32,14 @@ define([
         this.onHashChange();
     }
 
+    function getSlug(hash) {
+        var tokens = /^#articles\/(.+)/.exec(hash);
+        return tokens && tokens[1];
+    }
+
     Application.prototype.onHashChange = function () {
         var hash = window.location.hash,
-            slug = hash; // @todo determine slug from hash
+            slug = getSlug(hash); // @todo determine slug from hash
 
         if (this.currentArticle) {
             this.currentArticle.destroy();
