@@ -39,6 +39,14 @@ define([
     Renderer.prototype.createTile = function (tileId, tile) {
         var $li = $('<li></li>').appendTo(this.$grid),
             isRevealed = false,
+            isDismissing = false,
+            isBelowMiddle = false,
+
+            renderedX = null,
+            renderedY = null,
+            renderedOpacity = null,
+
+            renderTile,
             checkReveal;
 
         $('<a href=""></a>').attr('href', tileId).appendTo($li).html(tile.html);
@@ -46,17 +54,30 @@ define([
         $li.css({
             position: 'absolute',
             transition: 'top 1s, left 1s, opacity 1.5s',
-            opacity: 0,
-            left: tile.x,
-            top: tile.y
+            opacity: 0
         });
 
-        $(tile).on('moved', function () {
-            $li.css({
-                left: tile.x,
-                top: tile.y
-            });
+        renderTile = function () {
+            var tileOpacity = isRevealed ? 1 : 0,
+                tileX = tile.x,
+                tileY = tile.y + (isDismissing ? (isBelowMiddle ? 200 : -200) : 0);
 
+            if (renderedX !== tileX || renderedY !== tileY) {
+                $li.css({
+                    left: renderedX = tileX,
+                    top: renderedY = tileY
+                });
+            }
+
+            if (renderedOpacity !== tileOpacity) {
+                $li.css({
+                    opacity: renderedOpacity = tileOpacity
+                });
+            }
+        };
+
+        $(tile).on('moved', function () {
+            renderTile();
             checkReveal();
         }.bind(this));
 
@@ -72,20 +93,19 @@ define([
             gridViewportMidpoint = (this.gridViewportTop + this.gridViewportBottom) * 0.5;
 
             if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
-                $li.css({
-                    top: tile.y + (tile.y + tile.height * 0.5 < gridViewportMidpoint ? -200 : 200)
-                });
+                isDismissing = true;
+                isBelowMiddle = tile.y + tile.height * 0.5 > gridViewportMidpoint;
+            } else {
+                isDismissing = false;
             }
 
-            $li.css({ opacity: 0 });
+            renderTile();
         }.bind(this));
 
         $(this).on('tilesRestored', function () {
-            $li.css({
-                left: tile.x,
-                top: tile.y
-            });
+            isDismissing = false;
 
+            renderTile();
             checkReveal();
         }.bind(this));
 
@@ -96,11 +116,9 @@ define([
 
             if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
                 isRevealed = true;
-
-                $li.css({
-                    opacity: 1
-                });
             }
+
+            renderTile();
         }.bind(this);
 
         checkReveal();
