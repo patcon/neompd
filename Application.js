@@ -8,8 +8,11 @@ define([
     'use strict';
 
     function Application(articles) {
+        var hash = window.location.hash,
+            slug = hash; // @todo determine slug from hash
+
         this.currentTag = null; // null is homepage, otherwise tag ID
-        this.currentArticle = null; // current article view state
+        this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
         this.articles = articles;
 
