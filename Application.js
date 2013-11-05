@@ -2,15 +2,21 @@
 
 define([
     'jquery',
+    './TileField',
     './Article'
-], function ($, Article) {
+], function ($, TileField, Article) {
     'use strict';
 
     function Application(articles) {
+        var hash = window.location.hash,
+            slug = hash; // @todo determine slug from hash
+
         this.currentTag = null; // null is homepage, otherwise tag ID
-        this.currentArticle = null; // current article view state
+        this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
         this.articles = articles;
+
+        this.tileField = new TileField(articles);
 
         // @todo this needs proper implementation
         window.addEventListener("hashchange", this.onHashChange.bind(this), false);
@@ -20,7 +26,7 @@ define([
 
     Application.prototype.onHashChange = function () {
         var hash = window.location.hash,
-            slug = hash; // @todo determine slug from hash 
+            slug = hash; // @todo determine slug from hash
 
         if (this.currentArticle) {
             this.currentArticle.destroy();

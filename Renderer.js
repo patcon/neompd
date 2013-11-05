@@ -1,15 +1,14 @@
 /*global define */
 
 define([
-    'jquery',
-    "./TileLayout"
-], function ($, TileLayout) {
+    'jquery'
+], function ($) {
     'use strict';
 
-    function Renderer(application) {
-        var tileId, $li, tileDims = {};
+    function Renderer(app) {
+        var tileId;
 
-        this.application = application;
+        this.app = app;
 
         this.$grid = $('<ul class="tile-grid"></ul>').appendTo('#content').css({
             position: 'relative'
@@ -17,51 +16,165 @@ define([
 
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
-        this.$tiles = {};
+        this.gridOffsetInArticle = null;
 
-        for (tileId in this.application.articles) {
-            $li = $('<li></li>').appendTo(this.$grid);
-            $('<a href=""></a>').attr('href', tileId).appendTo($li).html(this.application.articles[tileId]);
-
-            tileDims[tileId] = {
-                width: $li.outerWidth(true),
-                height: $li.outerHeight(true)
-            };
-
-            this.$tiles[tileId] = $li;
-        }
-
-        this.layout = new TileLayout(tileDims);
+        this.updateGridViewport();
 
         var refreshLayout = (function () {
-            this.layout.doLayout(this.$content.width(), this.setTilePosition.bind(this));
+            this.app.tileField.doLayout(this.$content.width());
         }).bind(this);
 
-        refreshLayout(this);
+        refreshLayout();
+
+        for (tileId in this.app.tileField.tileMap) {
+            this.createTile(tileId, this.app.tileField.tileMap[tileId]);
+        }
 
         // todo: debounce
-        $(window).on("resize", refreshLayout);
-
-        // initial render
-        this.onPageChange();
-
-        $(this.application).on('navigated', this.onPageChange.bind(this));
+        $(window).on('resize', refreshLayout);
+        $(window).on('scroll', this.onScroll.bind(this));
+        $(this.app).on('navigated', this.onPageChange.bind(this));
     }
 
+    Renderer.prototype.createTile = function (tileId, tile) {
+        var $li = $('<li></li>').appendTo(this.$grid),
+            isRevealed = false,
+            isDismissing = false,
+            isBelowMiddle = false,
+
+            renderedX = null,
+            renderedY = null,
+            renderedOpacity = null,
+
+            renderTile,
+            checkReveal;
+
+        $('<a href=""></a>').attr('href', tileId).appendTo($li).html(tile.html);
+
+        $li.css({
+            position: 'absolute',
+            transition: 'top 1s, left 1s, opacity 1.5s',
+            opacity: 0
+        });
+
+        renderTile = function () {
+            var tileOpacity = isRevealed ? 1 : 0,
+                tileX = tile.x,
+                tileY = tile.y + (isDismissing ? (isBelowMiddle ? 200 : -200) : 0);
+
+            if (renderedX !== tileX || renderedY !== tileY) {
+                $li.css({
+                    left: renderedX = tileX,
+                    top: renderedY = tileY
+                });
+            }
+
+            if (renderedOpacity !== tileOpacity) {
+                $li.css({
+                    opacity: renderedOpacity = tileOpacity
+                });
+            }
+        };
+
+        $(tile).on('moved', function () {
+            renderTile();
+            checkReveal();
+        }.bind(this));
+
+        $(this).on('tilesDismissed', function () {
+            var gridViewportMidpoint;
+
+            if (!isRevealed) {
+                return;
+            }
+
+            isRevealed = false;
+
+            gridViewportMidpoint = (this.gridViewportTop + this.gridViewportBottom) * 0.5;
+
+            if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
+                isDismissing = true;
+                isBelowMiddle = tile.y + tile.height * 0.5 > gridViewportMidpoint;
+            } else {
+                isDismissing = false;
+            }
+
+            renderTile();
+        }.bind(this));
+
+        $(this).on('tilesRestored', function () {
+            isDismissing = false;
+
+            renderTile();
+            checkReveal();
+        }.bind(this));
+
+        checkReveal = function () {
+            if (isRevealed || this.app.currentArticle) {
+                return;
+            }
+
+            if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
+                isRevealed = true;
+            }
+
+            renderTile();
+        }.bind(this);
+
+        checkReveal();
+
+        $(this).on('viewport', checkReveal);
+    };
+
+    Renderer.prototype.updateGridViewport = function () {
+        var scrollTop = $(window).scrollTop(),
+            scrollHeight = $(window).height(),
+            gridOffset = this.$grid.offset();
+
+        if (this.gridOffsetInArticle !== null) {
+            this.$grid.css({
+                top: this.gridOffsetInArticle + scrollTop
+            });
+
+            return;
+        }
+
+        this.gridViewportTop = scrollTop - gridOffset.top;
+        this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
+    };
+
     Renderer.prototype.onPageChange = function () {
-        if (this.application.currentArticle) {
+        if (this.app.currentArticle) {
             console.log('article view');
 
-            this.$grid.hide();
+            if (this.gridOffsetInArticle === null) {
+                this.gridOffsetInArticle = -this.gridViewportTop;
 
-            this.application.currentArticle.done(function (html) {
+                // @todo reset scrolltop to zero, but only if loading a new article
+                this.$grid.css({
+                    top: this.gridOffsetInArticle
+                });
+
+                $(this).trigger('tilesDismissed');
+            }
+
+            this.app.currentArticle.done(function (html) {
                 this.$content.html(html);
             }.bind(this));
 
-            $(this.application.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
+            $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
         } else {
             console.log('tile view');
-            this.$grid.show();
+
+            if (this.gridOffsetInArticle !== null) {
+                this.gridOffsetInArticle = null;
+
+                this.$grid.css({
+                    top: 0
+                });
+
+                $(this).trigger('tilesRestored');
+            }
         }
     };
 
@@ -70,12 +183,10 @@ define([
         this.$content.empty();
     };
 
-    Renderer.prototype.setTilePosition = function (tileId, x, y) {
-        this.$tiles[tileId].css({
-            position: 'absolute',
-            left: x,
-            top: y
-        });
+    Renderer.prototype.onScroll = function () {
+        this.updateGridViewport();
+
+        $(this).trigger('viewport');
     };
 
     return Renderer;
