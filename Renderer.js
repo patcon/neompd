@@ -10,6 +10,10 @@ define([
 
         this.app = app;
 
+        $('#content').css({
+            overflow: 'hidden'
+        });
+
         this.$grid = $('<ul class="tile-grid"></ul>').appendTo('#content').css({
             position: 'relative'
         });
@@ -22,6 +26,10 @@ define([
 
         var refreshLayout = (function () {
             this.app.tileField.doLayout(this.$content.width());
+
+            if (!this.app.currentArticle) {
+                this.$content.css({ height: this.app.tileField.height });
+            }
         }).bind(this);
 
         refreshLayout();
@@ -155,6 +163,9 @@ define([
                     top: this.gridOffsetInArticle
                 });
 
+                // clear minimum content height from grid size
+                this.$content.css({ height: '' });
+
                 $(this).trigger('tilesDismissed');
             }
 
@@ -172,6 +183,9 @@ define([
                 this.$grid.css({
                     top: 0
                 });
+
+                // set minimum content height to extend to grid size
+                this.$content.css({ height: this.app.tileField.height });
 
                 $(this).trigger('tilesRestored');
             }
