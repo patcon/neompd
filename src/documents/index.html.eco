@@ -36,21 +36,34 @@
 		<ul id="grid" class="initial">
 			<% for post in @getCollection("posts").toJSON(): %>
 				<% if post.tilestyle: %>
-					<li class="<%= post.tag %> <%= post.tilestyle %>">
-						<a href="<%= post.url %>">
-			            	<header class="<%= post.color %>">
-			            		<% if post.tilestyle is "image": %>
-				            		<span class="smalltitle"><%= post.header %></span>
-			            		<% else: %>
-				            	<span><%= post.header %></span>
-				            	<% end %>
-						    </header>
-			                <img src="<%= post.tileimg %>">
-			                <p><%= post.summary %></p>
-			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-			            </a>
-			        </li>
+					<% if post.tilestyle is "employee": %>
+						<li class="people <%= post.tilestyle %>">
+							<a href="<%= post.url %>">
+					            <header class="<%= post.color %>">
+			            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
+			            		</header>
+							    <img src="<%= post.authorimg %>">
+				                <p class="name"><%= post.name %></p>
+				                <p class="role"><%= post.role %></p>
+				            </a>
+				        </li>
+					<% else: %>
+						<li class="<%= post.tag %> <%= post.tilestyle %>">
+							<a href="<%= post.url %>">
+				            	<header class="<%= post.color %>">
+				            		<% if post.tilestyle is "image": %>
+					            		<span class="smalltitle"><%= post.header %></span>
+				            		<% else: %>
+					            	<span><%= post.header %></span>
+					            	<% end %>
+							    </header>
+				                <img src="<%= post.tileimg %>">
+				                <p><%= post.summary %></p>
+				                <span class="author"><%= post.author %></span>
+								<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+				            </a>
+				        </li>
+				    <% end %>
 		        <% else: %>
 		        	<li class="<%= post.tag %>">
 			        	<a href="<%= post.url %>">
@@ -69,6 +82,7 @@
 
 	<article class="hidden" id="article"></article>
     <img id="loading" class="hidden" src="images/loading.gif" alt="Loading...">
+
 	<%- @getBlock("scripts").add(["/vendor/jquery.js","/vendor/isotope.js","/vendor/jquery-classList-plugin.js","/scripts/homepage.js"]).toHTML() %>
 
 	<script>

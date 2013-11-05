@@ -140,6 +140,15 @@ body::-webkit-scrollbar  {
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 }
+
+#grid > li.employee > a > img {
+	margin-top: -50px;
+	margin-left: 100px;
+	width: 80px;
+	border-radius: 45px;
+	border: 5px solid white;
+}
+
 #grid > li > a > header {
 	font-size:24px;
 	color:#fff;
@@ -151,6 +160,9 @@ body::-webkit-scrollbar  {
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+}
+#grid > li.employee > a > header {
+	padding:34px 25px 70px;
 }
 #grid > li.double > a > header {
 	width:559px;
@@ -172,6 +184,10 @@ body::-webkit-scrollbar  {
 	top: 7px;
 	position: relative;
 	border-top-left-radius: 3px;
+}
+#grid > li.employee > a > header > span {
+	font-weight: bold;
+	text-shadow: none;
 }
 
 /*Add color to title on the tiles with images*/
@@ -207,6 +223,19 @@ body::-webkit-scrollbar  {
 	line-height: 20px;
 	letter-spacing: -.2px;
 	padding: 25px;
+}
+#grid > li.employee > a > p.name {
+	font-family: TradeGothicB;
+	padding: 18px 0 0 0;
+	text-align: center;
+	font-size: 21px;
+}
+#grid > li.employee > a > p.role {
+	text-align: center;
+	padding: 5px 0 31px;
+	color: #bbb;
+	font-family: TradeGothic;
+	font-size: 15px;
 }
 #grid > li > a > span {
 	font-family: TradeGothic;

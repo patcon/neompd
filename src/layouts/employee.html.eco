@@ -25,18 +25,14 @@
 		<footer>
 			<h3>Articles I've Written</h3>
 			<ul class="article-list">
-				<li class="design">
-					<div class="article-title">Engaging Remote Workers</div>
-					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
-				</li>
-				<li class="people">
-					<div class="article-title">Engaging Remote Workers</div>
-					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
-				</li>
-				<li class="technology">
-					<div class="article-title">Engaging Remote Workers</div>
-					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
-				</li>
+				<% for post in @getCollection("posts").toJSON(): %>
+					<% if post.tilestyle isnt "employee" and post.author is @document.name :  %>
+						<li class="<%= post.tag %>">
+							<div class="article-header"><%= post.header %></div>
+							<div class="article-summary"><%= post.summary %></div>
+						</li>
+					<% end %>
+				<% end %>
 			</ul>
 		</footer>
 	</div>

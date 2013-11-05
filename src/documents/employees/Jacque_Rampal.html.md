@@ -1,18 +1,16 @@
 ---
-name: "Bob Marley"
-role: "Singspirator"
+name: "Jacque Rampal"
+role: "Awesome Designer"
 tag: "account management, marketing, content strategy"
 quote: "Don't you worry about a thing, cus every little thing it's gonn be alright"
 coverimg: ""
 authorimg: "/images/avatar/Jacques_Ramphal.png"
-header: "john edgar"
-summary: "blahblah blah"
 twitter:
 dribbble:
 linkedin:
 github:
 layout: employee
-tilestyle: ""
+tilestyle: "employee"
 color: "green"
 ---
 

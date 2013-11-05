@@ -1,3 +1,5 @@
+@transition: 0.3s;
+
 .employee {
 	position: relative;
 	margin: 0;
@@ -118,26 +120,66 @@
 					}
 					a.twitter {
 						background: url(/images/social_icons.png) 0 24px;
-						&:hover {
-							background: url(/images/social_icons.png) 0 53px;
+						&:after {
+							background: #fff url(/images/social_icons.png) 0 53px;
+							content: "";
+							position: absolute;
+							width: 100%; height: 100%;
+							left:0; top:0;
+							opacity: 0;
+							-webkit-transition: opacity @transition;
+							-moz-transition: opacity @transition;
+						}
+						&:hover:after {
+							opacity: 1;
 						}
 					}
 					a.dribbble {
 						background: url(/images/social_icons.png) -34px 24px;
-						&:hover {
-							background: url(/images/social_icons.png) -34px 53px;
+						&:after {
+							background: #fff url(/images/social_icons.png) -34px 53px;
+							content: "";
+							position: absolute;
+							width: 100%; height: 100%;
+							left:0; top:0;
+							opacity: 0;
+							-webkit-transition: opacity @transition;
+							-moz-transition: opacity @transition;
+						}
+						&:hover:after {
+							opacity: 1;
 						}
 					}
 					a.linkedin {
 						background: url(/images/social_icons.png) -68px 24px;
-						&:hover {
-							background: url(/images/social_icons.png) -68px 53px;
+						&:after {
+							background: #fff url(/images/social_icons.png) -68px 53px;
+							content: "";
+							position: absolute;
+							width: 100%; height: 100%;
+							left:0; top:0;
+							opacity: 0;
+							-webkit-transition: opacity @transition;
+							-moz-transition: opacity @transition;
+						}
+						&:hover:after {
+							opacity: 1;
 						}
 					}
 					a.github {
 						background: url(/images/social_icons.png) -101px 24px;
-						&:hover {
-							background: url(/images/social_icons.png) -101px 53px;
+						&:after {
+							background: #fff url(/images/social_icons.png) -101px 53px;
+							content: "";
+							position: absolute;
+							width: 100%; height: 100%;
+							left:0; top:0;
+							opacity: 0;
+							-webkit-transition: opacity @transition;
+							-moz-transition: opacity @transition;
+						}
+						&:hover:after {
+							opacity: 1;
 						}
 					}
 				}
@@ -197,11 +239,12 @@
 					border-bottom: 1px solid #eee;
 					padding: 49px 0;
 
-					.article-title {
+					.article-header {
 						font-family: Plantin;
 						font-weight: bold;
 						font-size: 2.7em;
 						margin-bottom: 10px;
+						width:600px;
 					}
 
 					.article-summary {

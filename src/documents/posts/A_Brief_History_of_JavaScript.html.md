@@ -10,6 +10,7 @@ coverimg: "/images/articles/A_Brief_History_of_JavaScript/cover.jpg"
 tileimg: "/images/articles/A_Brief_History_of_JavaScript/tile.jpg"
 authorimg: "/images/avatar/Neil_Taylor.png"
 author: "Neil Taylor"
+authorId: "Neil_Taylor"
 date: "2013-04-08"
 tilestyle: "image"
 ---
