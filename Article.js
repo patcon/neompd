@@ -31,7 +31,7 @@ define([
     };
 
     Article.prototype.onMouseWheel = function (e) {
-        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.1, // hardware delta is more than pixel speed
+        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.003, // hardware delta is more than pixel speed
             currentTime = new Date().getTime(),
 
             scrollTop = $(window).scrollTop(),
@@ -45,6 +45,7 @@ define([
 
             if (this.scrollBackAmount >= 0) {
                 this.scrollBackAmount = 0;
+                this.gestureBlockedUntilTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
 
                 $(this).trigger('returnedAbove');
             } else {
@@ -57,6 +58,7 @@ define([
 
             if (this.scrollBackAmount <= 0) {
                 this.scrollBackAmount = 0;
+                this.gestureBlockedUntilTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
 
                 $(this).trigger('returnedBelow');
             } else {
