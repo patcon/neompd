@@ -14,6 +14,14 @@ define([
         this.currentTag = null; // null is homepage, otherwise tag ID
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
+        if (this.currentArticle) {
+            $(this.currentArticle).on('scrolledAbove scrolledBelow', function () {
+                if (Math.abs(this.currentArticle.scrollBackAmount) === 1) {
+                    window.location = '#';
+                }
+            }.bind(this));
+        }
+
         this.articles = articles;
 
         this.tileField = new TileField(articles);
@@ -33,6 +41,14 @@ define([
         }
 
         this.currentArticle = slug ? new Article(slug) : null; // @todo this of course
+
+        if (this.currentArticle) {
+            $(this.currentArticle).on('scrolledAbove scrolledBelow', function () {
+                if (Math.abs(this.currentArticle.scrollBackAmount) === 1) {
+                    window.location = '#';
+                }
+            }.bind(this));
+        }
 
         $(this).trigger('navigated');
     };
