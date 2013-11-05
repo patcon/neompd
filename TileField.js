@@ -7,6 +7,7 @@ define([ 'jquery' ], function ($) {
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
         this.tileMap = {};
+        this.height = 0;
 
         for (articleId in articleMap) {
             $li = $('<li></li>').appendTo($stage);
@@ -61,6 +62,13 @@ define([ 'jquery' ], function ($) {
 
             shortestColumn.height += this.tileMap[tileId].height;
         }
+
+        // sort columns by height and use tallest as total field height
+        columns.sort(function (a, b) {
+            return b.height - a.height; // descending order
+        });
+
+        this.height = columns[0].height;
     };
 
     TileField.prototype.setTilePosition = function (tileId, x, y) {
