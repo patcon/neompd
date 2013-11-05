@@ -1,3 +1,8 @@
+@column-gutter: 20px;
+@column-width: 300px;
+@column-padding: 30px;
+@menu-width: 120px;
+
 html {
     height: 100%;
 }
@@ -18,12 +23,12 @@ a {
     position: fixed;
     background: #bdc3c7;
     height: 100%;
-    width: 120px;
+    width: @menu-width;
     padding: 10px;
 }
 
 #content {
-    margin-left: 140px;
+    margin-left: @menu-width + 20px;
     min-height: 100%;
     padding: 10px;
 }
@@ -33,12 +38,16 @@ a {
 
     li {
         background: #e0e0e0;
-        width: 290px;
-        margin: 10px;
+        margin: @column-gutter / 2;
 
         a {
+            width: @column-width - @column-padding * 2;
             display: block;
-            padding: 30px;
+            padding: @column-padding;
+
+            &.double {
+                width: @column-width * 2 - @column-padding * 2;
+            }
         }
     }
 }
