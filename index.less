@@ -1,6 +1,6 @@
 @column-gutter: 20px;
 @column-width: 290px;
-@column-padding: 30px;
+@column-padding: 0px;
 @menu-width: 120px;
 
 html {
@@ -41,8 +41,9 @@ a {
     list-style-type: none;
 
     li {
-        background: #e0e0e0;
+        background: #f0f0f0;
         margin: @column-gutter / 2;
+        overflow: hidden;
 
         a {
             width: @column-width - @column-padding * 2;

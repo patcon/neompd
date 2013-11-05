@@ -9,7 +9,7 @@ define(['jquery'], function ($) {
     $("#data li").each(function () {
         var $li = $(this);
 
-        articleMap[id++] = $li.html();
+        articleMap[id++] = $li.html().replace(/\/images\//g, '/out/images/');
     });
 
     return articleMap;

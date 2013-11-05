@@ -39,7 +39,7 @@ define([
 
     Application.prototype.onHashChange = function () {
         var hash = window.location.hash,
-            slug = getSlug(hash); // @todo determine slug from hash
+            slug = getSlug(hash);
 
         if (this.currentArticle) {
             this.currentArticle.destroy();

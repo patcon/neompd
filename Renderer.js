@@ -195,7 +195,7 @@ define([
                 $(this).trigger('tilesDismissed');
             }
 
-            this.app.currentArticle.done(function (html) {
+            this.app.currentArticle.content.done(function (html) {
                 this.$content.html(html);
             }.bind(this));
 
