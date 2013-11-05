@@ -1,0 +1,43 @@
+<div class="employee">
+	<div class="banner">
+		<div class="background-strip <%= @document.color %>" style="background-image: url('<%= @document.coverimg %>')"></div>
+	</div>
+
+	<div class="content">
+		<div class="author">
+			<img src="<%= @document.authorimg %>" class="avatar" />
+			<div class="author-name"><%= @document.name %></div>
+			<div class="author-title"><%= @document.role %></div>
+			<blockquote><%= @document.quote %></blockquote>
+			<ul class="tag-list">
+				<%- '<li>' + @document.tag.split(", ").join('</li><li>') + '</li>' %>
+			</ul>
+			<ul class="portfolio">
+				<li><a href="http://twitter.com" class="twitter">Twitter</a></li>
+				<li><a href="http://dribbble.com" class="dribbble">Dribbble</a></li>
+				<li><a href="http://linkedin.com" class="linkedin">LinkedIn</a></li>
+				<li><a href="http://github.com" class="github">Github</a></li>
+			</ul>
+		</div>
+
+		<%- @content %>
+
+		<footer>
+			<h3>Articles I've Written</h3>
+			<ul class="article-list">
+				<li class="design">
+					<div class="article-title">Engaging Remote Workers</div>
+					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
+				</li>
+				<li class="people">
+					<div class="article-title">Engaging Remote Workers</div>
+					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
+				</li>
+				<li class="technology">
+					<div class="article-title">Engaging Remote Workers</div>
+					<div class="article-summary">One thing is very clear and will always be a priority for us: work is an activity we all love and share</div>
+				</li>
+			</ul>
+		</footer>
+	</div>
+</div>

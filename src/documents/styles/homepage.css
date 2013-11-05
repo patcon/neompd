@@ -10,6 +10,11 @@
 }
 
 @font-face {
+	font-family: TradeGothicB;
+	src: url(../fonts/TradeGothicLTStd-Bd2.otf);
+}
+
+@font-face {
 	font-family: Plantin;
 	src: url(../fonts/Plantin-Std.otf);
 }

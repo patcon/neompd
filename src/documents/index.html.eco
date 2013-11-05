@@ -5,6 +5,7 @@
 	<title>Myplanet Digital</title>
 	<link rel="stylesheet" href="styles/homepage.css">
 	<link rel="stylesheet" href="styles/post.css">
+	<link rel="stylesheet" href="styles/employee.css">
 </head>
 
 <body>

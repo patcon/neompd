@@ -1,0 +1,242 @@
+.employee {
+	position: relative;
+	margin: 0;
+	padding: 0;
+	font-size: 100%;
+	background-color: #fff;
+
+	.banner {
+		position: relative;
+
+		.background-strip {
+			display: block;
+			background: #2a2a2a none 50% 50% no-repeat; // set up for per-article banner background
+			background-size: cover;
+			height: 480px;
+		}
+
+		.green {
+			background-color: #29d09a;
+		}
+		.pink {
+			background-color: #f45d96;
+		}
+		.orange {
+			background-color: #ee5b33;
+		}
+	}
+
+	.content {
+		position: relative;
+		margin: 0 auto;
+		width: 670px;
+
+		&:before {
+			content:'';
+			display: block;
+			margin: 0px -500px -410px;
+			height: 410px;
+			background: url('/images/top_strip_employee.jpg') 50% 0 no-repeat;
+		}
+
+		.author {
+			text-align: center;
+
+			.avatar {
+				width: 130px;
+				height: 130px;
+				border-radius: 73px;
+				border: 8px solid white;
+				margin: -78px auto 9px;
+			}
+
+			.author-name {
+				font-family: TradeGothicB;
+				font-size: 3.9em;
+				margin:0 auto 7px;
+			}
+
+			.author-title {
+				color: #bbb;
+				font: 2em TradeGothic;
+				font-weight: normal;
+				margin-bottom:47px;
+			}
+
+			blockquote {
+				font-family: Plantin;
+				font-style: italic;
+				font-weight: bold;
+				font-size: 2.8em;
+				line-height: 1.4;
+				margin-bottom:42px;
+			}
+
+			ul.tag-list {
+				margin-bottom: 26px;
+				padding: 0;
+				li {
+					font-family: TradeGothic;
+					font-size: 1.2em;
+					color:#fff;
+					background-color: #414141;
+					margin-bottom:15px;
+					margin-right:10px;
+					display: inline-block;
+					padding: 12px 14px 6px;
+					border-radius:4px;
+					cursor:pointer;
+					text-shadow:0 1px 1px rgba(0,0,0,0.3);
+					text-transform: uppercase;
+					-webkit-transition-duration: 0.2s;
+					-webkit-transition-property: background-color;
+					-webkit-transition-timing-function: ease-out;
+					-moz-transition-duration: 0.2s;
+					-moz-transition-property: background-color;
+					-moz-transition-timing-function: ease-out;
+
+					&:hover {
+						background:#29d09a;
+					}
+				}
+			}
+
+			ul.portfolio {
+				margin-bottom:64px;
+				padding: 0;
+				li {
+					display: inline;
+					list-style-type: none;
+					margin-right: 38px;
+
+					a {
+						display: inline-block;
+						position: relative;
+						width: 25px;
+						height: 24px;
+						text-indent: -9999px;
+					}
+					a.twitter {
+						background: url(/images/social_icons.png) 0 24px;
+						&:hover {
+							background: url(/images/social_icons.png) 0 53px;
+						}
+					}
+					a.dribbble {
+						background: url(/images/social_icons.png) -34px 24px;
+						&:hover {
+							background: url(/images/social_icons.png) -34px 53px;
+						}
+					}
+					a.linkedin {
+						background: url(/images/social_icons.png) -68px 24px;
+						&:hover {
+							background: url(/images/social_icons.png) -68px 53px;
+						}
+					}
+					a.github {
+						background: url(/images/social_icons.png) -101px 24px;
+						&:hover {
+							background: url(/images/social_icons.png) -101px 53px;
+						}
+					}
+				}
+			}
+		}
+
+		h2 {
+			font-family: Plantin;
+			font-weight: bold;
+			font-style: italic;
+			font-size: 2.25em;
+			margin-bottom: 28px;
+			padding-top: 3px;
+			letter-spacing: -1.8px;
+		}
+
+		p {
+			font-family: Plantin;
+			font-size: 1.8em;
+			line-height: 1.5;
+			margin: 0px 0 112px;
+			color: #242424;
+		}
+
+		footer {
+			border-top: 1px solid #eee;
+			padding-top: 60px;
+			margin-top: 241px;
+			padding-bottom: 200px;
+
+			&:before {
+				display: block;
+				content: '';
+				margin: -471px -260px 15px -510px;
+				height: 410px;
+				background: url('/images/bottom_strip_doodles.png') 50% 100% no-repeat;
+			}
+
+			h3 {
+				font-size: 1.5em;
+				font-family: TradeGothic;
+				font-style: normal;
+				letter-spacing: normal;
+				color: #ee5b33;
+				margin: 0;
+				padding-bottom: 15px;
+				border-bottom: 1px solid #eee;
+			}
+
+			ul {
+				margin: 0 0 30px;
+				padding: 0;
+				list-style-type: none;
+
+				li {
+					display: block;
+					border-bottom: 1px solid #eee;
+					padding: 49px 0;
+
+					.article-title {
+						font-family: Plantin;
+						font-weight: bold;
+						font-size: 2.7em;
+						margin-bottom: 10px;
+					}
+
+					.article-summary {
+						font-family: Plantin;
+						font-size: 2em;
+						width: 600px;
+					}
+				}
+
+				li.business {
+					background: url(/images/footer-business.jpg) no-repeat;
+					background-size: 80px 70px;
+					background-position: 600px 40px;
+				}
+				li.culture {
+					background: url(/images/footer-culture.jpg) no-repeat;
+					background-size: 80px 70px;
+					background-position: 600px 40px;
+				}
+				li.design {
+					background: url(/images/footer-design.jpg) no-repeat;
+					background-size: 80px 70px;
+					background-position: 600px 40px;
+				}
+				li.people {
+					background: url(/images/footer-people.jpg) no-repeat;
+					background-size: 80px 70px;
+					background-position: 600px 40px;
+				}
+				li.technology {
+					background: url(/images/footer-technology.jpg) no-repeat;
+					background-size: 80px 70px;
+					background-position: 600px 40px;
+				}
+			}
+		}
+	}
+}
