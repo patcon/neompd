@@ -58,8 +58,37 @@ define([
             checkReveal();
         }.bind(this));
 
+        $(this).on('tilesDismissed', function () {
+            var gridViewportMidpoint;
+
+            if (!isRevealed) {
+                return;
+            }
+
+            isRevealed = false;
+
+            gridViewportMidpoint = (this.gridViewportTop + this.gridViewportBottom) * 0.5;
+
+            if (tile.y + tile.height > this.gridViewportTop && tile.y < this.gridViewportBottom) {
+                $li.css({
+                    top: tile.y + (tile.y + tile.height * 0.5 < gridViewportMidpoint ? -200 : 200)
+                });
+            }
+
+            $li.css({ opacity: 0 });
+        }.bind(this));
+
+        $(this).on('tilesRestored', function () {
+            $li.css({
+                left: tile.x,
+                top: tile.y
+            });
+
+            checkReveal();
+        }.bind(this));
+
         checkReveal = function () {
-            if (isRevealed) {
+            if (isRevealed || this.app.currentArticle) {
                 return;
             }
 
@@ -90,7 +119,7 @@ define([
         if (this.app.currentArticle) {
             console.log('article view');
 
-            this.$grid.hide();
+            $(this).trigger('tilesDismissed');
 
             this.app.currentArticle.done(function (html) {
                 this.$content.html(html);
@@ -99,7 +128,7 @@ define([
             $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
         } else {
             console.log('tile view');
-            this.$grid.show();
+            $(this).trigger('tilesRestored');
         }
     };
 
