@@ -16,6 +16,8 @@ define([
 
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
+        this.gridOffsetInArticle = null;
+
         this.updateGridViewport();
 
         var refreshLayout = (function () {
@@ -111,6 +113,14 @@ define([
             scrollHeight = $(window).height(),
             gridOffset = this.$grid.offset();
 
+        if (this.gridOffsetInArticle !== null) {
+            this.$grid.css({
+                top: this.gridOffsetInArticle + scrollTop
+            });
+
+            return;
+        }
+
         this.gridViewportTop = scrollTop - gridOffset.top;
         this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
     };
@@ -119,7 +129,16 @@ define([
         if (this.app.currentArticle) {
             console.log('article view');
 
-            $(this).trigger('tilesDismissed');
+            if (this.gridOffsetInArticle === null) {
+                this.gridOffsetInArticle = -this.gridViewportTop;
+
+                // @todo reset scrolltop to zero, but only if loading a new article
+                this.$grid.css({
+                    top: this.gridOffsetInArticle
+                });
+
+                $(this).trigger('tilesDismissed');
+            }
 
             this.app.currentArticle.done(function (html) {
                 this.$content.html(html);
@@ -128,7 +147,16 @@ define([
             $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
         } else {
             console.log('tile view');
-            $(this).trigger('tilesRestored');
+
+            if (this.gridOffsetInArticle !== null) {
+                this.gridOffsetInArticle = null;
+
+                this.$grid.css({
+                    top: 0
+                });
+
+                $(this).trigger('tilesRestored');
+            }
         }
     };
 
