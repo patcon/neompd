@@ -16,7 +16,8 @@ define([
     }
 
     Article.prototype.destroy = function () {
-        window.clearTimeout(this.testTimeoutId);
+        // cancel in-flight transfer
+        this.content.abort();
 
         $(this).trigger('destroyed');
     };
