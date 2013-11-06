@@ -27,6 +27,8 @@ define([
         this.updateGridViewport();
         this.updateMode();
 
+        this.$content.css({ height: this.app.tileField.height });
+
         for (tileId in this.app.tileField.tileMap) {
             this.createTile(tileId, this.app.tileField.tileMap[tileId]);
         }
@@ -153,6 +155,7 @@ define([
             renderTile();
         }.bind(this);
 
+        renderTile();
         checkReveal();
 
         $(this).on('viewport', checkReveal);
