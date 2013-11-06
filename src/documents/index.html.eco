@@ -42,7 +42,9 @@
 					            <header class="<%= post.color %>">
 			            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 			            		</header>
-							    <img src="<%= post.authorimg %>">
+			            		<% if post.authorimg: %>
+							    	<img src="<%= post.authorimg %>">
+				                <% end %>
 				                <p class="name"><%= post.name %></p>
 				                <p class="role"><%= post.role %></p>
 				            </a>
