@@ -64,6 +64,8 @@ define([
 
         this.gridViewportTop = scrollTop - gridOffset.top;
         this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
+
+        $(this).trigger('viewport');
     };
 
     Renderer.prototype.updateMode = function () {
@@ -116,8 +118,6 @@ define([
 
     Renderer.prototype.onScroll = function () {
         this.updateGridViewport();
-
-        $(this).trigger('viewport');
     };
 
     Renderer.prototype.onResize = function () {
