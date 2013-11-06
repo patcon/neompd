@@ -71,8 +71,8 @@ define([
         if (this.renderedFixed !== tileFixed) {
             this.$li.css({
                 position: (this.renderedFixed = tileFixed) ? 'fixed' : 'absolute',
-                top: tileFixed ? -this.renderer.gridViewportTop : 0,
-                left: tileFixed ? -this.renderer.gridViewportLeft : 0
+                top: tileFixed ? -this.renderer.gridViewport.top : 0,
+                left: tileFixed ? -this.renderer.gridViewport.left : 0
             });
         }
 
@@ -96,11 +96,11 @@ define([
     };
 
     TileRenderer.prototype.getVisibility = function () {
-        return (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom);
+        return (this.tile.y + this.tile.height > this.renderer.gridViewport.top && this.tile.y < this.renderer.gridViewport.bottom);
     };
 
     TileRenderer.prototype.initializeArticleModeState = function () {
-        var gridViewportMidpoint = (this.renderer.gridViewportTop + this.renderer.gridViewportBottom) * 0.5;
+        var gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
 
         if (this.getVisibility()) {
             this.isDismissing = true;

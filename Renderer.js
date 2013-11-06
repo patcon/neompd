@@ -23,14 +23,10 @@ define([
 
         this.app.tileField.doLayout(this.$content.outerWidth());
 
-        this.updateGridViewport();
+        this.gridViewport = this.computeGridViewport();
         this.updateMode();
 
         this.$content.css({ height: this.app.tileField.height });
-
-        for (tileId in this.app.tileField.tileMap) {
-            new TileRenderer(this.app.tileField.tileMap[tileId], this.app, this);
-        }
 
         // todo: debounce
         $(window).on('resize', this.onResize.bind(this));
@@ -45,20 +41,24 @@ define([
         $(this.app).on('navigated', function () {
             this.updateMode();
         }.bind(this));
+
+        // create tiles afterwards, so that we get the navigation event before them
+        // @todo fix the reliance on event callback ordering!
+        for (tileId in this.app.tileField.tileMap) {
+            new TileRenderer(this.app.tileField.tileMap[tileId], this.app, this);
+        }
     }
 
-    Renderer.prototype.updateGridViewport = function () {
+    Renderer.prototype.computeGridViewport = function () {
         var scrollTop = $(window).scrollTop(),
             scrollHeight = $(window).height(),
             gridOffset = this.$grid.offset();
 
-        if (!this.app.currentArticle) {
-            this.gridViewportLeft = -gridOffset.left; // @todo support horizontal scroll?
-            this.gridViewportTop = scrollTop - gridOffset.top;
-            this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
-
-            $(this).trigger('viewport');
-        }
+        return {
+            left: -gridOffset.left, // @todo support horizontal scroll?
+            top: scrollTop - gridOffset.top,
+            bottom: scrollTop + scrollHeight - gridOffset.top
+        };
     };
 
     Renderer.prototype.updateMode = function () {
@@ -80,6 +80,9 @@ define([
             // set minimum content height to extend to grid size
             this.$content.css({ height: this.app.tileField.height });
             this.$content.empty();
+
+            // compute updated viewport before tiles get notified
+            this.gridViewport = this.computeGridViewport();
         }
     };
 
@@ -88,7 +91,11 @@ define([
     };
 
     Renderer.prototype.onScroll = function () {
-        this.updateGridViewport();
+        if (!this.app.currentArticle) {
+            this.gridViewport = this.computeGridViewport();
+
+            $(this).trigger('viewport');
+        }
     };
 
     Renderer.prototype.onResize = function () {
