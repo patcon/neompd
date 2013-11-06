@@ -46,11 +46,11 @@ define([
         $(this.tile).on('moved', this.onMoved.bind(this));
         $(this.app).on('navigated', this.onNavigated.bind(this));
         $(this.renderer).on('viewport', this.onViewport.bind(this));
+        $(this.renderer).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
     }
 
     TileRenderer.prototype.renderTile = function () {
-        var scrollBackAmount = this.app.currentArticle ? this.app.currentArticle.scrollBackAmount : 0,
-            animationAmount = Math.abs(scrollBackAmount),
+        var animationAmount = Math.abs(this.renderer.articleScrollBackAmount),
             verticalOffset = (this.isArticleMode && this.isDismissing) ?
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
                 0,
@@ -106,12 +106,6 @@ define([
             this.isDismissing = true;
             this.isDoneDismissing = false;
             this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
-
-            $(this.app.currentArticle).on('scrollBackChanged', function () {
-                this.isDoneDismissing = true;
-
-                this.renderTile();
-            }.bind(this));
         } else {
             this.isDismissing = false;
         }
@@ -144,6 +138,16 @@ define([
         }
 
         this.isRevealed = this.getVisibility();
+        this.renderTile();
+    };
+
+    TileRenderer.prototype.onScrollBackChanged = function () {
+        if (!this.isArticleMode) {
+            throw 'cannot scroll back outside of article mode';
+        }
+
+        this.isDoneDismissing = true;
+
         this.renderTile();
     };
 
