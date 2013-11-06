@@ -125,27 +125,19 @@ define([
         }
 
         if (this.articleScrollBackAmount < 0) {
-            e.preventDefault();
-
             this.articleScrollBackAmount = Math.max(-1, this.articleScrollBackAmount + scrollBackDelta);
 
             if (this.articleScrollBackAmount >= 0) {
                 this.articleScrollBackAmount = 0;
                 this.articleScrollBackStartTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
             }
-
-            $(this).trigger('scrollBackChanged');
         } else if (this.articleScrollBackAmount > 0) {
-            e.preventDefault();
-
             this.articleScrollBackAmount = Math.min(1, this.articleScrollBackAmount + scrollBackDelta);
 
             if (this.articleScrollBackAmount <= 0) {
                 this.articleScrollBackAmount = 0;
                 this.articleScrollBackStartTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
             }
-
-            $(this).trigger('scrollBackChanged');
         } else {
             // extra wait until existing mouse wheel inertia dies down
             if (this.articleScrollBackStartTime > currentTime) {
@@ -155,26 +147,26 @@ define([
 
             // check for gesture start
             if (scrollTop <= 0 && scrollBackDelta < 0) {
-                e.preventDefault();
-
                 this.articleScrollBackAmount += Math.max(-1, scrollBackDelta);
-
-                $(this).trigger('scrollBackChanged');
             } else if (scrollTop + scrollHeight >= bodyHeight && scrollBackDelta > 0) {
-                e.preventDefault();
-
                 this.articleScrollBackAmount += Math.min(1, scrollBackDelta);
-
-                $(this).trigger('scrollBackChanged');
             } else {
                 // otherwise, prevent acting until mouse wheel inertia dies down
                 this.articleScrollBackStartTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
+                return;
             }
         }
 
-        // @todo this
+        // checking scrollback amount before our event is fired
         if (Math.abs(this.articleScrollBackAmount) === 1) {
-            window.location = '#';
+            $(this).trigger('scrollBackChanged');
+
+            window.location = '#'; // @todo this more elegantly
+        } else {
+            // prevent default only if not reached the end
+            e.preventDefault();
+
+            $(this).trigger('scrollBackChanged');
         }
     };
 
