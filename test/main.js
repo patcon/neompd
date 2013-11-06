@@ -9,7 +9,7 @@ for (var file in window.__karma__.files) {
 }
 
 require.config({
-
+    baseUrl: "/base"
 });
 
 require(tests, function () {
