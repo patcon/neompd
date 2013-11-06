@@ -81,8 +81,8 @@ define([
             this.$content.css({ height: this.app.tileField.height });
             this.$content.empty();
 
-            // compute updated viewport before tiles get notified
-            this.gridViewport = this.computeGridViewport();
+            // restore view to where it should be
+            $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
         }
     };
 
