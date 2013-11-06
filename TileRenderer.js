@@ -41,8 +41,7 @@ define([
         this.renderTile();
 
         $(this.tile).on('moved', this.onMoved.bind(this));
-        $(this.renderer).on('tilesDismissed', this.onTilesDismissed.bind(this));
-        $(this.renderer).on('tilesRestored', this.onTilesRestored.bind(this));
+        $(this.app).on('navigated', this.onNavigated.bind(this));
         $(this.renderer).on('viewport', this.onViewport.bind(this));
     }
 
@@ -56,7 +55,7 @@ define([
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
             tileX = this.tile.x,
             tileY = this.tile.y + verticalOffset,
-            tileTransition = this.isDismissing && this.isDoneDismissing ? false : true;
+            tileTransition = this.isArticleMode ? (this.isDismissing && !this.isDoneDismissing) : this.isRevealed;
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
@@ -110,24 +109,15 @@ define([
         }
     };
 
-    TileRenderer.prototype.onTilesDismissed = function () {
-        if (this.isArticleMode) {
-            throw 'cannot dismiss if already in article mode';
+    TileRenderer.prototype.onNavigated = function () {
+        if (this.isArticleMode && !this.app.currentArticle) {
+            this.isArticleMode = false;
+            this.isRevealed = this.getVisibility();
+        } else if (!this.isArticleMode && this.app.currentArticle) {
+            this.isArticleMode = true;
+            this.initializeArticleModeState();
         }
 
-        this.isArticleMode = true;
-        this.initializeArticleModeState();
-        this.renderTile();
-    };
-
-    TileRenderer.prototype.onTilesRestored = function () {
-        if (!this.isArticleMode) {
-            throw 'cannot restore if not in article mode';
-        }
-
-        this.isArticleMode = false;
-
-        this.isRevealed = this.getVisibility();
         this.renderTile();
     };
 

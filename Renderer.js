@@ -84,8 +84,6 @@ define([
 
                 // clear minimum content height from grid size
                 this.$content.css({ height: '' });
-
-                $(this).trigger('tilesDismissed');
             }
 
             this.app.currentArticle.content.done(function (html) {
@@ -106,8 +104,6 @@ define([
                 // set minimum content height to extend to grid size
                 this.$content.css({ height: this.app.tileField.height });
                 this.$content.empty();
-
-                $(this).trigger('tilesRestored');
             }
         }
     };
