@@ -20,6 +20,7 @@ define([
         this.isDoneDismissing = false;
         this.isBelowMiddle = false;
 
+        this.renderedFixed = null;
         this.renderedTransform = null;
         this.renderedOpacity = null;
         this.renderedTransition = false;
@@ -53,6 +54,7 @@ define([
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
                 0,
 
+            tileFixed = (this.isArticleMode && this.isDismissing),
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
             tileTransform = 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
             tileTransition = this.isArticleMode ? (this.isDismissing && !this.isDoneDismissing) : this.isRevealed;
@@ -61,6 +63,14 @@ define([
         if (this.renderedTransition !== tileTransition) {
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ? '-webkit-transform 1s, opacity 1.5s' : 'none'
+            });
+        }
+
+        if (this.renderedFixed !== tileFixed) {
+            this.$li.css({
+                position: (this.renderedFixed = tileFixed) ? 'fixed' : 'absolute',
+                top: tileFixed ? -this.renderer.gridViewportTop : 0,
+                left: tileFixed ? -this.renderer.gridViewportLeft : 0
             });
         }
 

@@ -21,8 +21,6 @@ define([
 
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
-        this.gridOffsetInArticle = null;
-
         this.app.tileField.doLayout(this.$content.outerWidth());
 
         this.updateGridViewport();
@@ -54,37 +52,22 @@ define([
             scrollHeight = $(window).height(),
             gridOffset = this.$grid.offset();
 
-        if (this.gridOffsetInArticle !== null) {
-            this.$grid.css({
-                top: this.gridOffsetInArticle + scrollTop
-            });
+        if (!this.app.currentArticle) {
+            this.gridViewportLeft = -gridOffset.left; // @todo support horizontal scroll?
+            this.gridViewportTop = scrollTop - gridOffset.top;
+            this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
 
-            return;
+            $(this).trigger('viewport');
         }
-
-        this.gridViewportTop = scrollTop - gridOffset.top;
-        this.gridViewportBottom = scrollTop + scrollHeight - gridOffset.top;
-
-        $(this).trigger('viewport');
     };
 
     Renderer.prototype.updateMode = function () {
-        var articleOffset = this.$content.offset();
-
         if (this.app.currentArticle) {
             console.log('article view');
 
-            if (this.gridOffsetInArticle === null) {
-                this.gridOffsetInArticle = -this.gridViewportTop - articleOffset.top;
-
-                // @todo reset scrolltop to zero, but only if loading a new article
-                this.$grid.css({
-                    top: this.gridOffsetInArticle
-                });
-
-                // clear minimum content height from grid size
-                this.$content.css({ height: '' });
-            }
+            // @todo reset scrolltop to zero, but only if loading a new article
+            // clear minimum content height from grid size
+            this.$content.css({ height: '' });
 
             this.app.currentArticle.content.done(function (html) {
                 this.$content.html(html);
@@ -94,17 +77,9 @@ define([
         } else {
             console.log('tile view');
 
-            if (this.gridOffsetInArticle !== null) {
-                this.gridOffsetInArticle = null;
-
-                this.$grid.css({
-                    top: 0
-                });
-
-                // set minimum content height to extend to grid size
-                this.$content.css({ height: this.app.tileField.height });
-                this.$content.empty();
-            }
+            // set minimum content height to extend to grid size
+            this.$content.css({ height: this.app.tileField.height });
+            this.$content.empty();
         }
     };
 
