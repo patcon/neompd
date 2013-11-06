@@ -20,8 +20,7 @@ define([
         this.isDoneDismissing = false;
         this.isBelowMiddle = false;
 
-        this.renderedX = null;
-        this.renderedY = null;
+        this.renderedTransform = null;
         this.renderedOpacity = null;
         this.renderedTransition = false;
 
@@ -29,7 +28,9 @@ define([
 
         this.$li.css({
             position: 'absolute',
-            opacity: 0
+            opacity: 0,
+            top: 0,
+            left: 0
         });
 
         if (this.isArticleMode) {
@@ -53,21 +54,19 @@ define([
                 0,
 
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
-            tileX = this.tile.x,
-            tileY = this.tile.y + verticalOffset,
+            tileTransform = 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
             tileTransition = this.isArticleMode ? (this.isDismissing && !this.isDoneDismissing) : this.isRevealed;
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
             this.$li.css({
-                transition: (this.renderedTransition = tileTransition) ? 'top 1s, left 1s, opacity 1.5s' : 'none'
+                transition: (this.renderedTransition = tileTransition) ? '-webkit-transform 1s, opacity 1.5s' : 'none'
             });
         }
 
-        if (this.renderedX !== tileX || this.renderedY !== tileY) {
+        if (this.renderedTransform !== tileTransform) {
             this.$li.css({
-                left: this.renderedX = tileX,
-                top: this.renderedY = tileY
+                transform: this.renderedTransform = tileTransform
             });
         }
 
