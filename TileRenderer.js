@@ -137,7 +137,7 @@ define([
             throw 'cannot change viewport in article mode';
         }
 
-        this.isRevealed = this.getVisibility();
+        this.isRevealed = this.isRevealed || this.getVisibility();
         this.renderTile();
     };
 
