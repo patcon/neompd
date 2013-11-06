@@ -10,117 +10,121 @@ define([
         this.tile = tile;
         this.renderer = renderer;
 
-        var $li = $('<li></li>').appendTo(this.renderer.$grid),
-            isRevealed = false,
-            isDismissing = false,
-            isDoneDismissing = false,
-            isBelowMiddle = false,
+        this.$li = $('<li></li>').appendTo(this.renderer.$grid);
+        this.isRevealed = false;
+        this.isDismissing = false;
+        this.isDoneDismissing = false;
+        this.isBelowMiddle = false;
 
-            renderedX = null,
-            renderedY = null,
-            renderedOpacity = null,
-            renderedTransition = false,
+        this.renderedX = null;
+        this.renderedY = null;
+        this.renderedOpacity = null;
+        this.renderedTransition = false;
 
-            renderTile,
-            checkReveal;
+        this.$li.html(this.tile.html);
 
-        $li.html(this.tile.html);
-
-        $li.css({
+        this.$li.css({
             position: 'absolute',
             opacity: 0
         });
 
-        renderTile = function () {
-            var scrollBackAmount = this.app.currentArticle ? this.app.currentArticle.scrollBackAmount : 0,
-                animationAmount = Math.abs(scrollBackAmount),
-                verticalOffset = isDismissing ?
-                    (isBelowMiddle ? 1 : -1) * (isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
-                    0,
+        this.renderTile();
+        this.checkReveal();
 
-                tileOpacity = isRevealed ? 1 : (isDismissing && isDoneDismissing ? animationAmount : 0),
-                tileX = this.tile.x,
-                tileY = this.tile.y + verticalOffset,
-                tileTransition = isDismissing && isDoneDismissing ? false : true;
-
-            // update transitioning first
-            if (renderedTransition !== tileTransition) {
-                $li.css({
-                    transition: (renderedTransition = tileTransition) ? 'top 1s, left 1s, opacity 1.5s' : 'none'
-                });
-            }
-
-            if (renderedX !== tileX || renderedY !== tileY) {
-                $li.css({
-                    left: renderedX = tileX,
-                    top: renderedY = tileY
-                });
-            }
-
-            if (renderedOpacity !== tileOpacity) {
-                $li.css({
-                    opacity: renderedOpacity = tileOpacity
-                });
-            }
-        }.bind(this);
-
-        $(this.tile).on('moved', function () {
-            renderTile();
-            checkReveal();
-        }.bind(this));
-
-        $(this.renderer).on('tilesDismissed', function () {
-            var gridViewportMidpoint;
-
-            if (!isRevealed) {
-                return;
-            }
-
-            isRevealed = false;
-
-            gridViewportMidpoint = (this.renderer.gridViewportTop + this.renderer.gridViewportBottom) * 0.5;
-
-            if (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom) {
-                isDismissing = true;
-                isDoneDismissing = false;
-                isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
-
-                $(this.app.currentArticle).on('scrolledAbove scrolledBelow returnedAbove returnedBelow', function () {
-                    isDoneDismissing = true;
-
-                    renderTile();
-                }.bind(this));
-            } else {
-                isDismissing = false;
-            }
-
-            renderTile();
-        }.bind(this));
-
-        $(this.renderer).on('tilesRestored', function () {
-            isDismissing = false;
-
-            renderTile();
-            checkReveal();
-        }.bind(this));
-
-        checkReveal = function () {
-            if (isRevealed || this.app.currentArticle) {
-                return;
-            }
-
-            if (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom) {
-                isRevealed = true;
-            }
-
-            renderTile();
-        }.bind(this);
-
-        renderTile();
-        checkReveal();
-
-        $(this.renderer).on('viewport', checkReveal);
+        $(this.tile).on('moved', this.onMoved.bind(this));
+        $(this.renderer).on('tilesDismissed', this.onTilesDismissed.bind(this));
+        $(this.renderer).on('tilesRestored', this.onTilesRestored.bind(this));
+        $(this.renderer).on('viewport', this.onViewport.bind(this));
     }
+
+    TileRenderer.prototype.renderTile = function () {
+        var scrollBackAmount = this.app.currentArticle ? this.app.currentArticle.scrollBackAmount : 0,
+            animationAmount = Math.abs(scrollBackAmount),
+            verticalOffset = this.isDismissing ?
+                (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
+                0,
+
+            tileOpacity = this.isRevealed ? 1 : (this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
+            tileX = this.tile.x,
+            tileY = this.tile.y + verticalOffset,
+            tileTransition = this.isDismissing && this.isDoneDismissing ? false : true;
+
+        // update transitioning first
+        if (this.renderedTransition !== tileTransition) {
+            this.$li.css({
+                transition: (this.renderedTransition = tileTransition) ? 'top 1s, left 1s, opacity 1.5s' : 'none'
+            });
+        }
+
+        if (this.renderedX !== tileX || this.renderedY !== tileY) {
+            this.$li.css({
+                left: this.renderedX = tileX,
+                top: this.renderedY = tileY
+            });
+        }
+
+        if (this.renderedOpacity !== tileOpacity) {
+            this.$li.css({
+                opacity: this.renderedOpacity = tileOpacity
+            });
+        }
+    };
+
+    TileRenderer.prototype.checkReveal = function () {
+        if (this.isRevealed || this.app.currentArticle) {
+            return;
+        }
+
+        if (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom) {
+            this.isRevealed = true;
+        }
+
+        this.renderTile();
+    };
+
+    TileRenderer.prototype.onMoved = function () {
+        this.renderTile();
+        this.checkReveal();
+    };
+
+    TileRenderer.prototype.onTilesDismissed = function () {
+        var gridViewportMidpoint;
+
+        if (!this.isRevealed) {
+            return;
+        }
+
+        this.isRevealed = false;
+
+        gridViewportMidpoint = (this.renderer.gridViewportTop + this.renderer.gridViewportBottom) * 0.5;
+
+        if (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom) {
+            this.isDismissing = true;
+            this.isDoneDismissing = false;
+            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
+
+            $(this.app.currentArticle).on('scrolledAbove scrolledBelow returnedAbove returnedBelow', function () {
+                this.isDoneDismissing = true;
+
+                this.renderTile();
+            }.bind(this));
+        } else {
+            this.isDismissing = false;
+        }
+
+        this.renderTile();
+    };
+
+    TileRenderer.prototype.onTilesRestored = function () {
+        this.isDismissing = false;
+
+        this.renderTile();
+        this.checkReveal();
+    };
+
+    TileRenderer.prototype.onViewport = function () {
+        this.checkReveal();
+    };
 
     return TileRenderer;
 });
