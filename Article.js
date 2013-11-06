@@ -47,11 +47,9 @@ define([
             if (this.scrollBackAmount >= 0) {
                 this.scrollBackAmount = 0;
                 this.gestureBlockedUntilTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
-
-                $(this).trigger('returnedAbove');
-            } else {
-                $(this).trigger('scrolledAbove');
             }
+
+            $(this).trigger('scrollBackChanged');
         } else if (this.scrollBackAmount > 0) {
             e.preventDefault();
 
@@ -60,11 +58,9 @@ define([
             if (this.scrollBackAmount <= 0) {
                 this.scrollBackAmount = 0;
                 this.gestureBlockedUntilTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;
-
-                $(this).trigger('returnedBelow');
-            } else {
-                $(this).trigger('scrolledBelow');
             }
+
+            $(this).trigger('scrollBackChanged');
         } else {
             // extra wait until existing mouse wheel inertia dies down
             if (this.gestureBlockedUntilTime > currentTime) {
@@ -78,13 +74,13 @@ define([
 
                 this.scrollBackAmount += Math.max(-1, scrollBackDelta);
 
-                $(this).trigger('scrolledAbove');
+                $(this).trigger('scrollBackChanged');
             } else if (scrollTop + scrollHeight >= bodyHeight && scrollBackDelta > 0) {
                 e.preventDefault();
 
                 this.scrollBackAmount += Math.min(1, scrollBackDelta);
 
-                $(this).trigger('scrolledBelow');
+                $(this).trigger('scrollBackChanged');
             } else {
                 // otherwise, prevent acting until mouse wheel inertia dies down
                 this.gestureBlockedUntilTime = currentTime + MOUSEWHEEL_INERTIA_DELAY;

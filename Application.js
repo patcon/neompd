@@ -15,7 +15,7 @@ define([
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
         if (this.currentArticle) {
-            $(this.currentArticle).on('scrolledAbove scrolledBelow', function () {
+            $(this.currentArticle).on('scrollBackChanged', function () {
                 if (Math.abs(this.currentArticle.scrollBackAmount) === 1) {
                     window.location = '#';
                 }
@@ -48,7 +48,7 @@ define([
         this.currentArticle = slug ? new Article(slug) : null; // @todo this of course
 
         if (this.currentArticle) {
-            $(this.currentArticle).on('scrolledAbove scrolledBelow', function () {
+            $(this.currentArticle).on('scrollBackChanged', function () {
                 if (Math.abs(this.currentArticle.scrollBackAmount) === 1) {
                     window.location = '#';
                 }

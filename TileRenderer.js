@@ -32,7 +32,9 @@ define([
             opacity: 0
         });
 
-        if (!this.isArticleMode) {
+        if (this.isArticleMode) {
+            this.initializeArticleModeState();
+        } else {
             this.isRevealed = this.getVisibility();
         }
 
@@ -81,6 +83,24 @@ define([
         return (this.tile.y + this.tile.height > this.renderer.gridViewportTop && this.tile.y < this.renderer.gridViewportBottom);
     };
 
+    TileRenderer.prototype.initializeArticleModeState = function () {
+        var gridViewportMidpoint = (this.renderer.gridViewportTop + this.renderer.gridViewportBottom) * 0.5;
+
+        if (this.getVisibility()) {
+            this.isDismissing = true;
+            this.isDoneDismissing = false;
+            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
+
+            $(this.app.currentArticle).on('scrollBackChanged', function () {
+                this.isDoneDismissing = true;
+
+                this.renderTile();
+            }.bind(this));
+        } else {
+            this.isDismissing = false;
+        }
+    };
+
     TileRenderer.prototype.onMoved = function () {
         this.renderTile();
 
@@ -91,28 +111,12 @@ define([
     };
 
     TileRenderer.prototype.onTilesDismissed = function () {
-        var gridViewportMidpoint = (this.renderer.gridViewportTop + this.renderer.gridViewportBottom) * 0.5;
-
         if (this.isArticleMode) {
             throw 'cannot dismiss if already in article mode';
         }
 
         this.isArticleMode = true;
-
-        if (this.getVisibility()) {
-            this.isDismissing = true;
-            this.isDoneDismissing = false;
-            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
-
-            $(this.app.currentArticle).on('scrolledAbove scrolledBelow returnedAbove returnedBelow', function () {
-                this.isDoneDismissing = true;
-
-                this.renderTile();
-            }.bind(this));
-        } else {
-            this.isDismissing = false;
-        }
-
+        this.initializeArticleModeState();
         this.renderTile();
     };
 
