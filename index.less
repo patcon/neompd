@@ -90,7 +90,7 @@ a {
     border-radius: 3px;
 
     &.double {
-        width: @column-width * 2 - @column-padding * 2;
+        width: @column-width * 2 + @column-gutter;
     }
 }
 
@@ -137,14 +137,14 @@ a {
     background-color: #2a2a2a;
     letter-spacing: -.1px;
     min-height: 60px;
-    width:240px;
+    width: @column-width - 50px;
     padding:20px 25px;
     border-top-right-radius: 3px;
     border-top-left-radius: 3px;
     text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .tile-grid > li > a.double > header {
-    width:559px;
+    width: @column-width * 2 - 50px;
 }
 .tile-grid > li > a.image > header {
     position: absolute;

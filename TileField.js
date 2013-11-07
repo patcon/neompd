@@ -21,6 +21,8 @@ define([ 'jquery' ], function ($) {
                 height: $li.outerHeight(true),
                 html: tileMap[tileId]
             };
+
+            $li.remove(); // remove immediately to avoid stretching width
         }
 
         $stage.remove();
@@ -31,45 +33,53 @@ define([ 'jquery' ], function ($) {
     }
 
     TileField.prototype.doLayout = function (containerWidth) {
-        var tileId,
+        var tileId, tile,
             originalHeight = this.height,
-            gridMax,
             columns = [],
-            x, i, length, column,
-            targetColumn;
+            colIndex, colWidth, i, top,
+            minColIndex, minTop;
 
-        // todo: what to do when containerWidth < columnWidth -- or don't allow it
-        for (x = 0, gridMax = containerWidth - this.columnWidth; x < gridMax; x += this.columnWidth) {
-            columns.push({
-                x: x,
-                height: 0
-            });
+        containerWidth = Math.max(this.columnWidth, containerWidth); // minimum one column
+        while (containerWidth >= this.columnWidth) {
+            containerWidth -= this.columnWidth;
+            columns.push(0);
         }
 
         // todo: bail out if # columns hasn't changed? -- but needs knowledge of why doLayout is triggered
 
         for (tileId in this.tileMap) {
-            targetColumn = null;
+            tile = this.tileMap[tileId];
+            colWidth = Math.ceil(tile.width / this.columnWidth);
 
-            for (i = 0, length = columns.length; i < length; i++) {
-                column = columns[i];
+            minColIndex = 0;
+            minTop = Number.POSITIVE_INFINITY;
 
-                if ((!targetColumn || column.height < targetColumn.height) && 1) {
-                    targetColumn = column;
+            for (colIndex = 0; colIndex <= columns.length - colWidth; colIndex += 1) {
+                top = 0;
+
+                for (i = 0; i < colWidth; i += 1) {
+                    top = Math.max(top, columns[colIndex + i]);
+                }
+
+                if (top < minTop) {
+                    minColIndex = colIndex;
+                    minTop = top;
                 }
             }
 
-            this.setTilePosition(tileId, targetColumn.x, targetColumn.height);
+            for (i = 0; i < colWidth; i += 1) {
+                columns[minColIndex + i] = minTop + tile.height;
+            }
 
-            targetColumn.height += this.tileMap[tileId].height;
+            this.setTilePosition(tileId, minColIndex * this.columnWidth, minTop);
+
+            console.log(columns, colWidth, tile.width)
         }
 
         // sort columns by height and use tallest as total field height
-        columns.sort(function (a, b) {
-            return b.height - a.height; // descending order
-        });
+        columns.sort();
 
-        this.height = columns[0].height;
+        this.height = columns[columns.length - 1];
 
         if (this.height !== originalHeight) {
             $(this).trigger('changed');
