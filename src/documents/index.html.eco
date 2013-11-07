@@ -31,10 +31,10 @@
     <ul id="data">
 		<% for post in @getCollection("posts").toJSON(): %>
             <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
-			<% if post.tilestyle: %>
-				<% if post.tilestyle is "employee": %>
-					<li>
-                        <a class="people" href="<%= post.hash %>">
+            <li>
+    			<% if post.tilestyle: %>
+    				<% if post.tilestyle is "employee": %>
+                        <a data-tag="<%= post.tag %>" class="people" href="<%= post.hash %>">
 				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
@@ -44,10 +44,8 @@
 			                <p class="name"><%= post.name %></p>
 			                <p class="role"><%= post.role %></p>
 			            </a>
-			        </li>
-				<% else: %>
-					<li>
-						<a class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
+    				<% else: %>
+						<a data-tag="<%= post.tag %>" class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
 			            	<header class="<%= post.color %>">
 				            	<span><%= post.header %></span>
 						    </header>
@@ -56,11 +54,9 @@
 			                <span class="author"><%= post.author %></span>
 							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 			            </a>
-			        </li>
-			    <% end %>
-	        <% else: %>
-	        	<li>
-		        	<a class="<%= post.tag %>" href="<%= post.hash %>">
+    			    <% end %>
+    	        <% else: %>
+		        	<a data-tag="<%= post.tag %>" class="<%= post.tag %>" href="<%= post.hash %>">
 		            	<header class="<%= post.color %>">
 		            		<span><%= post.header %></span>
 		            	</header>
@@ -68,8 +64,8 @@
 		                <span class="author"><%= post.author %></span>
 						<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 		            </a>
-		        </li>
-	        <% end %>
+	            <% end %>
+            </li>
 	    <% end %>
 	</ul>
 

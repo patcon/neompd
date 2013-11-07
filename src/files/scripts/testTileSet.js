@@ -9,7 +9,10 @@ define(['jquery'], function ($) {
     $("#data li").each(function () {
         var $li = $(this);
 
-        articleMap[id++] = $li.html();
+        articleMap[id++] = {
+            tag: $li.children('a').attr('data-tag'),
+            html: $li.html()
+        };
     });
 
     return articleMap;

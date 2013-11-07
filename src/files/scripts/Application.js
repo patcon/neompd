@@ -8,18 +8,15 @@ define([
     'use strict';
 
     function Application(articles) {
-        var hash = window.location.hash,
-            slug = getSlug(hash); // @todo determine slug from hash
+        var slug = getSlug(window.location.hash);
 
         this.currentTag = null; // null is homepage, otherwise tag ID
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
-        this.articles = articles;
-
         this.tileField = new TileField(articles);
 
         // @todo this needs proper implementation
-        window.addEventListener("hashchange", this.onHashChange.bind(this), false);
+        window.addEventListener('hashchange', this.onHashChange.bind(this), false);
 
         this.onHashChange();
     }
@@ -30,8 +27,7 @@ define([
     }
 
     Application.prototype.onHashChange = function () {
-        var hash = window.location.hash,
-            slug = getSlug(hash);
+        var slug = getSlug(window.location.hash);
 
         if (this.currentArticle) {
             this.currentArticle.destroy();

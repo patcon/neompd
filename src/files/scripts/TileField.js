@@ -1,8 +1,9 @@
 define([ 'jquery' ], function ($) {
     'use strict';
 
-    function TileField(tileMap) {
+    function TileField(tileDataMap) {
         var tileId,
+            tileData,
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
@@ -11,16 +12,18 @@ define([ 'jquery' ], function ($) {
         this.columnCount = null;
         this.columnWidth = Number.MAX_VALUE;
 
-        for (tileId in tileMap) {
+        for (tileId in tileDataMap) {
+            tileData = tileDataMap[tileId];
+
             $li = $('<li></li>').appendTo($stage);
-            $li.html(tileMap[tileId]);
+            $li.html(tileData.html);
 
             this.tileMap[tileId] = {
                 x: 0,
                 y: 0,
                 width: $li.outerWidth(true),
                 height: $li.outerHeight(true),
-                html: tileMap[tileId]
+                html: tileData.html
             };
 
             $li.remove(); // remove immediately to avoid stretching width
