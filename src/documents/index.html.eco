@@ -49,11 +49,7 @@
 					<li>
 						<a class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
 			            	<header class="<%= post.color %>">
-			            		<% if post.tilestyle is "image": %>
-				            		<span class="smalltitle"><%= post.header %></span>
-			            		<% else: %>
 				            	<span><%= post.header %></span>
-				            	<% end %>
 						    </header>
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
