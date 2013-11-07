@@ -8,6 +8,7 @@ define([ 'jquery' ], function ($) {
 
         this.tileMap = {};
         this.height = 0;
+        this.columnCount = null;
         this.columnWidth = Number.MAX_VALUE;
 
         for (tileId in tileMap) {
@@ -45,7 +46,10 @@ define([ 'jquery' ], function ($) {
             columns.push(0);
         }
 
-        // todo: bail out if # columns hasn't changed? -- but needs knowledge of why doLayout is triggered
+        // avoid relayout if same number of columns
+        if (this.columnCount === columns.length) {
+            return;
+        }
 
         for (tileId in this.tileMap) {
             tile = this.tileMap[tileId];
@@ -72,13 +76,12 @@ define([ 'jquery' ], function ($) {
             }
 
             this.setTilePosition(tileId, minColIndex * this.columnWidth, minTop);
-
-            console.log(columns, colWidth, tile.width)
         }
 
         // sort columns by height and use tallest as total field height
         columns.sort();
 
+        this.columnCount = columns.length;
         this.height = columns[columns.length - 1];
 
         if (this.height !== originalHeight) {
@@ -95,7 +98,7 @@ define([ 'jquery' ], function ($) {
 
             $(tile).trigger('moved');
         }
-    }
+    };
 
     return TileField;
 });
