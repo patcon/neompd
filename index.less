@@ -145,6 +145,10 @@ a {
 .tile-grid > li > a.double > header {
     width: @column-width * 2 - 20px * 2;
 }
+
+.tile-grid > li > a.double > img {
+    height: 399px;
+}
 .tile-grid > li > a.image > header {
     overflow: hidden;
     padding-top: 5px;
@@ -155,6 +159,9 @@ a {
 }
 .tile-grid > li > a.image.double > header {
     font-size: 50px;
+    padding-top: 7px;
+    height: 399px - 7px;
+    margin-bottom: -399px;
 
     > span {
         padding: 12px 0;
