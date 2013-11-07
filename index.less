@@ -1,7 +1,7 @@
 @column-gutter: 20px;
 @column-width: 290px;
 @column-padding: 0px;
-@menu-width: 120px;
+@menu-width: 178px;
 
 @font-face {
     font-family: TradeGothic;
@@ -50,16 +50,8 @@ a {
     &:hover { text-decoration: underline; }
 }
 
-#menu {
-    position: fixed;
-    background: #bdc3c7;
-    height: 100%;
-    width: @menu-width;
-    padding: 10px;
-}
-
 #content {
-    margin-left: @menu-width + 20px;
+    margin-left: @menu-width;
     min-height: 100%;
     padding: 10px;
 }
@@ -195,4 +187,61 @@ a {
     width:auto;
     padding: 20px 0px 15px 20px;
     font-size: 10px;
+}
+
+#menu {
+    position:fixed;
+    height:100%;
+    width: @menu-width;
+    z-index: 2;
+    font-family:TradeGothic;
+    text-transform: uppercase;
+    background:#2a2a2a url(src/files/images/logo.jpg) 37px 23px no-repeat;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+}
+#menu > ul {
+    position: absolute;
+    top:166px;
+
+    list-style-type:none;
+    font-size: 13px;
+
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+}
+#menu > ul > li {
+    display: inline-block;
+    margin: 15px 27px 0;
+}
+#menu > ul > li > a {
+    display: block;
+    padding: 11px 14px 5px;
+    border-radius: 4px;
+
+    max-width: 100%;
+
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    background: #414141;
+    color: #fff;
+    text-shadow:0 1px 1px rgba(0,0,0,0.3);
+
+    -webkit-transform:translateZ(0);
+    -webkit-transition-duration:0.2s;
+    -webkit-transition-property:-webkit-transform, background-color;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration:0.2s;
+    -moz-transition-property:-moz-transform, background-color;
+    -moz-transition-timing-function: ease-out;
+
+    &:hover {
+        background:#29d09a;
+        text-decoration: none;
+    }
+}
+#menu > ul > li:active {
+    -webkit-transform: translateZ(0) scale(1.075);
+    -moz-transform: translateZ(0) scale(1.075);
 }
