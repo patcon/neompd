@@ -82,12 +82,19 @@ a {
     display: block;
     padding: @column-padding;
 
+    overflow: hidden;
+
     font-family: Plantin;
+    font-size:14px;
 
     background:#fff url(src/documents/images/footer-news.jpg) no-repeat 98% 99%;
     background-size: 40px 35px;
     box-shadow: 0 1px 1px rgba(0,0,0,0.1);
     border-radius: 3px;
+
+    &:hover {
+        text-decoration: none;
+    }
 
     &.double {
         width: @column-width * 2 + @column-gutter;
@@ -113,62 +120,52 @@ a {
     background-image: url(src/documents/images/footer-culture.jpg)
 }
 
-.tile-grid > li > a > header, .tile-grid > li >  a > img, .tile-grid > li >  a > p, .tile-grid > li > a > span {
-    display: inline-block;
-    font-size:14px;
-    margin:0;
+.tile-grid > li >  a > p {
+    display: block;
     padding:20px;
 }
 
-.tile-grid > li >  a > p {
-    display: block;
-}
-
 .tile-grid > li >  a > img {
+    display: block;
     padding:0;
     width:100%;
     height: 193px;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
 }
 .tile-grid > li > a > header {
+    position: relative;
+    z-index: 1;
     font-size:24px;
     color:#fff;
     background-color: #2a2a2a;
     letter-spacing: -.1px;
-    min-height: 60px;
-    width: @column-width - 50px;
-    padding:20px 25px;
-    border-top-right-radius: 3px;
-    border-top-left-radius: 3px;
+    width: @column-width - 20px * 2;
+    padding:20px 20px;
     text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .tile-grid > li > a.double > header {
-    width: @column-width * 2 - 50px;
+    width: @column-width * 2 - 20px * 2;
 }
 .tile-grid > li > a.image > header {
-    position: absolute;
+    overflow: hidden;
+    padding-top: 5px;
+    padding-bottom: 0;
+    height: 193px - 5px;
+    margin-bottom: -193px;
     background: none;
-    padding: 0;
 }
-.tile-grid > li > a.image.double > a > header > span {
+.tile-grid > li > a.image.double > header {
     font-size: 50px;
-    border-top-left-radius: 3px;
+
+    > span {
+        padding: 12px 0;
+    }
 }
 .tile-grid > li > a.image > header > span {
     background-color: #2a2a2a;
     box-shadow: 20px 0 0 #2a2a2a,-20px 0 0 #2a2a2a;
-    padding: 12px 0;
-    left: 20px;
-    top: 7px;
-    position: relative;
-    border-top-left-radius: 3px;
+    padding: 7px 0 2px 0;
 }
 
-.tile-grid > li > a.image > header > .smalltitle {
-    padding: 7px 0 2px 0;
-    top: 5px;
-}
 .tile-grid > li > a > .orange {
     background-color:#ee5b33;
 }
@@ -184,11 +181,11 @@ a {
     padding: 25px;
 }
 .tile-grid > li > a > span {
+    display: inline-block;
     font-family: TradeGothic;
     text-transform: uppercase;
     color:#bbb;
     width:auto;
-    padding-right: 0;
-    padding-bottom: 15px;
+    padding: 20px 0px 15px 20px;
     font-size: 10px;
 }
