@@ -131,6 +131,7 @@ a {
     width:100%;
     height: 193px;
 }
+
 .tile-grid > li > a > header {
     position: relative;
     z-index: 1;
@@ -142,6 +143,41 @@ a {
     padding:20px 20px;
     text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
 }
+
+.tile-grid > li > a.people > img {
+    position: relative;
+    z-index: 2;
+    margin-top: -50px;
+    margin-left: 100px;
+    width: 80px;
+    height: 80px;
+    border-radius: 45px;
+    border: 5px solid white;
+}
+
+.tile-grid > li > a.people > header {
+        padding:34px 25px 70px;
+}
+
+.tile-grid > li > a.people > header > span {
+        font-weight: bold;
+        text-shadow: none;
+}
+
+.tile-grid > li > a.people > p.name {
+        font-family: TradeGothicB;
+        padding: 18px 0 0 0;
+        text-align: center;
+        font-size: 21px;
+}
+.tile-grid > li > a.people > p.role {
+        text-align: center;
+        padding: 5px 0 31px;
+        color: #bbb;
+        font-family: TradeGothic;
+        font-size: 15px;
+}
+
 .tile-grid > li > a.double > header {
     width: @column-width * 2 - 20px * 2;
 }
@@ -255,3 +291,4 @@ a {
 }
 
 @import 'post.css.less';
+@import 'employee.css.less';

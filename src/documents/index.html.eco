@@ -33,9 +33,8 @@
             <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
 			<% if post.tilestyle: %>
 				<% if post.tilestyle is "employee": %>
-					<!--
-                    <li>
-                        <a class="people <%= post.tilestyle %>" href="<%= post.hash %>">
+					<li>
+                        <a class="people" href="<%= post.hash %>">
 				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
@@ -46,7 +45,6 @@
 			                <p class="role"><%= post.role %></p>
 			            </a>
 			        </li>
-                    -->
 				<% else: %>
 					<li>
 						<a class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
