@@ -21,7 +21,10 @@ define([
             position: 'relative'
         });
 
-        this.$content = $('<div class="article"></div>').appendTo('#content');
+        this.$content = $('<div class="article"></div>').appendTo('#content').css({
+            transform: 'translateZ(0)',
+            opacity: 0
+        });
 
         this.app.tileField.doLayout(this.$grid.outerWidth());
 
@@ -48,6 +51,8 @@ define([
         $(this.app).on('navigated', function () {
             this.updateMode();
         }.bind(this));
+
+        $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -77,7 +82,11 @@ define([
 
             // @todo reset scrolltop to zero, but only if loading a new article
             // clear minimum content height from grid size
-            this.$content.css({ height: '' });
+            this.$content.css({
+                height: '',
+                transition: 'opacity 0.5s',
+                opacity: 1
+            });
 
             this.app.currentArticle.content.done(function (html) {
                 this.$content.html(html);
@@ -91,8 +100,11 @@ define([
             console.log('tile view');
 
             // set minimum content height to extend to grid size
-            this.$content.css({ height: this.app.tileField.height });
-            this.$content.empty();
+            this.$content.css({
+                height: this.app.tileField.height,
+                transition: 'opacity 0.5s',
+                opacity: 0
+            });
 
             // restore view to where it should be
             $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
@@ -114,6 +126,13 @@ define([
     Renderer.prototype.onResize = function () {
         this.app.tileField.doLayout(this.$grid.outerWidth());
     };
+
+    Renderer.prototype.onScrollBackChanged = function (e) {
+        this.$content.css({
+            transition: 'none',
+            opacity: 1 - Math.abs(this.articleScrollBackAmount)
+        });
+    }
 
     Renderer.prototype.onMouseWheel = function (e) {
         var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.003, // hardware delta is more than pixel speed

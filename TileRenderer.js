@@ -53,7 +53,7 @@ define([
         var animationAmount = Math.abs(this.renderer.articleScrollBackAmount),
             verticalOffset = (this.isArticleMode && this.isDismissing) ?
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
-                0,
+                (!this.isArticleMode && !this.isRevealed ? 200 : 0),
 
             tileNoEvents = !(!this.isArticleMode && this.isRevealed),
             tileFixed = (this.isArticleMode && this.isDismissing),
