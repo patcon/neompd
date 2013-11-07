@@ -51,7 +51,6 @@ a {
 }
 
 #content {
-    margin-left: @menu-width;
     min-height: 100%;
     padding: 10px;
 }
@@ -63,10 +62,16 @@ a {
 .tile-grid {
     list-style-type: none;
 
+    margin-left: @menu-width;
+
     li {
         margin: @column-gutter / 2;
         overflow: hidden;
     }
+}
+
+.article {
+    margin: -10px;
 }
 
 .tile-grid > li > a {
@@ -245,3 +250,5 @@ a {
     -webkit-transform: translateZ(0) scale(1.075);
     -moz-transform: translateZ(0) scale(1.075);
 }
+
+@import 'src/documents/styles/post.css.less';

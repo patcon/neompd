@@ -23,7 +23,7 @@ define([
 
         this.$content = $('<div class="article"></div>').appendTo('#content');
 
-        this.app.tileField.doLayout(this.$content.outerWidth());
+        this.app.tileField.doLayout(this.$grid.outerWidth());
 
         this.gridViewport = this.computeGridViewport();
 
@@ -109,7 +109,7 @@ define([
     };
 
     Renderer.prototype.onResize = function () {
-        this.app.tileField.doLayout(this.$content.outerWidth());
+        this.app.tileField.doLayout(this.$grid.outerWidth());
     };
 
     Renderer.prototype.onMouseWheel = function (e) {
