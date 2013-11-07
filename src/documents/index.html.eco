@@ -12,7 +12,7 @@
 	<nav id="menu">
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
-				<li><a href="#"><%= tag.label %></a></li>
+				<li><a href="#tags/<%= tag.name.split('.')[0] %>"><%= tag.label %></a></li>
 			<% end %>
 		</ul>
 		<!--footer class="adr">
@@ -34,7 +34,7 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tag="<%= post.tag %>" class="people" href="<%= post.hash %>">
+                        <a data-tag="<%= post.tag.toLowerCase().split(', ')[0] %>" class="people" href="<%= post.hash %>">
 				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>

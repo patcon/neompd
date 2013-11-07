@@ -7,9 +7,11 @@ define([ 'jquery' ], function ($) {
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
+        this.filterTag = null;
+        this.columnCount = null;
+
         this.tileMap = {};
         this.height = 0;
-        this.columnCount = null;
         this.columnWidth = Number.MAX_VALUE;
 
         for (tileId in tileDataMap) {
@@ -23,6 +25,7 @@ define([ 'jquery' ], function ($) {
                 y: 0,
                 width: $li.outerWidth(true),
                 height: $li.outerHeight(true),
+                tag: tileData.tag,
                 html: tileData.html
             };
 
@@ -36,8 +39,16 @@ define([ 'jquery' ], function ($) {
         }
     }
 
+    TileField.prototype.setFilterTag = function (tag) {
+        // avoid relayout if same filter
+        if (this.filterTag !== tag) {
+            this.filterTag = tag;
+            this.performLayout();
+        }
+    };
+
     TileField.prototype.setContainerWidth = function (containerWidth) {
-        var columnCount = Math.min(1, Math.floor(containerWidth / this.columnWidth));
+        var columnCount = Math.max(1, Math.floor(containerWidth / this.columnWidth));
 
         // avoid relayout if same number of columns
         if (this.columnCount !== columnCount) {
@@ -53,12 +64,24 @@ define([ 'jquery' ], function ($) {
             colIndex, colWidth, i, top,
             minColIndex, minTop;
 
-        for (i = 0; i < this.currentColumnCount; i += 1) {
+        // ignore layout if width is unknown
+        if (this.columnCount === null) {
+            return;
+        }
+
+        for (i = 0; i < this.columnCount; i += 1) {
             columns.push(0);
         }
 
         for (tileId in this.tileMap) {
             tile = this.tileMap[tileId];
+
+            if (this.filterTag !== null && tile.tag !== this.filterTag) {
+                this.setTilePosition(tileId, null, null);
+
+                continue;
+            }
+
             colWidth = Math.ceil(tile.width / this.columnWidth);
 
             minColIndex = 0;

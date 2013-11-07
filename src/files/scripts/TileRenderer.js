@@ -26,6 +26,8 @@ define([
         this.renderedTransition = false;
         this.renderedNoEvents = false;
 
+        this.lastPositionTransform = null;
+
         this.$li.html(this.tile.html);
 
         this.$li.css({
@@ -56,11 +58,20 @@ define([
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
                 (!this.isArticleMode && !this.isRevealed ? 200 : 0),
 
-            tileNoEvents = !(!this.isArticleMode && this.isRevealed),
+            positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
+
+            tileNoEvents = !(!this.isArticleMode && this.isRevealed) || (this.tile.x === null),
             tileFixed = (this.isArticleMode && this.isDismissing),
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
-            tileTransform = 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
+            tileTransform = positionTransform === null ?
+                this.lastPositionTransform + ' scale(0.001)' :
+                positionTransform,
             tileTransition = this.isArticleMode ? (this.isDismissing && !this.isDoneDismissing) : this.isRevealed;
+
+        // remember last known position
+        if (positionTransform !== null) {
+            this.lastPositionTransform = positionTransform;
+        }
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
