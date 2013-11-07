@@ -5,7 +5,7 @@ define([
 ], function ($) {
     'use strict';
 
-    var CONTENT_URL_PREFIX = '/out/posts/',
+    var CONTENT_URL_PREFIX = '/posts/',
         CONTENT_URL_SUFFIX = '.html';
 
     function Article(slug) {
