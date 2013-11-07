@@ -33,7 +33,11 @@ define([
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0; // [-1..1], negative is on top, positive on bottom
 
-        this.updateMode();
+        if (this.app.currentArticle) {
+            this.initializeArticleMode();
+        } else {
+            this.initializeTileMode();
+        }
 
         this.$content.css({ height: this.app.tileField.height });
 
@@ -42,15 +46,8 @@ define([
         $(window).on('scroll', this.onScroll.bind(this));
         $(window).on('mousewheel', this.onMouseWheel.bind(this));
 
-        $(this.app.tileField).on('changed', function () {
-            if (!this.app.currentArticle) {
-                this.$content.css({ height: this.app.tileField.height });
-            }
-        }.bind(this));
-
-        $(this.app).on('navigated', function () {
-            this.updateMode();
-        }.bind(this));
+        $(this.app).on('navigated', this.onNavigated.bind(this));
+        $(this.app.tileField).on('changed', this.onTileFieldChanged.bind(this));
 
         $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
@@ -73,42 +70,42 @@ define([
         };
     };
 
-    Renderer.prototype.updateMode = function () {
-        if (this.app.currentArticle) {
-            console.log('article view');
+    Renderer.prototype.initializeTileMode = function () {
+        console.log('tile view');
 
-            this.articleScrollBackStartTime = 0;
-            this.articleScrollBackAmount = 0;
+        // set minimum content height to extend to grid size
+        this.$content.css({
+            height: this.app.tileField.height,
+            transition: 'opacity 0.5s',
+            opacity: 0
+        });
 
-            // @todo reset scrolltop to zero, but only if loading a new article
-            // clear minimum content height from grid size
-            this.$content.css({
-                height: '',
-                transition: 'opacity 0.5s',
-                opacity: 1
-            });
+        // restore view to where it should be
+        $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
+    };
 
-            this.app.currentArticle.content.done(function (html) {
-                this.$content.html(html);
-            }.bind(this));
+    Renderer.prototype.initializeArticleMode = function () {
+        console.log('article view');
 
-            // reset view top
-            $(window).scrollTop(0);
+        this.articleScrollBackStartTime = 0;
+        this.articleScrollBackAmount = 0;
 
-            $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
-        } else {
-            console.log('tile view');
+        // @todo reset scrolltop to zero, but only if loading a new article
+        // clear minimum content height from grid size
+        this.$content.css({
+            height: '',
+            transition: 'opacity 0.5s',
+            opacity: 1
+        });
 
-            // set minimum content height to extend to grid size
-            this.$content.css({
-                height: this.app.tileField.height,
-                transition: 'opacity 0.5s',
-                opacity: 0
-            });
+        this.app.currentArticle.content.done(function (html) {
+            this.$content.html(html);
+        }.bind(this));
 
-            // restore view to where it should be
-            $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
-        }
+        // reset view top
+        $(window).scrollTop(0);
+
+        $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
@@ -133,6 +130,20 @@ define([
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
         });
     }
+
+    Renderer.prototype.onTileFieldChanged = function () {
+        if (!this.app.currentArticle) {
+            this.$content.css({ height: this.app.tileField.height });
+        }
+    };
+
+    Renderer.prototype.onNavigated = function () {
+        if (this.app.currentArticle) {
+            this.initializeArticleMode();
+        } else {
+            this.initializeTileMode();
+        }
+    };
 
     Renderer.prototype.onMouseWheel = function (e) {
         var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.003, // hardware delta is more than pixel speed
