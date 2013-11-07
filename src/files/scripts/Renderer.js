@@ -79,7 +79,7 @@ define([
             opacity: 0
         });
 
-        this.app.tileField.doLayout(this.$grid.outerWidth());
+        this.app.tileField.setContainerWidth(this.$grid.outerWidth());
 
         this.gridViewport = this.computeGridViewport();
 
@@ -174,7 +174,7 @@ define([
     };
 
     Renderer.prototype.onResize = function () {
-        this.app.tileField.doLayout(this.$grid.outerWidth());
+        this.app.tileField.setContainerWidth(this.$grid.outerWidth());
     };
 
     Renderer.prototype.onScrollBackChanged = function (e) {

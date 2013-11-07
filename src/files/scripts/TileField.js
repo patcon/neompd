@@ -36,22 +36,25 @@ define([ 'jquery' ], function ($) {
         }
     }
 
-    TileField.prototype.doLayout = function (containerWidth) {
+    TileField.prototype.setContainerWidth = function (containerWidth) {
+        var columnCount = Math.min(1, Math.floor(containerWidth / this.columnWidth));
+
+        // avoid relayout if same number of columns
+        if (this.columnCount !== columnCount) {
+            this.columnCount = columnCount;
+            this.performLayout();
+        }
+    };
+
+    TileField.prototype.performLayout = function (containerWidth) {
         var tileId, tile,
             originalHeight = this.height,
             columns = [],
             colIndex, colWidth, i, top,
             minColIndex, minTop;
 
-        containerWidth = Math.max(this.columnWidth, containerWidth); // minimum one column
-        while (containerWidth >= this.columnWidth) {
-            containerWidth -= this.columnWidth;
+        for (i = 0; i < this.currentColumnCount; i += 1) {
             columns.push(0);
-        }
-
-        // avoid relayout if same number of columns
-        if (this.columnCount === columns.length) {
-            return;
         }
 
         for (tileId in this.tileMap) {
