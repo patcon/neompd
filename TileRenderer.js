@@ -38,6 +38,7 @@ define([
         if (this.isArticleMode) {
             this.initializeArticleModeState();
         } else {
+            // immediate reveal
             this.isRevealed = this.getVisibility();
         }
 
@@ -99,8 +100,49 @@ define([
         return (this.tile.y + this.tile.height > this.renderer.gridViewport.top && this.tile.y < this.renderer.gridViewport.bottom);
     };
 
+    TileRenderer.prototype.requestPendingReveal = function () {
+        if (this.incompleteRevealCallback) {
+            return;
+        }
+
+        // ask for delayed reveal
+        this.incompleteRevealCallback = function () {
+            // mark as invoked
+            this.incompleteRevealCallback = null;
+
+            // fail-fast check for missed cleanup
+            if (this.isArticleMode || this.isRevealed) {
+                throw 'cannot reveal';
+            }
+
+            this.isRevealed = true;
+            this.renderTile();
+        }.bind(this);
+
+        this.renderer.queue.add(this.incompleteRevealCallback);
+    };
+
+    TileRenderer.prototype.cancelPendingReveal = function () {
+        // fail-fast check for missed cleanup
+        if (this.isArticleMode || this.isRevealed) {
+            throw 'cannot cancel reveal';
+        }
+
+        if (!this.incompleteRevealCallback) {
+            return;
+        }
+
+        // cancel delayed reveal
+        this.renderer.queue.remove(this.incompleteRevealCallback);
+        this.incompleteRevealCallback = null;
+    };
+
     TileRenderer.prototype.initializeArticleModeState = function () {
         var gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
+
+        if (!this.isRevealed) {
+            this.cancelPendingReveal();
+        }
 
         if (this.getVisibility()) {
             this.isDismissing = true;
@@ -114,9 +156,12 @@ define([
     TileRenderer.prototype.onMoved = function () {
         this.renderTile();
 
-        if (!this.isArticleMode) {
-            this.isRevealed = this.getVisibility();
-            this.renderTile();
+        if (!this.isArticleMode && !this.isRevealed) {
+            if (this.getVisibility()) {
+                this.requestPendingReveal();
+            } else {
+                this.cancelPendingReveal();
+            }
         }
     };
 
@@ -137,8 +182,13 @@ define([
             throw 'cannot change viewport in article mode';
         }
 
-        this.isRevealed = this.isRevealed || this.getVisibility();
-        this.renderTile();
+        if (!this.isRevealed) {
+            if (this.getVisibility()) {
+                this.requestPendingReveal();
+            } else {
+                this.cancelPendingReveal();
+            }
+        }
     };
 
     TileRenderer.prototype.onScrollBackChanged = function () {

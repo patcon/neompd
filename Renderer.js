@@ -8,10 +8,63 @@ define([
 
     var MOUSEWHEEL_INERTIA_DELAY = 100;
 
+    function RenderDelayQueue() {
+        var paintWaitId, paintFrameId;
+
+        this.actionList = [];
+
+        this.start = function () {
+            if (paintWaitId || paintFrameId) {
+                return;
+            }
+
+            paintFrameId = window.requestAnimationFrame(function () {
+                var actionCallback;
+
+                // signal we are no longer waiting for frame
+                paintFrameId = null;
+
+                if (this.actionList.length < 1) {
+                    return;
+                }
+
+                paintWaitId = window.setTimeout(function () {
+                    paintWaitId = null; // signal we are no longer waiting for another frame
+                    this.start();
+                }.bind(this), 50);
+
+                // perform last in case an exception happens
+                actionCallback = this.actionList.shift();
+                actionCallback();
+            }.bind(this));
+        }.bind(this);
+    }
+
+    RenderDelayQueue.prototype.add = function (callback) {
+        this.actionList.push(callback);
+        this.start();
+    };
+
+    RenderDelayQueue.prototype.remove = function (callback) {
+        var i, length = this.actionList.length;
+
+        for (i = 0; i < length; i++) {
+            if (this.actionList[i] === callback) {
+                this.actionList.splice(i, 1);
+                return;
+            }
+        }
+
+        // fail fast to help catch bad code
+        throw 'render callback not found';
+    };
+
     function Renderer(app) {
         var tileId;
 
         this.app = app;
+
+        this.queue = new RenderDelayQueue();
 
         $('#content').css({
             overflow: 'hidden'
