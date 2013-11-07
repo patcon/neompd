@@ -140,10 +140,6 @@ define([
     TileRenderer.prototype.initializeArticleModeState = function () {
         var gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
 
-        if (!this.isRevealed) {
-            this.cancelPendingReveal();
-        }
-
         if (this.getVisibility()) {
             this.isDismissing = true;
             this.isDoneDismissing = false;
@@ -170,6 +166,10 @@ define([
             this.isArticleMode = false;
             this.isRevealed = this.getVisibility();
         } else if (!this.isArticleMode && this.app.currentArticle) {
+            if (!this.isRevealed) {
+                this.cancelPendingReveal();
+            }
+
             this.isArticleMode = true;
             this.initializeArticleModeState();
         }
