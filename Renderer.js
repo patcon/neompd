@@ -83,6 +83,9 @@ define([
                 this.$content.html(html);
             }.bind(this));
 
+            // reset view top
+            $(window).scrollTop(0);
+
             $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
         } else {
             console.log('tile view');
