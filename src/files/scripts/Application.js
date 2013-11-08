@@ -31,7 +31,7 @@ define([
         }
 
         // @todo this needs proper implementation
-        window.addEventListener('hashchange', this.onHashChange.bind(this), false);
+        $(window).on('hashchange', this.onHashChange.bind(this));
 
         this.onHashChange();
     }
