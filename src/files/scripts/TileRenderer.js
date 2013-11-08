@@ -64,7 +64,7 @@ define([
             tileFixed = (this.isArticleMode && this.isDismissing),
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
             tileTransform = positionTransform === null ?
-                this.lastPositionTransform + ' scale(0.001)' :
+                (this.lastPositionTransform || 'translate3d(0,0,0)') + ' scale(0.001)' :
                 positionTransform,
             tileTransition = this.isArticleMode ? (this.isDismissing && !this.isDoneDismissing) : this.isRevealed;
 
