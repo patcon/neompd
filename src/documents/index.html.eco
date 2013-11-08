@@ -3,7 +3,17 @@
 <head>
 	<meta charset="utf-8">
 	<title>Myplanet Digital</title>
-
+    <!--[if IE 8]>
+    <script>
+        document.createElement('header');
+        document.createElement('nav');
+        document.createElement('menu');
+        document.createElement('section');
+        document.createElement('article');
+        document.createElement('aside');
+        document.createElement('footer');
+    </script>
+    <![endif]-->
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/index.css">
 </head>
