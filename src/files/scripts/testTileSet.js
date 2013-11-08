@@ -7,10 +7,17 @@ define(['jquery'], function ($) {
         id = 0;
 
     $("#data li").each(function () {
-        var $li = $(this);
+        var $li = $(this),
+            tags;
+
+        try {
+            tags = JSON.parse($li.children('a').attr('data-tags'));
+        } catch (e) {
+            tags = [];
+        }
 
         articleMap[id++] = {
-            tag: $li.children('a').attr('data-tag'),
+            tags: tags,
             html: $li.html()
         };
     });

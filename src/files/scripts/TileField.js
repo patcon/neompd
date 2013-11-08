@@ -4,6 +4,8 @@ define([ 'jquery' ], function ($) {
     function TileField(tileDataMap) {
         var tileId,
             tileData,
+            tileTagSet,
+            i,
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
 
@@ -20,12 +22,17 @@ define([ 'jquery' ], function ($) {
             $li = $('<li></li>').appendTo($stage);
             $li.html(tileData.html);
 
+            tileTagSet = {};
+            for (i = 0; i < tileData.tags.length; i++) {
+                tileTagSet[tileData.tags[i]] = true;
+            }
+
             this.tileMap[tileId] = {
                 x: 0,
                 y: 0,
                 width: $li.outerWidth(true),
                 height: $li.outerHeight(true),
-                tag: tileData.tag,
+                tagSet: tileTagSet,
                 html: tileData.html
             };
 
@@ -76,7 +83,7 @@ define([ 'jquery' ], function ($) {
         for (tileId in this.tileMap) {
             tile = this.tileMap[tileId];
 
-            if (this.filterTag !== null && tile.tag !== this.filterTag) {
+            if (this.filterTag !== null && tile.tagSet[this.filterTag]) {
                 this.setTilePosition(tileId, null, null);
 
                 continue;
