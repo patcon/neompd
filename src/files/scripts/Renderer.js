@@ -124,8 +124,6 @@ define([
     };
 
     Renderer.prototype.initializeTileMode = function () {
-        console.log('tile view');
-
         // set minimum content height to extend to grid size
         this.$content.css({
             height: this.app.tileField.height,
@@ -138,8 +136,6 @@ define([
     };
 
     Renderer.prototype.initializeArticleMode = function () {
-        console.log('article view');
-
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
@@ -162,7 +158,6 @@ define([
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        console.log('article destroyed');
     };
 
     Renderer.prototype.onScroll = function () {
