@@ -10,6 +10,7 @@
 
 <body>
 	<nav id="menu">
+		<a id="logo" href="#">Myplanet Digital</a>
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li><a href="#tags/<%= tag.name.split('.')[0] %>"><%= tag.label %></a></li>
