@@ -116,6 +116,8 @@ define([
             opacity: 0
         });
 
+        this.$loadingOverlay = $('<div class="loading-overlay"></div>').appendTo('#content');
+
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
 
         this.gridViewport = this.computeGridViewport();
@@ -188,8 +190,14 @@ define([
             opacity: 1
         });
 
+        this.$loadingOverlay.attr('data-active', '');
+
         this.app.currentArticle.content.done(function (html) {
             this.$content.html(html);
+        }.bind(this));
+
+        this.app.currentArticle.content.always(function (html) {
+            this.$loadingOverlay.removeAttr('data-active');
         }.bind(this));
 
         // reset view top

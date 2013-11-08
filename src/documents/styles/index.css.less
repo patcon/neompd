@@ -77,6 +77,26 @@ a {
     margin: -10px;
 }
 
+.loading-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 1;
+
+    background: #f9f9f9 url(../images/loading.gif) 50% 50% no-repeat;
+    opacity: 0;
+    visibility: hidden;
+
+    &[data-active] {
+        transition: opacity 0.5s;
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
 .tile-grid > li > a {
     width: @column-width - @column-padding * 2;
     display: block;
