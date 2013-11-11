@@ -83,7 +83,7 @@ define([ 'jquery' ], function ($) {
         for (tileId in this.tileMap) {
             tile = this.tileMap[tileId];
 
-            if (this.filterTag !== null && tile.tagSet[this.filterTag]) {
+            if (this.filterTag !== null && !tile.tagSet[this.filterTag]) {
                 this.setTilePosition(tileId, null, null);
 
                 continue;
