@@ -264,7 +264,19 @@ window.ArticleView = Backbone.View.extend({
             if (scrollTop <= 0 && (this.scrollAboveDistance > 0 || deltaY > 0)) {
                 e.preventDefault();
 
+                if (this.scrollAboveDistance === 0 && deltaY > 0) {
+                    requestAnimationFrame(_.bind(function () {
+                        this.$container.addClass('scrollbackAbove').removeClass('scrollbackBelow');
+                    }, this));
+                }
+
                 this.scrollAboveDistance = Math.max(0, this.scrollAboveDistance + deltaY);
+
+                if (this.scrollAboveDistance === 0) {
+                    requestAnimationFrame(_.bind(function () {
+                        this.$container.removeClass('scrollbackAbove');
+                    }, this));
+                }
 
                 if (this.scrollAboveDistance > this.SCROLLBACK_DISTANCE) {
                     this.destroy(); // initialize teardown animation without waiting for hash-change
@@ -272,14 +284,25 @@ window.ArticleView = Backbone.View.extend({
                 } else {
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
-                        this.$container.removeClass('scrollbackBelow').addClass('scrollbackAbove');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.articleTop + this.scrollAboveDistance - this.SCROLLBACK_DISTANCE) + 'px,0)');
                     }, this));
                 }
             } else if (scrollTop > 0 && (this.scrollBelowDistance > 0 || deltaY < 0)) {
                 e.preventDefault();
 
+                if (this.scrollBelowDistance === 0 && deltaY < 0) {
+                    requestAnimationFrame(_.bind(function () {
+                        this.$container.addClass('scrollbackBelow').removeClass('scrollbackAbove');
+                    }, this));
+                }
+
                 this.scrollBelowDistance = Math.max(0, this.scrollBelowDistance - deltaY);
+
+                if (this.scrollBelowDistance === 0) {
+                    requestAnimationFrame(_.bind(function () {
+                        this.$container.removeClass('scrollbackBelow');
+                    }, this));
+                }
 
                 if (this.scrollBelowDistance > this.SCROLLBACK_DISTANCE) {
                     this.destroy(); // initialize teardown animation without waiting for hash-change
@@ -287,7 +310,6 @@ window.ArticleView = Backbone.View.extend({
                 } else {
                     // @todo cancel previous RAF request (if multiple scrolls between frames)
                     requestAnimationFrame(_.bind(function () {
-                        this.$container.removeClass('scrollbackAbove').addClass('scrollbackBelow');
                         this.$container.css('-webkit-transform', 'translate3d(0,' + (-this.itemTop + this.articleHeight - this.scrollBelowDistance) + 'px,0)');
                     }, this));
                 }
