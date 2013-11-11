@@ -212,6 +212,7 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         $('#menu').removeAttr('data-mode');
+        $('#menu-button').removeAttr( 'style' );
     };
 
     Renderer.prototype.onScroll = function () {
