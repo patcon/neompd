@@ -122,6 +122,7 @@ define([
 
         this.gridViewport = this.computeGridViewport();
 
+        this.articleScrollTop = 0; // keep track of scroll top for possible transition
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0; // [-1..1], negative is on top, positive on bottom
 
@@ -166,24 +167,27 @@ define([
     };
 
     Renderer.prototype.initializeTileMode = function () {
+        var newScrollTop = this.gridViewport.top + this.$grid.offset().top;
+
         // set minimum content height to extend to grid size
         this.$content.css({
+            transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height,
             transition: 'opacity 0.5s',
             opacity: 0
         });
 
         // restore view to where it should be
-        $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
+        $(window).scrollTop(newScrollTop);
     };
 
     Renderer.prototype.initializeArticleMode = function () {
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
-        // @todo reset scrolltop to zero, but only if loading a new article
         // clear minimum content height from grid size
         this.$content.css({
+            transform: 'translateZ(0)',
             height: '',
             transition: 'opacity 0.5s',
             opacity: 1
@@ -205,6 +209,7 @@ define([
         }.bind(this));
 
         // reset view top
+        this.articleScrollTop = 0;
         $(window).scrollTop(0);
 
         $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
@@ -219,6 +224,8 @@ define([
             this.gridViewport = this.computeGridViewport();
 
             $(this).trigger('viewport');
+        } else {
+            this.articleScrollTop = $(window).scrollTop();
         }
     };
 
