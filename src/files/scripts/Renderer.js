@@ -132,9 +132,11 @@ define([
             this.initializeTileMode();
         }
 
-        // $('#content').css({
-        //     'min-height': $(window).height() + 'px',
-        // });
+        // clear initial sizing on container after filling it out
+        // (it exists to preserve initial browser position restoration)
+        $('#content').css({
+            'min-height': 0
+        });
 
         // todo: debounce
         $(window).on('resize', this.onResize.bind(this));
