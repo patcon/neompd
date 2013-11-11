@@ -122,6 +122,7 @@ define([
 
         this.gridViewport = this.computeGridViewport();
 
+        this.articleScrollTop = 0; // keep track of scroll top for possible transition
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0; // [-1..1], negative is on top, positive on bottom
 
@@ -131,7 +132,9 @@ define([
             this.initializeTileMode();
         }
 
-        this.$content.css({ height: this.app.tileField.height });
+        // $('#content').css({
+        //     'min-height': $(window).height() + 'px',
+        // });
 
         // todo: debounce
         $(window).on('resize', this.onResize.bind(this));
@@ -142,6 +145,9 @@ define([
         $(this.app.tileField).on('changed', this.onTileFieldChanged.bind(this));
 
         $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
+
+        // show/hide side bar tag in article view
+        $('#menu-button').on('click', function () { $('#menu > ul').toggleClass('shown'); });
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -163,46 +169,58 @@ define([
     };
 
     Renderer.prototype.initializeTileMode = function () {
+        var newScrollTop = this.gridViewport.top + this.$grid.offset().top;
+
         // set minimum content height to extend to grid size
         this.$content.css({
+            transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height,
+            'min-height': $(window).height() + 'px',
             transition: 'opacity 0.5s',
             opacity: 0
         });
 
         // restore view to where it should be
-        $(window).scrollTop(this.gridViewport.top + this.$grid.offset().top);
+        $(window).scrollTop(newScrollTop);
     };
 
     Renderer.prototype.initializeArticleMode = function () {
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
-        // @todo reset scrolltop to zero, but only if loading a new article
         // clear minimum content height from grid size
         this.$content.css({
+            transform: 'translateZ(0)',
             height: '',
+            'min-height': $(window).height() + 'px',
             transition: 'opacity 0.5s',
             opacity: 1
         });
 
         this.$loadingOverlay.attr('data-active', '');
 
+        // set data mode attribute to article to show menu-button
+        $('#menu').attr('data-mode', 'article');
+        $('#menu > ul').removeClass('shown');
+        $('#menu-button').removeAttr( 'style' );
+
         this.app.currentArticle.content.done(function (html) {
             this.$content.html(html);
         }.bind(this));
 
-        this.app.currentArticle.content.always(function (html) {
+        this.app.currentArticle.content.always(function () {
             this.$loadingOverlay.removeAttr('data-active');
         }.bind(this));
 
         // reset view top
+        this.articleScrollTop = 0;
         $(window).scrollTop(0);
 
         $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
+        $('#menu').removeAttr('data-mode');
     };
 
     Renderer.prototype.onScroll = function () {
@@ -210,6 +228,8 @@ define([
             this.gridViewport = this.computeGridViewport();
 
             $(this).trigger('viewport');
+        } else {
+            this.articleScrollTop = $(window).scrollTop();
         }
     };
 
@@ -217,12 +237,16 @@ define([
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
     };
 
-    Renderer.prototype.onScrollBackChanged = function (e) {
+    Renderer.prototype.onScrollBackChanged = function () {
         this.$content.css({
             transition: 'none',
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
         });
-    }
+        $('#menu-button').css({
+            transition: 'none',
+            opacity: 1 - Math.abs(this.articleScrollBackAmount)
+        });
+    };
 
     Renderer.prototype.onTileFieldChanged = function () {
         if (!this.app.currentArticle) {
@@ -239,7 +263,7 @@ define([
     };
 
     Renderer.prototype.onMouseWheel = function (e) {
-        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.003, // hardware delta is more than pixel speed
+        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.0006, // hardware delta is more than pixel speed
             currentTime = new Date().getTime(),
 
             scrollTop = $(window).scrollTop(),
@@ -285,6 +309,9 @@ define([
 
         // checking scrollback amount before our event is fired
         if (Math.abs(this.articleScrollBackAmount) === 1) {
+            // cancel default even if switching location (otherwise inertia is reset)
+            e.preventDefault();
+
             $(this).trigger('scrollBackChanged');
 
             window.location = '#'; // @todo this more elegantly

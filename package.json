@@ -12,7 +12,7 @@
     "docpad-plugin-moment": "~2.0.2",
     "docpad-plugin-less": "~2.2.0",
     "docpad-plugin-marked": "~2.1.1",
-    "docpad-plugin-sunny": "~3.0.0"
+    "docpad-plugin-sunny": "~2.1.0"
   },
   "scripts": {
     "deploy": "node_modules/.bin/docpad deploy-sunny --offline"

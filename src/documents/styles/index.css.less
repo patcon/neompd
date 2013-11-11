@@ -73,7 +73,7 @@ a {
 }
 
 #content {
-    min-height: 100%;
+//    min-height: 20000px; // helps preserve initial scroll position
     padding: 10px;
 }
 
@@ -179,6 +179,7 @@ a {
     z-index: 1;
     font-size:24px;
     font-weight: bold;
+    -webkit-font-smoothing: antialiased;
     color:#fff;
     background-color: #2a2a2a;
     letter-spacing: -.1px;
@@ -203,8 +204,6 @@ a {
 }
 
 .tile-grid > li > a.people > header > span {
-    font-weight: bold;
-    -webkit-font-smoothing: antialiased;
     text-shadow: none;
 }
 
@@ -278,6 +277,17 @@ a {
     font-size: 10px;
 }
 
+#logo {
+  position: relative;
+  display: block;
+  font-size: 0;
+  top: 37px;
+  left: 23px;
+  width: 100px;
+  height: 97px;
+  background: url(../images/logo-black.png);
+}
+
 #menu {
     position:fixed;
     height:100%;
@@ -285,19 +295,15 @@ a {
     z-index: 2;
     font-family:TradeGothic;
     text-transform: uppercase;
-    background:#2a2a2a url(../images/logo.jpg) 37px 23px no-repeat;
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
 }
 #menu > ul {
     position: absolute;
-    top:166px;
-
-    list-style-type:none;
-    font-size: 13px;
-
-    -webkit-transform: translateZ(0);
-    -moz-transform: translateZ(0);
+  top: 166px;
+  list-style-type: none;
+  font-size: 13px;
+  opacity: 1;
+  -webkit-transform: translate3d(0,0,0);
+  -webkit-transition: opacity 0.4s ease-out, -webkit-transform 0.4s ease-out;
 }
 #menu > ul > li {
     display: inline-block;
@@ -315,7 +321,6 @@ a {
 
     background: #414141;
     color: #fff;
-    text-shadow:0 1px 1px rgba(0,0,0,0.3);
 
     -webkit-transform:translateZ(0);
     -webkit-transition-duration:0.2s;
@@ -333,6 +338,34 @@ a {
 #menu > ul > li:active {
     -webkit-transform: translateZ(0) scale(1.075);
     -moz-transform: translateZ(0) scale(1.075);
+}
+#menu-button {
+    position: fixed;
+    opacity: 0.005;
+    left: 45px;
+    top: 145px;
+    font-size: 0;
+    background-image: url(../images/lines.png);
+    width: 52px;
+    height: 52px;
+    cursor: pointer;
+    pointer-events:none;
+    -webkit-transition: opacity 0.4s ease-out;
+}
+#menu[data-mode=article] {
+    #menu-button {
+        pointer-events: auto;
+        opacity: 1;
+    }
+    ul {
+        opacity: 0.005;
+        pointer-events:none;
+        -webkit-transform: translate3d(0,40px,0);
+    }
+    ul.shown {
+        opacity: 1;
+        pointer-events:auto;
+    }
 }
 
 @import 'post.css.less';
