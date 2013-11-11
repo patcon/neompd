@@ -132,7 +132,9 @@ define([
             this.initializeTileMode();
         }
 
-        this.$content.css({ height: this.app.tileField.height });
+        // $('#content').css({
+        //     'min-height': $(window).height() + 'px',
+        // });
 
         // todo: debounce
         $(window).on('resize', this.onResize.bind(this));
