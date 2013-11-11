@@ -261,7 +261,7 @@ define([
     };
 
     Renderer.prototype.onMouseWheel = function (e) {
-        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.003, // hardware delta is more than pixel speed
+        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.0006, // hardware delta is more than pixel speed
             currentTime = new Date().getTime(),
 
             scrollTop = $(window).scrollTop(),
@@ -307,6 +307,9 @@ define([
 
         // checking scrollback amount before our event is fired
         if (Math.abs(this.articleScrollBackAmount) === 1) {
+            // cancel default even if switching location (otherwise inertia is reset)
+            e.preventDefault();
+
             $(this).trigger('scrollBackChanged');
 
             window.location = '#'; // @todo this more elegantly
