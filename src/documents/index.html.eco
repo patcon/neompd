@@ -14,7 +14,7 @@
 		<div id="menu-button">Show Menu</div>
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
-				<li><a href="#tags/<%= tag.name.split('.')[0] %>"><%= tag.label %></a></li>
+				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
 			<% end %>
 		</ul>
 		<!--footer class="adr">
