@@ -49,7 +49,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	/* Page Event Constants */
 		MAX_PER_LOAD_DEBOUNCE = 6, // number of items to do the "infinite scroll" transition on before debouncing
 		ANIMATION_EL_THRESHOLD = 3, // number of items to render per frame during the "infinite scroll" transition (note must be less than or equal to MAX_PER_LOAD_DEBOUNCE)
-		WHEEL_TIMEOUT = 100, // the maximum amount a single swipe (mousewheel) event should take - we use this to find the first swipe and apply friction
+		WHEEL_TIMEOUT = 85, // the maximum amount a single swipe (mousewheel) event should take - we use this to find the first swipe and apply friction
 		WHEEL_FRICTION = 24, // how much friction to apply to a single swipe NOTE this is currently webkit specific and can be approximated by 3. IE 6 is 2* friction, 3 is "no friction", 24 is 8 times friction etc
 		LOWER_WHEEL_FRICTION = 24, // how much friction to apply at the bottom of an article
 		WHEEL_TURN_FACTOR = 120, // in webkit, if a "swipe" is a multiple of 120, it is a mousewheel event and not a swipe
@@ -333,8 +333,10 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	function endGoBackAndRemoveScrollClass() {
 		$all.removeClass('offScreen');
 		$body.removeClass('scrolling');
+		$container.removeClass('article');
 		scrollTimeout = null;
-		noScrollEvents = false;
+		finishCloseEventWhenScrollEnds = false;
+		//noScrollEvents = false;
 		isClosing = false;
 		debounceLoadAnim();
 	}
@@ -348,14 +350,16 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	}
 
 /* Remove the scrolling class after the user is done scrolling in masonry view */
-	function removeScrollClass() {
-		if(finishCloseEventWhenScrollEnds) {
-			finishCloseEventWhenScrollEnds = false;
-			noScrollEvents = true;
-			return requestAnimationFrame(goBackAndRemoveScrollClass);
-		}
+	function doRemoveScrollClass() {
 		$body.removeClass('scrolling');
 		scrollTimeout = null;
+	}
+	function removeScrollClass() {
+		if(finishCloseEventWhenScrollEnds) {
+			//noScrollEvents = true;
+			return requestAnimationFrame(goBackAndRemoveScrollClass);
+		}
+		requestAnimationFrame(doRemoveScrollClass);
 	}
 
 /* Add the scrolling class when the user starts scrolling in masonry view */
@@ -375,7 +379,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 		if(scrollTimeout) {
 			clearTimeout(scrollTimeout);
 		} else {
-			addScrollClass();
+			requestAnimationFrame(addScrollClass);
 		}
 
 		scrollTimeout = setTimeout(applyScrollClass, SCROLL_TIMEOUT_LEN);
@@ -494,6 +498,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	function unfixArticle() {
 		articleOpacity = 1;
 		if(! opacityTimeout) {
+			fadeArticle();
 		//	opacityTimeout = requestAnimationFrame(fadeArticle);
 		}
 		$animateOnScroll.css('transform', modifyOrigTransform(0));
@@ -524,7 +529,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 		$articleClose.css('zIndex', 3);
 		$wrap.addClass('behind');
 		if (jumpBottom) { //unjump the blocks under article so tiles go bk to proper position
-			requestAnimationFrame(doJumpBottom);
+			doJumpBottom();//, SOON * 2);
 			jumpBottom = false;
 		}
 	}
@@ -566,10 +571,11 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 					moveFixedItems(scrollTop);
 
 					val = abs(articleTop - scrollTop) / overhead;
-					articleOpacity = (0.8 - (0.825 * val)).toFixed(2);
+					articleOpacity = (0.8 - (0.825 * val)).toFixed(4);
 
 					if(! opacityTimeout) {
-						fadeArticle();//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
+						fadeArticle();
+						//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT);
 					}
 
 					if(!resetBlocks) {
@@ -592,7 +598,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 					jumpBottom = true;
 					unfixArticle();
 				} else if (resetBlocks) {
-					requestAnimationFrame(doResetBlocks);
+					doResetBlocks();
 					resetBlocks = false;
 				} else if(isLowerClosingState) {
 					articleOpacity = 1;
@@ -625,7 +631,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 					$menu.css('transform', 'translate3d(' + floor(-LEFT_BAR_OFFSET + (LEFT_BAR_OFFSET * val))  + 'px, 0, 0)');
 				}
 
-				articleOpacity = (1 - (1.1 * val)).toFixed(2);
+				articleOpacity = (1 - (1.1 * val)).toFixed(4);
 				if(! opacityTimeout) {
 					fadeArticle();
 					//opacityTimeout = setTimeoutWithRAF(fadeArticle, OPACITY_TIMEOUT_LOWER);
@@ -688,6 +694,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 	function onArticleTransitionEnd() {
 		var scrollTop;
 
+
 		if(doneLoading === false) {
 			if(isClosing || articleHeight === null) {
 				curXHR = null;
@@ -699,6 +706,10 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 			doneLoading = -1;
 			//isDoingTransition = true;
 		} else if(doneLoading === -1) {
+			if(isClosing || articleHeight === null) {
+				curXHR = null;
+				return doneLoading = true;
+			}
 			//noScrollEvents = true;
 			$article.removeClass('loaded');
 			$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
@@ -719,7 +730,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 		}
 
 		scrollTop = window.pageYOffset;
-		$container.removeClass('transition').css('height', containerHeight + articleHeight + overhead + underhead);
+		$container.removeClass('transition').addClass('article').css('height', containerHeight + articleHeight + overhead + underhead);
 		$articleClose.removeClass('shown').css('zIndex', 3);
 		$lower.addClass('offScreen').removeClass('onScreen delay fwdBtn').css('transform', modifyTransform(overhead + lowerOffset - lowerWinOffset));
 		$upper.addClass('offScreen').removeClass('onScreen').css('transform', modifyTransform(scrollTop < upperOffset ? (upperOffset * 2) - scrollTop : upperOffset));
@@ -748,10 +759,9 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 			scrollTop,
 			liTop,
 			offset,
-			lOffset,
 			winOffset;
 
-		if(e === null || (($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container))) {
+		if((e === null && $li) || (($clicked = $(e.target)).closest('ul').is($container) && ! $clicked.is($container))) {
 			if(e) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -834,7 +844,6 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 
 			articleTop = scrollTop + overhead;
 			offset = scrollTop < upperOffset ? upperOffset - scrollTop : 0;
-			//lOffset =  min(lowerWinOffset, lowerOffset);
 			menuShown = false;
 			isFixed = true;
 			justOpenedArticle = true;
@@ -842,6 +851,7 @@ var Homepage = (function homepage(defaultVals, window, $, undefined) {
 			curXHR = !!e;
 			articleOpacity = 1;
 			clickedUrl = e ? 'article.html' : '';
+
 
 			$body.removeClass('scrolling');
 			$wrap.css('height', '');//.addClass('behind');
