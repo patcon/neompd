@@ -36,7 +36,7 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="people" href="<%= post.hash %>">
+                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(/\s+|,\s*/g)) %>" class="people" href="<%= post.hash %>">
 				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
