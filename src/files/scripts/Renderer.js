@@ -145,7 +145,7 @@ define([
         $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
         // show/hide side bar tag in article view
-        $('#menu-button').on('click', function(){$('#menu > ul').toggleClass("shown")});
+        $('#menu-button').on('click', function () { $('#menu > ul').toggleClass('shown'); });
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -173,6 +173,7 @@ define([
         this.$content.css({
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height,
+            'min-height': $(window).height() + 'px',
             transition: 'opacity 0.5s',
             opacity: 0
         });
@@ -189,6 +190,7 @@ define([
         this.$content.css({
             transform: 'translateZ(0)',
             height: '',
+            'min-height': $(window).height() + 'px',
             transition: 'opacity 0.5s',
             opacity: 1
         });
@@ -197,14 +199,14 @@ define([
 
         // set data mode attribute to article to show menu-button
         $('#menu').attr('data-mode', 'article');
-        $('#menu > ul').removeClass("shown")
+        $('#menu > ul').removeClass('shown');
         $('#menu-button').removeAttr( 'style' );
 
         this.app.currentArticle.content.done(function (html) {
             this.$content.html(html);
         }.bind(this));
 
-        this.app.currentArticle.content.always(function (html) {
+        this.app.currentArticle.content.always(function () {
             this.$loadingOverlay.removeAttr('data-active');
         }.bind(this));
 
@@ -233,7 +235,7 @@ define([
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
     };
 
-    Renderer.prototype.onScrollBackChanged = function (e) {
+    Renderer.prototype.onScrollBackChanged = function () {
         this.$content.css({
             transition: 'none',
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
@@ -242,7 +244,7 @@ define([
             transition: 'none',
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
         });
-    }
+    };
 
     Renderer.prototype.onTileFieldChanged = function () {
         if (!this.app.currentArticle) {
