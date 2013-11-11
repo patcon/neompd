@@ -174,11 +174,11 @@ a {
     height: 193px;
 }
 
-.tile-grid > li > a > h2 {
-    margin: 0;
+.tile-grid > li > a > header {
     position: relative;
     z-index: 1;
     font-size:24px;
+    font-weight: bold;
     -webkit-font-smoothing: antialiased;
     color:#fff;
     background-color: #2a2a2a;
@@ -199,11 +199,11 @@ a {
     border: 5px solid white;
 }
 
-.tile-grid > li > a.people > h2 {
+.tile-grid > li > a.people > header {
     padding:34px 25px 70px;
 }
 
-.tile-grid > li > a.people > h2 > span {
+.tile-grid > li > a.people > header > span {
     text-shadow: none;
 }
 
@@ -222,14 +222,14 @@ a {
     font-size: 15px;
 }
 
-.tile-grid > li > a.double > h2 {
+.tile-grid > li > a.double > header {
     width: @column-width * 2 - 20px * 2;
 }
 
 .tile-grid > li > a.double > img {
     height: 399px;
 }
-.tile-grid > li > a.image > h2 {
+.tile-grid > li > a.image > header {
     overflow: hidden;
     padding-top: 5px;
     padding-bottom: 0;
@@ -237,7 +237,7 @@ a {
     margin-bottom: -193px;
     background: none;
 }
-.tile-grid > li > a.image.double > h2 {
+.tile-grid > li > a.image.double > header {
     font-size: 50px;
     padding-top: 7px;
     height: 399px - 7px;
@@ -247,7 +247,7 @@ a {
         padding: 12px 0;
     }
 }
-.tile-grid > li > a.image > h2 > span {
+.tile-grid > li > a.image > header > span {
     background-color: #2a2a2a;
     box-shadow: 20px 0 0 #2a2a2a,-20px 0 0 #2a2a2a;
     padding: 7px 0 2px 0;

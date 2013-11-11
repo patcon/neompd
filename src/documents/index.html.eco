@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<div id="menu">
+	<nav id="menu">
 		<a id="logo" href="#">Myplanet Digital</a>
 		<div id="menu-button">Show Menu</div>
 		<ul>
@@ -26,7 +26,7 @@
 			<span class="tel">866-232-7456</span>
 			<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
 		</footer-->
-	</div>
+	</nav>
 
     <div id="content"></div>
 
@@ -37,9 +37,9 @@
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
                         <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="people" href="<%= post.hash %>">
-				            <h2 class="<%= post.color %>">
+				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
-		            		</h2>
+		            		</header>
 		            		<% if post.authorimg: %>
 						    	<img src="<%= post.authorimg %>">
 			                <% end %>
@@ -48,9 +48,9 @@
 			            </a>
     				<% else: %>
 						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
-			            	<h2 class="<%= post.color %>">
+			            	<header class="<%= post.color %>">
 				            	<span><%= post.header %></span>
-						    </h2>
+						    </header>
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
@@ -59,9 +59,9 @@
     			    <% end %>
     	        <% else: %>
 		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
-		            	<h2 class="<%= post.color %>">
+		            	<header class="<%= post.color %>">
 		            		<span><%= post.header %></span>
-		            	</h2>
+		            	</header>
 		                <p><%= post.summary %></p>
 		                <span class="author"><%= post.author %></span>
 						<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
