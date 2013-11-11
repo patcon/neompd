@@ -1,5 +1,5 @@
 # MPD Website
-[![Build Status](https://travis-ci.org/myplanetdigital/neompd.png?branch=docpad)](https://travis-ci.org/myplanetdigital/neompd)
+[![Build Status](https://travis-ci.org/myplanetdigital/neompd.png?branch=master)](https://travis-ci.org/myplanetdigital/neompd)
 
 ## Build & Run
 
