@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="no-js">
+<html>
 <head>
 	<meta charset="utf-8">
 	<title>Myplanet Digital</title>
@@ -36,7 +36,7 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="people" href="<%= post.hash %>">
+                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(/\s+|,\s*/g)) %>" class="people" href="<%= post.hash %>">
 				            <header class="<%= post.color %>">
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
@@ -72,6 +72,9 @@
 	</ul>
 
     <!-- @todo replace with production asset pipeline -->
-    <script data-main="scripts/main" src="vendor/requirejs/require.js" type="text/javascript"></script>
+    <!--[if IE 8]>
+    <script src="vendor/augment.js/augment.js"></script>
+    <![endif]-->
+    <script data-main="scripts/main" src="vendor/requirejs/require.js"></script>
 </body>
 </html>

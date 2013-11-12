@@ -6,6 +6,8 @@ define([
     'use strict';
 
     function TileRenderer(tile, app, renderer) {
+        var gridViewportMidpoint;
+
         this.app = app;
         this.tile = tile;
         this.renderer = renderer;
@@ -41,7 +43,10 @@ define([
             this.initializeArticleModeState();
         } else {
             // immediate reveal
+            gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
+
             this.isRevealed = this.getVisibility();
+            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
         }
 
         this.renderTile();
@@ -56,7 +61,7 @@ define([
         var animationAmount = Math.abs(this.renderer.articleScrollBackAmount),
             verticalOffset = (this.isArticleMode && this.isDismissing) ?
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
-                (!this.isArticleMode && !this.isRevealed ? 200 : 0),
+                (!this.isArticleMode && !this.isRevealed ? (this.isBelowMiddle ? 1 : -1) * 200 : 0),
 
             positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
 
@@ -173,9 +178,14 @@ define([
     };
 
     TileRenderer.prototype.onNavigated = function () {
+        var gridViewportMidpoint;
+
         if (this.isArticleMode && !this.app.currentArticle) {
+            gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
+
             this.isArticleMode = false;
             this.isRevealed = this.getVisibility();
+            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
         } else if (!this.isArticleMode && this.app.currentArticle) {
             if (!this.isRevealed) {
                 this.cancelPendingReveal();
