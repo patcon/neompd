@@ -110,8 +110,6 @@ a {
 
     background:#fff url(../images/footer-news.jpg) no-repeat 98% 99%;
     background-size: 40px 35px;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-    border-radius: 3px;
 
     &:hover {
         text-decoration: none;
@@ -123,22 +121,58 @@ a {
 }
 
 .tile-grid > li > a.design {
-    background-image: url(../images/footer-design.jpg)
+    background-image: url(../images/design.png);
+    > header {
+        background: rgba(72, 207, 173, 1);
+    }
+    &.image > header {
+        background: rgba(72, 207, 173, 0.85);
+    }
 }
 .tile-grid > li > a.technology {
-    background-image: url(../images/footer-technology.jpg)
+    background-image: url(../images/footer-technology.jpg);
+    > header {
+        background: rgba(236, 135, 192, 1);
+    }
+    &.image > header {
+        background: rgba(236, 135, 192, 0.85);
+    }
 }
 .tile-grid > li > a.business {
-    background-image: url(../images/footer-business.jpg)
+    background-image: url(../images/footer-business.jpg);
+    > header {
+        background: rgba(79, 193, 233, 1);
+    }
+    &.image > header {
+        background: rgba(79, 193, 233, 0.85);
+    }
 }
 .tile-grid > li > a.people {
-    background-image: url(../images/footer-people.jpg)
+    background-image: url(../images/footer-people.jpg);
+    > header {
+        background: rgba(51, 51, 51, 1);
+    }
+    &.image > header {
+        background: rgba(51, 51, 51, 0.85);
+    }
 }
 .tile-grid > li > a.careers {
-    background-image: url(../images/footer-careers.jpg)
+    background-image: url(../images/footer-careers.jpg);
+    > header {
+        background: rgba(93, 156, 236, 1);
+    }
+    &.image > header {
+        background: rgba(93, 156, 236, 0.85);
+    }
 }
 .tile-grid > li > a.culture {
-    background-image: url(../images/footer-culture.jpg)
+    background-image: url(../images/footer-culture.jpg);
+    > header {
+        background: rgba(239, 113, 64, 1);
+    }
+    &.image > header {
+        background: rgba(239, 113, 64, 0.85);
+    }
 }
 
 .tile-grid > li >  a > p {
@@ -156,15 +190,15 @@ a {
 .tile-grid > li > a > header {
     position: relative;
     z-index: 1;
-    font-size:24px;
+    font-size:28px;
     font-weight: bold;
     -webkit-font-smoothing: antialiased;
     color:#fff;
     background-color: #2a2a2a;
     letter-spacing: -.1px;
-    width: @column-width - 20px * 2;
-    padding:20px 20px;
-    text-shadow:0 1px 1px rgba(0, 0, 0, 0.1);
+    line-height: 1.1;
+    width: @column-width - 30px * 2;
+    padding:20px 30px;
 }
 
 .tile-grid > li > a.people > img {
@@ -178,11 +212,7 @@ a {
 }
 
 .tile-grid > li > a.people > header {
-    padding:34px 25px 70px;
-}
-
-.tile-grid > li > a.people > header > span {
-    text-shadow: none;
+    padding:34px 30px 70px;
 }
 
 .tile-grid > li > a.people > p.name {
@@ -208,49 +238,21 @@ a {
 }
 .tile-grid > li > a.image > header {
     overflow: hidden;
-    padding-top: 5px;
+    padding-top: 25px;
     padding-bottom: 0;
-    height: 193px - 5px;
+    height: 193px - 25px;
     margin-bottom: -193px;
-    background: rgba(51,51,51,0.85);
-
-    &.design {
-        background: rgba(51,51,51,0.85);
-    }
-    &.people {
-        background: rgba(51, 51, 51, 0.85);
-    }
-    &.careers {
-
-    }
-    &.culture {
-
-    }
-    &.business {
-
-    }
-    &.technology {
-
-    }
 }
 .tile-grid > li > a.image.double > header {
     font-size: 50px;
     padding-top: 7px;
+    width: 100%;
     height: 399px - 7px;
     margin-bottom: -399px;
 
     > span {
         padding: 12px 0;
     }
-}
-.tile-grid > li > a > .orange {
-    background-color:#ee5b33;
-}
-.tile-grid > li > a > .green {
-    background-color:#29d09a;
-}
-.tile-grid > li > a > .pink {
-    background-color:#f45d96;
 }
 .tile-grid > li > a > p {
     line-height: 20px;
@@ -327,32 +329,32 @@ a {
     }
 
     &.business:before {
-        background: url(../images/business.png) 0px 20px no-repeat;
+        background: url(../images/business.png) 0px 25px no-repeat;
         background-size: 100%;
     }
     &.careers:before {
-        background: url(../images/careers.png) 0px 20px no-repeat;
+        background: url(../images/careers.png) 0px 25px no-repeat;
         background-size: 100%;
     }
     &.culture:before {
-        background: url(../images/culture.png) 0px 20px no-repeat;
+        background: url(../images/culture.png) 0px 25px no-repeat;
         background-size: 100%;
     }
     &.design:before {
-        background: url(../images/design.png) 0px 20px no-repeat;
+        background: url(../images/design.png) 0px 25px no-repeat;
         background-size: 100%;
     }
     &.people:before {
-        background: url(../images/people.png) 0px 20px no-repeat;
+        background: url(../images/people.png) 0px 25px no-repeat;
         background-size: 100%;
     }
     &.technology:before {
-        background: url(../images/technology.png) 0px 20px no-repeat;
+        background: url(../images/technology.png) 0px 25px no-repeat;
         background-size: 100%;
     }
 
     &:hover:before {
-        background-position: 0px 5px;
+        background-position: 0px 10px;
     }
 }
 #menu-button {
