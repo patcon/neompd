@@ -11,7 +11,7 @@ tileimg: "/images/articles/Myplanet_wins_Momentum_Company_of_the_Year/tile.jpg"
 authorimg: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-06-03"
-tilestyle: "double image"
+tilestyle: "double-image"
 ---
 
 The [York Technology Alliance](http://www.yorktech.ca/) is a network of more than 200 tech organizations that provides support, resources &amp; collaborative opportunities for its members. Each year the YTA hosts the Technology Leadership Awards to recognize outstanding achievement in the GTA's tech landscape. 

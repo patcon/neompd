@@ -67,7 +67,7 @@ body {
 }
 
 a {
-    color: #34495e;
+    color: #333;
     text-decoration: none;
 
     &:hover { text-decoration: underline; }
@@ -90,6 +90,7 @@ a {
 
     li {
         margin: @column-gutter / 2;
+        border: 1px solid #e7e7e7;
         overflow: hidden;
     }
 }
@@ -130,20 +131,18 @@ a {
     font-family: Plantin;
     font-size:14px;
 
-    background:#fff url(../images/footer-news.jpg) no-repeat 98% 99%;
-    background-size: 40px 35px;
+    background: #fff;
 
     &:hover {
         text-decoration: none;
     }
 
-    &.double {
+    &.double-image {
         width: @column-width * 2 + @column-gutter;
     }
 }
 
 .tile-grid > li > a.design {
-    background-image: url(../images/design.png);
     > header {
         background: rgba(72, 207, 173, 1);
     }
@@ -152,7 +151,6 @@ a {
     }
 }
 .tile-grid > li > a.technology {
-    background-image: url(../images/footer-technology.jpg);
     > header {
         background: rgba(236, 135, 192, 1);
     }
@@ -161,7 +159,6 @@ a {
     }
 }
 .tile-grid > li > a.business {
-    background-image: url(../images/footer-business.jpg);
     > header {
         background: rgba(79, 193, 233, 1);
     }
@@ -170,7 +167,6 @@ a {
     }
 }
 .tile-grid > li > a.people {
-    background-image: url(../images/footer-people.jpg);
     > header {
         background: rgba(51, 51, 51, 1);
     }
@@ -179,7 +175,6 @@ a {
     }
 }
 .tile-grid > li > a.careers {
-    background-image: url(../images/footer-careers.jpg);
     > header {
         background: rgba(93, 156, 236, 1);
     }
@@ -188,7 +183,6 @@ a {
     }
 }
 .tile-grid > li > a.culture {
-    background-image: url(../images/footer-culture.jpg);
     > header {
         background: rgba(239, 113, 64, 1);
     }
@@ -212,6 +206,7 @@ a {
 .tile-grid > li > a > header {
     position: relative;
     z-index: 1;
+    font-family: PlantinBold;
     font-size:28px;
     font-weight: bold;
     -webkit-font-smoothing: antialiased;
@@ -245,18 +240,36 @@ a {
 }
 
 .tile-grid > li > a.people > p.role {
+    width: 200px;
     text-align: center;
+    margin: 0 auto;
     padding: 5px 0 31px;
     color: #bbb;
     font-family: TradeGothic;
     font-size: 15px;
 }
 
-.tile-grid > li > a.double > header {
-    width: @column-width * 2 - 20px * 2;
-}
+.tile-grid > li > a.double-image > header {
+    font-size: 53px;
+    padding: 35px 40px 0px;
+    width: @column-width * 2 + @column-gutter - 40px * 2;
+    color: #333;
+    background-color: #fff;
 
-.tile-grid > li > a.double > img {
+    &:after {
+        display: block;
+        content: '';
+        width: 300px;
+        margin-left: 320px;
+        height: 115px;
+        background: url(../images/meteor.jpg) no-repeat;
+    }
+
+}
+.tile-grid > li > a.double-image > span {
+    padding: 20px 0px 40px 40px;
+}
+.tile-grid > li > a.double-image > img {
     height: 399px;
 }
 .tile-grid > li > a.image > header {
@@ -265,17 +278,6 @@ a {
     padding-bottom: 0;
     height: 193px - 25px;
     margin-bottom: -193px;
-}
-.tile-grid > li > a.image.double > header {
-    font-size: 50px;
-    padding-top: 7px;
-    width: 100%;
-    height: 399px - 7px;
-    margin-bottom: -399px;
-
-    > span {
-        padding: 12px 0;
-    }
 }
 .tile-grid > li > a > p {
     line-height: 20px;
@@ -288,7 +290,7 @@ a {
     text-transform: uppercase;
     color:#bbb;
     width:auto;
-    padding: 20px 0px 15px 20px;
+    padding: 20px 0px 25px 25px;
     font-size: 10px;
 }
 

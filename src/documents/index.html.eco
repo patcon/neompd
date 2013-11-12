@@ -37,7 +37,7 @@
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
                         <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(/\s+|,\s*/g)) %>" class="people" href="<%= post.hash %>">
-				            <header class="<%= post.color %>">
+				            <header>
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
 		            		<% if post.authorimg: %>
@@ -46,9 +46,18 @@
 			                <p class="name"><%= post.name %></p>
 			                <p class="role"><%= post.role %></p>
 			            </a>
+			        <% else if post.tilestyle is "double-image": %>
+			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> double-image" href="<%= post.hash %>">
+			                <img src="<%= post.tileimg %>">
+			                <header>
+				            	<span><%= post.header %></span>
+						    </header>
+			                <span class="author"><%= post.author %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+			            </a>
     				<% else: %>
-						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
-			            	<header class="<%= post.color %>">
+						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> image" href="<%= post.hash %>">
+			            	<header>
 				            	<span><%= post.header %></span>
 						    </header>
 			                <img src="<%= post.tileimg %>">
@@ -59,7 +68,7 @@
     			    <% end %>
     	        <% else: %>
 		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
-		            	<header class="<%= post.color %>">
+		            	<header>
 		            		<span><%= post.header %></span>
 		            	</header>
 		                <p><%= post.summary %></p>
