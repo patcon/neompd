@@ -36,7 +36,7 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(/\s+|,\s*/g)) %>" class="people" href="<%= post.hash %>">
+                        <a data-tags="<%= JSON.stringify(["people"]) %>" class="people" href="<%= post.hash %>">
 				            <header>
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 		            		</header>
@@ -47,7 +47,7 @@
 			                <p class="role"><%= post.role %></p>
 			            </a>
 			        <% else if post.tilestyle is "double-image": %>
-			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> double-image" href="<%= post.hash %>">
+			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> double-image" href="<%= post.hash %>">
 			                <img src="<%= post.tileimg %>">
 			                <header>
 				            	<span><%= post.header %></span>
@@ -56,7 +56,7 @@
 							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 			            </a>
     				<% else: %>
-						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> image" href="<%= post.hash %>">
+						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> image" href="<%= post.hash %>">
 			            	<header>
 				            	<span><%= post.header %></span>
 						    </header>
@@ -67,7 +67,7 @@
 			            </a>
     			    <% end %>
     	        <% else: %>
-		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
+		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
 		            	<header>
 		            		<span><%= post.header %></span>
 		            	</header>
