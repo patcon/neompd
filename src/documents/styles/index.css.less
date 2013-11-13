@@ -145,6 +145,13 @@ a {
     &.image h2 {
         background: rgba(72, 207, 173, 0.85);
     }
+    .author-link a {
+        color: #48CFAD;
+    }
+    .tag a:before {
+        background: url(../images/design.png) 0px 30px no-repeat;
+    }
+
 }
 .tile.technology {
     h2 {
@@ -152,6 +159,12 @@ a {
     }
     &.image h2 {
         background: rgba(236, 135, 192, 0.85);
+    }
+    .author-link a {
+        color: #EC87C0;
+    }
+    .tag a:before {
+        background: url(../images/technology.png) 0px 30px no-repeat;
     }
 }
 .tile.business {
@@ -161,6 +174,12 @@ a {
     &.image h2 {
         background: rgba(79, 193, 233, 0.85);
     }
+    .author-link a {
+        color: #4FC1E9;
+    }
+    .tag a:before {
+        background: url(../images/business.png) 0px 30px no-repeat;
+    }
 }
 .tile.people {
     h2 {
@@ -168,6 +187,12 @@ a {
     }
     &.image h2 {
         background: rgba(51, 51, 51, 0.85);
+    }
+    .author-link a {
+        color: #333;
+    }
+    .tag a:before {
+        background: url(../images/people.png) 0px 30px no-repeat;
     }
 }
 .tile.careers {
@@ -177,6 +202,12 @@ a {
     &.image h2 {
         background: rgba(93, 156, 236, 0.85);
     }
+    .author-link a {
+        color: #5D9CEC;
+    }
+    .tag a:before {
+        background: url(../images/careers.png) 0px 30px no-repeat;
+    }
 }
 .tile.culture {
     h2 {
@@ -185,64 +216,80 @@ a {
     &.image h2 {
         background: rgba(239, 113, 64, 0.85);
     }
+    .author-link a {
+        color: #EA794D;
+    }
+    .tag a:before {
+        background: url(../images/culture.png) 0px 30px no-repeat;
+    }
 }
 
-.tile > a > p {
-    display: block;
-    padding:20px;
+.tile > a {
+    > p {
+        display: block;
+        line-height: 20px;
+        letter-spacing: -.2px;
+        padding: 25px;
+    }
+    > span {
+        display: inline-block;
+        font-family: TradeGothic;
+        text-transform: uppercase;
+        color:#bbb;
+        width:auto;
+        padding: 20px 0px 25px 25px;
+        font-size: 10px;
+    }
+    > img {
+        display: block;
+        padding:0;
+        width:100%;
+        height: 193px;
+    }
+    > h2 {
+        position: relative;
+        z-index: 1;
+        font-family: PlantinBold;
+        font-size:28px;
+        font-weight: bold;
+        -webkit-font-smoothing: antialiased;
+        color:#fff;
+        background-color: #2a2a2a;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        width: @column-width - 30px * 2;
+        padding:20px 30px;
+    }
 }
 
-.tile > a > img {
-    display: block;
-    padding:0;
-    width:100%;
-    height: 193px;
-}
-
-.tile > a > h2 {
-    position: relative;
-    z-index: 1;
-    font-family: PlantinBold;
-    font-size:28px;
-    font-weight: bold;
-    -webkit-font-smoothing: antialiased;
-    color:#fff;
-    background-color: #2a2a2a;
-    letter-spacing: -1px;
-    line-height: 1.1;
-    width: @column-width - 30px * 2;
-    padding:20px 30px;
-}
-
-.tile.people > a > img {
-    position: relative;
-    z-index: 2;
-    margin: -43px auto 0;
-    width: 80px;
-    height: 80px;
-    border-radius: 43px;
-    border: 3px solid white;
-}
-
-.tile.people > a > h2 {
-    padding:34px 30px 70px;
-}
-
-.tile.people > a > p.name {
-    font-family: TradeGothicBold;
-    padding: 8px 0 0 0;
-    text-align: center;
-    font-size: 21px;
-}
-
-.tile.people > a > p.role {
-    width: 200px;
-    text-align: center;
-    margin: 0 auto;
-    padding: 4px 0 20px;
-    color: #bbb;
-    font-family: TradeGothic;
-    font-size: 15px;
+.tile.people > a {
+    > img {
+        position: relative;
+        z-index: 2;
+        margin: -43px auto 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 43px;
+        border: 3px solid white;
+    }
+    > h2 {
+        padding:34px 30px 70px;
+    }
+    > p.name {
+        font-family: TradeGothicBold;
+        padding: 8px 0 0 0;
+        text-align: center;
+        font-size: 21px;
+    }
+    > p.role {
+        width: 200px;
+        text-align: center;
+        margin: 0 auto;
+        padding: 4px 0 30px;
+        color: #bbb;
+        font-family: TradeGothic;
+        font-size: 15px;
+    }
 }
 
 .tile.double-image {
@@ -263,12 +310,13 @@ a {
             content: '';
             width: 300px;
             margin-left: 320px;
+            margin-top: 10px;
             height: 115px;
             background: url(../images/meteor.png) no-repeat;
         }
     }
 
-    a > span {
+    a > span, .author-link {
         padding: 20px 0px 40px 40px;
     }
 
@@ -284,22 +332,11 @@ a {
     height: 193px - 25px;
     margin-bottom: -193px;
 }
-.tile > a > p {
-    line-height: 20px;
-    letter-spacing: -.2px;
-    padding: 25px;
-}
-.tile > a > span {
-    display: inline-block;
-    font-family: TradeGothic;
-    text-transform: uppercase;
-    color:#bbb;
-    width:auto;
-    padding: 20px 0px 25px 25px;
-    font-size: 10px;
-}
 
-.tile .author {
+.tile .author-link {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     display: inline-block;
     font-family: TradeGothic;
     text-transform: uppercase;
@@ -307,6 +344,44 @@ a {
     width: auto;
     padding: 20px 0px 25px 25px;
     font-size: 10px;
+}
+
+.tile .tag {
+    position: absolute;
+    bottom:13px;
+    right: 20px;
+    z-index: 1;
+
+    a {
+        display: inline-block;
+        font-family: "Plantin";
+        font-weight: bold;
+        color: #333;
+
+        &:before {
+            display: block;
+            content: '';
+            height: 61px;
+            width: 58px;
+            margin: 0 auto 10px;
+            -webkit-transition: background 0.05s ease-out;
+            transition: background 0.05s ease-out;
+            border-bottom: 1px solid #333;
+            background-size: 100%;
+        }
+        &:hover:before {
+        background-position: 0px 10px;
+    }
+
+    }
+}
+.tile.people .tag {
+    bottom: 0px;
+    right: 10px;
+}
+.tile.double-image .tag {
+    bottom: 20px;
+    right: -280px;
 }
 
 #logo {

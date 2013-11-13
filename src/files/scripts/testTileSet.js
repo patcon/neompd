@@ -11,7 +11,7 @@ define(['jquery'], function ($) {
             tags;
 
         try {
-            tags = JSON.parse($li.children('a').attr('data-tags'));
+            tags = JSON.parse($li.attr('data-tags'));
         } catch (e) {
             tags = [];
         }
