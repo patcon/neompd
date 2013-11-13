@@ -170,8 +170,8 @@ define([
         };
     };
 
-    Renderer.prototype.initializeTileMode = function () {
-        var newScrollTop = this.gridViewport.top + this.$grid.offset().top;
+    Renderer.prototype.initializeTileMode = function (isViaLinkClick) {
+        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.$grid.offset().top;
 
         // set minimum content height to extend to grid size
         this.$content.css({
@@ -257,11 +257,11 @@ define([
         }
     };
 
-    Renderer.prototype.onNavigated = function () {
+    Renderer.prototype.onNavigated = function (e, isViaLinkClick) {
         if (this.app.currentArticle) {
             this.initializeArticleMode();
         } else {
-            this.initializeTileMode();
+            this.initializeTileMode(isViaLinkClick);
         }
     };
 

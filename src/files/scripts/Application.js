@@ -21,6 +21,8 @@ define([
         var slug = getArticleSlug(window.location.hash),
             tagSlug = getTagSlug(window.location.hash);
 
+        this.lastLinkClickTime = 0;
+
         this.currentTag = null; // null is homepage, otherwise tag ID
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
@@ -32,13 +34,20 @@ define([
 
         // @todo this needs proper implementation
         $(window).on('hashchange', this.onHashChange.bind(this));
+        $('body').on('click', 'a[href]', this.onAnyLinkClick.bind(this));
 
         this.onHashChange();
     }
 
+    Application.prototype.onAnyLinkClick = function () {
+        this.lastLinkClickTime = new Date().getTime();
+    };
+
     Application.prototype.onHashChange = function () {
         var slug = getArticleSlug(window.location.hash),
-            tagSlug = getTagSlug(window.location.hash);
+            tagSlug = getTagSlug(window.location.hash),
+
+            isViaLinkClick = (this.lastLinkClickTime >= new Date().getTime() - 50);
 
         if (this.currentArticle) {
             this.currentArticle.destroy();
@@ -51,7 +60,7 @@ define([
             this.tileField.setFilterTag(tagSlug || null);
         }
 
-        $(this).trigger('navigated');
+        $(this).trigger('navigated', [ isViaLinkClick ]);
     };
 
     return Application;
