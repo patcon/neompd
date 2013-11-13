@@ -1,7 +1,8 @@
 ---
 name: "Stuart Campbell"
 role: "Business Analyst"
-tag: "Consulting, Analytics, Sales, Agile"
+tag: "people"
+skill: "Consulting, Analytics, Sales, Agile"
 quote: "Whether you think you can or you think you can't, you're probably right"
 coverimg: ""
 authorimg: "/images/avatar/Stuart_Campbell.png"

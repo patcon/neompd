@@ -1,7 +1,8 @@
 ---
 name: "Paul Spadafore"
 role: "Finance Director"
-tag: "Finance, Business Strategy"
+tag: "people"
+skill: "Finance, Business Strategy"
 quote: "Great leaders inspire others to be the “best they can be”"
 coverimg: ""
 authorimg: "/images/avatar/Paul_Spadafore.png"

@@ -1,7 +1,8 @@
 ---
 name: "Vibhu Arulsothynathan"
 role: "Business Analyst"
-tag: "Consulting, Analytics, Design, Agile, IA"
+tag: "people"
+skill: "Consulting, Analytics, Design, Agile, IA"
 quote: "You have to think anyway, so why not think big?"
 coverimg: ""
 authorimg: "/images/avatar/Vibhu_Arulsuthynathan.png"

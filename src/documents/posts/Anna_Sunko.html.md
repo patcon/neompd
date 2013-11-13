@@ -1,7 +1,8 @@
 ---
 name: "Anna Sunko"
 role: "Drupal Developer"
-tag: "Javascript, Drupal, Computer Science"
+tag: "people"
+skill: "Javascript, Drupal, Computer Science"
 quote: "It is quality rather than quantity that matters."
 coverimg: ""
 authorimg: ""
