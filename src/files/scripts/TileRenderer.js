@@ -91,8 +91,8 @@ define([
         if (this.renderedFixed !== tileFixed) {
             this.$li.css({
                 position: (this.renderedFixed = tileFixed) ? 'fixed' : 'absolute',
-                top: tileFixed ? -this.renderer.gridViewport.top : 0,
-                left: tileFixed ? -this.renderer.gridViewport.left : 0
+                top: tileFixed ? -this.renderer.gridViewport.top + 'px' : 0,
+                left: tileFixed ? -this.renderer.gridViewport.left + 'px' : 0
             });
         }
 
