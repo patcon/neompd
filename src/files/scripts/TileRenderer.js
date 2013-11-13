@@ -80,10 +80,11 @@ define([
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
+            this.renderedTransition = tileTransition;
+
             this.$li.css({
-                transition: (this.renderedTransition = tileTransition)
-                    ? 'transform 1s, -webkit-transform 1s, opacity 1.5s'
-                    : 'none'
+                webkitTransition: tileTransition ? '-webkit-transform 1s, opacity 1.5s' : 'none',
+                transition: tileTransition ? 'transform 1s, opacity 1.5s' : 'none'
             });
         }
 
