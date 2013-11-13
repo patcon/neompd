@@ -84,12 +84,22 @@ a {
 .tile-grid {
     z-index: 2;
     list-style-type: none;
-
     margin-left: @menu-width;
+    -webkit-transform: translateZ(0);
 
     li {
         margin: @column-gutter / 2;
         overflow: hidden;
+        border:1px solid #efefef;
+    }
+}
+
+.tile-grid.scrolling {
+    pointer-events:none;
+
+    * {
+        text-shadow:none !important;
+        box-shadow:none !important;
     }
 }
 
@@ -290,6 +300,7 @@ a {
 
 #menu {
     position:fixed;
+    -webkit-transform: translateZ(0);
     height:100%;
     width: @menu-width;
     z-index: 2;

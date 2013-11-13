@@ -21,6 +21,7 @@ define([
         var slug = getArticleSlug(window.location.hash),
             tagSlug = getTagSlug(window.location.hash);
 
+        this.$ = $(this);
         this.currentTag = null; // null is homepage, otherwise tag ID
         this.currentArticle = slug ? new Article(slug) : null; // current article view state
 
@@ -51,7 +52,7 @@ define([
             this.tileField.setFilterTag(tagSlug || null);
         }
 
-        $(this).trigger('navigated');
+        this.$.trigger('navigated');
     };
 
     return Application;

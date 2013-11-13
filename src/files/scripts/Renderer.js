@@ -46,40 +46,49 @@ define([
     /* End rAF polyfill */
 
     function RenderDelayQueue() {
-        var paintWaitId, paintFrameId;
-
         this.actionList = [];
+        this.isProcessing = false;
 
-        this.start = function () {
-            if (paintWaitId || paintFrameId) {
-                return;
-            }
-
-            paintFrameId = window.requestAnimationFrame(function () {
-                var actionCallback;
-
-                // signal we are no longer waiting for frame
-                paintFrameId = null;
-
-                if (this.actionList.length < 1) {
-                    return;
-                }
-
-                paintWaitId = window.setTimeout(function () {
-                    paintWaitId = null; // signal we are no longer waiting for another frame
-                    this.start();
-                }.bind(this), 50);
-
-                // perform last in case an exception happens
-                actionCallback = this.actionList.shift();
-                actionCallback();
-            }.bind(this));
-        }.bind(this);
+        this.PROCESS_PER_FRAME = 2;
+        this.PROCESS_PER_CALL = 4;
     }
 
-    RenderDelayQueue.prototype.add = function (callback) {
+    RenderDelayQueue.prototype.processFrame = function () {
+        var actionCallback,
+            numToProcess = this.PROCESS_PER_FRAME;
+
+        while(numToProcess-- && this.numToProcess--) {
+            actionCallback = this.actionList.shift();
+            if(! actionCallback) {
+                return this.isProcessing = false;
+            }
+            actionCallback();
+        }
+
+        if (!this.count || !this.actionList.length) {
+            return this.isProcessing = false;
+        }
+        window.setTimeout(this.process.bind(this), 20);
+    };
+
+    RenderDelayQueue.prototype.process = function () {
+        if(!this.isProcessing) {
+            if(!this.actionList.length) {
+                return;
+            }
+            this.numToProcess = this.PROCESS_PER_CALL;
+            this.isProcessing = true;
+        }
+
+        window.requestAnimationFrame(this.processFrame.bind(this));
+    };
+
+    RenderDelayQueue.prototype.isBusy = function() {
+        return this.isProcessing;
+    };
+
+    RenderDelayQueue.prototype.add = function (callback, atBack) {
         this.actionList.push(callback);
-        this.start();
     };
 
     RenderDelayQueue.prototype.remove = function (callback) {
@@ -100,10 +109,14 @@ define([
         var tileId;
 
         this.app = app;
+        this.$ = $(this);
 
         this.queue = new RenderDelayQueue();
 
-        $('#content').css({
+        this.$window = $(window);
+        this.$body = $(document.body);
+
+        this.$content = $('#content').css({
             overflow: 'hidden'
         });
 
@@ -116,15 +129,22 @@ define([
             opacity: 0
         });
 
-        this.$loadingOverlay = $('<div class="loading-overlay"></div>').appendTo('#content');
+        this.$menu = $('#menu');
+        this.$menuList = $('#menu > ul');
+        this.$menuButton = $('#menu-button');
+
+        this.$loadingOverlay = $('<div class="loading-overlay"></div>').appendTo(this.$content);
 
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
 
+        this.winHeight = this.$window.height();
+        this.gridOffset = this.$grid.offset();
         this.gridViewport = this.computeGridViewport();
 
         this.articleScrollTop = 0; // keep track of scroll top for possible transition
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0; // [-1..1], negative is on top, positive on bottom
+
 
         if (this.app.currentArticle) {
             this.initializeArticleMode();
@@ -139,17 +159,19 @@ define([
         });
 
         // todo: debounce
-        $(window).on('resize', this.onResize.bind(this));
-        $(window).on('scroll', this.onScroll.bind(this));
-        $(window).on('mousewheel', this.onMouseWheel.bind(this));
+        this.$window.on('resize', this.onResize.bind(this));
+        this.$window.on('scroll', this.onScroll.bind(this));
+        this.$window.on('mousewheel', this.onMouseWheel.bind(this));
 
         $(this.app).on('navigated', this.onNavigated.bind(this));
         $(this.app.tileField).on('changed', this.onTileFieldChanged.bind(this));
 
-        $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
+        this.$.on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
         // show/hide side bar tag in article view
-        $('#menu-button').on('click', function () { $('#menu > ul').toggleClass('shown'); });
+        this.$menuButton.on('click', function () {
+            this.$menuList.toggleClass('shown');
+        }.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -158,15 +180,16 @@ define([
         }
     }
 
-    Renderer.prototype.computeGridViewport = function () {
-        var scrollTop = $(window).scrollTop(),
-            scrollHeight = $(window).height(),
-            gridOffset = this.$grid.offset();
-
+    Renderer.prototype.computeGridViewport = function (tOffset, lOffset) {
+        var scrollTop = window.pageYOffset,
+            scrollHeight = this.winHeight,
+            gridOffset = this.gridOffset;
+        tOffset = tOffset || 0;
+        lOffset = lOffset || 0;
         return {
             left: -gridOffset.left, // @todo support horizontal scroll?
-            top: scrollTop - gridOffset.top,
-            bottom: scrollTop + scrollHeight - gridOffset.top
+            top: scrollTop - gridOffset.top - tOffset,
+            bottom: scrollTop + scrollHeight - gridOffset.top + lOffset
         };
     };
 
@@ -177,13 +200,13 @@ define([
         this.$content.css({
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height,
-            'min-height': $(window).height() + 'px',
+            'min-height': this.winHeight + 'px',
             transition: 'opacity 0.5s',
             opacity: 0
         });
 
         // restore view to where it should be
-        $(window).scrollTop(newScrollTop);
+        this.$window.scrollTop(newScrollTop);
     };
 
     Renderer.prototype.initializeArticleMode = function () {
@@ -192,9 +215,8 @@ define([
 
         // clear minimum content height from grid size
         this.$content.css({
-            transform: 'translateZ(0)',
             height: '',
-            'min-height': $(window).height() + 'px',
+            'min-height': this.winHeight + 'px',
             transition: 'opacity 0.5s',
             opacity: 1
         });
@@ -202,9 +224,9 @@ define([
         this.$loadingOverlay.attr('data-active', '');
 
         // set data mode attribute to article to show menu-button
-        $('#menu').attr('data-mode', 'article');
-        $('#menu > ul').removeClass('shown');
-        $('#menu-button').removeAttr( 'style' );
+        this.$menu.attr('data-mode', 'article');
+        this.$menuList.removeClass('shown');
+        this.$menuButton.removeAttr( 'style' );
 
         this.app.currentArticle.content.done(function (html) {
             this.$content.html(html);
@@ -216,27 +238,63 @@ define([
 
         // reset view top
         this.articleScrollTop = 0;
-        $(window).scrollTop(0);
+        this.$window.scrollTop(0);
 
         $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        $('#menu').removeAttr('data-mode');
+        this.$menu.removeAttr('data-mode');
+    };
+
+    Renderer.prototype.addScrollClass = function () {
+        if(this.scrollClassTimeout) {
+            clearTimeout(this.scrollClassTimeout);
+        } else {
+            requestAnimationFrame(function() {
+                this.$grid.addClass('scrolling');
+                this.hasScrollClass = true;
+            }.bind(this));
+        }
+
+        this.scrollClassTimeout = setTimeout(function() {
+            requestAnimationFrame(function() {
+                this.$grid.removeClass('scrolling');
+                this.scrollClassTimeout = null;
+                this.hasScrollClass = false;
+            }.bind(this));
+        }.bind(this), 350);
+    };
+
+    Renderer.prototype.debounceReveal = function () {
+        var offset;
+        if(!this.hasScrollClass || this.revealTimeout || this.queue.isBusy()) {
+            return;
+        }
+
+        offset = Math.floor(this.winHeight / 4);
+        this.revealTimeout = window.setTimeout(function () {
+            this.gridViewport = this.computeGridViewport(-offset, -offset);
+            this.$.trigger('viewport');
+            this.revealTimeout = null;
+
+            window.setTimeout(this.queue.process.bind(this.queue), 40);
+        }.bind(this), 80);
     };
 
     Renderer.prototype.onScroll = function () {
         if (!this.app.currentArticle) {
-            this.gridViewport = this.computeGridViewport();
-
-            $(this).trigger('viewport');
+            this.addScrollClass();
+            this.debounceReveal();
         } else {
-            this.articleScrollTop = $(window).scrollTop();
+            this.articleScrollTop = window.pageYOffset;
         }
     };
 
     Renderer.prototype.onResize = function () {
+        this.winHeight = this.$window.height();
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
+        this.gridOffset = this.$grid.offset();
     };
 
     Renderer.prototype.onScrollBackChanged = function () {
@@ -265,16 +323,16 @@ define([
     };
 
     Renderer.prototype.onMouseWheel = function (e) {
-        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.0006, // hardware delta is more than pixel speed
-            currentTime = new Date().getTime(),
-
-            scrollTop = $(window).scrollTop(),
-            scrollHeight = $(window).height(),
-            bodyHeight = $(document).height();
-
         if (!this.app.currentArticle) {
             return;
         }
+
+        var scrollBackDelta = -e.originalEvent.wheelDeltaY * 0.0006, // hardware delta is more than pixel speed
+            currentTime = new Date().getTime(),
+
+            scrollTop =  window.pageYOffset,
+            scrollHeight = this.winHeight,
+            bodyHeight = this.$body.height();
 
         if (this.articleScrollBackAmount < 0) {
             this.articleScrollBackAmount = Math.max(-1, this.articleScrollBackAmount + scrollBackDelta);
@@ -313,15 +371,13 @@ define([
         if (Math.abs(this.articleScrollBackAmount) === 1) {
             // cancel default even if switching location (otherwise inertia is reset)
             e.preventDefault();
-
-            $(this).trigger('scrollBackChanged');
+            this.$.trigger('scrollBackChanged');
 
             window.location = '#'; // @todo this more elegantly
         } else {
             // prevent default only if not reached the end
             e.preventDefault();
-
-            $(this).trigger('scrollBackChanged');
+            this.$.trigger('scrollBackChanged');
         }
     };
 

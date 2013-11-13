@@ -63,11 +63,11 @@ define([
                 (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
                 (!this.isArticleMode && !this.isRevealed ? (this.isBelowMiddle ? 1 : -1) * 200 : 0),
 
-            positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
+            positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + Math.max(this.tile.y + verticalOffset, -50) + 'px,0)',
 
-            tileNoEvents = !(!this.isArticleMode && this.isRevealed) || (this.tile.x === null),
+            tileNoEvents = this.isArticleMode,
             tileFixed = (this.isArticleMode && this.isDismissing),
-            tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
+            tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0.001),
             tileTransform = positionTransform === null ?
                 (this.lastPositionTransform || 'translate3d(0,0,0)') + ' scale(0.001)' :
                 positionTransform,
@@ -81,7 +81,9 @@ define([
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
             this.$li.css({
-                transition: (this.renderedTransition = tileTransition) ? '-webkit-transform 1s, opacity 1.5s' : 'none'
+                transition: (this.renderedTransition = tileTransition) ?
+                    '-webkit-transform 0.425s ease-out ' + (this.isBelowMiddle ? '0.035s' : '') + ', opacity 0.55s ease-in ' + (this.isBelowMiddle ? '0.045s' : '') :
+                    'none'
             });
         }
 
@@ -198,11 +200,10 @@ define([
         this.renderTile();
     };
 
-    TileRenderer.prototype.onViewport = function () {
+    TileRenderer.prototype.onViewport = function (e) {
         if (this.isArticleMode) {
             throw 'cannot change viewport in article mode';
         }
-
         if (!this.isRevealed) {
             if (this.getVisibility()) {
                 this.requestPendingReveal();
