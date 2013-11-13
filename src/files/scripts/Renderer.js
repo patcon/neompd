@@ -245,6 +245,7 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         this.$menu.removeAttr('data-mode');
+        this.$menuButton.removeAttr( 'style' );
     };
 
     Renderer.prototype.addScrollClass = function () {

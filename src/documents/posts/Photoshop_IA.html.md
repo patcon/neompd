@@ -11,7 +11,7 @@ tileimg: "/images/articles/Photoshop_IA/tile.jpg"
 authorimg: "/images/avatar/Andrew_Semuschak.png"
 author: "Andrew Semuschak"
 date: "2013-06-19"
-tilestyle: "double image"
+tilestyle: "double-image"
 ---
 
 ![](/images/articles/Photoshop_IA/body_1.jpg)

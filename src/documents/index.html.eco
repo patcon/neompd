@@ -9,12 +9,12 @@
 </head>
 
 <body>
-	<nav id="menu">
+	<div id="menu">
 		<a id="logo" href="#">Myplanet Digital</a>
 		<div id="menu-button">Show Menu</div>
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
-				<li><a href="#tags/<%= tag.name.split('.')[0] %>"><%= tag.label %></a></li>
+				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
 			<% end %>
 		</ul>
 		<!--footer class="adr">
@@ -26,7 +26,7 @@
 			<span class="tel">866-232-7456</span>
 			<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
 		</footer-->
-	</nav>
+	</div>
 
     <div id="content"></div>
 
@@ -36,21 +36,30 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(/\s+|,\s*/g)) %>" class="people" href="<%= post.hash %>">
-				            <header class="<%= post.color %>">
+                        <a data-tags="<%= JSON.stringify(["people"]) %>" class="people" href="<%= post.hash %>">
+				            <h2>
 		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
-		            		</header>
+		            		</h2>
 		            		<% if post.authorimg: %>
 						    	<img src="<%= post.authorimg %>">
 			                <% end %>
 			                <p class="name"><%= post.name %></p>
 			                <p class="role"><%= post.role %></p>
 			            </a>
-    				<% else: %>
-						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %> <%= post.tilestyle %>" href="<%= post.hash %>">
-			            	<header class="<%= post.color %>">
+			        <% else if post.tilestyle is "double-image": %>
+			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> double-image" href="<%= post.hash %>">
+			                <img src="<%= post.tileimg %>">
+			                <h2>
 				            	<span><%= post.header %></span>
-						    </header>
+						    </h2>
+			                <span class="author"><%= post.author %></span>
+							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+			            </a>
+    				<% else: %>
+						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> image" href="<%= post.hash %>">
+			            	<h2>
+				            	<span><%= post.header %></span>
+						    </h2>
 			                <img src="<%= post.tileimg %>">
 			                <p><%= post.summary %></p>
 			                <span class="author"><%= post.author %></span>
@@ -58,10 +67,10 @@
 			            </a>
     			    <% end %>
     	        <% else: %>
-		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(', ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
-		            	<header class="<%= post.color %>">
+		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
+		            	<h2>
 		            		<span><%= post.header %></span>
-		            	</header>
+		            	</h2>
 		                <p><%= post.summary %></p>
 		                <span class="author"><%= post.author %></span>
 						<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
