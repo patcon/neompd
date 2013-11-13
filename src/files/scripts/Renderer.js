@@ -210,6 +210,7 @@ define([
     };
 
     Renderer.prototype.initializeArticleMode = function () {
+        debugger;
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
@@ -264,7 +265,7 @@ define([
                 this.scrollClassTimeout = null;
                 this.hasScrollClass = false;
             }.bind(this));
-        }.bind(this), 350);
+        }.bind(this), 400);
     };
 
     Renderer.prototype.debounceReveal = function () {
@@ -278,14 +279,13 @@ define([
             this.gridViewport = this.computeGridViewport(-offset, -offset);
             this.$.trigger('viewport');
             this.revealTimeout = null;
-
-            window.setTimeout(this.queue.process.bind(this.queue), 40);
-        }.bind(this), 80);
+            window.setTimeout(this.queue.process.bind(this.queue), 30);
+        }.bind(this), 120);
     };
 
     Renderer.prototype.onScroll = function () {
+        this.addScrollClass();
         if (!this.app.currentArticle) {
-            this.addScrollClass();
             this.debounceReveal();
         } else {
             this.articleScrollTop = window.pageYOffset;

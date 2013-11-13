@@ -82,7 +82,7 @@ define([
         if (this.renderedTransition !== tileTransition) {
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ?
-                    '-webkit-transform 0.425s ease-out ' + (this.isBelowMiddle ? '0.035s' : '') + ', opacity 0.55s ease-in ' + (this.isBelowMiddle ? '0.045s' : '') :
+                    '-webkit-transform 0.4s ease-out 0.025s, opacity 0.535s ease-in 0.04s' :
                     'none'
             });
         }
