@@ -121,8 +121,11 @@ define([
         });
 
         this.$grid = $('<ul class="tile-grid"></ul>').appendTo('#content').css({
-            position: 'relative'
+            position: 'relative',
+            transform: 'translateZ(0)'
         });
+
+        this.$loadingOverlay = $('<div class="loading-overlay"></div>').appendTo(this.$content);
 
         this.$content = $('<div class="article"></div>').appendTo('#content').css({
             transform: 'translateZ(0)',
@@ -133,11 +136,10 @@ define([
         this.$menuList = $('#menu > ul');
         this.$menuButton = $('#menu-button');
 
-        this.$loadingOverlay = $('<div class="loading-overlay"></div>').appendTo(this.$content);
-
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
 
         this.winHeight = this.$window.height();
+        // cache offset for speed and to avoid browser-specific transform quirks (http://bugs.jquery.com/ticket/8362)
         this.gridOffset = this.$grid.offset();
         this.gridViewport = this.computeGridViewport();
 
@@ -194,14 +196,19 @@ define([
     };
 
     Renderer.prototype.initializeTileMode = function (isViaLinkClick) {
-        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.$grid.offset().top;
+        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.gridOffset.top;
+
+        // reset any previous fixed-mode transform
+        this.$grid.css({
+            transform: 'translateZ(0)'
+        });
 
         // set minimum content height to extend to grid size
         this.$content.css({
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height,
             'min-height': this.winHeight + 'px',
-            transition: 'opacity 0.5s',
+            transition: 'opacity 0.3s',
             opacity: 0
         });
 
@@ -210,17 +217,16 @@ define([
     };
 
     Renderer.prototype.initializeArticleMode = function () {
+        this.articleScrollTop = 0;
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
-        // clear minimum content height from grid size
-        this.$content.css({
-            height: '',
-            'min-height': this.winHeight + 'px',
-            transition: 'opacity 0.5s',
-            opacity: 1
+        // set up fixed-mode parent transform for tiles
+        this.$grid.css({
+            transform: 'translate3d(0px,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top - 1000) + 'px,0)'
         });
 
+        // clear minimum content height from grid size
         this.$loadingOverlay.attr('data-active', '');
 
         // set data mode attribute to article to show menu-button
@@ -228,13 +234,36 @@ define([
         this.$menuList.removeClass('shown');
         this.$menuButton.removeAttr( 'style' );
 
-        this.app.currentArticle.content.done(function (html) {
-            this.$content.html(html);
-        }.bind(this));
-
-        this.app.currentArticle.content.always(function () {
-            this.$loadingOverlay.removeAttr('data-active');
-        }.bind(this));
+        window.setTimeout(function () {
+            if(this.app.currentArticle) {
+                this.app.currentArticle.content.always(function (html) {
+                    window.requestAnimationFrame(function() {
+                        if(this.app.currentArticle) {
+                            this.$content.css({
+                                height: '',
+                                'min-height': this.winHeight + 'px',
+                                opacity: 1,
+                                transition: 'opacity 1.1s 0.1s',
+                                transform: 'translate3d(0,0,0)'
+                            }).html(html);
+                            setTimeout(function() {
+                                window.requestAnimationFrame(function() {
+                                    this.$loadingOverlay.removeAttr('data-active');
+                                }.bind(this));
+                            }.bind(this), 300); //todo: do this with a transition end event listener
+                        } else {
+                            window.requestAnimationFrame(function() {
+                                this.$loadingOverlay.removeAttr('data-active');
+                            }.bind(this));
+                        }
+                    }.bind(this));
+                }.bind(this));
+            } else {
+                window.requestAnimationFrame(function() {
+                    this.$loadingOverlay.removeAttr('data-active');
+                }.bind(this));
+            }
+        }.bind(this), 1100);
 
         // reset view top
         this.articleScrollTop = 0;
@@ -279,7 +308,7 @@ define([
             this.$.trigger('viewport');
             this.revealTimeout = null;
             window.setTimeout(this.queue.process.bind(this.queue), 30);
-        }.bind(this), 100);
+        }.bind(this), 90);
     };
 
     Renderer.prototype.onScroll = function () {
@@ -288,6 +317,11 @@ define([
             this.debounceReveal();
         } else {
             this.articleScrollTop = window.pageYOffset;
+
+            // maintain fixed-mode parent transform for tiles
+            this.$grid.css({
+                transform: 'translate3d(0px,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top) + 'px,0)'
+            });
         }
     };
 

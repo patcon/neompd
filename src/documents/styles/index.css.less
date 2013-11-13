@@ -111,22 +111,19 @@ a {
 }
 
 .loading-overlay {
-    position: fixed;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
-
-    z-index: 1;
-
-    background: #f9f9f9 url(../images/loading.gif) 50% 50% no-repeat;
     opacity: 0;
-    visibility: hidden;
+    z-index: 1;
+    -webkit-transition: opacity 0.4s;
 
     &[data-active] {
-        transition: opacity 0.5s;
+        background: #f9f9f9 url(../images/loading.gif) 50% 50% no-repeat;
         opacity: 1;
-        visibility: visible;
+        position: fixed;
+        -webkit-transform:translateZ(0);
     }
 }
 
@@ -311,7 +308,8 @@ a {
     height: 97px;
     background: url(../images/logo_sprite.png);
     background-size: 100%;
-
+    z-index:1;
+    position:relative;
     &:hover {
         background: url(../images/logo_sprite.png) 0px 97px;
         background-size: 100%;
@@ -401,12 +399,15 @@ a {
     height: 52px;
     cursor: pointer;
     pointer-events:none;
-    -webkit-transition: opacity 0.2s ease-out;
+    -webkit-transform:translate3d(0, -80px, 0);
+    -webkit-transition: opacity 0.5s, -webkit-transform 0.7s;
 }
 #menu[data-mode=article] {
     #menu-button {
         pointer-events: auto;
         opacity: 1;
+        -webkit-transform:translate3d(0,0,0);
+        -webkit-transition: opacity 0.9s, -webkit-transform 0.7s;
     }
     ul {
         opacity: 0.005;
