@@ -212,7 +212,7 @@ a {
     -webkit-font-smoothing: antialiased;
     color:#fff;
     background-color: #2a2a2a;
-    letter-spacing: -.1px;
+    letter-spacing: -1px;
     line-height: 1.1;
     width: @column-width - 30px * 2;
     padding:20px 30px;
@@ -221,11 +221,11 @@ a {
 .tile-grid > li > a.people > img {
     position: relative;
     z-index: 2;
-    margin: -50px auto 0;
+    margin: -43px auto 0;
     width: 80px;
     height: 80px;
-    border-radius: 45px;
-    border: 5px solid white;
+    border-radius: 43px;
+    border: 3px solid white;
 }
 
 .tile-grid > li > a.people > h2 {
@@ -234,7 +234,7 @@ a {
 
 .tile-grid > li > a.people > p.name {
     font-family: TradeGothicBold;
-    padding: 18px 0 0 0;
+    padding: 8px 0 0 0;
     text-align: center;
     font-size: 21px;
 }
@@ -243,14 +243,15 @@ a {
     width: 200px;
     text-align: center;
     margin: 0 auto;
-    padding: 5px 0 31px;
+    padding: 4px 0 20px;
     color: #bbb;
     font-family: TradeGothic;
     font-size: 15px;
 }
 
 .tile-grid > li > a.double-image > h2 {
-    font-size: 53px;
+    font-size: 60px;
+    letter-spacing: -2.3px;
     padding: 35px 40px 0px;
     width: @column-width * 2 + @column-gutter - 40px * 2;
     color: #333;
@@ -290,6 +291,17 @@ a {
     text-transform: uppercase;
     color:#bbb;
     width:auto;
+    padding: 20px 0px 25px 25px;
+    font-size: 10px;
+}
+
+.tile-grid > li > .author {
+    position: absolute;
+    display: inline-block;
+    font-family: TradeGothic;
+    text-transform: uppercase;
+    color: #bbb;
+    width: auto;
     padding: 20px 0px 25px 25px;
     font-size: 10px;
 }
@@ -351,33 +363,26 @@ a {
         -webkit-transition: background 0.05s ease-out;
         transition: background 0.05s ease-out;
         border-bottom: 1px solid #333;
+        background-size: 100%;
     }
-
     &.business:before {
         background: url(../images/business.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
     &.careers:before {
         background: url(../images/careers.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
     &.culture:before {
         background: url(../images/culture.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
     &.design:before {
         background: url(../images/design.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
     &.people:before {
         background: url(../images/people.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
     &.technology:before {
         background: url(../images/technology.png) 0px 30px no-repeat;
-        background-size: 100%;
     }
-
     &:hover:before {
         background-position: 0px 10px;
     }
