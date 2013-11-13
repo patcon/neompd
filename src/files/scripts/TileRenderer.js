@@ -22,7 +22,6 @@ define([
         this.isDoneDismissing = false;
         this.isBelowMiddle = false;
 
-        this.renderedFixed = null;
         this.renderedTransform = null;
         this.renderedOpacity = null;
         this.renderedTransition = false;
@@ -66,7 +65,6 @@ define([
             positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + (this.tile.y + verticalOffset) + 'px,0)',
 
             tileNoEvents = !(!this.isArticleMode && this.isRevealed) || (this.tile.x === null),
-            tileFixed = (this.isArticleMode && this.isDismissing),
             tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0),
             tileTransform = positionTransform === null ?
                 (this.lastPositionTransform || 'translate3d(0,0,0)') + ' scale(0.001)' :
@@ -85,14 +83,6 @@ define([
             this.$li.css({
                 webkitTransition: tileTransition ? '-webkit-transform 1s, opacity 1.5s' : 'none',
                 transition: tileTransition ? 'transform 1s, opacity 1.5s' : 'none'
-            });
-        }
-
-        if (this.renderedFixed !== tileFixed) {
-            this.$li.css({
-                position: (this.renderedFixed = tileFixed) ? 'fixed' : 'absolute',
-                top: tileFixed ? -this.renderer.gridViewport.top + 'px' : 0,
-                left: tileFixed ? -this.renderer.gridViewport.left + 'px' : 0
             });
         }
 

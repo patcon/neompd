@@ -108,7 +108,8 @@ define([
         });
 
         this.$grid = $('<ul class="tile-grid"></ul>').appendTo('#content').css({
-            position: 'relative'
+            position: 'relative',
+            transform: 'translateZ(0)'
         });
 
         this.$content = $('<div class="article"></div>').appendTo('#content').css({
@@ -120,6 +121,8 @@ define([
 
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
 
+        // cache offset for speed and to avoid browser-specific transform quirks (http://bugs.jquery.com/ticket/8362)
+        this.gridOffset = this.$grid.offset();
         this.gridViewport = this.computeGridViewport();
 
         this.articleScrollTop = 0; // keep track of scroll top for possible transition
@@ -160,18 +163,22 @@ define([
 
     Renderer.prototype.computeGridViewport = function () {
         var scrollTop = $(window).scrollTop(),
-            scrollHeight = $(window).height(),
-            gridOffset = this.$grid.offset();
+            scrollHeight = $(window).height();
 
         return {
-            left: -gridOffset.left, // @todo support horizontal scroll?
-            top: scrollTop - gridOffset.top,
-            bottom: scrollTop + scrollHeight - gridOffset.top
+            left: -this.gridOffset.left, // @todo support horizontal scroll?
+            top: scrollTop - this.gridOffset.top,
+            bottom: scrollTop + scrollHeight - this.gridOffset.top
         };
     };
 
     Renderer.prototype.initializeTileMode = function (isViaLinkClick) {
-        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.$grid.offset().top;
+        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.gridOffset.top;
+
+        // reset any previous fixed-mode transform
+        this.$grid.css({
+            transform: 'translateZ(0)'
+        });
 
         // set minimum content height to extend to grid size
         this.$content.css({
@@ -187,8 +194,14 @@ define([
     };
 
     Renderer.prototype.initializeArticleMode = function () {
+        this.articleScrollTop = 0;
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
+
+        // set up fixed-mode parent transform for tiles
+        this.$grid.css({
+            transform: 'translate3d(0px,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top) + 'px,0)'
+        });
 
         // clear minimum content height from grid size
         this.$content.css({
@@ -215,7 +228,6 @@ define([
         }.bind(this));
 
         // reset view top
-        this.articleScrollTop = 0;
         $(window).scrollTop(0);
 
         $(this.app.currentArticle).one('destroyed', this.onArticleDestroyed.bind(this));
@@ -233,6 +245,11 @@ define([
             $(this).trigger('viewport');
         } else {
             this.articleScrollTop = $(window).scrollTop();
+
+            // maintain fixed-mode parent transform for tiles
+            this.$grid.css({
+                transform: 'translate3d(0px,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top) + 'px,0)'
+            });
         }
     };
 
