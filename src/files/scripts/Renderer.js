@@ -279,7 +279,7 @@ define([
             this.$.trigger('viewport');
             this.revealTimeout = null;
             window.setTimeout(this.queue.process.bind(this.queue), 30);
-        }.bind(this), 120);
+        }.bind(this), 100);
     };
 
     Renderer.prototype.onScroll = function () {
