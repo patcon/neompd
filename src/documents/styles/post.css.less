@@ -1,3 +1,5 @@
+@menu-width: 178px;
+@content-width: 920px;
 @content-left-padding: 250px;
 
 .post {
@@ -6,6 +8,8 @@
 	padding: 0;
 	font-size: 100%;
 	background-color: #fff;
+
+    min-width: @content-width + @menu-width * 2; // ensure minimum width so that left menu does not overlap
 
 	.banner {
 		position: relative;
@@ -33,14 +37,14 @@
 			font-weight: bold;
 			font-size: 7em;
 			letter-spacing: -3.7px;
-			width: 1100px;
+			width: @content-width;
 			line-height: 0.8;
 
 			margin: -118px auto 0px;
 
 			span {
 				display: inline-block;
-				margin-left: 76px;
+				margin-left: -14px;
 				padding-left: 34px;
 				padding-right: 42px;
 				padding-top: 20px;
@@ -58,7 +62,7 @@
 	.content {
 		position: relative;
 		margin: 0 auto;
-		width: 670px;
+		width: @content-width - @content-left-padding;
 		padding-top: 33px;
 		padding-left: @content-left-padding;
 
