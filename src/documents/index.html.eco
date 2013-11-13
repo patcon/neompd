@@ -37,8 +37,8 @@
             <li>
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-	                    <div>    
-	                        <a data-tags="<%= JSON.stringify(["people"]) %>" class="people" href="<%= post.hash %>">
+	                    <div class="tile people">    
+	                        <a data-tags="<%= JSON.stringify(["people"]) %>" href="<%= post.hash %>">
 					            <h2>
 			            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
 			            		</h2>
@@ -51,8 +51,8 @@
 				            <span class="tag"><a href="#tags/people">people</a></span>
 				        </div>
 			        <% else if post.tilestyle is "double-image": %>
-			        	<div>
-				        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.firstTag %> double-image" href="<%= post.hash %>">
+			        	<div class="tile <%= post.firstTag %> double-image">
+				        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" href="<%= post.hash %>">
 				                <img src="<%= post.tileimg %>">
 				                <h2>
 					            	<span><%= post.header %></span>
@@ -65,8 +65,8 @@
 							<span class="tag"><a href="#tags/<%= post.firstTag %>"><%= post.firstTag %></a></span>
 						</div>
     				<% else: %>
-    					<div>
-							<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.firstTag %> image" href="<%= post.hash %>">
+    					<div class="tile <%= post.firstTag %> image">
+							<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" href="<%= post.hash %>">
 				            	<h2>
 					            	<span><%= post.header %></span>
 							    </h2>
@@ -81,8 +81,8 @@
 						</div>
     			    <% end %>
     	        <% else: %>
-    	        	<div>
-			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.firstTag %>" href="<%= post.hash %>">
+    	        	<div class="tile <%= post.firstTag %>">
+			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>"  href="<%= post.hash %>">
 			            	<h2>
 			            		<span><%= post.header %></span>
 			            	</h2>
