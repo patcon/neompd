@@ -68,7 +68,7 @@ define([
         if (!this.count || !this.actionList.length) {
             return this.isProcessing = false;
         }
-        window.setTimeout(this.process.bind(this), 20);
+        window.setTimeout(this.process.bind(this), 25);
     };
 
     RenderDelayQueue.prototype.process = function () {
@@ -193,8 +193,8 @@ define([
         };
     };
 
-    Renderer.prototype.initializeTileMode = function () {
-        var newScrollTop = this.gridViewport.top + this.$grid.offset().top;
+    Renderer.prototype.initializeTileMode = function (isViaLinkClick) {
+        var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.$grid.offset().top;
 
         // set minimum content height to extend to grid size
         this.$content.css({
@@ -210,7 +210,6 @@ define([
     };
 
     Renderer.prototype.initializeArticleMode = function () {
-        debugger;
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0;
 
@@ -315,11 +314,11 @@ define([
         }
     };
 
-    Renderer.prototype.onNavigated = function () {
+    Renderer.prototype.onNavigated = function (e, isViaLinkClick) {
         if (this.app.currentArticle) {
             this.initializeArticleMode();
         } else {
-            this.initializeTileMode();
+            this.initializeTileMode(isViaLinkClick);
         }
     };
 

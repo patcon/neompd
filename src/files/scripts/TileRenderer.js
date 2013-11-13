@@ -80,6 +80,8 @@ define([
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
+            this.renderedTransition = tileTransition;
+
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ?
                     '-webkit-transform 0.4s ease-out 0.025s, opacity 0.535s ease-in 0.04s' :
@@ -90,8 +92,8 @@ define([
         if (this.renderedFixed !== tileFixed) {
             this.$li.css({
                 position: (this.renderedFixed = tileFixed) ? 'fixed' : 'absolute',
-                top: tileFixed ? -this.renderer.gridViewport.top : 0,
-                left: tileFixed ? -this.renderer.gridViewport.left : 0
+                top: tileFixed ? -this.renderer.gridViewport.top + 'px' : 0,
+                left: tileFixed ? -this.renderer.gridViewport.left + 'px' : 0
             });
         }
 
