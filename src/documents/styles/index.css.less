@@ -255,20 +255,22 @@ a {
         padding:34px 30px 70px;
     }
     > p.name {
+        width: 200px;
+        margin: 0 auto;
         font-family: TradeGothicBold;
         padding: 8px 0 30px;
         text-align: center;
         font-size: 21px;
     }
-    > p.role {
-        width: 200px;
-        text-align: center;
-        margin: 0 auto;
-        padding: 4px 0 30px;
-        color: #bbb;
-        font-family: TradeGothic;
-        font-size: 15px;
-    }
+    // > p.role {
+    //     width: 200px;
+    //     text-align: center;
+    //     margin: 0 auto;
+    //     padding: 4px 0 30px;
+    //     color: #bbb;
+    //     font-family: TradeGothic;
+    //     font-size: 15px;
+    // }
 }
 
 .tile.double-image {
@@ -293,10 +295,6 @@ a {
             height: 115px;
             background: url(../images/meteor.png) no-repeat;
         }
-    }
-
-    a > span, .author-link {
-        padding: 20px 0px 40px 40px;
     }
 
     a > img {
@@ -329,8 +327,8 @@ a {
 
 .tile .tag {
     position: absolute;
-    bottom:13px;
-    right: 20px;
+    bottom:20px;
+    right: 10px;
     z-index: 1;
 
     a {
@@ -343,8 +341,7 @@ a {
             display: block;
             content: '';
             height: 61px;
-            width: 58px;
-            margin: 0 auto 10px;
+            width: 47px;
             -webkit-transition: background 0.05s ease-out;
             transition: background 0.05s ease-out;
             border-bottom: 1px solid #333;
@@ -356,19 +353,13 @@ a {
 
     }
 }
-.tile.people .tag {
-    bottom: 0px;
-    right: 10px;
-}
-.tile.double-image .tag {
-    bottom: 20px;
-    right: 30px;
-}
 
 #logo {
+    position: fixed;
     display: block;
+    top: 20px;
+    left: 40px;
     font-size: 0;
-    margin: 20px auto 0;
     width: 97px;
     height: 97px;
     background: url(../images/logo_sprite.png);
@@ -391,7 +382,7 @@ a {
         top: 166px;
         list-style-type: none;
         text-align: center;
-        font-size: 13px;
+        font-size: 15px;
         opacity: 1;
         -webkit-transform: translate3d(0,0,0);
         -webkit-transition: opacity 0.2s ease-out, -webkit-transform 0.2s ease-out;
@@ -417,7 +408,7 @@ a {
                     display: block;
                     content: '';
                     height: 61px;
-                    width: 58px;
+                    width: 50px;
                     margin: 0 auto 10px;
                     -webkit-transition: background 0.05s ease-out;
                     transition: background 0.05s ease-out;
@@ -450,8 +441,10 @@ a {
     }
 }
 #menu-button {
+    position: fixed;
     opacity: 0.005;
-    margin: 10px auto;
+    top: 130px;
+    left: 63px;
     font-size: 0;
     background-image: url(../images/lines.png);
     width: 52px;
@@ -459,6 +452,9 @@ a {
     cursor: pointer;
     pointer-events:none;
     -webkit-transition: opacity 0.2s ease-out;
+}
+#menu-button {
+
 }
 #menu[data-mode=article] {
     #menu-button {

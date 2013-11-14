@@ -9,9 +9,9 @@
 </head>
 
 <body>
+	<a id="logo" href="#">Myplanet Digital</a>
+	<div id="menu-button">Show Menu</div>
 	<div id="menu">
-		<a id="logo" href="#">Myplanet Digital</a>
-		<div id="menu-button">Show Menu</div>
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
