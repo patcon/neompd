@@ -49,13 +49,17 @@ if (!Date.now)
 /* End rAF polyfill */
 
 require([
+    './fonts',
     './Application',
     './Renderer',
     './testTileSet'
-], function (Application, Renderer, articleSet) {
+], function (fonts, Application, Renderer, articleSet) {
     'use strict';
 
-    var app = new Application(articleSet),
-        renderer = new Renderer(app);
-
+    fonts
+        .load([ 'Plantin', 'PlantinBold', 'PlantinBoldItalic', 'TradeGothic', 'TradeGothicBold' ])
+        .done(function () {
+            var app = new Application(articleSet),
+                renderer = new Renderer(app);
+        });
 });
