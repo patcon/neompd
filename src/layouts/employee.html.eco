@@ -12,7 +12,7 @@
 			<div class="author-title"><%= @document.role %></div>
 			<blockquote><%= @document.quote %></blockquote>
 			<ul class="tag-list">
-				<%- "<li>" + @document.skill.split(" ").join("</li><li>") + "</li>" %>
+				<%- '<li>' + @document.skill + '</li>' %>
 			</ul>
 			<ul class="portfolio">
 				<% if @document.twitter: %>
