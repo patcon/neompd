@@ -90,7 +90,6 @@ a {
 
     li {
         margin: @column-gutter / 2;
-        border: 1px solid #e7e7e7;
         overflow: hidden;
     }
 }
@@ -121,24 +120,10 @@ a {
     }
 }
 
-.tile > a {
-    width: @column-width - @column-padding * 2;
-    display: block;
-    padding: @column-padding;
-
-    overflow: hidden;
-
-    font-family: Plantin;
-    font-size:14px;
-
-    background: #fff;
-
-    &:hover {
-        text-decoration: none;
-    }
-}
-
 .tile.design {
+    &:hover {
+
+    }
     h2 {
         background: rgba(72, 207, 173, 1);
     }
@@ -207,6 +192,18 @@ a {
 }
 
 .tile > a {
+    width: @column-width - @column-padding * 2;
+    display: block;
+    padding: @column-padding;
+    overflow: hidden;
+    font-family: Plantin;
+    font-size:14px;
+    background: #fff;
+
+    &:hover {
+        text-decoration: none;
+    }
+
     > p {
         display: block;
         line-height: 20px;
@@ -276,7 +273,7 @@ a {
 
 .tile.double-image {
 
-    a {
+    > a {
         width: @column-width * 2 + @column-gutter;
     }
     h2 {
@@ -317,13 +314,12 @@ a {
 
 .tile .author-link {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 25px;
+    left: 25px;
     display: inline-block;
     font-family: TradeGothic;
     text-transform: uppercase;
     width: auto;
-    padding: 20px 0px 25px 25px;
     font-size: 10px;
 
     a {
@@ -339,7 +335,7 @@ a {
 
     a {
         display: inline-block;
-        font-family: "Plantin";
+        font-family: "PlantinBold";
         font-weight: bold;
         color: #333;
 
@@ -366,7 +362,7 @@ a {
 }
 .tile.double-image .tag {
     bottom: 20px;
-    right: -280px;
+    right: 30px;
 }
 
 #logo {
@@ -389,65 +385,68 @@ a {
     width: @menu-width;
     z-index: 2;
     font-family:TradeGothic;
-}
-#menu > ul {
-    position: absolute;
-    top: 166px;
-    list-style-type: none;
-    text-align: center;
-    font-size: 13px;
-    opacity: 1;
-    -webkit-transform: translate3d(0,0,0);
-    -webkit-transition: opacity 0.2s ease-out, -webkit-transform 0.2s ease-out;
-}
-#menu > ul > li {
-    display: inline-block;
-    margin: 0 27px;
-}
-#menu > ul > li > a {
-    display: block;
-    max-width: 100%;
-
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-transform: lowercase;
-    text-decoration: none;
     
-    font-family: "Plantin";
-    font-weight: bold;
-    color: #333;
+    ul {
+        position: absolute;
+        top: 166px;
+        list-style-type: none;
+        text-align: center;
+        font-size: 13px;
+        opacity: 1;
+        -webkit-transform: translate3d(0,0,0);
+        -webkit-transition: opacity 0.2s ease-out, -webkit-transform 0.2s ease-out;
 
-    &:before {
-        display: block;
-        content: '';
-        height: 61px;
-        width: 58px;
-        margin: 0 auto 10px;
-        -webkit-transition: background 0.05s ease-out;
-        transition: background 0.05s ease-out;
-        border-bottom: 1px solid #333;
-        background-size: 100%;
-    }
-    &.business:before {
-        background: url(../images/business.png) 0px 30px no-repeat;
-    }
-    &.careers:before {
-        background: url(../images/careers.png) 0px 30px no-repeat;
-    }
-    &.culture:before {
-        background: url(../images/culture.png) 0px 30px no-repeat;
-    }
-    &.design:before {
-        background: url(../images/design.png) 0px 30px no-repeat;
-    }
-    &.people:before {
-        background: url(../images/people.png) 0px 30px no-repeat;
-    }
-    &.technology:before {
-        background: url(../images/technology.png) 0px 30px no-repeat;
-    }
-    &:hover:before {
-        background-position: 0px 10px;
+        li {
+            display: inline-block;
+            margin: 0 27px;
+
+            a {
+                display: block;
+                max-width: 100%;
+
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                text-transform: lowercase;
+                text-decoration: none;
+                
+                font-family: "PlantinBold";
+                font-weight: bold;
+                color: #333;
+
+                &:before {
+                    display: block;
+                    content: '';
+                    height: 61px;
+                    width: 58px;
+                    margin: 0 auto 10px;
+                    -webkit-transition: background 0.05s ease-out;
+                    transition: background 0.05s ease-out;
+                    border-bottom: 1px solid #333;
+                    background-size: 100%;
+                }
+                &.business:before {
+                    background: url(../images/business.png) 0px 30px no-repeat;
+                }
+                &.careers:before {
+                    background: url(../images/careers.png) 0px 30px no-repeat;
+                }
+                &.culture:before {
+                    background: url(../images/culture.png) 0px 30px no-repeat;
+                }
+                &.design:before {
+                    background: url(../images/design.png) 0px 30px no-repeat;
+                }
+                &.people:before {
+                    background: url(../images/people.png) 0px 30px no-repeat;
+                }
+                &.technology:before {
+                    background: url(../images/technology.png) 0px 30px no-repeat;
+                }
+                &:hover:before {
+                    background-position: 0px 10px;
+                }
+            }
+        }
     }
 }
 #menu-button {

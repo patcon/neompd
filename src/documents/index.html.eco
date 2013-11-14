@@ -46,7 +46,6 @@
 							    	<img src="<%= post.authorimg %>">
 				                <% end %>
 				                <p class="name"><%= post.name %></p>
-				                <p class="role"><%= post.role %></p>
 				            </a>
 				            <span class="tag"><a href="#tags/people"></a></span>
 				        </div>
