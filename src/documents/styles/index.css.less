@@ -392,6 +392,8 @@ a {
     width: @menu-width;
     z-index: 2;
     font-family:TradeGothic;
+    -webkit-transform: translate3d(0,0,0);
+    -webkit-transition: -webkit-transform 0.2s ease-out;
     
     ul {
         position: absolute;
@@ -400,8 +402,6 @@ a {
         text-align: center;
         font-size: 15px;
         opacity: 1;
-        -webkit-transform: translate3d(0,0,0);
-        -webkit-transition: opacity 0.2s ease-out, -webkit-transform 0.2s ease-out;
 
         li {
             display: inline-block;
@@ -476,7 +476,12 @@ body[data-mode=article] {
         pointer-events: auto;
         opacity: 1;
     }
+
     #menu {
+        -webkit-transform: translate3d(-178px,0,0);
+        background: #eee url(../images/bg.png);
+        background-size: 200px 200px;
+        -webkit-transition: -webkit-transform 0.2s ease-out;
         ul {
             opacity: 0.005;
             pointer-events:none;
@@ -484,6 +489,7 @@ body[data-mode=article] {
         }
     }
     #menu.shown {
+        -webkit-transform: translate3d(0,0,0);
         background: #eee url(../images/bg.png);
         background-size: 200px 200px;
         ul {
