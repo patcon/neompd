@@ -56,10 +56,11 @@
 				                <h2>
 					            	<span><%= post.header %></span>
 							    </h2>
-				                <span class="author"><%= post.author %></span>
-								<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 				            </a>
-				            <span class="author-link"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+				            <span class="author-date">
+				            	<span class="author"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+				            	<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+				            </span>
 							<span class="tag"><a href="#tags/<%= post.firstTag %>"></span>
 						</div>
     				<% else: %>
@@ -70,10 +71,11 @@
 							    </h2>
 				                <img src="<%= post.tileimg %>">
 				                <p><%= post.summary %></p>
-				                <span class="author"><%= post.author %></span>
-								<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 				            </a>
-				            <span class="author-link"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+				            <span class="author-date">
+					            <span class="author"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+					            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+					        </span>
 							<span class="tag"><a href="#tags/<%= post.firstTag %>"></a></span>
 						</div>
     			    <% end %>
@@ -84,10 +86,11 @@
 			            		<span><%= post.header %></span>
 			            	</h2>
 			                <p><%= post.summary %></p>
-			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
 			            </a>
-		            	<span class="author-link"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+			            <span class="author-date">
+			            	<span class="author"><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a></span>
+			            	<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+			            </span>
 						<span class="tag"><a href="#tags/<%= post.firstTag %>"></a></span>
 					</div>
 	            <% end %>

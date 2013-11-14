@@ -115,7 +115,7 @@ define([
         $(this).on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
         // show/hide side bar tag in article view
-        $('#menu-button').on('click', function () { $('#menu > ul').toggleClass('shown'); });
+        $('#menu-button').on('click', function () { $('#menu').toggleClass('shown'); });
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -178,8 +178,8 @@ define([
         this.$loadingOverlay.attr('data-active', '');
 
         // set data mode attribute to article to show menu-button
-        $('#menu').attr('data-mode', 'article');
-        $('#menu > ul').removeClass('shown');
+        $('body').attr('data-mode', 'article');
+        $('#menu').removeClass('shown');
         $('#menu-button').removeAttr( 'style' );
 
         this.app.currentArticle.content.done(function (html) {
@@ -197,7 +197,7 @@ define([
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        $('#menu').removeAttr('data-mode');
+        $('body').removeAttr('data-mode');
         $('#menu-button').removeAttr( 'style' );
     };
 

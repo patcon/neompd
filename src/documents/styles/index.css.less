@@ -208,7 +208,7 @@ a {
         display: block;
         line-height: 20px;
         letter-spacing: -.2px;
-        padding: 25px;
+        padding: 25px 25px 82px;
     }
     > span {
         display: inline-block;
@@ -281,7 +281,7 @@ a {
     h2 {
         font-size: 60px;
         letter-spacing: -2.3px;
-        padding: 35px 40px 0px;
+        padding: 35px 40px 57px;
         width: @column-width * 2 + @column-gutter - 40px * 2;
         color: #333;
         background-color: #fff;
@@ -310,10 +310,14 @@ a {
     margin-bottom: -193px;
 }
 
-.tile .author-link {
+.tile .author-date {
     position: absolute;
+    z-index: 1;
     bottom: 25px;
     left: 25px;
+}
+
+.tile .author {
     display: inline-block;
     font-family: TradeGothic;
     text-transform: uppercase;
@@ -323,6 +327,17 @@ a {
     a {
         color: #bbb;
     }
+}
+
+.tile .date {
+    cursor: pointer;
+    display: inline-block;
+    font-family: TradeGothic;
+    text-transform: uppercase;
+    color: #bbb;
+    width: auto;
+    padding-left: 25px;
+    font-size: 10px;
 }
 
 .tile .tag {
@@ -357,6 +372,7 @@ a {
 #logo {
     position: fixed;
     display: block;
+    z-index: 3;
     top: 20px;
     left: 40px;
     font-size: 0;
@@ -442,9 +458,10 @@ a {
 }
 #menu-button {
     position: fixed;
-    opacity: 0.005;
     top: 130px;
     left: 63px;
+    z-index: 3;
+    opacity: 0.005;
     font-size: 0;
     background-image: url(../images/lines.png);
     width: 52px;
@@ -453,22 +470,26 @@ a {
     pointer-events:none;
     -webkit-transition: opacity 0.2s ease-out;
 }
-#menu-button {
 
-}
-#menu[data-mode=article] {
+body[data-mode=article] {
     #menu-button {
         pointer-events: auto;
         opacity: 1;
     }
-    ul {
-        opacity: 0.005;
-        pointer-events:none;
-        -webkit-transform: translate3d(0,40px,0);
+    #menu {
+        ul {
+            opacity: 0.005;
+            pointer-events:none;
+            -webkit-transform: translate3d(0,40px,0);
+        }
     }
-    ul.shown {
-        opacity: 1;
-        pointer-events:auto;
+    #menu.shown {
+        background: #eee url(../images/bg.png);
+        background-size: 200px 200px;
+        ul {
+            opacity: 1;
+            pointer-events:auto;
+        }
     }
 }
 
