@@ -40,7 +40,12 @@
 			width: @content-width;
 			line-height: 0.8;
 
-			margin: -118px auto 0px;
+            margin: -118px auto 0px;
+
+            // single-line headers don't need as much vertical bump
+            &.single-line {
+                margin-top: -70px;
+            }
 
 			span {
 				display: inline-block;
@@ -201,9 +206,14 @@
 				padding: 0;
 				margin:0;
 
-				p {
-					margin:0;
+				h2 {
+                    font-size: 1.25em;
 				}
+
+                p {
+                    margin:0;
+                    font-size: 1em;
+                }
 
 				ul {
 					list-style-type: none;
