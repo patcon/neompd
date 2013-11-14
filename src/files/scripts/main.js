@@ -2,11 +2,15 @@
 
 require.config({
     paths: {
-        'jquery': '../vendor/jquery/jquery'
+        'jquery': '../vendor/jquery/jquery',
+        'webfont': '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont'
     },
     shim: {
         'jquery': {
             exports: 'jQuery'
+        },
+        'webfont': {
+            exports: 'WebFont'
         }
     }
 });
@@ -49,13 +53,21 @@ if (!Date.now)
 /* End rAF polyfill */
 
 require([
+    './webfont',
     './Application',
     './Renderer',
     './testTileSet'
-], function (Application, Renderer, articleSet) {
+], function (WebFont, Application, Renderer, articleSet) {
     'use strict';
 
-    var app = new Application(articleSet),
-        renderer = new Renderer(app);
-
+    WebFont.load({
+        custom: {
+            families: [ 'Plantin', 'PlantinBold', /*'PlantinBoldItalic',*/ 'TradeGothic', 'TradeGothicBold' ],
+            urls: [ '/styles/index.css' ]
+        },
+        active: function () {
+            var app = new Application(articleSet),
+                renderer = new Renderer(app);
+        }
+    });
 });
