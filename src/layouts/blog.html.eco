@@ -1,4 +1,4 @@
-<div class="post">
+<div class="post <%= @document.bodyClass %>">
 	<div class="banner">
         <% headerLines = @document.header.split(/\n/) %>
 		<div class="background-strip <%= @document.color %>" style="background-image: url('<%= @document.coverimg %>')"></div>
@@ -9,21 +9,25 @@
 
 	<div class="content">
 
-		<div class="author">
-			<img src="<%= @document.authorimg %>" class="avatar" />
-			<span class="author-name"><%= @document.author %></span>
-			<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
-		</div>
+        <% if @document.author: %>
+    		<div class="author">
+    			<img src="<%= @document.authorimg %>" class="avatar" />
+    			<span class="author-name"><%= @document.author %></span>
+    			<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
+    		</div>
+        <% end %>
 
 		<div class="summary"><%= @document.summary %></div>
 
 		<%- @content %>
 
 		<footer>
-			<h3>TAGS</h3>
+            <% if @document.tag: %>
+    			<h3>TAGS</h3>
 				<ul class="tag-list">
 					<%- '<li>' + @document.tag.split(" ").join('</li><li>') + '</li>' %>
 				</ul>
+            <% end %>
 		</footer>
 	</div>
 </div>

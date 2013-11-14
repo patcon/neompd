@@ -279,4 +279,29 @@
 			}
 		}
 	}
+
+    // contact-page layout tweaks
+    &.contactPage {
+        p img {
+            width: 100%;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        ul {
+            display: table;
+            table-layout: fixed;
+
+            width: 100%; // otherwise shrinks
+            padding: 0;
+            margin-right: -20px;
+
+            li {
+                display: table-cell;
+                border-right: 20px solid transparent;
+            }
+        }
+    }
 }
