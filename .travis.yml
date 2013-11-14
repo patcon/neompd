@@ -17,10 +17,12 @@ env:
 
 install: npm install
 
+before_script: npm run-script docpad-generate
+
 # This will later be a test suite.
 script: true
 
-after_success: npm run-script deploy
+after_success: "[[ $TRAVIS_PULL_REQUEST ]] || npm run-script deploy"
 
 branches:
   only:

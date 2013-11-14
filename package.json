@@ -20,8 +20,9 @@
         "phantom": "latest"
     },
     "scripts": {
-        "deploy": "node_modules/.bin/docpad deploy-sunny --offline",
         "postinstall": "node_modules/.bin/bower install",
-        "cuke": "node_modules/.bin/cucumber.js"
+        "cuke": "node_modules/.bin/cucumber.js",
+        "docpad-generate": "node_modules/.bin/docpad generate --offline",
+        "deploy": "node_modules/.bin/docpad deploy-sunny --offline"
     }
 }
