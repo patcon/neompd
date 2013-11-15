@@ -127,6 +127,11 @@ a {
     position: relative;
     z-index: 1;
     margin: -10px;
+    -webkit-transition:-webkit-transform 0.275s;
+
+    &.menu-open {
+        -webkit-transform:translate3d(178px,0,0) !important;
+    }
 }
 
 .loading-overlay {
@@ -491,11 +496,10 @@ a {
     z-index: 3;
     width: 40px;
     height: 40px;
-    opacity: 0.005;
     cursor: pointer;
     pointer-events:none;
-    -webkit-transition: opacity 0.2s, -webkit-transform 0.4s;
-    -webkit-transform: translate3d(0, -80px, 0);
+    -webkit-transition: -webkit-transform 0.5s;
+    -webkit-transform: translate3d(0, -70px, 0);
 
     span {
         position: absolute;
@@ -560,9 +564,7 @@ a {
 body[data-mode=article] {
     #menu-button {
         pointer-events: auto;
-        opacity: 1;
         -webkit-transform:translate3d(0, 0, 0);
-        -webkit-transition: opacity 0.7s, -webkit-transform 0.4s;
     }
 
     #menu {
@@ -595,7 +597,7 @@ body[data-mode=article] {
         li {
             opacity: 1;
             -webkit-transform: translate3d(0,0,0);
-            -webkit-transition: -webkit-transform 0.275s, opacity 0.7s;
+            -webkit-transition: -webkit-transform 0.25s, opacity 0.5s;
             &:first-child {
                 .TransitionDelay(0.025s);
             }

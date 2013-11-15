@@ -70,8 +70,8 @@ require([
                 renderer;
 
             window.setTimeout(function () {
-                renderer = new Renderer(app);
                 window.requestAnimationFrame(function () {
+                    renderer = new Renderer(app);
                     document.body.classList.add('loaded');
                 });
             }, 1000); //todo: not this?

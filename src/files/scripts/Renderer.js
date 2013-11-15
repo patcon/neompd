@@ -134,7 +134,10 @@ define([
         // show/hide side bar tag in article view
         this.$menuButton.on('click', function () {
             this.$menu.toggleClass('shown');
-            this.$menuButton.toggleClass('menu-open');
+            this.$content.toggleClass('menu-open');
+            requestAnimationFrame(function () {
+                this.$menuButton.toggleClass('menu-open');
+            }.bind(this));
         }.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
@@ -170,7 +173,7 @@ define([
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
             height: this.app.tileField.height + 20, //todo: get this padding from somewhere
             'min-height': this.winHeight + 'px',
-            transition: 'opacity 0.3s',
+
             opacity: 0
         });
         window.setTimeout(function () {
@@ -198,48 +201,48 @@ define([
         // set data mode attribute to article to show menu-button
         this.$body.attr('data-mode', 'article');
 
-        window.setTimeout(function () {
-            if(this.app.currentArticle) {
-                this.app.currentArticle.content.always(function (html) {
-                    window.setTimeout(function() {
-                        var banner,
-                            content;
+        this.app.currentArticle.content.always(function (html) {
+            var banner,
+                content;
+            window.setTimeout(function() {
+                if(this.app.currentArticle) {
+                    window.requestAnimationFrame(function () {
+                        this.$content.css({
+                            height: '',
+                            'min-height': this.winHeight + 'px',
+                            opacity: 1,
+                            transform:'translateZ(0)'
+                        }).html(html);
+                        banner = this.$content.find('.banner').css({
+                            transform:'translateZ(0)'
+                        });
+                        content = this.$content.find('.banner h1, .content').css({
+                            transform:'translateZ(0)'
+                        });
+                    }.bind(this));
+
+                    window.setTimeout(function () {
                         if(this.app.currentArticle) {
                             window.requestAnimationFrame(function () {
-                                this.$content.css({
-                                    height: '',
-                                    'min-height': this.winHeight + 'px',
+                                this.$loadingOverlay.css('opacity', 0);
+                                banner.css({
                                     opacity: 1,
-                                    transform:'translateZ(0)'
-                                }).html(html);
-                                banner = this.$content.find('.banner').css({
-                                    transform:'translateZ(0)'
+                                    transition: 'opacity 0.75 ease-in-out 0.1s'
                                 });
-                                content = this.$content.find('.banner h1, .content').css({
-                                    transform:'translateZ(0)'
+                                content.css({
+                                    opacity:1,
+                                    transition: 'opacity 0.55s ease-in-out 0.15s'
                                 });
                             }.bind(this));
-                            window.setTimeout(function () {
-                                window.requestAnimationFrame(function () {
-                                    this.$loadingOverlay.css('opacity', 0);
-                                    banner.css({
-                                        opacity: 1,
-                                        transition: 'opacity 0.65 ease-in-out 0.1s'
-                                    });
-                                    content.css({
-                                        opacity:1,
-                                        transition: 'opacity 0.5s ease-in-out 0.15s'
-                                    });
-                                }.bind(this));
-                            }.bind(this), 1000);
                             window.setTimeout(function() {
                                 window.requestAnimationFrame(function() {
                                     this.$loadingOverlay.removeAttr('data-active').css('opacity', '');
-                                    banner = this.$content.find('.banner').css({
+                                    banner.css({
                                         transform:''
                                     });
-                                    content = this.$content.find('.banner h1, .content').css({
-                                        transform:''
+                                    content.css({
+                                        transform:'',
+                                        transition: 'inherit'
                                     });
                                 }.bind(this));
                             }.bind(this), 2000);
@@ -248,14 +251,14 @@ define([
                                 this.$loadingOverlay.removeAttr('data-active');
                             }.bind(this));
                         }
-                    }.bind(this), 100);
-                }.bind(this));
-            } else {
-                window.requestAnimationFrame(function() {
-                    this.$loadingOverlay.removeAttr('data-active');
-                }.bind(this));
-            }
-        }.bind(this), 100);
+                    }.bind(this), 1000);
+                } else {
+                    window.requestAnimationFrame(function() {
+                        this.$loadingOverlay.removeAttr('data-active');
+                    }.bind(this));
+                }
+            }.bind(this), 100);
+        }.bind(this));
 
         // reset view top
         this.articleScrollTop = 0;
@@ -265,10 +268,14 @@ define([
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        this.$body.removeAttr('data-mode');
-        this.$menu.removeClass('shown');
-
-       // this.$menuButton.removeClass('menu-open');
+        window.requestAnimationFrame(function () {
+            this.$body.removeAttr('data-mode');
+            this.$menu.removeClass('shown');
+            window.setTimeout(function () {
+                this.$menuButton.removeClass('menu-open');
+                this.$content.removeClass('menu-open');
+            }.bind(this), 2000);
+        }.bind(this));
     };
 
     Renderer.prototype.addScrollClass = function () {
@@ -298,11 +305,11 @@ define([
 
         offset = Math.floor(this.winHeight / 4);
         this.revealTimeout = window.setTimeout(function () {
-            this.gridViewport = this.computeGridViewport(-offset, -offset);
+            this.gridViewport = this.computeGridViewport(-offset, offset);
             this.$.trigger('viewport');
             this.revealTimeout = null;
-            window.setTimeout(this.queue.process.bind(this.queue), 30);
-        }.bind(this), 90);
+            window.setTimeout(this.queue.process.bind(this.queue), 40);
+        }.bind(this), 110);
     };
 
     Renderer.prototype.onScroll = function () {
@@ -335,7 +342,6 @@ define([
 
     Renderer.prototype.onScrollBackChanged = function () {
         this.$content.css({
-            transition: 'none',
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
         });
     };
@@ -404,7 +410,6 @@ define([
             // cancel default even if switching location (otherwise inertia is reset)
             e.preventDefault();
             this.$.trigger('scrollBackChanged');
-
             window.location = '#'; // @todo this more elegantly
         } else {
             // prevent default only if not reached the end
