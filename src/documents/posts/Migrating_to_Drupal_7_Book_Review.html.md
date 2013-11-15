@@ -1,6 +1,5 @@
 ---
 title: "Migrating to Drupal 7: Book Review"
-isPost: true
 tag: "technology"
 color: "black"
 header: "Migrating to Drupal 7:\nBook Review"

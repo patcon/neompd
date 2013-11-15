@@ -1,6 +1,5 @@
 ---
 title: "Engaging Remote Workers "
-isPost: true
 tag: "culture technology"
 color: "green"
 header: "Engaging\nRemote Workers"

@@ -1,6 +1,5 @@
 ---
 title: "Myplanet's Exciting Move to Downtown Toronto"
-isPost: true
 tag: "culture careers"
 color: "green"
 header: "Myplanet's Exciting\nMove to Downtown\nToronto"

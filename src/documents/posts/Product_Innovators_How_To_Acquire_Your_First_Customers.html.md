@@ -1,6 +1,5 @@
 ---
 title: "Product Innovators: How To Acquire Your First Customers"
-isPost: true
 tag: "business"
 color: "black"
 header: "Product Innovators:\nHow To Acquire Your\nFirst Customers"

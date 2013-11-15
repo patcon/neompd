@@ -1,6 +1,5 @@
 ---
 title: "DrupalCamp Toronto 2013"
-isPost: true
 tag: "technology culture events"
 color: "pink"
 header: "DrupalCamp\nToronto 2013"

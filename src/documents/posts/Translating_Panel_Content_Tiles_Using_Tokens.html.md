@@ -1,6 +1,5 @@
 ---
 title: "Translating Panel Content Titles Using Tokens"
-isPost: true
 tag: "technology"
 color: "black"
 header: "Translating Panel Content\nTitles Using Tokens" 

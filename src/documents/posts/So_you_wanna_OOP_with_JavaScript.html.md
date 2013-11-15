@@ -1,6 +1,5 @@
 ---
 title: "So, you wanna OOP with JavaScript?"
-isPost: true
 tag: "technology"
 color: "black"
 header: "So, you wanna OOP\nwith JavaScript?"

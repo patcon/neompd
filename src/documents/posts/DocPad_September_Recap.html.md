@@ -1,6 +1,5 @@
 ---
 title: "DocPad September Recap"
-isPost: true
 tag: "technology"
 color: "black"
 header: "DocPad September\nRecap"

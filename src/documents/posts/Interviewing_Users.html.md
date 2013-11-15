@@ -1,6 +1,5 @@
 ---
 title: "Interviewing Users"
-isPost: true
 tag: "design"
 color: "black"
 header: "Interviewing Users\nBy Steve Portigal"

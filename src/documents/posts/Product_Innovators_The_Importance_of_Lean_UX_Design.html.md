@@ -1,6 +1,5 @@
 ---
 title: "Product Innovators: The Importance of Lean UX Design"
-isPost: true
 tag: "design"
 color: "black"
 header: "Product Innovators:\nThe Importance of\nLean UX Design"

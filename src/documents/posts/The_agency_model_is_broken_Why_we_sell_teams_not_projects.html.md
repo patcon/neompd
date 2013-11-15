@@ -1,6 +1,5 @@
 ---
 title: "The agency model is broken: Why we sell teams, not projects"
-isPost: true
 tag: "business"
 color: "green"
 header: "The agency model\nis broken:\nWhy we sell teams,\nnot projects"

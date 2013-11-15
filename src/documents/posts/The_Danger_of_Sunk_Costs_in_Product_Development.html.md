@@ -1,6 +1,5 @@
 ---
 title: "The Danger of Sunk Costs in Product Development"
-isPost: true
 tag: "business design culture"
 color: "green"
 header: "The Danger of Sunk Costs\nin Product Development"

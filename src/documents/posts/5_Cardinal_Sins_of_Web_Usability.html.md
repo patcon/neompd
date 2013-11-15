@@ -1,6 +1,5 @@
 ---
 title: "5 Cardinal Sins of Web Usability"
-isPost: true
 tag: "design"
 color: "black"
 header: "5 Cardinal Sins of\nWeb Usability"

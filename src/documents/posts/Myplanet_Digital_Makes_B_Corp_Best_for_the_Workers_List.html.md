@@ -1,6 +1,5 @@
 ---
 title: "Myplanet Digital Makes B Corp 'Best for the Workers' List"
-isPost: true
 tag: "culture careers"
 color: "orange"
 header: "Myplanet Digital\nMakes B Corp 'Best\nfor the Workers' List"

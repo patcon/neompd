@@ -1,6 +1,5 @@
 ---
 title: "Contact Us"
-isPost: true
 color: "orange"
 header: "Contact Us"
 summary: "Namaste! Guten tag! Hello there!"

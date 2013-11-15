@@ -1,6 +1,5 @@
 ---
 title: "Product Innovators: Tapping Into Startup Communities"
-isPost: true
 tag: "business"
 color: "black"
 header: "Product Innovators:\nTapping Into Startup\nCommunities"
