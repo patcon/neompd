@@ -168,8 +168,8 @@ define([
         // set minimum content height to extend to grid size
         this.$content.css({
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
-            height: this.app.tileField.height + 20,
-            'min-height': 'none',
+            height: this.app.tileField.height + 20, //todo: get this padding from somewhere
+            'min-height': this.winHeight + 'px',
             transition: 'opacity 0.3s',
             opacity: 0
         });
@@ -196,9 +196,7 @@ define([
         this.$loadingOverlay.attr('data-active', '');
 
         // set data mode attribute to article to show menu-button
-
         this.$body.attr('data-mode', 'article');
-        this.$menu.removeClass('shown');
 
         window.setTimeout(function () {
             if(this.app.currentArticle) {
@@ -207,31 +205,33 @@ define([
                         var banner,
                             content;
                         if(this.app.currentArticle) {
-                            this.$content.css({
-                                height: '',
-                                'min-height': this.winHeight + 'px',
-                                opacity: 1,
-                                transform:'translateZ(0)'
-                            }).html(html);
-                            banner = this.$content.find('.banner').css({
-                                transform:'translateZ(0)'
-                            });
-                            content = this.$content.find('.banner h1, .content').css({
-                                transform:'translateZ(0)'
-                            });
+                            window.requestAnimationFrame(function () {
+                                this.$content.css({
+                                    height: '',
+                                    'min-height': this.winHeight + 'px',
+                                    opacity: 1,
+                                    transform:'translateZ(0)'
+                                }).html(html);
+                                banner = this.$content.find('.banner').css({
+                                    transform:'translateZ(0)'
+                                });
+                                content = this.$content.find('.banner h1, .content').css({
+                                    transform:'translateZ(0)'
+                                });
+                            }.bind(this));
                             window.setTimeout(function () {
                                 window.requestAnimationFrame(function () {
                                     this.$loadingOverlay.css('opacity', 0);
                                     banner.css({
                                         opacity: 1,
-                                        transition: 'opacity 0.65s ease-in-out 0.1s'
+                                        transition: 'opacity 0.65 ease-in-out 0.1s'
                                     });
                                     content.css({
                                         opacity:1,
-                                        transition: 'opacity 0.5s ease-in-out 0.25s'
+                                        transition: 'opacity 0.5s ease-in-out 0.15s'
                                     });
                                 }.bind(this));
-                            }.bind(this), 400);
+                            }.bind(this), 1000);
                             window.setTimeout(function() {
                                 window.requestAnimationFrame(function() {
                                     this.$loadingOverlay.removeAttr('data-active').css('opacity', '');
@@ -248,14 +248,14 @@ define([
                                 this.$loadingOverlay.removeAttr('data-active');
                             }.bind(this));
                         }
-                    }.bind(this), 400);
+                    }.bind(this), 100);
                 }.bind(this));
             } else {
                 window.requestAnimationFrame(function() {
                     this.$loadingOverlay.removeAttr('data-active');
                 }.bind(this));
             }
-        }.bind(this), 400);
+        }.bind(this), 100);
 
         // reset view top
         this.articleScrollTop = 0;
@@ -266,7 +266,9 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         this.$body.removeAttr('data-mode');
-        this.$menuButton.removeClass('menu-open');
+        this.$menu.removeClass('shown');
+
+       // this.$menuButton.removeClass('menu-open');
     };
 
     Renderer.prototype.addScrollClass = function () {
@@ -294,13 +296,13 @@ define([
             return;
         }
 
-        offset = Math.floor(this.winHeight / 5);
+        offset = Math.floor(this.winHeight / 4);
         this.revealTimeout = window.setTimeout(function () {
             this.gridViewport = this.computeGridViewport(-offset, -offset);
             this.$.trigger('viewport');
             this.revealTimeout = null;
             window.setTimeout(this.queue.process.bind(this.queue), 30);
-        }.bind(this), 100);
+        }.bind(this), 90);
     };
 
     Renderer.prototype.onScroll = function () {

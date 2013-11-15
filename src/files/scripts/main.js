@@ -67,7 +67,14 @@ require([
         },
         active: function () {
             var app = new Application(articleSet),
+                renderer;
+
+            window.setTimeout(function () {
                 renderer = new Renderer(app);
+                window.requestAnimationFrame(function () {
+                    document.body.classList.add('loaded');
+                });
+            }, 1000);
         }
     });
 });
