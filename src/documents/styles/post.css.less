@@ -232,19 +232,21 @@
 
         a.social {
             @transition-length: 0.3s;
+
             .sprite(@x) {
-                background-position: (-64px * @x) 0;
+                background-position: (-62px * @x) 0;
                 &:after {
-                    background-position: (-64px * @x) -32px;
+                    background-position: (-62px * @x) -32px;
                 }
             }
 
             display: inline-block;
             position: relative;
             overflow: hidden;
-            width: 32px;
+            width: 31px;
             height: 31px;
             text-indent: -9999px;
+            margin: 10px 31px 0 0;
 
             background: url(/images/social_icons_bw.png) no-repeat;
 
@@ -274,14 +276,11 @@
             &.twitter {
                 .sprite(1);
             }
-            &.google-plus {
+            &.linkedin {
                 .sprite(2);
             }
-            &.linkedin {
-                .sprite(3);
-            }
             &.github {
-                .sprite(4);
+                .sprite(3);
             }
         }
 

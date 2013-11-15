@@ -38,6 +38,5 @@ bodyClass: "contactPage"
 
 <a class="social facebook" href="" title="Facebook">Facebook</a>
 <a class="social twitter" href="" title="Twitter">Twitter</a>
-<a class="social google-plus" href="" title="Google Plus">Google Plus</a>
 <a class="social linkedin" href="" title="LinkedIn">LinkedIn</a>
 <a class="social github" href="" title="GitHub">GitHub</a>
