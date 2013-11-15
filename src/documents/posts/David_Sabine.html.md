@@ -1,7 +1,8 @@
 ---
 name: "David Sabine"
 role: "Product Owner"
-tag: "Agile, Consulting"
+tag: "people"
+skill: "Agile, Consulting"
 quote: "observe, remember, understand, apply, analyze, evaluate, create"
 coverimg: ""
 authorimg: "/images/avatar/David_Sabine.png"

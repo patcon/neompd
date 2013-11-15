@@ -1,7 +1,11 @@
+@menu-width: 178px;
+@content-width: 920px;
 @content-left-padding: 250px;
 
 .post {
 	background-color: #fff;
+
+    min-width: @content-width + @menu-width * 2; // ensure minimum width so that left menu does not overlap
 
 	.banner {
 		position: relative;
@@ -27,28 +31,36 @@
 
 		h1 {
 			opacity:0.01;
-			font-family: Plantin;
+			font-family: PlantinBold;
 			font-weight: bold;
 			font-size: 7em;
 			letter-spacing: -3.7px;
-			width: 1100px;
+			width: @content-width;
 			line-height: 0.8;
 
-			margin: -118px auto 0px;
+            margin: -118px auto 0px;
+
+            // single-line headers don't need as much vertical bump
+            &.single-line {
+                margin-top: -70px;
+            }
 
 			span {
 				display: inline-block;
-				margin-left: 76px;
+				margin-left: -14px;
 				padding-left: 34px;
 				padding-right: 42px;
-				padding-top: 20px;
-				padding-bottom: 5px;
+				padding-top: 18px;
+				padding-bottom: 10px;
 				color: white;
 				background-color: black;
 			}
 
 			span:first-of-type {
 				padding-top:25px;
+			}
+			span:last-of-type {
+				padding-bottom: 20px;
 			}
 		}
 	}
@@ -57,7 +69,7 @@
 		opacity: 0.01;
 		position: relative;
 		margin: 0 auto;
-		width: 670px;
+		width: @content-width - @content-left-padding;
 		padding-top: 33px;
 		padding-left: @content-left-padding;
 
@@ -75,7 +87,7 @@
 
 			p {
 				text-indent: 85px;
-				font-family: Plantin;
+				font-family: PlantinBoldItalic;
 				font-weight: bold;
 				font-style: italic;
 				font-size: 2.65em;
@@ -160,7 +172,7 @@
 		}
 
 		h2, h3 {
-			font-family: Plantin;
+			font-family: PlantinBoldItalic;
 			font-weight: bold;
 			font-style: italic;
 			font-size: 2.25em;
@@ -193,9 +205,14 @@
 				padding: 0;
 				margin:0;
 
-				p {
-					margin:0;
+				h2 {
+                    font-size: 1.25em;
 				}
+
+                p {
+                    margin:0;
+                    font-size: 1em;
+                }
 
 				ul {
 					list-style-type: none;
@@ -261,4 +278,29 @@
 			}
 		}
 	}
+
+    // contact-page layout tweaks
+    &.contactPage {
+        p img {
+            width: 100%;
+        }
+
+        .nowrap {
+            white-space: nowrap;
+        }
+
+        ul {
+            display: table;
+            table-layout: fixed;
+
+            width: 100%; // otherwise shrinks
+            padding: 0;
+            margin-right: -20px;
+
+            li {
+                display: table-cell;
+                border-right: 20px solid transparent;
+            }
+        }
+    }
 }

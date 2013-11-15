@@ -90,7 +90,6 @@ a {
 
     li {
         margin: @column-gutter / 2;
-        border: 1px solid #e7e7e7;
         overflow: hidden;
         border:1px solid #efefef;
     }
@@ -127,296 +126,388 @@ a {
     }
 }
 
-.tile-grid > li > a {
+.tile.design {
+    &:hover {
+
+    }
+    h2 {
+        background: rgba(72, 207, 173, 1);
+    }
+    &.image h2 {
+        background: rgba(72, 207, 173, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/design.png) 0px 30px no-repeat;
+    }
+
+}
+.tile.technology {
+    h2 {
+        background: rgba(236, 135, 192, 1);
+    }
+    &.image h2 {
+        background: rgba(236, 135, 192, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/technology.png) 0px 30px no-repeat;
+    }
+}
+.tile.business {
+    h2 {
+        background: rgba(79, 193, 233, 1);
+    }
+    &.image h2 {
+        background: rgba(79, 193, 233, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/business.png) 0px 30px no-repeat;
+    }
+}
+.tile.people {
+    h2 {
+        background: rgba(51, 51, 51, 1);
+    }
+    &.image h2 {
+        background: rgba(51, 51, 51, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/people.png) 0px 30px no-repeat;
+    }
+}
+.tile.careers {
+    h2 {
+        background: rgba(93, 156, 236, 1);
+    }
+    &.image h2 {
+        background: rgba(93, 156, 236, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/careers.png) 0px 30px no-repeat;
+    }
+}
+.tile.culture {
+    h2 {
+        background: rgba(239, 113, 64, 1);
+    }
+    &.image h2 {
+        background: rgba(239, 113, 64, 0.85);
+    }
+    .tag a:before {
+        background: url(../images/culture.png) 0px 30px no-repeat;
+    }
+}
+
+.tile > a {
     width: @column-width - @column-padding * 2;
     display: block;
     padding: @column-padding;
-
     overflow: hidden;
-
     font-family: Plantin;
     font-size:14px;
-
     background: #fff;
 
     &:hover {
         text-decoration: none;
     }
 
-    &.double-image {
+    > p {
+        display: block;
+        line-height: 20px;
+        letter-spacing: -.2px;
+        padding: 25px 25px 82px;
+    }
+    > span {
+        display: inline-block;
+        font-family: TradeGothic;
+        text-transform: uppercase;
+        color:#bbb;
+        width:auto;
+        padding: 20px 0px 25px 25px;
+        font-size: 10px;
+    }
+    > img {
+        display: block;
+        padding:0;
+        width:100%;
+        height: 193px;
+    }
+    > h2 {
+        position: relative;
+        z-index: 1;
+        font-family: PlantinBold;
+        font-size:28px;
+        font-weight: bold;
+        -webkit-font-smoothing: antialiased;
+        color:#fff;
+        background-color: #2a2a2a;
+        letter-spacing: -1px;
+        line-height: 1.1;
+        width: @column-width - 30px * 2;
+        padding:20px 30px;
+    }
+}
+
+.tile.people > a {
+    > img {
+        position: relative;
+        z-index: 2;
+        margin: -43px auto 0;
+        width: 80px;
+        height: 80px;
+        border-radius: 43px;
+        border: 3px solid white;
+    }
+    > h2 {
+        padding:34px 30px 70px;
+    }
+    > p.name {
+        width: 200px;
+        margin: 0 auto;
+        font-family: TradeGothicBold;
+        padding: 8px 0 30px;
+        text-align: center;
+        font-size: 21px;
+    }
+    // > p.role {
+    //     width: 200px;
+    //     text-align: center;
+    //     margin: 0 auto;
+    //     padding: 4px 0 30px;
+    //     color: #bbb;
+    //     font-family: TradeGothic;
+    //     font-size: 15px;
+    // }
+}
+
+.tile.double-image {
+
+    > a {
         width: @column-width * 2 + @column-gutter;
     }
-}
+    h2 {
+        font-size: 60px;
+        letter-spacing: -2.3px;
+        padding: 35px 40px 57px;
+        width: @column-width * 2 + @column-gutter - 40px * 2;
+        color: #333;
+        background-color: #fff;
 
-.tile-grid > li > a.design {
-    > h2 {
-        background: rgba(72, 207, 173, 1);
+        &:after {
+            display: block;
+            content: '';
+            width: 300px;
+            margin-left: 320px;
+            margin-top: 10px;
+            height: 115px;
+            background: url(../images/meteor.png) no-repeat;
+        }
     }
-    &.image > h2 {
-        background: rgba(72, 207, 173, 0.85);
-    }
-}
-.tile-grid > li > a.technology {
-    > h2 {
-        background: rgba(236, 135, 192, 1);
-    }
-    &.image > h2 {
-        background: rgba(236, 135, 192, 0.85);
-    }
-}
-.tile-grid > li > a.business {
-    > h2 {
-        background: rgba(79, 193, 233, 1);
-    }
-    &.image > h2 {
-        background: rgba(79, 193, 233, 0.85);
-    }
-}
-.tile-grid > li > a.people {
-    > h2 {
-        background: rgba(51, 51, 51, 1);
-    }
-    &.image > h2 {
-        background: rgba(51, 51, 51, 0.85);
-    }
-}
-.tile-grid > li > a.careers {
-    > h2 {
-        background: rgba(93, 156, 236, 1);
-    }
-    &.image > h2 {
-        background: rgba(93, 156, 236, 0.85);
-    }
-}
-.tile-grid > li > a.culture {
-    > h2 {
-        background: rgba(239, 113, 64, 1);
-    }
-    &.image > h2 {
-        background: rgba(239, 113, 64, 0.85);
+
+    a > img {
+        height: 399px;
     }
 }
 
-.tile-grid > li >  a > p {
-    display: block;
-    padding:20px;
-}
-
-.tile-grid > li >  a > img {
-    display: block;
-    padding:0;
-    width:100%;
-    height: 193px;
-}
-
-.tile-grid > li > a > h2 {
-    position: relative;
-    z-index: 1;
-    font-family: PlantinBold;
-    font-size:28px;
-    font-weight: bold;
-    -webkit-font-smoothing: antialiased;
-    color:#fff;
-    background-color: #2a2a2a;
-    letter-spacing: -.1px;
-    line-height: 1.1;
-    width: @column-width - 30px * 2;
-    padding:20px 30px;
-}
-
-.tile-grid > li > a.people > img {
-    position: relative;
-    z-index: 2;
-    margin: -50px auto 0;
-    width: 80px;
-    height: 80px;
-    border-radius: 45px;
-    border: 5px solid white;
-}
-
-.tile-grid > li > a.people > h2 {
-    padding:34px 30px 70px;
-}
-
-.tile-grid > li > a.people > p.name {
-    font-family: TradeGothicBold;
-    padding: 18px 0 0 0;
-    text-align: center;
-    font-size: 21px;
-}
-
-.tile-grid > li > a.people > p.role {
-    width: 200px;
-    text-align: center;
-    margin: 0 auto;
-    padding: 5px 0 31px;
-    color: #bbb;
-    font-family: TradeGothic;
-    font-size: 15px;
-}
-
-.tile-grid > li > a.double-image > h2 {
-    font-size: 53px;
-    padding: 35px 40px 0px;
-    width: @column-width * 2 + @column-gutter - 40px * 2;
-    color: #333;
-    background-color: #fff;
-
-    &:after {
-        display: block;
-        content: '';
-        width: 300px;
-        margin-left: 320px;
-        height: 115px;
-        background: url(../images/meteor.png) no-repeat;
-    }
-
-}
-.tile-grid > li > a.double-image > span {
-    padding: 20px 0px 40px 40px;
-}
-.tile-grid > li > a.double-image > img {
-    height: 399px;
-}
-.tile-grid > li > a.image > h2 {
+.tile.image h2 {
     overflow: hidden;
     padding-top: 25px;
     padding-bottom: 0;
     height: 193px - 25px;
     margin-bottom: -193px;
 }
-.tile-grid > li > a > p {
-    line-height: 20px;
-    letter-spacing: -.2px;
-    padding: 25px;
+
+.tile .author-date {
+    position: absolute;
+    z-index: 1;
+    bottom: 25px;
+    left: 25px;
 }
-.tile-grid > li > a > span {
+
+.tile .author {
     display: inline-block;
     font-family: TradeGothic;
     text-transform: uppercase;
-    color:#bbb;
-    width:auto;
-    padding: 20px 0px 25px 25px;
+    width: auto;
+    font-size: 10px;
+
+    a {
+        color: #bbb;
+    }
+}
+
+.tile .date {
+    cursor: pointer;
+    display: inline-block;
+    font-family: TradeGothic;
+    text-transform: uppercase;
+    color: #bbb;
+    width: auto;
+    padding-left: 25px;
     font-size: 10px;
 }
 
+.tile .tag {
+    position: absolute;
+    bottom:20px;
+    right: 10px;
+    z-index: 1;
+
+    a {
+        display: inline-block;
+        font-family: "PlantinBold";
+        font-weight: bold;
+        color: #333;
+
+        &:before {
+            display: block;
+            content: '';
+            height: 61px;
+            width: 47px;
+            -webkit-transition: background 0.05s ease-out;
+            transition: background 0.05s ease-out;
+            border-bottom: 1px solid #333;
+            background-size: 100%;
+        }
+        &:hover:before {
+        background-position: 0px 10px;
+    }
+
+    }
+}
+
 #logo {
+    position: fixed;
     display: block;
+    z-index: 4;
+    top: 20px;
+    left: 40px;
     font-size: 0;
-    margin: 20px auto 0;
     width: 97px;
     height: 97px;
     background: url(../images/logo_sprite.png);
     background-size: 100%;
-    z-index:1;
-    position:relative;
+    -webkit-transform:translateZ(0);
+
     &:hover {
         background: url(../images/logo_sprite.png) 0px 97px;
         background-size: 100%;
     }
 }
+
 #menu {
     position:fixed;
-    -webkit-transform: translateZ(0);
     height:100%;
     width: @menu-width;
     z-index: 2;
     font-family:TradeGothic;
-}
-#menu > ul {
-    position: absolute;
-    top: 166px;
-    list-style-type: none;
-    text-align: center;
-    font-size: 13px;
-    opacity: 1;
     -webkit-transform: translate3d(0,0,0);
-    -webkit-transition: opacity 0.2s ease-out, -webkit-transform 0.2s ease-out;
-}
-#menu > ul > li {
-    display: inline-block;
-    margin: 0 27px;
-}
-#menu > ul > li > a {
-    display: block;
-    max-width: 100%;
+    -webkit-transition: -webkit-transform 0.2s ease-out;
 
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    text-transform: lowercase;
-    text-decoration: none;
+    ul {
+        position: absolute;
+        top: 166px;
+        list-style-type: none;
+        text-align: center;
+        font-size: 15px;
+        opacity: 1;
 
-    font-family: "Plantin";
-    font-weight: bold;
-    color: #333;
+        li {
+            display: inline-block;
+            margin: 0 27px;
 
-    &:before {
-        display: block;
-        content: '';
-        height: 61px;
-        width: 58px;
-        margin: 0 auto 10px;
-        -webkit-transition: background 0.05s ease-out;
-        transition: background 0.05s ease-out;
-        border-bottom: 1px solid #333;
-    }
+            a {
+                display: block;
+                max-width: 100%;
 
-    &.business:before {
-        background: url(../images/business.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
-    &.careers:before {
-        background: url(../images/careers.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
-    &.culture:before {
-        background: url(../images/culture.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
-    &.design:before {
-        background: url(../images/design.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
-    &.people:before {
-        background: url(../images/people.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
-    &.technology:before {
-        background: url(../images/technology.png) 0px 30px no-repeat;
-        background-size: 100%;
-    }
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                text-transform: lowercase;
+                text-decoration: none;
 
-    &:hover:before {
-        background-position: 0px 10px;
+                font-family: "PlantinBold";
+                font-weight: bold;
+                color: #333;
+
+                &:before {
+                    display: block;
+                    content: '';
+                    height: 61px;
+                    width: 50px;
+                    margin: 0 auto 10px;
+                    -webkit-transition: background 0.05s ease-out;
+                    transition: background 0.05s ease-out;
+                    border-bottom: 1px solid #333;
+                    background-size: 100%;
+                }
+                &.business:before {
+                    background: url(../images/business.png) 0px 30px no-repeat;
+                }
+                &.careers:before {
+                    background: url(../images/careers.png) 0px 30px no-repeat;
+                }
+                &.culture:before {
+                    background: url(../images/culture.png) 0px 30px no-repeat;
+                }
+                &.design:before {
+                    background: url(../images/design.png) 0px 30px no-repeat;
+                }
+                &.people:before {
+                    background: url(../images/people.png) 0px 30px no-repeat;
+                }
+                &.technology:before {
+                    background: url(../images/technology.png) 0px 30px no-repeat;
+                }
+                &:hover:before {
+                    background-position: 0px 10px;
+                }
+            }
+        }
     }
 }
 #menu-button {
+    position: fixed;
+    top: 130px;
+    left: 63px;
+    z-index: 3;
     opacity: 0.005;
-    margin: 10px auto;
     font-size: 0;
     background-image: url(../images/lines.png);
     width: 52px;
     height: 52px;
     cursor: pointer;
     pointer-events:none;
-    -webkit-transform:translate3d(0, -80px, 0);
-    -webkit-transition: opacity 0.4s, -webkit-transform 0.6s;
+    -webkit-transition: opacity 0.2s, -webkit-transform 0.4s;
+
+    -webkit-transform:translate3d(0, -90px, 0);
 }
-#menu[data-mode=article] {
+
+body[data-mode=article] {
     #menu-button {
         pointer-events: auto;
         opacity: 1;
-        -webkit-transform:translate3d(0,0,0);
-        -webkit-transition: opacity 0.7s, -webkit-transform 0.5s;
+        -webkit-transform:translate3d(0, 0, 0);
+        -webkit-transition: opacity 0.7s, -webkit-transform 0.4s;
     }
-    ul {
-        opacity: 0.005;
-        pointer-events:none;
-        -webkit-transform: translate3d(0,40px,0);
+
+    #menu {
+        -webkit-transform: translate3d(-178px,0,0);
+        background: #eee url(../images/bg.png);
+        background-size: 200px 200px;
+        -webkit-transition: -webkit-transform 0.2s ease-out;
+        ul {
+            opacity: 0.005;
+            pointer-events:none;
+            -webkit-transform: translate3d(0,40px,0);
+        }
     }
-    ul.shown {
-        opacity: 1;
-        pointer-events:auto;
+    #menu.shown {
+        -webkit-transform: translate3d(0,0,0);
+        background: #eee url(../images/bg.png);
+        background-size: 200px 200px;
+        ul {
+            opacity: 1;
+            pointer-events:auto;
+        }
     }
 }
 

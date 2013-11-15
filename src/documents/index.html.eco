@@ -9,9 +9,9 @@
 </head>
 
 <body>
+	<a id="logo" href="#">Myplanet Digital</a>
+	<div id="menu-button">Show Menu</div>
 	<div id="menu">
-		<a id="logo" href="#">Myplanet Digital</a>
-		<div id="menu-button">Show Menu</div>
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
@@ -33,48 +33,66 @@
     <ul id="data">
 		<% for post in @getCollection("posts").toJSON(): %>
             <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
-            <li>
+            <% postTagList = (post.tag or '').toLowerCase().split(' ') %>
+            <li data-tags="<%= JSON.stringify(postTagList) %>">
     			<% if post.tilestyle: %>
     				<% if post.tilestyle is "employee": %>
-                        <a data-tags="<%= JSON.stringify(["people"]) %>" class="people" href="<%= post.hash %>">
-				            <h2>
-		            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
-		            		</h2>
-		            		<% if post.authorimg: %>
-						    	<img src="<%= post.authorimg %>">
-			                <% end %>
-			                <p class="name"><%= post.name %></p>
-			                <p class="role"><%= post.role %></p>
-			            </a>
+	                    <div class="tile people">
+	                        <a href="<%= post.hash %>">
+					            <h2>
+			            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
+			            		</h2>
+			            		<% if post.authorimg: %>
+							    	<img src="<%= post.authorimg %>">
+				                <% end %>
+				                <p class="name"><%= post.name %></p>
+				            </a>
+				            <span class="tag"><a href="#tags/people"></a></span>
+				        </div>
 			        <% else if post.tilestyle is "double-image": %>
-			        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> double-image" href="<%= post.hash %>">
-			                <img src="<%= post.tileimg %>">
-			                <h2>
-				            	<span><%= post.header %></span>
-						    </h2>
-			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-			            </a>
+			        	<div class="tile <%= postTagList[0] %> double-image">
+				        	<a href="<%= post.hash %>">
+				                <img src="<%= post.tileimg %>">
+				                <h2>
+					            	<span><%= post.header %></span>
+							    </h2>
+				            </a>
+				            <span class="author-date">
+				            	<span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+				            	<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+				            </span>
+                            <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
+						</div>
     				<% else: %>
-						<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %> image" href="<%= post.hash %>">
-			            	<h2>
-				            	<span><%= post.header %></span>
-						    </h2>
-			                <img src="<%= post.tileimg %>">
-			                <p><%= post.summary %></p>
-			                <span class="author"><%= post.author %></span>
-							<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-			            </a>
+    					<div class="tile <%= postTagList[0] %> image">
+							<a href="<%= post.hash %>">
+				            	<h2>
+					            	<span><%= post.header %></span>
+							    </h2>
+				                <img src="<%= post.tileimg %>">
+				                <p><%= post.summary %></p>
+				            </a>
+				            <span class="author-date">
+					            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+					            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+					        </span>
+                            <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
+						</div>
     			    <% end %>
     	        <% else: %>
-		        	<a data-tags="<%= JSON.stringify(post.tag.toLowerCase().split(' ')) %>" class="<%= post.tag %>" href="<%= post.hash %>">
-		            	<h2>
-		            		<span><%= post.header %></span>
-		            	</h2>
-		                <p><%= post.summary %></p>
-		                <span class="author"><%= post.author %></span>
-						<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-		            </a>
+    	        	<div class="tile <%= postTagList[0] %>">
+			        	<a href="<%= post.hash %>">
+			            	<h2>
+			            		<span><%= post.header %></span>
+			            	</h2>
+			                <p><%= post.summary %></p>
+			            </a>
+			            <span class="author-date">
+			            	<span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+			            	<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+			            </span>
+                        <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></span>
+					</div>
 	            <% end %>
             </li>
 	    <% end %>

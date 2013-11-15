@@ -1,7 +1,8 @@
 ---
 name: "Alexey Tsulun"
 role: "Drupal Developer"
-tag: "Drupal, Javascript, Computer Science"
+tag: "people"
+skill: "Drupal, Javascript, Computer Science"
 quote: "don't work hard - work intelligent"
 coverimg: ""
 authorimg: ""

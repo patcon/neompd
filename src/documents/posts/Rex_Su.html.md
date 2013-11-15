@@ -1,7 +1,8 @@
 ---
 name: "Rex Su"
 role: "Front-End Developer"
-tag: "Javascript, Usability, Performance"
+tag: "people"
+skill: "Javascript, Usability, Performance"
 quote: "Behold the most ferocious T-shaped individual on the planet: T-Rex."
 coverimg: ""
 authorimg: "/images/avatar/Rex_Su.png"

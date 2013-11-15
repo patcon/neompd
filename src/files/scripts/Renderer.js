@@ -8,43 +8,6 @@ define([
 
     var MOUSEWHEEL_INERTIA_DELAY = 100;
 
-    /* Begin rAF polyfill */
-
-    // Adapted from https://gist.github.com/paulirish/1579671 which derived from
-    // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-    // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
-
-    // requestAnimationFrame polyfill by Erik Möller.
-    // Fixes from Paul Irish, Tino Zijdel, Andrew Mao, Klemen Slavič, Darius Bacon
-
-    // MIT license
-
-    if (!Date.now)
-        Date.now = function() { return new Date().getTime(); };
-
-    (function() {
-        var vendors = ['webkit', 'moz'];
-        for (var i = 0; i < vendors.length && !window.requestAnimationFrame; ++i) {
-            var vp = vendors[i];
-            window.requestAnimationFrame = window[vp+'RequestAnimationFrame'];
-            window.cancelAnimationFrame = (window[vp+'CancelAnimationFrame']
-                                       || window[vp+'CancelRequestAnimationFrame']);
-        }
-        if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
-            || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
-            var lastTime = 0;
-            window.requestAnimationFrame = function(callback) {
-                var now = Date.now();
-                var nextTime = Math.max(lastTime + 16, now);
-                return setTimeout(function() { callback(lastTime = nextTime); },
-                                  nextTime - now);
-            };
-            window.cancelAnimationFrame = clearTimeout;
-        }
-    }());
-
-    /* End rAF polyfill */
-
     function RenderDelayQueue() {
         this.actionList = [];
         this.isProcessing = false;
@@ -170,7 +133,7 @@ define([
 
         // show/hide side bar tag in article view
         this.$menuButton.on('click', function () {
-            this.$menuList.toggleClass('shown');
+            this.$menu.toggleClass('shown');
         }.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
@@ -232,9 +195,9 @@ define([
         this.$loadingOverlay.attr('data-active', '');
 
         // set data mode attribute to article to show menu-button
-        this.$menu.attr('data-mode', 'article');
-        this.$menuList.removeClass('shown');
-        this.$menuButton.removeAttr( 'style' );
+
+        this.$body.attr('data-mode', 'article');
+        this.$menu.removeClass('shown');
 
         window.setTimeout(function () {
             if(this.app.currentArticle) {
@@ -301,8 +264,7 @@ define([
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        this.$menu.removeAttr('data-mode');
-        this.$menuButton.removeAttr( 'style' );
+        this.$body.removeAttr('data-mode');
     };
 
     Renderer.prototype.addScrollClass = function () {
@@ -369,10 +331,6 @@ define([
 
     Renderer.prototype.onScrollBackChanged = function () {
         this.$content.css({
-            transition: 'none',
-            opacity: 1 - Math.abs(this.articleScrollBackAmount)
-        });
-        this.$menuButton.css({
             transition: 'none',
             opacity: 1 - Math.abs(this.articleScrollBackAmount)
         });

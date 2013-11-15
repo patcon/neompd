@@ -5,6 +5,7 @@ define([ 'jquery' ], function ($) {
         var tileId,
             tileData,
             tileTagSet,
+            maxTileWidth,
             i,
             $li,
             $stage = $('<ul class="tile-grid"></ul>').appendTo('#content').css({ position: 'absolute', left: -9999 });
@@ -15,6 +16,7 @@ define([ 'jquery' ], function ($) {
         this.tileMap = {};
         this.height = 0;
         this.columnWidth = Number.MAX_VALUE;
+        this.minColumnCount = 1;
 
         for (tileId in tileDataMap) {
             tileData = tileDataMap[tileId];
@@ -41,9 +43,14 @@ define([ 'jquery' ], function ($) {
 
         $stage.remove();
 
+        maxTileWidth = 0;
         for (tileId in this.tileMap) {
             this.columnWidth = Math.min(this.columnWidth, this.tileMap[tileId].width);
+            maxTileWidth = Math.max(maxTileWidth, this.tileMap[tileId].width);
         }
+
+        // ensure a number of columns that will fit all our tiles
+        this.minColumnCount = Math.ceil(maxTileWidth / this.columnWidth);
     }
 
     TileField.prototype.setFilterTag = function (tag) {
@@ -55,7 +62,7 @@ define([ 'jquery' ], function ($) {
     };
 
     TileField.prototype.setContainerWidth = function (containerWidth) {
-        var columnCount = Math.max(1, Math.floor(containerWidth / this.columnWidth));
+        var columnCount = Math.max(this.minColumnCount, Math.floor(containerWidth / this.columnWidth));
 
         // avoid relayout if same number of columns
         if (this.columnCount !== columnCount) {
@@ -64,7 +71,7 @@ define([ 'jquery' ], function ($) {
         }
     };
 
-    TileField.prototype.performLayout = function (containerWidth) {
+    TileField.prototype.performLayout = function () {
         var tileId, tile,
             originalHeight = this.height,
             columns = [],
