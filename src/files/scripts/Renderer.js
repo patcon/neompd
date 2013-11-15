@@ -266,7 +266,6 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         this.$body.removeAttr('data-mode');
-        this.$menuButton.removeAttr('style');
         this.$menuButton.removeClass('menu-open');
     };
 

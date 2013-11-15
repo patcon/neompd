@@ -475,7 +475,7 @@ a {
     opacity: 0.005;
     cursor: pointer;
     pointer-events:none;
-    -webkit-transition: opacity 0.2s, -webkit-transform 0.4s;
+    -webkit-transition: opacity 0.2s, -webkit-transform 0.3s;
     -webkit-transform: translate3d(0, -50px, 0);
 
     span {
@@ -493,8 +493,8 @@ a {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        -webkit-transition: background-color 0.2s;
-        transition: background-color 0.2s;
+        -webkit-transition: background-color 0.3s;
+        transition: background-color 0.3s;
 
         &:before {
             -webkit-transform: translateY(-250%);
@@ -511,8 +511,8 @@ a {
             height: 100%;
             background: #333;
             content: '';
-            -webkit-transition: -webkit-transform 0.2s;
-            transition: transform 0.2s;
+            -webkit-transition: -webkit-transform 0.3s;
+            transition: transform 0.3s;
         }
     }
 }
@@ -529,6 +529,11 @@ a {
     }
 }
 
+.TransitionDelay(@delay:0.05s) {
+    -webkit-transition-delay:@delay;
+    transition-delay:@delay;
+}
+
 body[data-mode=article] {
     #menu-button {
         pointer-events: auto;
@@ -541,20 +546,43 @@ body[data-mode=article] {
         -webkit-transform: translate3d(-178px,0,0);
         background: #eee url(../images/bg.png);
         background-size: 200px 200px;
-        -webkit-transition: -webkit-transform 0.2s ease-out;
+        -webkit-transition: -webkit-transform 0.4s;
         ul {
-            opacity: 0.005;
-            pointer-events:none;
             -webkit-transform: translate3d(0,40px,0);
+        }
+        li {
+            opacity: 0.05;
+            -webkit-transform: translate3d(-80px,0,0);
+            -webkit-transition: -webkit-transform 0.3s, opacity 0.3s 0.1s;
         }
     }
     #menu.shown {
         -webkit-transform: translate3d(0,0,0);
         background: #eee url(../images/bg.png);
         background-size: 200px 200px;
-        ul {
+
+        li {
             opacity: 1;
-            pointer-events:auto;
+            -webkit-transform: translate3d(0,0,0);
+            -webkit-transition: -webkit-transform 0.3s, opacity 0.3s 0.1s;
+            &:first-child {
+                .TransitionDelay(0.05s);
+            }
+            &:nth-child(2) {
+                .TransitionDelay(0.1s);
+            }
+            &:nth-child(3) {
+                .TransitionDelay(0.15s);
+            }
+            &:nth-child(4) {
+                .TransitionDelay(0.2s);
+            }
+            &:nth-child(5) {
+                .TransitionDelay(0.25s);
+            }
+            &:nth-child(6) {
+                .TransitionDelay(0.3s);
+            }
         }
     }
 }
