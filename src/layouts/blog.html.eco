@@ -12,7 +12,8 @@
         <% if @document.author: %>
     		<div class="author">
     			<img src="<%= @document.authorimg %>" class="avatar" />
-    			<span class="author-name"><%= @document.author %></span>
+    			<% if @document.author: %>
+    				<a href="#articles/<%= @document.author.split(' ').join('_') %>"><span class="author-name"><%= @document.author %></span></a><% end %>
     			<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>
     		</div>
         <% end %>

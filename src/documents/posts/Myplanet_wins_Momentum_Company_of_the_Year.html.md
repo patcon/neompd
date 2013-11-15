@@ -1,6 +1,7 @@
 ---
 title: "Myplanet wins Momentum Company of the Year"
 isPost: true
+priority: 1
 tag: "culture"
 color: "green"
 header: "Myplanet wins\nMomentum Company\nof the Year"
@@ -14,7 +15,7 @@ date: "2013-06-03"
 tilestyle: "double-image"
 ---
 
-The [York Technology Alliance](http://www.yorktech.ca/) is a network of more than 200 tech organizations that provides support, resources &amp; collaborative opportunities for its members. Each year the YTA hosts the Technology Leadership Awards to recognize outstanding achievement in the GTA's tech landscape. 
+The [York Technology Alliance](http://www.yorktech.ca/) is a network of more than 200 tech organizations that provides support, resources &amp; collaborative opportunities for its members. Each year the YTA hosts the Technology Leadership Awards to recognize outstanding achievement in the GTA's tech landscape.
 
 "We are very pleased to announce the winners of the 2013 YTA Technology Leadership Awards" said Patrick Shaw, YTA Executive Director. "These are exciting, innovative companies that are creating outstanding successes in one of the most enterprising technology regions of the world".
 

@@ -36,10 +36,12 @@
 			<ul class="article-list">
 				<% for post in @getCollection("posts").toJSON(): %>
 					<% if post.tilestyle isnt "employee" and post.author is @document.name :  %>
-						<li class="<%= post.tag %>">
-							<div class="article-header"><%= post.header %></div>
-							<div class="article-summary"><%= post.summary %></div>
-						</li>
+						<a href="#articles/<%= post.url.split('/').pop().replace(/\.html$/, ''); %>">
+							<li class="<%= (post.tag or '').toLowerCase().split(' ')[0] %>">
+								<div class="article-header"><%= post.header %></div>
+								<div class="article-summary"><%= post.summary %></div>
+							</li>
+						</a>
 					<% end %>
 				<% end %>
 			</ul>
