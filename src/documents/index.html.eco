@@ -10,7 +10,7 @@
 
 <body>
 	<a id="logo" href="#">Myplanet Digital</a>
-	<div id="menu-button">Show Menu</div>
+	<div id="menu-button"><span>Show Menu</span></div>
 	<div id="menu">
 		<ul>
 			<% for tag in @getCollection("tags").toJSON(): %>

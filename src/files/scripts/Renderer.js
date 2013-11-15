@@ -134,6 +134,7 @@ define([
         // show/hide side bar tag in article view
         this.$menuButton.on('click', function () {
             this.$menu.toggleClass('shown');
+            this.$menuButton.toggleClass('menu-open');
         }.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
@@ -265,6 +266,7 @@ define([
 
     Renderer.prototype.onArticleDestroyed = function () {
         this.$body.removeAttr('data-mode');
+        this.$menuButton.removeClass('menu-open');
     };
 
     Renderer.prototype.addScrollClass = function () {
