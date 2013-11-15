@@ -31,7 +31,8 @@
     <div id="content"></div>
 
     <ul id="data">
-		<% for post in @getCollection("posts").toJSON(): %>
+        <% postComparator = (a, b) => (if a.get('priority') then (if b.get('priority') then b.get('priority') - a.get('priority') else -1) else if b.get('priority') then 1 else b.get('date').getTime() - a.get('date').getTime()) %>
+		<% for post in @getCollection("posts").sortCollection(postComparator).toJSON(): %>
             <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
             <% postTagList = (post.tag or '').toLowerCase().split(' ') %>
             <li data-tags="<%= JSON.stringify(postTagList) %>">
