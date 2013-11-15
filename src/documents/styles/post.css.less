@@ -137,6 +137,10 @@
 			line-height: 50px;
 			margin-left: -@content-left-padding;
 
+			a, a:hover {
+				color: #333;
+			}
+
 			.avatar {
 				width:44px;
 				height:44px;
@@ -152,9 +156,9 @@
 				letter-spacing: 0.3px;
 			}
 
-			.author-name:after {
+			.date:before {
 				content: "\25CF";
-				padding-left: 12px;
+				padding-right: 12px;
 				padding-bottom: 2px;
 				font-size: 0.7em;
 			}
