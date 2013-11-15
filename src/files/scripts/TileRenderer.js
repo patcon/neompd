@@ -108,6 +108,11 @@ define([
     };
 
     TileRenderer.prototype.getVisibility = function () {
+        // check for filtered tile
+        if (this.tile.x === null) {
+            return false;
+        }
+
         return (this.tile.y + this.tile.height > this.renderer.gridViewport.top && this.tile.y < this.renderer.gridViewport.bottom);
     };
 
