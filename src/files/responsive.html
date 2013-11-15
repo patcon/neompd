@@ -43,7 +43,7 @@ body {
 .screen-iphone-5-portrait { width: 640px; }
 .screen-iphone-5-landscape { width: 1136px; }
 #wrap {
-    max-width: 1050px;
+    /*max-width: 1218px;*/
     margin: 0 auto;
 }
 #navigation {
@@ -56,17 +56,17 @@ body {
 }
 #content {
     margin-left: 178px;
-    padding: 12.5px;
+    padding: 10px;
 }
 .tile {
     background: #aaa;
     padding: 10px;
-    width: 230px;
-    height: 330px;
+    width: 280px;
+    height: 300px;
     float: left;
-    margin: 12.5px;
+    margin: 10px;
 }
-.screen-ipad-portrait #content {
+/*.screen-ipad-portrait #content {
     padding: 10px;
 }
 .screen-ipad-portrait .tile {
@@ -79,6 +79,13 @@ body {
 .screen-ipad-landscape .tile {
     width: 235px;
     margin: 10px;
+}*/
+.screen-iphone-portrait #navigation, .screen-iphone-landscape #navigation {
+    display: none;
+}
+.screen-iphone-portrait #content, .screen-iphone-landscape #content {
+    margin-left: 0;
+    padding: 0;
 }
 </style>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>

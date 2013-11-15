@@ -3,7 +3,7 @@ title: "Myplanet Meets DocPad"
 isPost: true
 tag: "technology"
 color: "green"
-header: "Myplanet Meets DocPad:\nA Next Generation\nWeb Framework"
+header: "Myplanet Meets\nDocPad: A Next Gen\nWeb Framework"
 summary: How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 layout: blog
 coverimg: "/images/articles/Myplanet_Meets_Docpad/cover.jpg"
