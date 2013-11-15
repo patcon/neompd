@@ -167,7 +167,7 @@ define([
         // set minimum content height to extend to grid size
         this.$content.css({
             transform: 'translate3d(0,' + (newScrollTop - this.articleScrollTop) + 'px,0)',
-            height: this.app.tileField.height,
+            height: this.app.tileField.height + 20,
             'min-height': 'none',
             transition: 'opacity 0.3s',
             opacity: 0
