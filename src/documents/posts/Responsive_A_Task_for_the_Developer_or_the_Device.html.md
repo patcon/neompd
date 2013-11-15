@@ -3,7 +3,7 @@ title: "Responsive: A Task for the Developer or the Device?"
 isPost: true
 tag: "technology"
 color: "black"
-header: "Responsive:\nA Task for the Developer\nor the Device?"
+header: "Responsive: A Task\nfor the Developer\nor the Device?"
 summary: With interest in responsive at an all-time high, I think it’s time to fundamentally rethink the assumptions that underly a responsive approach to web design.
 layout: blog
 coverimg: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Device/cover.jpg"
