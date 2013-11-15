@@ -83,7 +83,7 @@ define([
 
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ?
-                    '-webkit-transform 0.4s ease-out 0.025s, opacity 0.525s ease-in 0.04s' :
+                    '-webkit-transform 0.4s ease-out 0.025s, opacity 0.55s ease-in 0.05s' :
                     'none'
             });
         }
