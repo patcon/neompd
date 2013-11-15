@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    font: 12px Arial;
+}
+#screen-sizes {
+    position: absolute;
+    top: 0;
+    line-height: 25px;
+    padding-left: 25px;
+    white-space: nowrap;
+}
+#screen-sizes a {
+    color: #888;
+    padding-right: 1em;
+    text-decoration: none;
+}
+#screen-sizes a:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+#screen-sizes a.selected {
+    color: #fff;
+}
+#screen {
+    margin: 25px;
+    border-bottom: none;
+    height: 9999px;
+    background: #444;
+}
+.screen-auto { width: auto; }
+.screen-ipad-portrait { width: 768px; }
+.screen-ipad-landscape { width: 1024px; }
+.screen-iphone-portrait { width: 320px; }
+.screen-iphone-landscape { width: 480px; }
+.screen-iphone-4-portrait { width: 640px; }
+.screen-iphone-4-landscape { width: 960px; }
+.screen-iphone-5-portrait { width: 640px; }
+.screen-iphone-5-landscape { width: 1136px; }
+#wrap {
+    max-width: 1050px;
+    margin: 0 auto;
+}
+#navigation {
+    position: fixed;
+    padding: 10px;
+    width: 158px;
+    height: 580px;
+    background: #666;
+    color: #eee;
+}
+#content {
+    margin-left: 178px;
+    padding: 12.5px;
+}
+.tile {
+    background: #aaa;
+    padding: 10px;
+    width: 230px;
+    height: 330px;
+    float: left;
+    margin: 12.5px;
+}
+.screen-ipad-portrait #content {
+    padding: 10px;
+}
+.screen-ipad-portrait .tile {
+    width: 245px;
+    margin: 10px;
+}
+.screen-ipad-landscape #content {
+    padding: 10px;
+}
+.screen-ipad-landscape .tile {
+    width: 235px;
+    margin: 10px;
+}
+</style>
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+function setScreenSize(size) {
+    var $a = $("#screen-sizes a[href=" + size + "]");
+    $a.siblings().removeClass("selected");
+    $a.addClass("selected");
+
+    $("#screen").attr("class", "screen-" + size.split("#").pop());
+}
+
+$(function () {
+    $("#screen-sizes a").click(function () {
+        setScreenSize($(this).attr("href"));
+    });
+
+    setScreenSize(window.document.location.hash || "#auto");
+});
+</script>
+</head>
+<body>
+<div id="screen-sizes">
+    <a href="#auto">Auto</a>
+    <a href="#ipad-portrait">iPad P</a>
+    <a href="#ipad-landscape">iPad L</a>
+    <a href="#iphone-portrait">iPhone P</a>
+    <a href="#iphone-landscape">iPhone L</a>
+    <a href="#iphone-4-portrait">iPhone 4 P</a>
+    <a href="#iphone-4-landscape">iPhone 4 L</a>
+    <a href="#iphone-5-portrait">iPhone 5 P</a>
+    <a href="#iphone-5-landscape">iPhone 5 L</a>
+</div>
+<div id="screen" class="screen-ipad-landscape">
+    <div id="wrap">
+        <div id="navigation">
+            Navigation
+        </div>
+        <div id="content">
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+            <div class="tile">Tile</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
