@@ -485,47 +485,41 @@ a {
         left: 0px;
         display: block;
         width: 40px;
-        height: 4px;
-        background-color: #333;
+        height: 5px;
+        background-color: #444;
         font-size: 0px;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        -khtml-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-transition: background-color 0.3s;
-        transition: background-color 0.3s;
+        border-radius: 2px;
 
         &:before {
-            -webkit-transform: translateY(-250%);
+            -webkit-transform: translate3d(0,-200%,0);
         }
 
         &:after {
-            -webkit-transform: translateY(250%);
+            -webkit-transform: translate3d(0,200%,0);
         }
 
         &:before, &:after {
             position: absolute;
             left: 0;
-            width: 100%;
+            width: 40px;
             height: 100%;
-            background: #333;
+            background: #444;
             content: '';
-            -webkit-transition: -webkit-transform 0.3s;
-            transition: transform 0.3s;
+            border-radius: 2px;
+            -webkit-transition: -webkit-transform 0.225s, width 0.175s;
         }
     }
 }
 
 #menu-button.menu-open {
     span {
-        background-color: transparent;
         &:before {
-            -webkit-transform: rotate(-45deg);
+            -webkit-transform: rotate(-33deg) translate3d(1px, -5px, 0);
+            width: 21px;
         }
         &:after {
-            -webkit-transform: rotate(45deg);
+            -webkit-transform: rotate(33deg) translate3d(1px, 5px, 0);
+            width: 21px;
         }
     }
 }
