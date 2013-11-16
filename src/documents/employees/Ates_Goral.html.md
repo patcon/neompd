@@ -5,7 +5,7 @@ tag: "people"
 skill: "JavaScript, Computer Science, LAMP, Interaction Design, Accessibility"
 quote: "Who is testing the tests?"
 coverimg: ""
-authorimg: "/images/avatar/Ates_Goral.jpg"
+authorimg: "/images/avatar/Ates_Goral.png"
 twitter: "https://twitter.com/atesgoral"
 dribbble:
 linkedin: "http://ca.linkedin.com/in/atesgoral"
@@ -18,8 +18,10 @@ color: "black"
 
 ## Who I Am
 
-TBD
+I'm a polyglot programmer with an experience stretching from the low-level intricacies of bootsector assembly intros; to the high-level design patterns for bringing elegant architecture and designs to complex applications. I take pride in writing clean, consistent code.
 
-## What I do
+I also dabble in fine arts, graphic design and music.
 
-TBD
+## What I Do
+
+I think thrice, debate twice and code once.
