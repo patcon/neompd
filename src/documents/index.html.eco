@@ -13,6 +13,7 @@
 	<div id="menu-button"><span>Show Menu</span></div>
 	<div id="menu">
 		<ul>
+            <li><a href="#articles/Contact_Us" class="contact">Contact Us</a></li>
 			<% for tag in @getCollection("tags").toJSON(): %>
 				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
 			<% end %>

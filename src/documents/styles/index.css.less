@@ -479,6 +479,19 @@ a {
                 &:hover:before {
                     background-position: 0px 10px;
                 }
+
+                &.contact {
+                    text-indent: -9999px;
+                    overflow: hidden;
+
+                    width: 40px;
+                    height: 30px;
+                    background: none; // @todo contact icon
+
+                    &:before {
+                        display: none;
+                    }
+                }
             }
         }
     }
@@ -613,6 +626,9 @@ body[data-mode=article] {
             }
             &:nth-child(6) {
                 .TransitionDelay(0.225s);
+            }
+            &:nth-child(n+7) {
+                .TransitionDelay(0.275s);
             }
         }
     }
