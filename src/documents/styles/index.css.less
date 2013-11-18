@@ -568,7 +568,7 @@ a {
     position: fixed;
     display: block;
     top: 140px;
-    left: 67px;
+    left: 69px;
     z-index: 3;
     width: 40px;
     height: 40px;
@@ -593,8 +593,8 @@ a {
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-        -webkit-transition: background-color 0.2s;
-        transition: background-color 0.2s;
+        -webkit-transition: background-color 0.25s;
+        transition: background-color 0.25s;
         -webkit-transform: translateZ(0);
         border-radius:2px;
 
@@ -614,21 +614,20 @@ a {
             height: 100%;
             background: #444;
             content: '';
-            transition: transform 0.3s;
-            -webkit-transition: -webkit-transform 0.225s, width 0.175s;
+            -webkit-transition: -webkit-transform 0.25s;
+            transition: transform 0.25s;
         }
     }
 }
 
 #menu-button.menu-open {
     span {
+        background-color: transparent;
         &:before {
-            -webkit-transform: rotate(-33deg) translate3d(1px, -5px, 0);
-            width: 21px;
+            -webkit-transform: rotate(-45deg);
         }
         &:after {
-            -webkit-transform: rotate(33deg) translate3d(1px, 5px, 0);
-            width: 21px;
+            -webkit-transform: rotate(45deg);
         }
     }
 }
