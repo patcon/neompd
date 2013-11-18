@@ -119,7 +119,7 @@ a {
     }
 
     .tile .tag a:hover:before {
-         background-position: 0px 30px;
+         background-position: 0px 20px;
     }
 }
 
@@ -159,6 +159,7 @@ a {
     }
     .tag a:before {
         background: url(../images/design.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 
 }
@@ -171,6 +172,7 @@ a {
     }
     .tag a:before {
         background: url(../images/technology.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 }
 .tile.business {
@@ -182,6 +184,7 @@ a {
     }
     .tag a:before {
         background: url(../images/business.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 }
 .tile.people {
@@ -193,6 +196,7 @@ a {
     }
     .tag a:before {
         background: url(../images/people.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 }
 .tile.careers {
@@ -204,6 +208,7 @@ a {
     }
     .tag a:before {
         background: url(../images/careers.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 }
 .tile.culture {
@@ -215,6 +220,7 @@ a {
     }
     .tag a:before {
         background: url(../images/culture.png) 0px 30px no-repeat;
+        background-size: 46px;
     }
 }
 
@@ -290,15 +296,6 @@ a {
         text-align: center;
         font-size: 21px;
     }
-    // > p.role {
-    //     width: 200px;
-    //     text-align: center;
-    //     margin: 0 auto;
-    //     padding: 4px 0 30px;
-    //     color: #bbb;
-    //     font-family: TradeGothic;
-    //     font-size: 15px;
-    // }
 }
 
 .tile.double-image {
@@ -462,24 +459,38 @@ a {
                 }
                 &.business:before {
                     background: url(../images/business.png) 0px 30px no-repeat;
+                    background-size: 50px;
+                }
+                &.business.active:before {
+                    background: url(../images/business.png) 0px -65px no-repeat;
+                    background-size: 50px;
+                    border-bottom: 1px solid #4FC1E9;
                 }
                 &.careers:before {
                     background: url(../images/careers.png) 0px 30px no-repeat;
+                    background-size: 50px;
                 }
                 &.culture:before {
                     background: url(../images/culture.png) 0px 30px no-repeat;
+                    background-size: 50px;
                 }
                 &.design:before {
                     background: url(../images/design.png) 0px 30px no-repeat;
+                    background-size: 50px;
                 }
                 &.people:before {
                     background: url(../images/people.png) 0px 30px no-repeat;
+                    background-size: 46px;
                 }
                 &.technology:before {
                     background: url(../images/technology.png) 0px 30px no-repeat;
+                    background-size: 50px;
                 }
                 &:hover:before {
                     background-position: 0px 10px;
+                }
+                &.active:hover:before {
+                    background-position: 0px -85px;
                 }
 
                 &.contact {
@@ -571,7 +582,7 @@ a {
     }
 }
 
-.TransitionDelay(@delay:0.05s) {
+.transition-delay(@delay:0.05s) {
     -webkit-transition-delay:@delay, 0;
     transition-delay:@delay, 0;
 }
