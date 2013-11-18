@@ -425,135 +425,145 @@ a {
         text-align: center;
         font-size: 15px;
         opacity: 1;
+    }
 
-        li {
-            display: inline-block;
-            margin: 0 27px;
+    li {
+        display: inline-block;
+        margin: 0 27px;
+    }
 
-            a {
-                display: block;
-                max-width: 100%;
+    a {
+        display: block;
+        max-width: 100%;
 
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                text-transform: lowercase;
-                text-decoration: none;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: lowercase;
+        text-decoration: none;
+        font-family: "PlantinBold";
+        font-weight: bold;
+        color: #333;
 
-                font-family: "PlantinBold";
-                font-weight: bold;
-                color: #333;
+        &:before {
+            display: block;
+            content: '';
+            height: 61px;
+            width: 50px;
+            margin: 0 auto 10px;
+            -webkit-transition: background 0.05s ease-out;
+            transition: background 0.05s ease-out;
+            border-bottom: 1px solid #333;
+            background-position: 0px 30px;
+            background-repeat: no-repeat;
+            background-size: 50px;
+        }
+        &.business:before {
+            background-image: url(../images/business.png);
+        }
+        &.careers:before {
+            background-image: url(../images/careers.png);
+        }
+        &.culture:before {
+            background-image: url(../images/culture.png);
+        }
+        &.design:before {
+            background-image: url(../images/design.png);
+        }
+        &.people:before {
+            background-image: url(../images/people.png);
+        }
+        &.technology:before {
+            background-image: url(../images/technology.png);
+        }
+        &:hover:before {
+            background-position: 0px 15px;
+        }
+        &.contact {
+            text-indent: -9999px;
+            overflow: hidden;
 
-                &.active {
-                    &.business {
-                        color: #4FC1E9;
-                        &:before {
-                            background: url(../images/business.png) 0px -63px no-repeat;
-                            background-size: 50px;
-                            border-color: #4FC1E9;
-                        }
-                    }
-                    &.careers {
-                        color: #5D9CEC;
-                        &:before {
-                            background: url(../images/careers.png) 0px -62px no-repeat;
-                            background-size: 50px;
-                            border-color: #5D9CEC;
-                        }
-                    }
-                    &.culture {
-                        color: #EA794D;
-                        &:before {
-                            background: url(../images/culture.png) 0px -56px no-repeat;
-                            background-size: 50px;
-                            border-color: #EA794D;
-                        }
-                    }
-                    &.design {
-                        color: #48CFAD;
-                        &:before {
-                            background: url(../images/design.png) 0px -62px no-repeat;
-                            background-size: 50px;
-                            border-color: #48CFAD;
-                        }
-                    }
-                    &.people {
-                        color: #333;
-                        &:before {
-                            background: url(../images/people.png) 0px -62px no-repeat;
-                            background-size: 47px;
-                            border-color: #333;
-                        }
-                    }
-                    &.technology {
-                        color: #EC87C0;
-                        &:before {
-                            background: url(../images/technology.png) 0px -57px no-repeat;
-                            background-size: 50px;
-                            border-color: #EC87C0;
-                        }
-                    }
-                    &:hover:before {
-                        background-position: 0px -77px;
-                    }
-                }
+            width: 40px;
+            height: 30px;
+            background: url(../images/contact.png) 50% 50% no-repeat;
 
-                &:before {
-                    display: block;
-                    content: '';
-                    height: 61px;
-                    width: 50px;
-                    margin: 0 auto 10px;
-                    -webkit-transition: background 0.05s ease-out;
-                    transition: background 0.05s ease-out;
-                    border-bottom: 1px solid #333;
-                }
-                &.business:before {
-                    background: url(../images/business.png) 0px 30px no-repeat;
-                    background-size: 50px;
-                }
-                &.careers:before {
-                    background: url(../images/careers.png) 0px 30px no-repeat;
-                    background-size: 50px;
-                }
-                &.culture:before {
-                    background: url(../images/culture.png) 0px 30px no-repeat;
-                    background-size: 50px;
-                }
-                &.design:before {
-                    background: url(../images/design.png) 0px 30px no-repeat;
-                    background-size: 50px;
-                }
-                &.people:before {
-                    background: url(../images/people.png) 0px 30px no-repeat;
-                    background-size: 47px;
-                }
-                &.technology:before {
-                    background: url(../images/technology.png) 0px 30px no-repeat;
-                    background-size: 50px;
-                }
-                &:hover:before {
-                    background-position: 0px 15px;
-                }
-                &.contact {
-                    text-indent: -9999px;
-                    overflow: hidden;
+            &:before {
+                display: none;
+            }
 
-                    width: 40px;
-                    height: 30px;
-                    background: url(../images/contact.png) 50% 50% no-repeat;
-
-                    &:before {
-                        display: none;
-                    }
-
-                    &:hover {
-                        opacity: 0.6;
-                    }
-                }
+            &:hover {
+                opacity: 0.6;
             }
         }
     }
 }
+
+#menu[data-tag='business'] a.business {
+    color: #4FC1E9;
+    &:before {
+        background: url(../images/business.png) 0px -63px no-repeat;
+        background-size: 50px;
+        border-color: #4FC1E9;
+    }
+    &:hover:before {
+        background-position: 0px -78px;
+    }
+}
+#menu[data-tag='careers'] a.careers {
+    color: #5D9CEC;
+    &:before {
+        background: url(../images/careers.png) 0px -62px no-repeat;
+        background-size: 50px;
+        border-color: #5D9CEC;
+    }
+    &:hover:before {
+        background-position: 0px -77px;
+    }
+}
+#menu[data-tag='culture'] a.culture {
+    color: #EA794D;
+    &:before {
+        background: url(../images/culture.png) 0px -56px no-repeat;
+        background-size: 50px;
+        border-color: #EA794D;
+    }
+    &:hover:before {
+        background-position: 0px -71px;
+    }
+}
+#menu[data-tag='design'] a.design {
+    color: #48CFAD;
+    &:before {
+        background: url(../images/design.png) 0px -62px no-repeat;
+        background-size: 50px;
+        border-color: #48CFAD;
+    }
+    &:hover:before {
+        background-position: 0px -77px;
+    }
+}
+#menu[data-tag='people'] a.people {
+    color: #333;
+    &:before {
+        background: url(../images/people.png) 0px -62px no-repeat;
+        background-size: 50px;
+        border-color: #333;
+    }
+    &:hover:before {
+        background-position: 0px -77px;
+    }
+}
+#menu[data-tag='technology'] a.technology {
+    color: #EC87C0;
+    &:before {
+        background: url(../images/technology.png) 0px -57px no-repeat;
+        background-size: 50px;
+        border-color: #EC87C0;
+    }
+    &:hover:before {
+        background-position: 0px -77px;
+    }
+}
+
 #menu-button {
     position: fixed;
     display: block;
@@ -628,7 +638,7 @@ a {
     transition-delay:@delay, 0;
 }
 
-body[data-mode=article] {
+body[data-mode='article'] {
     #menu-button {
         pointer-events: auto;
         opacity: 1;

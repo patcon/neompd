@@ -174,6 +174,9 @@ define([
             transition: 'opacity 0.3s',
             opacity: 0
         });
+
+        this.$menu.attr('data-tag', this.app.tileField.filterTag || '');
+
         window.setTimeout(function () {
             window.requestAnimationFrame(function () {
                 this.$content.empty();
@@ -268,8 +271,7 @@ define([
     Renderer.prototype.onArticleDestroyed = function () {
         this.$body.removeAttr('data-mode');
         this.$menu.removeClass('shown');
-
-       // this.$menuButton.removeClass('menu-open');
+        this.$menuButton.removeClass('menu-open');
     };
 
     Renderer.prototype.addScrollClass = function () {
