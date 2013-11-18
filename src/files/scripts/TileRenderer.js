@@ -113,7 +113,7 @@ define([
             return false;
         }
 
-        return (this.tile.y + this.tile.height > this.renderer.gridViewport.top && this.tile.y < this.renderer.gridViewport.bottom);
+        return (this.tile.y + this.tile.height > this.renderer.gridViewport.revealedTop && this.tile.y < this.renderer.gridViewport.revealedBottom);
     };
 
     TileRenderer.prototype.requestPendingReveal = function () {
