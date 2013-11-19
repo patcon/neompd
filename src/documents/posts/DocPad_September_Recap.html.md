@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/DocPad_September_Recap/tile.jpg"
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-10-16"
-tilestyle: ""
 ---
 
 A few months back, we announced that [Myplanet was embracing DocPad](http://www.myplanetdigital.com/article/myplanet-meets-docpad-next-generation-web-framework), a next generation web framework. We were lucky enough to have the founder of [DocPad](http://docpad.org/), Benjamin Lupton, join us at Myplanet for the month of July while he helped us open source and contribute an internal project (called SaaSy) back to the DocPad community. 

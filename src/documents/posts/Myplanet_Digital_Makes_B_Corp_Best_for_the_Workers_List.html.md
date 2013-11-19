@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Worke
 authorImageUrl: "../images/avatar/Jason_Cottrell.png"
 author: "Jason Cottrell"
 date: "2013-09-11"
-tilestyle: ""
 ---
 
 [B Lab](http://www.bcorporation.net/what-are-b-corps/the-non-profit-behind-b-corps) is a nonprofit that serves a global movement of entrepreneurs using the power of business to solve social and environmental problems. They've recently released their ‘[B Corp Best for the Workers List](http://bestfortheworld.bcorporation.net/2013-best-for-the-world-worker-honorees.html)’. This list recognizes those organizations who score in the top 10% of all [B Corps](http://www.bcorporation.net/what-are-b-corps) for worker impact. We're incredibly proud to be listed here next to some of the companies we admire, such as Etsy, Bullforg Power and Change.org.

@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/DrupalCamp_Toronto_2013/tile.jpg"
 authorImageUrl: "/images/avatar/Torey_Tafner.png"
 author: "Torey Tafner"
 date: "2013-05-15"
-tilestyle: ""
 ---
 
 Organized by [DUG-TO](https://groups.drupal.org/toronto), DrupalCamp is an annual event that brings together Drupal-loving developers, designers and business folk to share news and lessons. For the third year in a row, Myplanet was proud to be involved as a [Platinum sponsor](http://2013.drupalcamptoronto.org/news/platinum-sponsor-interview-with-myplanet-digital). 'Twas a weekend of learning, laughing, fun and great food.

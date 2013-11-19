@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Troubleshooting_Workbench/tile.jpg"
 authorImageUrl: "/images/avatar/Anna_Sunko.png"
 author: "Anna Sunko"
 date: "2013-04-12"
-tilestyle: ""
 ---
 
 ## Intro to Workbench

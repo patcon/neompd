@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Engaging_Remote_Workers/tile.jpg"
 authorImageUrl: "/images/avatar/Tim_Fernihough.png"
 author: "Tim Fernihough"
 date: "2013-03-23"
-tilestyle: ""
 ---
 
 We value in-person collaboration whenever possible, and we encourage our teams to spend the majority of their time in our office. However, we have many remote team members in Vancouver, New Brunswick, Ukraine and elsewhere. These team members are critical to our success and are just as much a part of our family as local Myplaneteers.

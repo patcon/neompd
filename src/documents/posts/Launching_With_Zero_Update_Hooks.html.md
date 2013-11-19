@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles//tile.jpg"
 authorImageUrl: "/images/avatar/Sebastian_Lesch.png"
 author: "Sebastian Lesch"
 date: "2013-10-10"
-tilestyle: ""
 ---
 
 The [SmartCentres](http://www.smartcentres.com/) project was built using an "[installation profile](http://drupal.org/developing/distributions)" development strategy.

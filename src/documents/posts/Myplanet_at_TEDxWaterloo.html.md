@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Myplanet_at_TEDxWaterloo/tile.jpg"
 authorImageUrl: "Ramy_Nassar.png"
 author: "Ramy Nassar"
 date: "2013-04-16"
-tilestyle: ""
 ---
 
 After nine months and countless hours of planning, we hosted two parallel TEDx events around a single, shared theme - chasingHOME. With this theme, we asked the questions: "Is home a concept or a reality? A place to begin from or a place to return to? Is home where the heart is or wherever you say it is?" From our home planet to our most intimate interactions in home and life, [TEDxWaterloo](http://tedxwaterloo.com/) 2013 explored what happens when home is lost and found. 

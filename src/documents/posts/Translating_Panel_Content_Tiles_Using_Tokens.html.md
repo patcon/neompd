@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/til
 authorImageUrl: "../images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-07-10"
-tilestyle: ""
 ---
 
 The titles of content items within a panel page are not translatable.

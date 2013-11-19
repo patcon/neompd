@@ -9,7 +9,6 @@ tileImageUrl: ""
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-04-15"
-tilestyle: ""
 ---
 
 Whether you're importing data from an external data set, converting a site from another CMS to Drupal, or migrating a site between Drupal versions, there's a module for that!

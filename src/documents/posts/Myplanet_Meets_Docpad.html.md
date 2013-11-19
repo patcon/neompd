@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Myplanet_Meets_Docpad/tile.jpg"
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-07-18"
-tilestyle: ""
 ---
 
 ## CMS-Free websites

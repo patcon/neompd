@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Introducing_Drupals_Clean_Markup_Module/tile.jpg
 authorImageUrl: "/images/avatar/Rene_Hache.png"
 author: "Rene Hache"
 date: "2013-08-16"
-tilestyle: ""
 ---
 
 Conceptualized and coded by [myself](https://drupal.org/user/64478) and [Matt Parker](https://drupal.org/user/536298), the [Clean Markup module](https://drupal.org/project/clean_markup) aims to clean up, enhance and facilitate the customization of markup for Drupal core and several popular contrib modules such as [Panels](https://drupal.org/project/panels "Panels project page").

@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not
 authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-03-07"
-tilestyle: ""
 ---
 
 In the typical model for project work at a digital agency, a contract would lay out the scope of work (often in considerable depth), the cost per deliverable, and the expected delivery date.
