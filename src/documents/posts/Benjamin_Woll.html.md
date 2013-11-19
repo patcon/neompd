@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/pub/benjamin-woll/40/497/4a0"
 github: "https://github.com/benjamin-woll"
 layout: employee
 tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

@@ -2,7 +2,6 @@
 ---
 title: "Contact Us"
 unlisted: true
-color: "orange"
 header: "Contact Us"
 summary: "Namaste! Guten tag! Hello there!"
 layout: blog

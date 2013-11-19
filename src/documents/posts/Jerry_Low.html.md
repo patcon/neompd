@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/pub/jerry-low/12/346/a07"
 github: "https://github.com/jerrylow"
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

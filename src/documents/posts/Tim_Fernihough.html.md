@@ -12,7 +12,6 @@ linkedin: "ca.linkedin.com/in/timfernihough/"
 github: "https://github.com/timfernihough"
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

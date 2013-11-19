@@ -1,7 +1,6 @@
 ---
 title: "Product Innovators: How To Acquire Your First Customers"
 tag: "business"
-color: "black"
 header: "Product Innovators:\nHow To Acquire Your\nFirst Customers"
 summary: In the first part of this Product Innovators installment, I spoke to Vidyard's Michael Litt about getting his video analytics company off the ground.
 layout: blog

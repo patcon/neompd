@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/in/stuartalancampbell"
 github:
 layout: employee
 tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

@@ -12,7 +12,6 @@ linkedin: "ca.linkedin.com/in/nlarcher/"
 github:
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

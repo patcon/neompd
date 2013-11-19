@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/in/dbcolburn"
 github: "https://github.com/davidcol"
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

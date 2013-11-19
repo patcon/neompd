@@ -12,7 +12,6 @@ linkedin: "http://ca.linkedin.com/in/andrewsemuschak"
 github:
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

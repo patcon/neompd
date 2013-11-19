@@ -9,7 +9,6 @@ linkedin: "http://www.jankbusters.com"
 github: "https://github.com/neilbaylorrulez"
 layout: employee
 tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

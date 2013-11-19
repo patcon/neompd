@@ -12,7 +12,6 @@ linkedin: "http://ca.linkedin.com/in/rexsu/"
 github: "https://github.com/d9su"
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

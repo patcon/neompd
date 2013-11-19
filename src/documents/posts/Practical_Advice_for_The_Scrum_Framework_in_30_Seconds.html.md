@@ -1,7 +1,6 @@
 ---
 title: "Practical Advice for The Scrum Framework in 30 Seconds"
 tag: "business technology design"
-color: "black"
 header: "Practical Advice for\nScrum Framework\nin 30 Seconds"
 summary: This is the second piece in our guest series from Paul Heidema, Partner & Vice President of Training and Development at Berteig Consulting.
 layout: blog

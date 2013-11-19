@@ -12,7 +12,6 @@ linkedin:
 github:
 layout: employee
 tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

@@ -1,7 +1,6 @@
 ---
 title: "Engaging Remote Workers "
 tag: "culture technology"
-color: "green"
 header: "Engaging\nRemote Workers"
 summary: One thing is very clear and will always be a priority for us: work is an activity we all love and share, not a place.
 layout: blog

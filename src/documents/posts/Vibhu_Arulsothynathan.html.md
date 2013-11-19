@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/pub/vibhu-arulsothynathan/19/475/2b6"
 github:
 layout: employee
 tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

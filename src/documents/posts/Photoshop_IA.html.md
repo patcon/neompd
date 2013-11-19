@@ -1,7 +1,6 @@
 ---
 title: "Photoshop IA: The Structure Behind The Design"
 tag: "design"
-color: "orange"
 header: "Photoshop IA: The\nStructure Behind\nThe Design"
 summary: While everyone else is busy studying the UI in those clichéd skewed monitor dribbble shots, without fail, I'm that guy who's zooming in to the bottom right of the photograph and picking apart how that designer has structured his or her PSD.
 layout: blog

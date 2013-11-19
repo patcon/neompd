@@ -1,7 +1,6 @@
 ---
 title: "Myplanet at TEDxWaterloo"
 tag: "culture events"
-color: "pink"
 header: "Myplanet at\nTEDxWaterloo"
 summary: As an organizer and host of TEDxWaterloo, I wanted to share a few of the moments that made this year's event so memorable.
 layout: blog

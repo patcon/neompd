@@ -13,7 +13,6 @@ github: "https://github.com/nroviw"
 stackoverflow:
 layout: employee
 tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

@@ -12,7 +12,6 @@ linkedin: "http://www.linkedin.com/in/corinaclarin"
 github:
 layout: employee
 tilestyle: "employee"
-color: "pink"
 ---
 
 ## Who I Am

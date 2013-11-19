@@ -1,7 +1,6 @@
 ---
 title: "DocPad September Recap"
 tag: "technology"
-color: "black"
 header: "DocPad September\nRecap"
 summary: What the DocPad community accomplished in September 2013.
 layout: blog

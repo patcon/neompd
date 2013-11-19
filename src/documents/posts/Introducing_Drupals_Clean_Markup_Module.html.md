@@ -1,7 +1,6 @@
 ---
 title: "Introducing Drupal's Clean Markup Module"
 tag: "technology"
-color: "black"
 header: "Introducing Drupal's\nClean Markup Module"
 summary: We're excited to announce the official release of the Clean Markup module.
 layout: blog
