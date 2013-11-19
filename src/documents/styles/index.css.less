@@ -333,6 +333,7 @@ a {
     h2 {
         font-size: 60px;
         letter-spacing: -2.3px;
+        line-height: 1em;
         padding: 35px 40px 57px;
         width: @column-width * 2 + @column-gutter - 40px * 2;
         color: #333;
@@ -460,73 +461,68 @@ a {
     li {
         display: inline-block;
         margin: 0 27px;
+    }
 
-        a {
+    a {
+        display: block;
+        max-width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-transform: lowercase;
+        text-decoration: none;
+        font-family: "PlantinBold";
+        font-weight: bold;
+        letter-spacing: -0.05em;
+        color: #333;
+
+        &:before {
             display: block;
-            max-width: 100%;
+            content: '';
+            height: 61px;
+            width: 50px;
+            margin: 0 auto 1px;
+            -webkit-transition: background 0.05s ease-out;
+            transition: background 0.05s ease-out;
+            border-bottom: 1px solid #aaa;
+            background-position: 0px 30px;
+            background-repeat: no-repeat;
+            background-size: 50px;
+        }
+        &.business:before {
+            background-image: url(../images/business.png);
+        }
+        &.careers:before {
+            background-image: url(../images/careers.png);
+        }
+        &.culture:before {
+            background-image: url(../images/culture.png);
+        }
+        &.design:before {
+            background-image: url(../images/design.png);
+        }
+        &.people:before {
+            background-image: url(../images/people.png);
+        }
+        &.technology:before {
+            background-image: url(../images/technology.png);
+        }
+        &:hover:before {
+            background-position: 0px 15px;
+        }
+        &.contact {
+            text-indent: -9999px;
+            overflow: hidden;
 
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            text-transform: lowercase;
-            text-decoration: none;
-
-            font-family: "PlantinBold";
-            font-weight: bold;
-            color: #333;
+            width: 40px;
+            height: 30px;
+            background: url(../images/contact.png) 50% 50% no-repeat;
 
             &:before {
-                display: block;
-                content: '';
-                height: 61px;
-                width: 50px;
-                margin: 0 25px 10px;
-                -webkit-transition: background 0.175s ease;
-                transition: background 0.175s ease;
-                border-bottom: 1px solid #333;
-                background-size: 100%;
-                -webkit-transition: background 0.05s ease-out;
-                transition: background 0.05s ease-out;
-                border-bottom: 1px solid #333;
-                background-position: 0px 30px;
-                background-repeat: no-repeat;
-                background-size: 50px;
+                display: none;
             }
-            &.business:before {
-                background-image: url(../images/business.png);
-            }
-            &.careers:before {
-                background-image: url(../images/careers.png);
-            }
-            &.culture:before {
-                background-image: url(../images/culture.png);
-            }
-            &.design:before {
-                background-image: url(../images/design.png);
-            }
-            &.people:before {
-                background-image: url(../images/people.png);
-            }
-            &.technology:before {
-                background-image: url(../images/technology.png);
-            }
-            &:hover:before {
-                background-position: 0px 10px;
-            }
-            &.contact {
-                text-indent: -9999px;
-                overflow: hidden;
 
-                width: 40px;
-                height: 30px;
-                background: url(../images/contact.png) 50% 50% no-repeat;
-
-                &:before {
-                    display: none;
-                }
-
-                &:hover {
-                    opacity: 0.6;
-                }
+            &:hover {
+                opacity: 0.6;
             }
         }
     }
@@ -712,7 +708,7 @@ body[data-mode='article'] {
     }
 
     #menu.shown {
-        -webkit-transform: translate3d(0,0,0);
+        -webkit-transform: translate3d(0,20px,0);
         background: #eee url(../images/bg.png);
         background-size: 200px 200px;
 
