@@ -692,11 +692,6 @@ body[data-mode='article'] {
         -webkit-transform: translate3d(-178px,0,0);
         background: #eee url(../images/bg.png);
         background-size: 200px 200px;
-
-        ul {
-            -webkit-transform: translate3d(0,40px,0);
-        }
-
         li {
             -webkit-touch-callout: none;
             -webkit-user-select: none;
@@ -704,6 +699,9 @@ body[data-mode='article'] {
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+        }
+        &.loaded ul {
+            -webkit-transform: translate3d(0,40px,0);
         }
         &.loaded li {
             -webkit-transform: translate3d(-120px,0,0);
