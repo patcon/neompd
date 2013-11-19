@@ -4,9 +4,9 @@ tag: "technology"
 header: "Migrating to Drupal 7:\nBook Review"
 summary: Migrating content from an existing site to a shiny new Drupal site can seem like a daunting task. Fortunately, the ever-helpful Drupal community has some time-saving solutions: there are a number of modules designed specifically to make content migration automatic, easy and fast.
 layout: blog
-coverimg: ""
-tileimg: ""
-authorimg: "/images/avatar/Yashar_Rassoulli.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-04-15"
 tilestyle: ""

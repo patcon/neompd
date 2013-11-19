@@ -4,8 +4,8 @@ role: "Drupal Developer"
 tag: "people"
 skill: "Javascript, Drupal, Computer Science"
 quote: "Nothing worth having comes easy."
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter:
 dribbble: 
 linkedin:

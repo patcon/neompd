@@ -4,8 +4,8 @@ role: "Drupal Developer"
 tag: "people"
 skill: "Drupal, Javascript, Computer Science"
 quote: "don't work hard - work intelligent"
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter:
 dribbble:
 linkedin:

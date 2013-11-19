@@ -4,9 +4,9 @@ tag: "technology"
 header: "Launching With Zero\nUpdate Hooks"
 summary: ...and 5 other reasons to use Drupal's custom_config module.
 layout: blog
-coverimg: "/images/articles//cover.jpg"
-tileimg: "/images/articles//tile.jpg"
-authorimg: "/images/avatar/Sebastian_Lesch.png"
+coverImageUrl: "/images/articles//cover.jpg"
+tileImageUrl: "/images/articles//tile.jpg"
+authorImageUrl: "/images/avatar/Sebastian_Lesch.png"
 author: "Sebastian Lesch"
 date: "2013-10-10"
 tilestyle: ""

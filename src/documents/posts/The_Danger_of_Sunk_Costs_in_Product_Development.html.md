@@ -4,9 +4,9 @@ tag: "business design culture"
 header: "The Danger of Sunk Costs\nin Product Development"
 summary: Embracing creative destruction to build better products.
 layout: blog
-coverimg: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/cover.jpg"
-tileimg: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/tile.jpg"
-authorimg: "/images/avatar/Charlie_Moscoe.png"
+coverImageUrl: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/cover.jpg"
+tileImageUrl: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/tile.jpg"
+authorImageUrl: "/images/avatar/Charlie_Moscoe.png"
 author: "Charlie Moscoe"
 date: "2013-06-19"
 tilestyle: "double-image"

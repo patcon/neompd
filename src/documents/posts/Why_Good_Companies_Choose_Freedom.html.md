@@ -4,9 +4,9 @@ tag: "business culture"
 header: "Why Good Companies\nChoose Freedom"
 summary: As companies grow rapidly, management often grasps for "process" as a way to deal with increasing complexity. Success depends on their ability to fight this urge.
 layout: blog
-coverimg: "/images/articles/Why_Good_Companies_Choose_Freedom/cover.jpg"
-tileimg: "/images/articles/Why_Good_Companies_Choose_Freedom/tile.jpg"
-authorimg: "/images/avatar/Dustin_Walper.png"
+coverImageUrl: "/images/articles/Why_Good_Companies_Choose_Freedom/cover.jpg"
+tileImageUrl: "/images/articles/Why_Good_Companies_Choose_Freedom/tile.jpg"
+authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2010-09-08"
 tilestyle: "image"

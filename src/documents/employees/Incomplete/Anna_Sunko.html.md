@@ -4,8 +4,8 @@ role: "Drupal Developer"
 tag: "people"
 skill: "Javascript, Drupal, Computer Science"
 quote: "It is quality rather than quantity that matters."
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter:
 dribbble: 
 linkedin:

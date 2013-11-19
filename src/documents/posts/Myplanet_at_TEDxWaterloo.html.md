@@ -4,9 +4,9 @@ tag: "culture events"
 header: "Myplanet at\nTEDxWaterloo"
 summary: As an organizer and host of TEDxWaterloo, I wanted to share a few of the moments that made this year's event so memorable.
 layout: blog
-coverimg: "/images/articles/Myplanet_at_TEDxWaterloo/cover.jpg"
-tileimg: "/images/articles/Myplanet_at_TEDxWaterloo/tile.jpg"
-authorimg: "Ramy_Nassar.png"
+coverImageUrl: "/images/articles/Myplanet_at_TEDxWaterloo/cover.jpg"
+tileImageUrl: "/images/articles/Myplanet_at_TEDxWaterloo/tile.jpg"
+authorImageUrl: "Ramy_Nassar.png"
 author: "Ramy Nassar"
 date: "2013-04-16"
 tilestyle: ""

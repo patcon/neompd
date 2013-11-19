@@ -4,9 +4,9 @@ tag: "technology culture events"
 header: "DrupalCamp\nToronto 2013"
 summary: This weekend I had the pleasure of attending DrupalCamp Toronto with my fellow Myplaneteers.
 layout: blog
-coverimg: "/images/articles/DrupalCamp_Toronto_2013/cover.jpg"
-tileimg: "/images/articles/DrupalCamp_Toronto_2013/tile.jpg"
-authorimg: "/images/avatar/Torey_Tafner.png"
+coverImageUrl: "/images/articles/DrupalCamp_Toronto_2013/cover.jpg"
+tileImageUrl: "/images/articles/DrupalCamp_Toronto_2013/tile.jpg"
+authorImageUrl: "/images/avatar/Torey_Tafner.png"
 author: "Torey Tafner"
 date: "2013-05-15"
 tilestyle: ""

@@ -4,9 +4,9 @@ tag: "design"
 header: "Interviewing Users\nBy Steve Portigal"
 summary: Steve Portigal's new book examines techniques that uncover compelling insights during user research.
 layout: blog
-coverimg: "/images/articles/Interviewing_Users/cover.jpg"
-tileimg: "/images/articles/Interviewing_Users/tile.jpg"
-authorimg: "/images/avatar/Nate_Archer.png"
+coverImageUrl: "/images/articles/Interviewing_Users/cover.jpg"
+tileImageUrl: "/images/articles/Interviewing_Users/tile.jpg"
+authorImageUrl: "/images/avatar/Nate_Archer.png"
 author: "Nate Archer"
 date: "2013-06-17"
 tilestyle: "image"

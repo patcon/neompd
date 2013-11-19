@@ -1,7 +1,7 @@
 <div class="post <%= @document.bodyClass %>">
 	<div class="banner">
         <% headerLines = @document.header.split(/\n/) %>
-		<div class="background-strip" style="background-image: url('<% if @document.coverimg: %><%= @document.coverimg %><% else: %>/images/default_article_cover.jpg<% end %>')"></div>
+		<div class="background-strip" style="background-image: url('<% if @document.coverImageUrl: %><%= @document.coverImageUrl %><% else: %>/images/default_article_cover.jpg<% end %>')"></div>
 		<h1 class="title <% if headerLines.length is 1: %>single-line<% end %>">
 			<%- '<span>' + headerLines.join('</span><span>') + '</span>' %>
 		</h1>
@@ -11,7 +11,7 @@
 
         <% if @document.author: %>
     		<div class="author">
-    			<img src="<%= @document.authorimg %>" class="avatar" />
+    			<img src="<%= @document.authorImageUrl %>" class="avatar" />
     			<% if @document.author: %>
     				<a href="#articles/<%= @document.author.split(' ').join('_') %>"><span class="author-name"><%= @document.author %></span></a><% end %>
     			<span class="date"> <%= @moment(@document.date).format('dddd, MMM DD, YYYY') %> </span>

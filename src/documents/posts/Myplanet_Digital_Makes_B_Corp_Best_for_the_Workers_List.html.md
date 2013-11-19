@@ -4,9 +4,9 @@ tag: "culture careers"
 header: "Myplanet Digital\nMakes B Corp 'Best\nfor the Workers' List"
 summary: We're honoured to be recognized by B Lab as one of the 79 companies across 39 industries and 6 countries that have created the most positive impact for their workers.
 layout: blog
-coverimg: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Workers_List/cover.jpg"
-tileimg: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Workers_List/tile.jpg"
-authorimg: "../images/avatar/Jason_Cottrell.png"
+coverImageUrl: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Workers_List/cover.jpg"
+tileImageUrl: "/images/articles/Myplanet_Digital_Makes_B_Corp_Best_for_the_Workers_List/tile.jpg"
+authorImageUrl: "../images/avatar/Jason_Cottrell.png"
 author: "Jason Cottrell"
 date: "2013-09-11"
 tilestyle: ""

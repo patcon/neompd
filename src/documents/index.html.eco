@@ -44,8 +44,8 @@
 					            <h2>
 			            			<span>&ldquo;<%= post.quote %>&rdquo;</span>
 			            		</h2>
-			            		<% if post.authorimg: %>
-							    	<img src="<%= post.authorimg %>">
+			            		<% if post.authorImageUrl: %>
+							    	<img src="<%= post.authorImageUrl %>">
 				                <% end %>
 				                <p class="name"><%= post.name %></p>
 				            </a>
@@ -54,7 +54,7 @@
 			        <% else if post.tilestyle is "double-image": %>
 			        	<div class="tile <%= postTagList[0] %> double-image">
 				        	<a href="<%= post.hash %>">
-				                <img src="<%= post.tileimg %>">
+				                <img src="<%= post.tileImageUrl %>">
 				                <h2>
 					            	<span><%= post.header %></span>
 							    </h2>
@@ -71,7 +71,7 @@
 				            	<h2>
 					            	<span><%= post.header %></span>
 							    </h2>
-				                <img src="<%= post.tileimg %>">
+				                <img src="<%= post.tileImageUrl %>">
 				                <p><%= post.summary %></p>
 				            </a>
 				            <span class="author-date">

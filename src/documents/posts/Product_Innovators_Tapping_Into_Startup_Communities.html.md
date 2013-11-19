@@ -4,9 +4,9 @@ tag: "business"
 header: "Product Innovators:\nTapping Into Startup\nCommunities"
 summary: In Part Two, Vidyard CEO Michael Litt discusses the support he found in startup programs like Y Combinator.
 layout: blog
-coverimg: "/images/articles/Product_Innovators_Tapping_Into_Startup_Communities/cover.jpg"
-tileimg: "/images/articles/Product_Innovators_Tapping_Into_Startup_Communities/tile.jpg"
-authorimg: "/images/avatar/Steph_Brown.png"
+coverImageUrl: "/images/articles/Product_Innovators_Tapping_Into_Startup_Communities/cover.jpg"
+tileImageUrl: "/images/articles/Product_Innovators_Tapping_Into_Startup_Communities/tile.jpg"
+authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-05-06"
 tilestyle: "image"

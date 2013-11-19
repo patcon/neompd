@@ -1,12 +1,12 @@
 <div class="employee">
 	<div class="banner">
-		<div class="background-strip" style="background-image: url('<% if @document.coverimg: %><%= @document.coverimg %><% else: %>/images/<% end %>')"></div>
+		<div class="background-strip" style="background-image: url('<% if @document.coverImageUrl: %><%= @document.coverImageUrl %><% else: %>/images/<% end %>')"></div>
 	</div>
 
 	<div class="content">
 		<div class="author">
-			<% if @document.authorimg: %>
-				<img src="<%= @document.authorimg %>" class="avatar" />
+			<% if @document.authorImageUrl: %>
+				<img src="<%= @document.authorImageUrl %>" class="avatar" />
 			<% end %>
 			<div class="author-name"><%= @document.name %></div>
 			<blockquote>&ldquo;<%= @document.quote %>&rdquo;</blockquote>

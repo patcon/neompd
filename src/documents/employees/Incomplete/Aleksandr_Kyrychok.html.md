@@ -4,8 +4,8 @@ role: "Developer"
 tag: "people"
 skill: "Drupal, Javascript, IA"
 quote: "you will get maximum from business if you really like it."
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter:
 dribbble:
 linkedin:

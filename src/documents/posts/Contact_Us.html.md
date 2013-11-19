@@ -5,8 +5,8 @@ unlisted: true
 header: "Contact Us"
 summary: "Namaste! Guten tag! Hello there!"
 layout: blog
-coverimg: "/images/articles/Contact_Us/cover.jpg"
-tileimg: "/images/articles/Contact_Us/tile.jpg"
+coverImageUrl: "/images/articles/Contact_Us/cover.jpg"
+tileImageUrl: "/images/articles/Contact_Us/tile.jpg"
 date: "2013-04-08"
 tilestyle: "image"
 bodyClass: "contactPage"
