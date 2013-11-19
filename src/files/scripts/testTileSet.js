@@ -22,5 +22,7 @@ define(['jquery'], function ($) {
         };
     });
 
+    $("#data").remove();
+
     return articleMap;
 });

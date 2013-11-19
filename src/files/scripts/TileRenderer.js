@@ -26,6 +26,7 @@ define([
         this.renderedOpacity = null;
         this.renderedTransition = false;
         this.renderedNoEvents = false;
+        this.count = 0;
 
         this.lastPositionTransform = null;
 
@@ -33,7 +34,7 @@ define([
 
         this.$li.css({
             position: 'absolute',
-            opacity: 0,
+            opacity: this.renderer.MIN_OPACITY,
             top: 0,
             left: 0
         });
@@ -59,14 +60,14 @@ define([
     TileRenderer.prototype.renderTile = function () {
         var animationAmount = Math.abs(this.renderer.articleScrollBackAmount),
             verticalOffset = (this.isArticleMode && this.isDismissing) ?
-                (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 300 : 200) :
+                (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 350 : 350) :
                 (!this.isArticleMode && !this.isRevealed ? (this.isBelowMiddle ? 1 : -1) * 200 : 0),
 
             positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + Math.max(this.tile.y + verticalOffset, -70) + 'px,0)',
 
             tileNoEvents = this.isArticleMode,
             tileFixed = (this.isArticleMode && this.isDismissing),
-            tileOpacity = (!this.isArticleMode && this.isRevealed) ? 1 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0.001),
+            tileOpacity = (!this.isArticleMode && this.isRevealed) ? 0.999 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0.001),
             tileTransform = positionTransform === null ?
                 (this.lastPositionTransform || 'translate3d(0,0,0)') + ' scale(0.001)' :
                 positionTransform,
@@ -79,11 +80,9 @@ define([
 
         // update transitioning first
         if (this.renderedTransition !== tileTransition) {
-            this.renderedTransition = tileTransition;
-
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ?
-                    '-webkit-transform 0.45s ease-out 0.05s, opacity 0.6s ease-in 0.05s' :
+                    '-webkit-transform 0.4s ease-out 0.05s, opacity 0.625s ease-in 0.05s' :
                     'none'
             });
         }
@@ -99,7 +98,6 @@ define([
                 transform: this.renderedTransform = tileTransform
             });
         }
-
         if (this.renderedOpacity !== tileOpacity) {
             this.$li.css({
                 opacity: this.renderedOpacity = tileOpacity
@@ -190,7 +188,12 @@ define([
             this.initializeArticleModeState();
         }
 
-        this.renderTile();
+        if(this.getVisibility()) {
+            this.renderTile();
+        } else {
+            this.renderer.queue.add(this.renderTile.bind(this));
+            window.setTimeout(this.renderer.queue.process.bind(this.renderer.queue), 50);
+        }
     };
 
     TileRenderer.prototype.onViewport = function (e) {

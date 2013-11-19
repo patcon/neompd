@@ -51,6 +51,9 @@ if (!Date.now)
 }());
 
 /* End rAF polyfill */
+window.setTimeoutWithRAF = function (fn, t) {
+    return window.setTimeout(window.requestAnimationFrame.bind(this, fn), t);
+};
 
 require([
     './webfont',
@@ -66,15 +69,13 @@ require([
             urls: [ '/styles/index.css' ]
         },
         active: function () {
-            var app = new Application(articleSet),
-                renderer;
-
-            window.setTimeout(function () {
-                window.requestAnimationFrame(function () {
-                    renderer = new Renderer(app);
-                    document.body.classList.add('loaded');
-                });
-            }, 1000); //todo: not this?
+            //todo: not this?
+            window.setTimeoutWithRAF(function () {
+                new Renderer(new Application(articleSet));
+                window.setTimeoutWithRAF(function () {
+                    $(document.body).addClass('loaded');
+                }, 900);
+            }, 300);
         }
     });
 });
