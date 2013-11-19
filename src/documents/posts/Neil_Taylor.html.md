@@ -2,7 +2,7 @@
 name: "Neil Taylor"
 role: "Front-End Developer"
 tag: "people"
-skill: "JavaScript, CSS, Web Browsers, Jankbusting, Duck Tolling Retrievers"
+skill: "Web Browsers, JavaScript, CSS, Jankbusting, Duck Tolling Retrievers"
 quote: "I've got Postgres on vinyl"
 authorimg: "/images/avatar/Neil_Taylor.png"
 linkedin: "http://www.jankbusters.com"
