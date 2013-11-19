@@ -11,7 +11,6 @@ dribbble:
 linkedin:
 github:
 layout: employee
-tilestyle: "employee"
 color: "black"
 ---
 

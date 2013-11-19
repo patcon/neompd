@@ -11,7 +11,6 @@ dribbble:
 linkedin: "http://ca.linkedin.com/in/charliemoscoe/"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

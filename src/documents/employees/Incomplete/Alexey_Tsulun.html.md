@@ -11,7 +11,6 @@ dribbble:
 linkedin:
 github: "https://github.com/TsulunAleksey"
 layout: employee
-tilestyle: "employee"
 color: "green"
 ---
 

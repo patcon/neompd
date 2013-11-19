@@ -11,7 +11,6 @@ dribbble:
 linkedin: "ca.linkedin.com/in/nlarcher/"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

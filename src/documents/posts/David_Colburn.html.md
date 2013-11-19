@@ -11,7 +11,6 @@ dribbble:
 linkedin: "http://www.linkedin.com/in/dbcolburn"
 github: "https://github.com/davidcol"
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

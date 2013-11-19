@@ -38,7 +38,7 @@
 			<h3>Articles I've Written</h3>
 			<ul class="article-list">
 				<% for post in @getCollection("posts").toJSON(): %>
-					<% if post.tilestyle isnt "employee" and post.author is @document.name :  %>
+					<% if post.layout isnt "employee" and post.author is @document.name :  %>
 						<a href="#articles/<%= post.url.split('/').pop().replace(/\.html$/, ''); %>">
 							<li class="<%= (post.tag or '').toLowerCase().split(' ')[0] %>">
 								<div class="article-header"><%= post.header %></div>

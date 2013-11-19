@@ -11,7 +11,6 @@ dribbble: "http://www.dribbble.com/andsem"
 linkedin: "http://ca.linkedin.com/in/andrewsemuschak"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

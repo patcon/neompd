@@ -11,7 +11,6 @@ dribbble:
 linkedin:
 github: "https://github.com/anna-tsulun"
 layout: employee
-tilestyle: "employee"
 color: "pink"
 ---
 

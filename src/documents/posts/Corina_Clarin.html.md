@@ -11,7 +11,6 @@ dribbble:
 linkedin: "http://www.linkedin.com/in/corinaclarin"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

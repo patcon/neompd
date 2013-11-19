@@ -8,7 +8,6 @@ authorImageUrl: "/images/avatar/Neil_Taylor.png"
 linkedin: "http://www.jankbusters.com"
 github: "https://github.com/neilbaylorrulez"
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

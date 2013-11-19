@@ -11,7 +11,6 @@ dribbble:
 linkedin: "http://www.linkedin.com/in/stuartalancampbell"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

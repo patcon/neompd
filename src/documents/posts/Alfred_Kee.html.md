@@ -11,7 +11,6 @@ dribbble:
 linkedin: "http://ca.linkedin.com/in/alfredkee"
 github:
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am

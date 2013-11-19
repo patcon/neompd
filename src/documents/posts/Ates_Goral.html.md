@@ -12,7 +12,6 @@ linkedin: "http://ca.linkedin.com/in/atesgoral"
 github: "https://github.com/atesgoral"
 stackoverflow: "http://stackoverflow.com/users/23501/ates-goral"
 layout: employee
-tilestyle: "employee"
 ---
 
 ## Who I Am
