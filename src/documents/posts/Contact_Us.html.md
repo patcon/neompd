@@ -1,3 +1,4 @@
+
 ---
 title: "Contact Us"
 unlisted: true
@@ -12,18 +13,27 @@ tilestyle: "image"
 bodyClass: "contactPage"
 ---
 
-<a href="https://maps.google.ca/maps?q=Bank+of+Upper+Canada+Building,+Toronto&hl=en&ll=43.651851,-79.370964&spn=0.011551,0.022724&sll=43.651768,-79.371145&sspn=0.011613,0.022724&hnear=Bank+of+Upper+Canada+Bldg,+Toronto,+Ontario+M5A+1N1&t=m&z=16">![Myplanet Digital, Bank of Upper Canada Bldg, Toronto, ON M5A 1N1](/images/articles/Contact_Us/map.jpg)</a>
+<a href="https://maps.google.ca/maps?q=252+Adelaide+Street+East,+Toronto,+ON,+Canada,+M5A+3W8">![Myplanet Digital, 252 Adelaide Street East, Toronto, ON, Canada, M5A 3W8](/images/articles/Contact_Us/map.jpg)</a>
 
-*   ## Location
+*   ## Toronto
 
-    Bank of Upper Canada Bldg,<br />Toronto, ON M5A 1N1
+    252 Adelaide Street East<br />Toronto, ON, Canada<br />M5A 3W8
 
-*   ## Contact
+*   ## Chicago
 
-    Tel:&nbsp;866-232-7456<br />
-    Mail:&nbsp;[hello@myplanetdigital.com](mailto:hello@myplanetdigital.com)
+    155 North Wacker Drive<br />Chicago, Illinois<br />60606
 
 <span></span>
+
+*   ## Vancouver
+
+    510 W. Hastings St., St 315<br />Vancouver, BC, Canada<br />V6B 1M1
+
+*   ## Chernihiv
+
+    Voinov-Internatsionalistov Street, 21A<br />Chernihiv, Ukraine
+
+----
 
 *   ## Media
 
@@ -33,6 +43,13 @@ bodyClass: "contactPage"
 
     For all job inquiries, send a note to [talent@myplanetdigital.com](mailto:talent@myplanetdigital.com)<br />
     Visit our careers section to see our current openings.
+
+<span></span>
+
+*   ## Contact
+
+    Tel:&nbsp;866-232-7456<br />
+    Mail:&nbsp;[hello@myplanetdigital.com](mailto:hello@myplanetdigital.com)
 
 ## Follow Us
 
