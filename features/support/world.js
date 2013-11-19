@@ -1,6 +1,9 @@
-exports.World = function (callback) {
+module.exports.World = function (callback) {
     this.visit = function (url, callback) {
-        callback.pending();
+        this.page.open(url, function (status) {
+            // todo: check status
+            callback();
+        });
     };
 
     callback();

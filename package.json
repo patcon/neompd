@@ -16,7 +16,8 @@
         "docpad-plugin-sunny": "~2.1.0"
     },
     "devDependencies": {
-        "cucumber": "latest"
+        "cucumber": "latest",
+        "phantom": "latest"
     },
     "scripts": {
         "deploy": "node_modules/.bin/docpad deploy-sunny --offline",
