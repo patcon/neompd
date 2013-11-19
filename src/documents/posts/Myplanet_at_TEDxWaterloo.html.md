@@ -1,6 +1,5 @@
 ---
 title: "Myplanet at TEDxWaterloo"
-isPost: true
 tag: "culture events"
 color: "pink"
 header: "Myplanet at\nTEDxWaterloo"

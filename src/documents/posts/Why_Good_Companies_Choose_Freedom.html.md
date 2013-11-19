@@ -1,6 +1,5 @@
 ---
 title: "Why Good Companies Choose Freedom"
-isPost: true
 tag: "business culture"
 color: "black"
 header: "Why Good Companies\nChoose Freedom"

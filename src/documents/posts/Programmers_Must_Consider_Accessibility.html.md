@@ -1,6 +1,5 @@
 ---
 title: "Programmers Must Consider\nAccessibility"
-isPost: true
 tag: "technology design"
 color: "black"
 header: "Programmers Must\nConsider Accessibility"

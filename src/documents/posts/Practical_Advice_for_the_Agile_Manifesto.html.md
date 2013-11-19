@@ -1,6 +1,5 @@
 ---
 title: "Practical Advice for the Agile Manifesto"
-isPost: true
 tag: "business technology design culture"
 color: "black"
 header: "Practical Advice for\nthe Agile Manifesto"

@@ -1,6 +1,5 @@
 ---
 title: "Product Innovators: Hussain Saleem, Rocket Man"
-isPost: true
 tag: "business"
 color: "black"
 header: "Product Innovators:\nHussain Saleem,\nRocket Man"

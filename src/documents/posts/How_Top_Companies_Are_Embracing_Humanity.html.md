@@ -1,6 +1,5 @@
 ---
 title: "How Top Companies Are Embracing Humanity"
-isPost: true
 tag: "culture"
 color: "orange"
 header: "How Top Companies\nAre Embracing\nHumanity"

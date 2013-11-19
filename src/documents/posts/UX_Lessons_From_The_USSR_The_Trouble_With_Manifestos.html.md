@@ -1,6 +1,5 @@
 ---
 title: "UX Lessons From The USSR: The Trouble With Manifestos"
-isPost: true
 tag: "design"
 color: "black"
 header: "UX Lessons From The\nUSSR: The Trouble\nWith Manifestos"

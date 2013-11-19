@@ -149,12 +149,13 @@ define([
         var scrollTop = window.pageYOffset,
             scrollHeight = this.winHeight,
             gridOffset = this.gridOffset;
-        tOffset = tOffset || 0;
-        lOffset = lOffset || 0;
+
         return {
             left: -gridOffset.left, // @todo support horizontal scroll?
-            top: scrollTop - gridOffset.top - tOffset,
-            bottom: scrollTop + scrollHeight - gridOffset.top + lOffset
+            top: scrollTop - gridOffset.top,
+            bottom: scrollTop + scrollHeight - gridOffset.top,
+            revealedTop: scrollTop - gridOffset.top - (tOffset || 0),
+            revealedBottom: scrollTop + scrollHeight - gridOffset.top + (lOffset || 0)
         };
     };
 
@@ -170,6 +171,8 @@ define([
             transform: 'translateZ(0)'
         });
         this.$window.scrollTop(newScrollTop);
+
+        this.$menu.attr('data-tag', this.app.tileField.filterTag || '');
 
         window.setTimeoutWithRAF(function () {
             if(this.app.currentArticle) {

@@ -1,6 +1,5 @@
 ---
 title: "A Brief History of JavaScript"
-isPost: true
 tag: "technology"
 color: "orange"
 header: "A Brief History of\nJavaScript"

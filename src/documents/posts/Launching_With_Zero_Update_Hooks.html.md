@@ -1,6 +1,5 @@
 ---
 title: "Launching With Zero Update Hooks"
-isPost: true
 tag: "technology"
 color: "black"
 header: "Launching With Zero\nUpdate Hooks"

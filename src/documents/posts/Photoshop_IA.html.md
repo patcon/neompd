@@ -1,6 +1,5 @@
 ---
 title: "Photoshop IA: The Structure Behind The Design"
-isPost: true
 tag: "design"
 color: "orange"
 header: "Photoshop IA: The\nStructure Behind\nThe Design"

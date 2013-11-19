@@ -168,9 +168,9 @@
 						}
 					}
 					a.github {
-						background: url(/images/social_icons.png) -101px 24px;
+						background: url(/images/social_icons.png) -102px 24px;
 						&:after {
-							background: #fff url(/images/social_icons.png) -101px 53px;
+							background: #fff url(/images/social_icons.png) -102px 53px;
 							content: "";
 							position: absolute;
 							width: 100%; height: 100%;
@@ -183,6 +183,22 @@
 							opacity: 1;
 						}
 					}
+                    a.stackoverflow {
+                        background: url(/images/social_icons.png) -136px 24px;
+                        &:after {
+                            background: #fff url(/images/social_icons.png) -136px 53px;
+                            content: "";
+                            position: absolute;
+                            width: 100%; height: 100%;
+                            left:0; top:0;
+                            opacity: 0;
+                            -webkit-transition: opacity @transition;
+                            -moz-transition: opacity @transition;
+                        }
+                        &:hover:after {
+                            opacity: 1;
+                        }
+                    }
 				}
 			}
 		}

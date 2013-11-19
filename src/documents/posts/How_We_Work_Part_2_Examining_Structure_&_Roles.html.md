@@ -1,6 +1,5 @@
 ---
 title: "How We Work, Part 2: Examining Structure & Roles"
-isPost: true
 tag: "culture design"
 color: "green"
 header: "How We Work, Part 2:\nExamining Structure\n& Roles"

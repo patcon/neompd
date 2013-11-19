@@ -1,6 +1,5 @@
 ---
 title: "Myplanet Skeuomorphism vs. Flat Design"
-isPost: true
 tag: "design"
 color: "black"
 header: "Skeuomorphism vs.\nFlat Design"

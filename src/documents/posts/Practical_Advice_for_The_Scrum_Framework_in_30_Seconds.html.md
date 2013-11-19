@@ -1,6 +1,5 @@
 ---
 title: "Practical Advice for The Scrum Framework in 30 Seconds"
-isPost: true
 tag: "business technology design"
 color: "black"
 header: "Practical Advice for\nScrum Framework\nin 30 Seconds"

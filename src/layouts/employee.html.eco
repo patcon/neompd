@@ -26,6 +26,9 @@
 				<% if @document.github: %>
 					<li><a href="<%= @document.github %>" class="github">Github</a></li>
 				<% end %>
+                <% if @document.stackoverflow: %>
+                    <li><a href="<%= @document.stackoverflow %>" class="stackoverflow">Stack Overflow</a></li>
+                <% end %>
 			</ul>
 		</div>
 

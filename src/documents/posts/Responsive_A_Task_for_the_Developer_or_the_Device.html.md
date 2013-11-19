@@ -1,6 +1,5 @@
 ---
 title: "Responsive: A Task for the Developer or the Device?"
-isPost: true
 tag: "technology"
 color: "black"
 header: "Responsive: A Task\nfor the Developer\nor the Device?"

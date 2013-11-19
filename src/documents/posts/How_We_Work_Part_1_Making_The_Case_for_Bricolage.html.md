@@ -1,6 +1,5 @@
 ---
 title: "How We Work, Part 1: Making The Case for Bricolage"
-isPost: true
 tag: "culture design"
 color: "green"
 header: "How We Work, Part 1:\nMaking The Case\nfor Bricolage"

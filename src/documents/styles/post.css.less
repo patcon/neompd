@@ -230,6 +230,60 @@
 			}
 		}
 
+        a.social {
+            @transition-length: 0.3s;
+
+            .sprite(@x) {
+                background-position: (-62px * @x) 0;
+                &:after {
+                    background-position: (-62px * @x) -33px;
+                }
+            }
+
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            width: 31px;
+            height: 31px;
+            text-indent: -9999px;
+            margin: 10px 31px 0 0;
+
+            background: url(/images/social_icons_bw.png) no-repeat;
+
+            &:after {
+                content: "";
+                position: absolute;
+                left:0;
+                top:0;
+                width: 100%;
+                height: 100%;
+
+                background: #fff url(/images/social_icons_bw.png) no-repeat;
+
+                opacity: 0;
+                transition: opacity @transition-length;
+                -webkit-transition: opacity @transition-length;
+                -moz-transition: opacity @transition-length;
+            }
+
+            &:hover:after {
+                opacity: 1;
+            }
+
+            &.facebook {
+                .sprite(0);
+            }
+            &.twitter {
+                .sprite(1);
+            }
+            &.linkedin {
+                .sprite(2);
+            }
+            &.github {
+                .sprite(3);
+            }
+        }
+
 		footer {
 			border-top: 1px solid #eee;
 			padding-top: 59px;

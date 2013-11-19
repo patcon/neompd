@@ -1,6 +1,6 @@
 ---
 title: "Contact Us"
-isPost: true
+unlisted: true
 color: "orange"
 header: "Contact Us"
 summary: "Namaste! Guten tag! Hello there!"
@@ -33,3 +33,10 @@ bodyClass: "contactPage"
 
     For all job inquiries, send a note to [talent@myplanetdigital.com](mailto:talent@myplanetdigital.com)<br />
     Visit our careers section to see our current openings.
+
+## Follow Us
+
+<a class="social facebook" href="" title="Facebook">Facebook</a>
+<a class="social twitter" href="" title="Twitter">Twitter</a>
+<a class="social linkedin" href="" title="LinkedIn">LinkedIn</a>
+<a class="social github" href="" title="GitHub">GitHub</a>

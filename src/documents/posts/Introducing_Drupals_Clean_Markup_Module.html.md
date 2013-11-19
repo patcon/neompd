@@ -1,6 +1,5 @@
 ---
 title: "Introducing Drupal's Clean Markup Module"
-isPost: true
 tag: "technology"
 color: "black"
 header: "Introducing Drupal's\nClean Markup Module"

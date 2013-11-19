@@ -1,6 +1,5 @@
 ---
 title: "Myplanet wins Momentum Company of the Year"
-isPost: true
 priority: 1
 tag: "culture"
 color: "green"
