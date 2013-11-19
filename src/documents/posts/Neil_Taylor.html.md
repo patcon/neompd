@@ -3,7 +3,7 @@ name: "Neil Taylor"
 role: "Front-End Developer"
 tag: "people"
 skill: "JavaScript, CSS, Web Browsers, Jankbusting, Duck Tolling Retrievers"
-quote: "My code is poetry, while yours is oh-noetry"
+quote: "I've got Postgres on vinyl"
 authorimg: "/images/avatar/Neil_Taylor.png"
 twitter: "https://twitter.com/hotdudes"
 linkedin: "http://www.jankbusters.com"
@@ -18,3 +18,5 @@ I raise my own chickens and manage my own memory
 
 ## What I Do
 I write world-class applications in languages you haven't heard of yet
+
+My code is poetry, while yours is oh-noetry
