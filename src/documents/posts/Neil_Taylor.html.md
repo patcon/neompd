@@ -16,5 +16,5 @@ color: "green"
 I raise my own chickens and manage my own memory
 
 ## What I Do
-I write world-class applications in languages you haven't heard of yet.
+I write world-class applications in languages you probably haven't heard of yet.
 My code is poetry, while yours is oh-noetry
