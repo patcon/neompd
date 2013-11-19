@@ -1,6 +1,6 @@
 <div class="employee">
 	<div class="banner">
-		<div class="background-strip <%= @document.color %>" style="background-image: url('<%= @document.coverimg %>')"></div>
+		<div class="background-strip" style="background-image: url('<%= @document.coverimg %>')"></div>
 	</div>
 
 	<div class="content">
