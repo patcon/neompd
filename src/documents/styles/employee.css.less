@@ -17,16 +17,6 @@
 			background-size: cover;
 			height: 480px;
 		}
-
-		.green {
-			background-color: #29d09a;
-		}
-		.pink {
-			background-color: #f45d96;
-		}
-		.orange {
-			background-color: #ee5b33;
-		}
 	}
 
 	.content {
@@ -102,6 +92,9 @@
 						background:#29d09a;
 					}
 				}
+				li:last-child {
+					margin-right:0;
+				}
 			}
 
 			ul.portfolio {
@@ -111,6 +104,10 @@
 					display: inline;
 					list-style-type: none;
 					margin-right: 38px;
+
+					&:last-child {
+						margin-right: 0;
+					}
 
 					a {
 						display: inline-block;

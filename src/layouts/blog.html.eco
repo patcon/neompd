@@ -1,7 +1,7 @@
 <div class="post <%= @document.bodyClass %>">
 	<div class="banner">
         <% headerLines = @document.header.split(/\n/) %>
-		<div class="background-strip <%= @document.color %>" style="background-image: url('<%= @document.coverimg %>')"></div>
+		<div class="background-strip" style="background-image: url('<%= @document.coverimg %>')"></div>
 		<h1 class="title <% if headerLines.length is 1: %>single-line<% end %>">
 			<%- '<span>' + headerLines.join('</span><span>') + '</span>' %>
 		</h1>
