@@ -8,7 +8,7 @@ layout: blog
 coverimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/cover.jpg"
 tileimg: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage/tile.jpg"
 authorimg: "/images/avatar/Erik_Von_Stackelberg.png"
-author: ""
+author: "Erik von Stackelberg"
 date: "2013-10-10"
 tilestyle: "image"
 ---
