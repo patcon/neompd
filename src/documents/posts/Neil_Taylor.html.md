@@ -2,21 +2,19 @@
 name: "Neil Taylor"
 role: "Front-End Developer"
 tag: "people"
-skill: "JavaScript, CSS, Web Browsers, Computer Science, Jankbusting, Duck Tolling Retrievers"
-quote: "I've got Postgres on vinyl"
+skill: "JavaScript, CSS, Web Browsers, Jankbusting, Duck Tolling Retrievers"
+quote: "My code is poetry, while yours is oh-noetry"
 authorimg: "/images/avatar/Neil_Taylor.png"
-twitter: "https://twitter.com/atesgoral"
-linkedin: "http://www.jankbusters.coml"
+twitter: "https://twitter.com/hotdudes"
+linkedin: "http://www.jankbusters.com"
 github: "https://github.com/neilbaylorrulez"
 layout: employee
 tilestyle: "employee"
-color: "black"
+color: "green"
 ---
 
 ## Who I Am
-
-I write world-changing applications in languages you haven't heard of. My code is poetry, while yours is oh-noetry.
+I raise my own chickens and manage my own memory
 
 ## What I Do
-
-I raise my own chickens and manage my own memory.
+I write world-class applications in languages you haven't heard of yet
