@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Programmers_Must_Consider_Accessibility/tile.jpg
 authorImageUrl: "/images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-08-10"
-tilestyle: "image"
 ---
 
 Below this paragraph is a completely black image, 300 pixels by 300 pixels in size.

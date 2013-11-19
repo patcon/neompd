@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Why_Good_Companies_Choose_Freedom/tile.jpg"
 authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2010-09-08"
-tilestyle: "image"
 ---
 
 There seems to be an insatiable urge in organizations beyond a certain size to succumb to process.

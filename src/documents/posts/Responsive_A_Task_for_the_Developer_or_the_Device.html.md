@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Devic
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-01-24"
-tilestyle: "image"
 ---
 
 A [post](http://news.ycombinator.com/item?id=5091684) on responsive design recently made its way to the top of [Hacker News](http://news.ycombinator.com/).

@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/tile.jp
 authorImageUrl: "/images/avatar/Michael_Apollo.png"
 author: "Michael Apollo"
 date: "2013-03-18"
-tilestyle: "image"
 ---
 
 Attentiveness. Resiliency. Situational awareness. Mental agility. Emotional intelligence. None of these attributes just "happen"; rather, they must be intentionally cultivated.

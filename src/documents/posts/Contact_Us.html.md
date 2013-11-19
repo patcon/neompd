@@ -8,7 +8,6 @@ layout: blog
 coverImageUrl: "/images/articles/Contact_Us/cover.jpg"
 tileImageUrl: "/images/articles/Contact_Us/tile.jpg"
 date: "2013-04-08"
-tilestyle: "image"
 bodyClass: "contactPage"
 ---
 

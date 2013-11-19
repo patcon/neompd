@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/How_We_Work_Part_2_Examining_Structure_&_Roles/t
 authorImageUrl: "/images/avatar/Erik_Von_Stackelberg.png"
 author: "Erik von Stackelberg"
 date: "2013-04-14"
-tilestyle: "image"
 ---
 
 For example, certain team members have experimented with limiting themselves to predefined Scrum responsibilities, while others have worn more hats than can fit on one determined head (aside: you can fit more than one, but probably fewer than ten). We’re definitely not finished with our iteration on roles, but we have discovered certain unique positions and helpful team structures that can benefit a professional services user experience project. This part in the _Process Bricolage _series argues that in a professional services engagement, UX design should be a shared responsibility spread across team members with necessarily unique skill sets. To support this notion, I examine the integration of traditional and non-traditional Agile roles—in particular, Product Owner, Creative Rep, and UX specialist—in to the UX design and build process.

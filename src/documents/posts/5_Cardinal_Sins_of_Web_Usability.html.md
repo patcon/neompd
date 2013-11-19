@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/5_Cardinal_Sins_of_Web_Usability/tile.jpg"
 authorImageUrl: "/images/avatar/Cara_Tsang.png"
 author: "Cara Tsang"
 date: "2013-04-02"
-tilestyle: "image"
 ---
 
 In fact, research shows that the average visitor only spends **1 minute 49 seconds** on a website before abandoning it if the site doesn’t readily offer up what he or she needs. And after visitors abandon a bad site, **88% of them won’t return to that site** during the same session.

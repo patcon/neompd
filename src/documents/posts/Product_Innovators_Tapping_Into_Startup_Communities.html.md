@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Product_Innovators_Tapping_Into_Startup_Communit
 authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-05-06"
-tilestyle: "image"
 ---
 
 [Last week](http://myplanetdigital.com/article/product-innovators-how-acquire-your-first-customers) we introduced [Vidyard](http://vidyard.com/), a successful video marketing and analytics company that got its start with the support of [VeloCity Garage ](http://velocity.uwaterloo.ca/garage)at the [University of Waterloo](http://www.uwaterloo.ca). VeloCity Garage is a part of a wider ecosystem of startup programs in Kitchener-Waterloo including [Communitech](http://www.communitech.ca)’s [Hyperdrive Program](http://hyperdrive.communitech.ca) and the [Accelerator Centre](http://www.acceleratorcentre.com/). After gaining momentum at the Garage, Michael took Vidyard to Silicon Valley's highly esteemed [Y Combinator](http://ycombinator.com/).

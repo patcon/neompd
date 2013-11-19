@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Product_Innovators_The_Importance_of_Lean_UX_Des
 authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-05-22"
-tilestyle: "image"
 ---
 
 In Part Four of our [video series](http://www.youtube.com/myplanetdigital) with Michael, he explains how a lean approach to user experience design can impact the success of a digital product or platform.

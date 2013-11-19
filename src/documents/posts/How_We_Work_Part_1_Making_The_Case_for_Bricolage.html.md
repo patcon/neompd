@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/How_We_Work_Part_1_Making_The_Case_for_Bricolage
 authorImageUrl: "/images/avatar/Erik_Von_Stackelberg.png"
 author: "Erik von Stackelberg"
 date: "2013-10-10"
-tilestyle: "image"
 ---
 
 ## Introduction

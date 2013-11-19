@@ -9,7 +9,6 @@ tileImageUrl: "/images/articles/Practical_Advice_for_The_Scrum_Framework_in_30_S
 authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-10-14"
-tilestyle: "image"
 ---
 
 [Scrum](http://en.wikipedia.org/wiki/Scrum_(software_development)) is the most popular of the Agile frameworks. It is also one of the hardest to implement well. Many organizations have used Scrum only to find out that the Scrum framework is simple, yet the implementation is quite difficult. Here are some practical tips to advance your use of Scrum.

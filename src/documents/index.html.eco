@@ -50,8 +50,7 @@
                         </a>
                         <span class="tag"><a href="#tags/people"></a></span>
                     </div>
-    			<% else if post.tilestyle: %>
-			        <% if post.tilestyle is "double-image": %>
+		        <% else if post.tilestyle is "double-image": %>
 			        	<div class="tile <%= postTagList[0] %> double-image">
 				        	<a href="<%= post.hash %>">
 				                <img src="<%= post.tileImageUrl %>">
@@ -65,22 +64,21 @@
 				            </span>
                             <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
 						</div>
-    				<% else: %>
-    					<div class="tile <%= postTagList[0] %> image">
-							<a href="<%= post.hash %>">
-				            	<h2>
-					            	<span><%= post.header %></span>
-							    </h2>
-				                <img src="<%= post.tileImageUrl %>">
-				                <p><%= post.summary %></p>
-				            </a>
-				            <span class="author-date">
-					            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
-					            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-					        </span>
-                            <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
-						</div>
-    			    <% end %>
+				<% else if post.tileImageUrl: %>
+					<div class="tile <%= postTagList[0] %> image">
+						<a href="<%= post.hash %>">
+			            	<h2>
+				            	<span><%= post.header %></span>
+						    </h2>
+			                <img src="<%= post.tileImageUrl %>">
+			                <p><%= post.summary %></p>
+			            </a>
+			            <span class="author-date">
+				            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+				            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+				        </span>
+                        <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
+					</div>
     	        <% else: %>
     	        	<div class="tile <%= postTagList[0] %>">
 			        	<a href="<%= post.hash %>">
