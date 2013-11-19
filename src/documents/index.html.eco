@@ -42,7 +42,7 @@
 	                    <div class="tile people">
 	                        <a href="<%= post.hash %>">
 					            <h2>
-			            			<span>&ldquo;&ensp;<%= post.quote %>&ensp;&rdquo;</span>
+			            			<span>&ldquo;<%= post.quote %>&rdquo;</span>
 			            		</h2>
 			            		<% if post.authorimg: %>
 							    	<img src="<%= post.authorimg %>">

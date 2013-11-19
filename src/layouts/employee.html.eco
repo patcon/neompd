@@ -1,6 +1,6 @@
 <div class="employee">
 	<div class="banner">
-		<div class="background-strip" style="background-image: url('<%= @document.coverimg %>')"></div>
+		<div class="background-strip" style="background-image: url('<% if @document.coverimg: %><%= @document.coverimg %><% else: %>/images/<% end %>')"></div>
 	</div>
 
 	<div class="content">
@@ -9,7 +9,7 @@
 				<img src="<%= @document.authorimg %>" class="avatar" />
 			<% end %>
 			<div class="author-name"><%= @document.name %></div>
-			<blockquote><%= @document.quote %></blockquote>
+			<blockquote>&ldquo;<%= @document.quote %>&rdquo;</blockquote>
 			<ul class="tag-list">
 				<%- '<li>' + (@document.skill or '').split(', ').join('</li><li>') + '</li>' %>
 			</ul>
