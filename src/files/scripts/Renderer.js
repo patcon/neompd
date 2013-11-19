@@ -250,11 +250,11 @@ define([
                         } else {
                             this.$loadingOverlay.removeAttr('data-active');
                         }
-                    }.bind(this), 600);
+                    }.bind(this), 800);
                 } else {
                     this.$loadingOverlay.removeAttr('data-active');
                 }
-            }.bind(this), 500);
+            }.bind(this), 300);
         }.bind(this));
     };
 
