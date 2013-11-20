@@ -4,8 +4,8 @@ tag: "business"
 header: "The agency model\nis broken:\nWhy we sell teams,\nnot projects"
 summary: The agency model is broken. Here's how we're trying to fix it.
 layout: blog
-coverImageUrl: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not_projects/cover.jpg"
-tileImageUrl: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not_projects/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-03-07"

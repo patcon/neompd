@@ -4,8 +4,8 @@ tag: "technology"
 header: "So, you wanna OOP\nwith JavaScript?"
 summary: JavaScript is not your typical, run-of-the-mill Object Oriented language. It is an object-oriented language but not in a typical way.
 layout: blog
-coverImageUrl: "/images/articles/So_you_wanna_OOP_with_JavaScript/cover.jpg"
-tileImageUrl: "/images/articles/So_you_wanna_OOP_with_JavaScript/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "../images/avatar/Anand_Sharma.png"
 author: "Anand Sharma"
 date: "2013-06-25"

@@ -4,8 +4,8 @@ tag: "technology"
 header: "Troubleshooting Workbench"
 summary: A handy guide to some of the common problems encountered when trying to set up Workbench in Drupal.
 layout: blog
-coverImageUrl: "/images/articles/Troubleshooting_Workbench/cover.jpg"
-tileImageUrl: "/images/articles/Troubleshooting_Workbench/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Anna_Sunko.png"
 author: "Anna Sunko"
 date: "2013-04-12"

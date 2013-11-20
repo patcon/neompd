@@ -4,8 +4,8 @@ tag: "culture technology"
 header: "Engaging\nRemote Workers"
 summary: One thing is very clear and will always be a priority for us: work is an activity we all love and share, not a place.
 layout: blog
-coverImageUrl: "/images/articles/Engaging_Remote_Workers/cover.jpg"
-tileImageUrl: "/images/articles/Engaging_Remote_Workers/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Tim_Fernihough.png"
 author: "Tim Fernihough"
 date: "2013-03-23"

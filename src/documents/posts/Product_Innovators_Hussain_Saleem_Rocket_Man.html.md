@@ -4,8 +4,8 @@ tag: "business"
 header: "Product Innovators:\nHussain Saleem,\nRocket Man"
 summary: Rocket Man is a transit app that hundreds of thousands of Torontonians rely on to help plan their travels across the city.
 layout: blog
-coverImageUrl: "/images/articles/Product_Innovators_Hussain_Saleem_Rocket_Man/cover.jpg"
-tileImageUrl: "/images/articles/Product_Innovators_Hussain_Saleem_Rocket_Man/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-04-30"

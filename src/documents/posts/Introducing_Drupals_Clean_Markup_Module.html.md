@@ -4,8 +4,8 @@ tag: "technology"
 header: "Introducing Drupal's\nClean Markup Module"
 summary: We're excited to announce the official release of the Clean Markup module.
 layout: blog
-coverImageUrl: "/images/articles/Introducing_Drupals_Clean_Markup_Module/cover.jpg"
-tileImageUrl: "/images/articles/Introducing_Drupals_Clean_Markup_Module/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Rene_Hache.png"
 author: "Rene Hache"
 date: "2013-08-16"

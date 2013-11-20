@@ -4,8 +4,8 @@ tag: "technology"
 header: "Translating Panel Content\nTitles Using Tokens" 
 summary: We recently encountered a specific situation with a Drupal site that had to be retro-fitted for translation.
 layout: blog
-coverImageUrl: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/cover.jpg"
-tileImageUrl: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "../images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-07-10"

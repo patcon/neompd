@@ -4,8 +4,8 @@ tag: "technology"
 header: "DocPad September\nRecap"
 summary: What the DocPad community accomplished in September 2013.
 layout: blog
-coverImageUrl: "/images/articles/DocPad_September_Recap/cover.jpg"
-tileImageUrl: "/images/articles/DocPad_September_Recap/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-10-16"

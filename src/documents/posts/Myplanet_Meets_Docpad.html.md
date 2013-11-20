@@ -4,8 +4,8 @@ tag: "technology"
 header: "Myplanet Meets\nDocPad: A Next Gen\nWeb Framework"
 summary: How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 layout: blog
-coverImageUrl: "/images/articles/Myplanet_Meets_Docpad/cover.jpg"
-tileImageUrl: "/images/articles/Myplanet_Meets_Docpad/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-07-18"

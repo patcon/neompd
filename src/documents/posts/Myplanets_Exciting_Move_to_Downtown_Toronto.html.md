@@ -4,8 +4,8 @@ tag: "culture careers"
 header: "Myplanet's Exciting\nMove to Downtown\nToronto"
 summary: As far back as most Myplaneteers can remember, Markham has been our home.
 layout: blog
-coverImageUrl: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/cover.jpg"
-tileImageUrl: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/tile.jpg"
+coverImageUrl: ""
+tileImageUrl: ""
 authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-05-01"
