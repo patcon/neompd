@@ -42,9 +42,9 @@
                         <span class="tag"><a href="#tags/people"></a></span>
                     </div>
                 <% else if post.tileImageUrl: %>
-                    <div class="tile <%= postTagList[0] %> <%= if post.tilestyle is "double-image" then "double-image" else "image" %>">
+                    <div class="tile <%= postTagList[0] %> <%= if post.isDoubleWidth then "double-image" else "image" %>">
                         <a href="<%= postHash %>">
-                            <% if post.tilestyle is "double-image": %>
+                            <% if post.isDoubleWidth: %>
                                 <img src="<%= post.tileImageUrl %>">
                                 <h2>
                                     <span><%= post.header %></span>

@@ -9,7 +9,7 @@ tileImageUrl: "/images/articles/Photoshop_IA/tile.jpg"
 authorImageUrl: "/images/avatar/Andrew_Semuschak.png"
 author: "Andrew Semuschak"
 date: "2013-06-19"
-tilestyle: "double-image"
+isDoubleWidth: true
 ---
 
 ![](/images/articles/Photoshop_IA/body_1.jpg)

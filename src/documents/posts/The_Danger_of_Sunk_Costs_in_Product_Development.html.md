@@ -9,7 +9,7 @@ tileImageUrl: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/
 authorImageUrl: "/images/avatar/Charlie_Moscoe.png"
 author: "Charlie Moscoe"
 date: "2013-06-19"
-tilestyle: "double-image"
+isDoubleWidth: true
 ---
 
 In order to be sucsessful with product development, we typically have to overcome a wide array of challenges and obstacles.  Believing in your work and doubling down when things get tough are traditionally viewed as valuable traits when attempting to create innovative new products.  But there is a dark side to commitment.  The emotional attachment that individuals and teams develop to their work has the potential to derail projects in the long run.
