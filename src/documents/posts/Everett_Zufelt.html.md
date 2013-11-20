@@ -1,7 +1,7 @@
 ---
 name: "Everett Zufelt"
 role: "Technical Architect"
-tag: "people"
+tagList: ["people"]
 skill: "Javascript, Drupal, Accessibility, QA, Agile"
 quote: "Mastery is never losing hunger for the horizon."
 coverImageUrl: ""

@@ -1,6 +1,6 @@
 ---
 title: "So, you wanna OOP with JavaScript?"
-tag: "technology"
+tagList: ["technology"]
 header: "So, you wanna OOP\nwith JavaScript?"
 summary: JavaScript is not your typical, run-of-the-mill Object Oriented language. It is an object-oriented language but not in a typical way.
 layout: blog

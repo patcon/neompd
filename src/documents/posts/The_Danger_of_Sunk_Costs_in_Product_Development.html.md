@@ -1,6 +1,6 @@
 ---
 title: "The Danger of Sunk Costs in Product Development"
-tag: "business design culture"
+tagList: ["business", "design", "culture"]
 header: "The Danger of Sunk Costs\nin Product Development"
 summary: Embracing creative destruction to build better products.
 layout: blog

@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting Workbench \n"
-tag: "technology"
+tagList: ["technology"]
 header: "Troubleshooting Workbench"
 summary: A handy guide to some of the common problems encountered when trying to set up Workbench in Drupal.
 layout: blog

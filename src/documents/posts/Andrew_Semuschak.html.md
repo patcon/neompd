@@ -1,7 +1,7 @@
 ---
 name: "Andrew Semuschak"
 role: "UI Designer"
-tag: "people"
+tagList: ["people"]
 skill: "Design, Usability, Interactive"
 quote: "Some people dream of things that never were and ask, ‘Why not?’ Some people have to go to work and don’t have time for all that shit. – George Carlin"
 coverImageUrl: ""

@@ -1,6 +1,6 @@
 ---
 title: "Myplanet Meets DocPad"
-tag: "technology"
+tagList: ["technology"]
 header: "Myplanet Meets\nDocPad: A Next Gen\nWeb Framework"
 summary: How we learned to embrace the simplicity of static site generation and the power of new web browser technology.
 layout: blog

@@ -1,7 +1,7 @@
 ---
 name: "Ates Goral"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "JavaScript, Computer Science, LAMP, Interaction Design, Accessibility"
 quote: "Who is testing the tests?"
 coverImageUrl: ""

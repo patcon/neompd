@@ -1,7 +1,7 @@
 ---
 name: "Neil Taylor"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "Web Browsers, JavaScript, CSS, Jankbusting, Duck Tolling Retrievers"
 quote: "I've got Postgres on vinyl"
 authorImageUrl: "/images/avatar/Neil_Taylor.png"

@@ -1,7 +1,7 @@
 ---
 name: "Wivorn Chowattanakul"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "HTML, CSS, Javascript, Lock Picking"
 quote: "The greatest nation in the world is imagination"
 coverImageUrl: ""

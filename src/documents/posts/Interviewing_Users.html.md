@@ -1,6 +1,6 @@
 ---
 title: "Interviewing Users"
-tag: "design"
+tagList: ["design"]
 header: "Interviewing Users\nBy Steve Portigal"
 summary: Steve Portigal's new book examines techniques that uncover compelling insights during user research.
 layout: blog

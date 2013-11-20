@@ -1,7 +1,7 @@
 ---
 name: "Benjamin Woll"
 role: "Product Owner"
-tag: "people"
+tagList: ["people"]
 skill: "Drupal, Agile, Consulting"
 quote: "Advanced technology is indistinguishable from magic."
 coverImageUrl: ""

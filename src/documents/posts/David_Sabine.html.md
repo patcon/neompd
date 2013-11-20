@@ -1,7 +1,7 @@
 ---
 name: "David Sabine"
 role: "Product Owner"
-tag: "people"
+tagList: ["people"]
 skill: "Agile, Consulting"
 quote: "observe, remember, understand, apply, analyze, evaluate, create"
 coverImageUrl: ""

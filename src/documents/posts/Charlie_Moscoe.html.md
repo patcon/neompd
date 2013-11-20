@@ -1,7 +1,7 @@
 ---
 name: "Charlie Moscoe"
 role: "Product Development Wiz Kid"
-tag: "people"
+tagList: ["people"]
 skill: "Agile, Consulting, User Experience"
 quote: "3oz. adventure, 2oz. discovery. Serve over ice."
 coverImageUrl: ""

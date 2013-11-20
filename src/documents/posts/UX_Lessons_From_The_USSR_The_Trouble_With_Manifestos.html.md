@@ -1,6 +1,6 @@
 ---
 title: "UX Lessons From The USSR: The Trouble With Manifestos"
-tag: "design"
+tagList: ["design"]
 header: "UX Lessons From The\nUSSR: The Trouble\nWith Manifestos"
 summary: Our Creative Director spoke recently at FITC Toronto about the intersection of user experience and process.
 layout: blog

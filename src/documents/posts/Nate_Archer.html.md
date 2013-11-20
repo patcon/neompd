@@ -1,7 +1,7 @@
 ---
 name: "Nate Archer"
 role: "Senior Vice President of Global Interaction Design"
-tag: "people"
+tagList: ["people"]
 skill: "User Research, Interaction, Design"
 quote: "We are the music makers, and we are the dreamers of dreams, wandering by lone sea-breakers, and sitting by desolate streams; world-losers and world-forsakers, on whom the pale moon gleams: yet we are the movers and shakers of the world for ever, it seems."
 coverImageUrl: ""

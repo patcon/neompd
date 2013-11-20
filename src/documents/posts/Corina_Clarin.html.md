@@ -1,7 +1,7 @@
 ---
 name: "Corina Clarin"
 role: "Finance Lead"
-tag: "people"
+tagList: ["people"]
 skill: "Finance, Customer Satisfaction"
 quote: "Cash is Queen"
 coverImageUrl: ""

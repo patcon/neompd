@@ -1,6 +1,6 @@
 ---
 title: "Programmers Must Consider\nAccessibility"
-tag: "technology design"
+tagList: ["technology", "design"]
 header: "Programmers Must\nConsider Accessibility"
 summary: Accessibility should be considered throughout development.
 layout: blog

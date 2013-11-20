@@ -1,6 +1,6 @@
 ---
 title: "Launching With Zero Update Hooks"
-tag: "technology"
+tagList: ["technology"]
 header: "Launching With Zero\nUpdate Hooks"
 summary: ...and 5 other reasons to use Drupal's custom_config module.
 layout: blog

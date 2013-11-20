@@ -1,6 +1,6 @@
 ---
 title: "How Top Companies Are Embracing Humanity"
-tag: "culture"
+tagList: ["culture"]
 header: "How Top Companies\nAre Embracing\nHumanity"
 summary: I believe that we can all live happy, effective and deliberate lives - and that our organizations can help.
 layout: blog

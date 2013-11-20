@@ -1,6 +1,6 @@
 ---
 title: "The agency model is broken: Why we sell teams, not projects"
-tag: "business"
+tagList: ["business"]
 header: "The agency model\nis broken:\nWhy we sell teams,\nnot projects"
 summary: The agency model is broken. Here's how we're trying to fix it.
 layout: blog

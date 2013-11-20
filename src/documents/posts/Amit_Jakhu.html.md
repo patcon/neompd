@@ -1,7 +1,7 @@
 ---
 name: "Amit Jakhu"
 role: "Designer"
-tag: "people"
+tagList: ["people"]
 skill: "Interaction, Visual, Design, Front-End Dev, Marketing"
 quote: "Solve real problems that people have."
 coverImageUrl: ""
