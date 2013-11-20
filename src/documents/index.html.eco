@@ -24,7 +24,7 @@
 
     <ul id="data">
         <% for post in @getCollection("posts").toJSON(): %>
-            <% postHash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
+            <% postHash = '#articles/' + post.url.split('/').pop().replace(/\..*$/, ''); %>
             <% postTagList = (post.tag or '').toLowerCase().split(' ') %>
 
             <li data-tags="<%= JSON.stringify(postTagList) %>">

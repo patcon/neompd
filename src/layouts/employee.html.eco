@@ -42,7 +42,7 @@
 
                 <ul class="article-list">
                     <% for post in authoredPosts: %>
-                        <a href="#articles/<%= post.url.split('/').pop().replace(/\.html$/, ''); %>">
+                        <a href="#articles/<%= post.name.replace(/\..*$/, '') %>">
                             <li class="<%= (post.tag or '').toLowerCase().split(' ')[0] %>">
                                 <div class="article-header"><%= post.header %></div>
                                 <div class="article-summary"><%= post.summary %></div>
