@@ -16,8 +16,7 @@
     "docpad-plugin-sunny": "~2.1.0"
   },
   "devDependencies": {
-    "cucumber": "latest",
-    "phantom": "latest"
+    "cucumber": "latest"
   },
   "scripts": {
     "postinstall": "node_modules/.bin/bower install",
