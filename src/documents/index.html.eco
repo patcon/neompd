@@ -44,16 +44,11 @@
                 <% else if post.tileImageUrl: %>
                     <div class="tile <%= postTagList[0] %> <%= if post.isDoubleWidth then "double-image" else "image" %>">
                         <a href="<%= postHash %>">
-                            <% if post.isDoubleWidth: %>
-                                <img src="<%= post.tileImageUrl %>">
-                                <h2>
-                                    <span><%= post.header %></span>
-                                </h2>
-                            <% else: %>
-                                <h2>
-                                    <span><%= post.header %></span>
-                                </h2>
-                                <img src="<%= post.tileImageUrl %>">
+                            <img src="<%= post.tileImageUrl %>">
+                            <h2>
+                                <span><%= post.header %></span>
+                            </h2>
+                            <% if not post.isDoubleWidth: %>
                                 <p><%= post.summary %></p>
                             <% end %>
                         </a>
