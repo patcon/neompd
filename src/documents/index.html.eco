@@ -24,12 +24,13 @@
 
     <ul id="data">
         <% for post in @getCollection("posts").toJSON(): %>
-            <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
+            <% postHash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
             <% postTagList = (post.tag or '').toLowerCase().split(' ') %>
+
             <li data-tags="<%= JSON.stringify(postTagList) %>">
                 <% if post.layout is "employee": %>
                     <div class="tile people">
-                        <a href="<%= post.hash %>">
+                        <a href="<%= postHash %>">
                             <h2>
                                 <span>&ldquo;<%= post.quote %>&rdquo;</span>
                             </h2>
@@ -42,7 +43,7 @@
                     </div>
                 <% else if post.tileImageUrl: %>
                     <div class="tile <%= postTagList[0] %> <%= if post.tilestyle is "double-image" then "double-image" else "image" %>">
-                        <a href="<%= post.hash %>">
+                        <a href="<%= postHash %>">
                             <% if post.tilestyle is "double-image": %>
                                 <img src="<%= post.tileImageUrl %>">
                                 <h2>
@@ -64,7 +65,7 @@
                     </div>
                 <% else: %>
                     <div class="tile <%= postTagList[0] %>">
-                        <a href="<%= post.hash %>">
+                        <a href="<%= postHash %>">
                             <h2>
                                 <span><%= post.header %></span>
                             </h2>
