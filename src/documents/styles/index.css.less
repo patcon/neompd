@@ -192,7 +192,6 @@ a {
     box-sizing: border-box;
     padding: @column-gutter / 2;
     width: @column-width + @column-gutter;
-    border: 1px solid #efefef;
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -202,6 +201,7 @@ a {
 }
 
 .tile > a {
+    border: 1px solid #efefef;
     display: block;
     overflow: hidden;
     font-family: Plantin;
@@ -233,7 +233,7 @@ a {
         display: block;
         padding:0;
         width:100%;
-        height: 193px;
+        height: 199px;
     }
     > h2 {
         position: relative;
@@ -289,17 +289,15 @@ a {
         &:after {
             display: block;
             content: '';
-            width: 300px;
-            margin-left: 320px;
             margin-top: 10px;
             height: 115px;
-            background: url(../images/meteor.png) no-repeat;
+            background: url(../images/meteor.png) no-repeat 100% 0;
             background-size: 300px 115px;
         }
     }
 
     a > img {
-        height: 399px;
+        height: 361px;
     }
 }
 
@@ -307,15 +305,15 @@ a {
     overflow: hidden;
     padding-top: 25px;
     padding-bottom: 0;
-    height: 193px - 25px;
-    margin-bottom: -193px;
+    height: 199px - 25px;
+    margin-bottom: -199px;
 }
 
 .tile .author-date {
     position: absolute;
     z-index: 1;
-    bottom: 25px;
-    left: 25px;
+    bottom: 35px;
+    left: 35px;
 }
 
 .tile .author {
@@ -343,7 +341,7 @@ a {
 
 .tile .tag {
     position: absolute;
-    bottom:20px;
+    bottom:30px;
     right: 20px;
     z-index: 1;
 
