@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>Myplanet Digital</title>
+    <meta charset="utf-8">
+    <title>Myplanet Digital</title>
 
     <link rel="stylesheet" href="styles/reset.css">
     <link rel="stylesheet" href="styles/index.css">
 </head>
 
 <body>
-	<a id="logo" href="#">Myplanet Digital</a>
-	<div id="menu-button"><span>Show Menu</span></div>
-	<div id="menu">
-		<ul>
+    <a id="logo" href="#">Myplanet Digital</a>
+    <div id="menu-button"><span>Show Menu</span></div>
+    <div id="menu">
+        <ul>
             <li><a href="#articles/Contact_Us" class="contact">Contact Us</a></li>
-			<% for tag in @getCollection("tags").toJSON(): %>
-				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
-			<% end %>
-		</ul>
-	</div>
+            <% for tag in @getCollection("tags").toJSON(): %>
+                <li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
+            <% end %>
+        </ul>
+    </div>
 
     <div id="content"></div>
 
     <ul id="data">
-		<% for post in @getCollection("posts").toJSON(): %>
+        <% for post in @getCollection("posts").toJSON(): %>
             <% post.hash = '#articles/' + post.url.split('/').pop().replace(/\.html$/, ''); %>
             <% postTagList = (post.tag or '').toLowerCase().split(' ') %>
             <li data-tags="<%= JSON.stringify(postTagList) %>">
@@ -40,9 +40,9 @@
                         </a>
                         <span class="tag"><a href="#tags/people"></a></span>
                     </div>
-				<% else if post.tileImageUrl: %>
-					<div class="tile <%= postTagList[0] %> <%= if post.tilestyle is "double-image" then "double-image" else "image" %>">
-						<a href="<%= post.hash %>">
+                <% else if post.tileImageUrl: %>
+                    <div class="tile <%= postTagList[0] %> <%= if post.tilestyle is "double-image" then "double-image" else "image" %>">
+                        <a href="<%= post.hash %>">
                             <% if post.tilestyle is "double-image": %>
                                 <img src="<%= post.tileImageUrl %>">
                                 <h2>
@@ -55,31 +55,31 @@
                                 <img src="<%= post.tileImageUrl %>">
                                 <p><%= post.summary %></p>
                             <% end %>
-			            </a>
-			            <span class="author-date">
-				            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
-				            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-				        </span>
+                        </a>
+                        <span class="author-date">
+                            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+                            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+                        </span>
                         <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></a></span>
-					</div>
-    	        <% else: %>
-    	        	<div class="tile <%= postTagList[0] %>">
-			        	<a href="<%= post.hash %>">
-			            	<h2>
-			            		<span><%= post.header %></span>
-			            	</h2>
-			                <p><%= post.summary %></p>
-			            </a>
-			            <span class="author-date">
-			            	<span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
-			            	<span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
-			            </span>
+                    </div>
+                <% else: %>
+                    <div class="tile <%= postTagList[0] %>">
+                        <a href="<%= post.hash %>">
+                            <h2>
+                                <span><%= post.header %></span>
+                            </h2>
+                            <p><%= post.summary %></p>
+                        </a>
+                        <span class="author-date">
+                            <span class="author"><% if post.author: %><a href="#articles/<%= post.author.split(' ').join('_') %>"><%= post.author %></a><% end %></span>
+                            <span class="date"><%= @moment(post.date).format('MMMM DD, YYYY') %></span>
+                        </span>
                         <span class="tag"><% if postTagList[0]: %><a href="#tags/<%= postTagList[0] %>"></a><% end %></span>
-					</div>
-	            <% end %>
+                    </div>
+                <% end %>
             </li>
-	    <% end %>
-	</ul>
+        <% end %>
+    </ul>
 
     <!-- @todo replace with production asset pipeline -->
     <!--[if IE 8]>
