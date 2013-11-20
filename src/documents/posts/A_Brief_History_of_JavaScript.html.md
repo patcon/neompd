@@ -1,17 +1,14 @@
 ---
 title: "A Brief History of JavaScript"
-tag: "technology"
-color: "orange"
+tagList: ["technology"]
 header: "A Brief History of\nJavaScript"
 summary: "It’s been five years since the first copies of Douglas Crockford’s “JavaScript: the Good Parts” hit bookshelves. A lot has changed since."
 layout: blog
-coverimg: "/images/articles/A_Brief_History_of_JavaScript/cover.jpg"
-tileimg: "/images/articles/A_Brief_History_of_JavaScript/tile.jpg"
-authorimg: "/images/avatar/Neil_Taylor.png"
+coverImageUrl: "/images/articles/A_Brief_History_of_JavaScript/cover.jpg"
+tileImageUrl: "/images/articles/A_Brief_History_of_JavaScript/tile.jpg"
+authorImageUrl: "/images/avatar/Neil_Taylor.png"
 author: "Neil Taylor"
-authorId: "Neil_Taylor"
 date: "2013-04-08"
-tilestyle: "image"
 ---
 
 Now regarded as the language’s “Genesis”, [The Good Parts](http://www.amazon.ca/JavaScript-Good-Parts-Douglas-Crockford/dp/0596517742) revolutionized the way developers used “[the world’s most misunderstood](http://www.crockford.com/javascript/javascript.html)” language by de-mistyfing its core principles and laying out its best practices. 

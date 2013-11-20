@@ -1,18 +1,16 @@
 ---
 name: "Benjamin Woll"
 role: "Product Owner"
-tag: "people"
+tagList: ["people"]
 skill: "Drupal, Agile, Consulting"
 quote: "Advanced technology is indistinguishable from magic."
-coverimg: ""
-authorimg: "/images/avatar/Benjamin_Woll.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Benjamin_Woll.png"
 twitter: "http://twitter.com/benjamin_woll"
 dribbble: 
 linkedin: "http://www.linkedin.com/pub/benjamin-woll/40/497/4a0"
 github: "https://github.com/benjamin-woll"
 layout: employee
-tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

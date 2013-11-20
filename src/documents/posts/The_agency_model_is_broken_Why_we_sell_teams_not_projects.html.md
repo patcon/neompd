@@ -1,16 +1,14 @@
 ---
 title: "The agency model is broken: Why we sell teams, not projects"
-tag: "business"
-color: "green"
+tagList: ["business"]
 header: "The agency model\nis broken:\nWhy we sell teams,\nnot projects"
 summary: The agency model is broken. Here's how we're trying to fix it.
 layout: blog
-coverimg: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not_projects/cover.jpg"
-tileimg: "/images/articles/The_agency_model_is_broken_Why_we_sell_teams_not_projects/tile.jpg"
-authorimg: "/images/avatar/Dustin_Walper.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-03-07"
-tilestyle: ""
 ---
 
 In the typical model for project work at a digital agency, a contract would lay out the scope of work (often in considerable depth), the cost per deliverable, and the expected delivery date.

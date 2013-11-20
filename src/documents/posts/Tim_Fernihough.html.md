@@ -1,18 +1,16 @@
 ---
 name: "Tim Fernihough"
 role: "Co-founder and Head of Special Projects"
-tag: "people"
+tagList: ["people"]
 skill: "Drupal, Computer Science, LAMP, DevOps"
 quote: "No one can make you feel inferior without your consent."
-coverimg: "/images/employee/Tim_Fernihough_Cover.png"
-authorimg: "/images/avatar/Tim_Fernihough.png"
+coverImageUrl: "/images/employee/Tim_Fernihough_Cover.png"
+authorImageUrl: "/images/avatar/Tim_Fernihough.png"
 twitter: "https://twitter.com/timfernihough"
 dribbble:
 linkedin: "ca.linkedin.com/in/timfernihough/"
 github: "https://github.com/timfernihough"
 layout: employee
-tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

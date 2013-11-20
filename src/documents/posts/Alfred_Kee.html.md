@@ -1,18 +1,16 @@
 ---
 name: "Alfred Kee"
 role: "Product Owner"
-tag: "people"
+tagList: ["people"]
 skill: "Agile, Consulting, Management"
 quote: "Discipline is the bridge between thought and accomplishment."
-coverimg: ""
-authorimg: "/images/avatar/Alfred_Kee.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Alfred_Kee.png"
 twitter: "http://twitter.com/salsasian"
 dribbble:
 linkedin: "http://ca.linkedin.com/in/alfredkee"
 github:
 layout: employee
-tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

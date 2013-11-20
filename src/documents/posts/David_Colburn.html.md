@@ -1,18 +1,16 @@
 ---
 name: "David Colburn"
 role: "Pixel wrangler"
-tag: "people"
+tagList: ["people"]
 skill: "Drupal, IA, Agile, Consulting, Sales, Marketing"
 quote: "A man who carries a cat by the tail learns something he can learn in no other way - Mark Twain"
-coverimg: ""
-authorimg: "/images/avatar/David_Colbourne.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/David_Colbourne.png"
 twitter: "https://twitter.com/dbcolburn"
 dribbble: 
 linkedin: "http://www.linkedin.com/in/dbcolburn"
 github: "https://github.com/davidcol"
 layout: employee
-tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

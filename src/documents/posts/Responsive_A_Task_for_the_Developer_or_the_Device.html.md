@@ -1,16 +1,14 @@
 ---
 title: "Responsive: A Task for the Developer or the Device?"
-tag: "technology"
-color: "black"
+tagList: ["technology"]
 header: "Responsive: A Task\nfor the Developer\nor the Device?"
 summary: With interest in responsive at an all-time high, I think it’s time to fundamentally rethink the assumptions that underly a responsive approach to web design.
 layout: blog
-coverimg: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Device/cover.jpg"
-tileimg: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Device/tile.jpg"
-authorimg: "/images/avatar/Yashar_Rassoulli.png"
+coverImageUrl: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Device/cover.jpg"
+tileImageUrl: "/images/articles/Responsive_A_Task_for_the_Developer_or_the_Device/tile.jpg"
+authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-01-24"
-tilestyle: "image"
 ---
 
 A [post](http://news.ycombinator.com/item?id=5091684) on responsive design recently made its way to the top of [Hacker News](http://news.ycombinator.com/).

@@ -1,16 +1,14 @@
 ---
 title: "Product Innovators: How To Acquire Your First Customers"
-tag: "business"
-color: "black"
+tagList: ["business"]
 header: "Product Innovators:\nHow To Acquire Your\nFirst Customers"
 summary: In the first part of this Product Innovators installment, I spoke to Vidyard's Michael Litt about getting his video analytics company off the ground.
 layout: blog
-coverimg: "/images/articles/Product_Innovators_How_To_Acquire_Your_First_Customers/cover.jpg"
-tileimg: "/images/articles/Product_Innovators_How_To_Acquire_Your_First_Customers/tile.jpg"
-authorimg: "/images/avatar/Dustin_Walper.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-04-29"
-tilestyle: ""
 ---
 
 Kitchener-Waterloo is an interesting town. Buoyed initially by the success of RIM, KW is now the de-facto startup capital of Canada, boasting many of the most promising new ventures in the country.

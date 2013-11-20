@@ -1,19 +1,17 @@
 ---
 name: "Wivorn Chowattanakul"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "HTML, CSS, Javascript, Lock Picking"
 quote: "The greatest nation in the world is imagination"
-coverimg: ""
-authorimg: "/images/avatar/Will_Chowattanakul.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Will_Chowattanakul.png"
 twitter: "https://twitter.com/wchowat"
 dribbble:
 linkedin: "http://www.linkedin.com/pub/wivorn-chowattanakul/26/90b/aa5"
 github: "https://github.com/nroviw"
 stackoverflow:
 layout: employee
-tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

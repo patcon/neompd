@@ -1,16 +1,14 @@
 ---
 title: "Myplanet's Exciting Move to Downtown Toronto"
-tag: "culture careers"
-color: "green"
+tagList: ["culture", "careers"]
 header: "Myplanet's Exciting\nMove to Downtown\nToronto"
 summary: As far back as most Myplaneteers can remember, Markham has been our home.
 layout: blog
-coverimg: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/cover.jpg"
-tileimg: "/images/articles/Myplanets_Exciting_Move_to_Downtown_Toronto/tile.jpg"
-authorimg: "/images/avatar/Dustin_Walper.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Dustin_Walper.png"
 author: "Dustin Walper"
 date: "2013-05-01"
-tilestyle: ""
 ---
 
 With an expansionist fervour that would make even the British Empire blush, we've annexed one office after another as our team has grown. Today we have five offices in our building, occupying nearly half the top floor and earning us dirty looks from cohabitants who don't appreciate the constant blaring of Lionel Richie's Greatest Hits.

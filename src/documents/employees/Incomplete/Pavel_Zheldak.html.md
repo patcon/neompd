@@ -4,14 +4,13 @@ role: "Drupal Developer"
 tag: "people"
 skill: "Drupal"
 quote: "Success is the result of perfection, hard work, learning from failure, loyalty, and persistence."
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter: "https://twitter.com/yell0wman_"
 dribbble:
 linkedin:
 github: "https://github.com/yell0wman"
 layout: employee
-tilestyle: "employee"
 color: "green"
 ---
 

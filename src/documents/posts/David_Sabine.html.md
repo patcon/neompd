@@ -1,18 +1,16 @@
 ---
 name: "David Sabine"
 role: "Product Owner"
-tag: "people"
+tagList: ["people"]
 skill: "Agile, Consulting"
 quote: "observe, remember, understand, apply, analyze, evaluate, create"
-coverimg: ""
-authorimg: "/images/avatar/David_Sabine.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/David_Sabine.png"
 twitter: "http://www.twitter.com/DaveSabine"
 dribbble: 
 linkedin: "http://ca.linkedin.com/in/davidsabine"
 github:
 layout: employee
-tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

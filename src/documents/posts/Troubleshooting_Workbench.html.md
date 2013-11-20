@@ -1,16 +1,14 @@
 ---
 title: "Troubleshooting Workbench \n"
-tag: "technology"
-color: "black"
+tagList: ["technology"]
 header: "Troubleshooting Workbench"
 summary: A handy guide to some of the common problems encountered when trying to set up Workbench in Drupal.
 layout: blog
-coverimg: "/images/articles/Troubleshooting_Workbench/cover.jpg"
-tileimg: "/images/articles/Troubleshooting_Workbench/tile.jpg"
-authorimg: "/images/avatar/Anna_Sunko.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Anna_Sunko.png"
 author: "Anna Sunko"
 date: "2013-04-12"
-tilestyle: ""
 ---
 
 ## Intro to Workbench

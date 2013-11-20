@@ -1,16 +1,14 @@
 ---
 title: "Product Innovators: The Importance of Lean UX Design"
-tag: "design"
-color: "black"
+tagList: ["design"]
 header: "Product Innovators:\nThe Importance of\nLean UX Design"
 summary: Vidyard CEO Michael Litt discusses the importance of lean user experience design in delivering the best possible product.
 layout: blog
-coverimg: "/images/articles/Product_Innovators_The_Importance_of_Lean_UX_Design/cover.jpg"
-tileimg: "/images/articles/Product_Innovators_The_Importance_of_Lean_UX_Design/tile.jpg"
-authorimg: "/images/avatar/Steph_Brown.png"
+coverImageUrl: "/images/articles/Product_Innovators_The_Importance_of_Lean_UX_Design/cover.jpg"
+tileImageUrl: "/images/articles/Product_Innovators_The_Importance_of_Lean_UX_Design/tile.jpg"
+authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-05-22"
-tilestyle: "image"
 ---
 
 In Part Four of our [video series](http://www.youtube.com/myplanetdigital) with Michael, he explains how a lean approach to user experience design can impact the success of a digital product or platform.

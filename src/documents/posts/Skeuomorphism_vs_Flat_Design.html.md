@@ -1,16 +1,14 @@
 ---
 title: "Myplanet Skeuomorphism vs. Flat Design"
-tag: "design"
-color: "black"
+tagList: ["design"]
 header: "Skeuomorphism vs.\nFlat Design"
 summary: The forthcoming iOS 7 represents a new direction in design for Apple.
 layout: blog
-coverimg: "/images/articles/Skeuomorphism_vs_Flat_Design/cover.jpg"
-tileimg: "/images/articles/Skeuomorphism_vs_Flat_Design/tile.jpg"
-authorimg: ""
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: ""
 author: "Brett Luchman"
 date: "2013-07-04"
-tilestyle: ""
 ---
 
 Like a great online marketer who understands that the offline world must be considered when defining a sales strategy, so must a great designer consider familiar offline concepts to assist users in completing their online goals.

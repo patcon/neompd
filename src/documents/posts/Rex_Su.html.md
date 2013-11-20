@@ -1,18 +1,16 @@
 ---
 name: "Rex Su"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "Javascript, Usability, Performance"
 quote: "Behold the most ferocious T-shaped individual on the planet: T-Rex."
-coverimg: ""
-authorimg: "/images/avatar/Rex_Su.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Rex_Su.png"
 twitter: "https://twitter.com/rex_ds"
 dribbble:
 linkedin: "http://ca.linkedin.com/in/rexsu/"
 github: "https://github.com/d9su"
 layout: employee
-tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

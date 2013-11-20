@@ -1,18 +1,16 @@
 ---
 name: "Jerry Low"
 role: "Creative Rep"
-tag: "people"
+tagList: ["people"]
 skill: "Design, Usability, Javascript, Drupal, Agile"
 quote: "You'll never succeed staying in your comfort zone."
-coverimg: ""
-authorimg: "/images/avatar/Jerry_Low.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Jerry_Low.png"
 twitter: "https://twitter.com/jerrylowm"
 dribbble: "http://dribbble.com/jerrylow"
 linkedin: "http://www.linkedin.com/pub/jerry-low/12/346/a07"
 github: "https://github.com/jerrylow"
 layout: employee
-tilestyle: "employee"
-color: "black"
 ---
 
 ## Who I Am

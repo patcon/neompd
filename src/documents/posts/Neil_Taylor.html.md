@@ -1,15 +1,13 @@
 ---
 name: "Neil Taylor"
 role: "Front-End Developer"
-tag: "people"
+tagList: ["people"]
 skill: "Web Browsers, JavaScript, CSS, Jankbusting, Duck Tolling Retrievers"
 quote: "I've got Postgres on vinyl"
-authorimg: "/images/avatar/Neil_Taylor.png"
+authorImageUrl: "/images/avatar/Neil_Taylor.png"
 linkedin: "http://www.jankbusters.com"
 github: "https://github.com/neilbaylorrulez"
 layout: employee
-tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

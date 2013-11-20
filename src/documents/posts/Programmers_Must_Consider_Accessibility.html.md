@@ -1,16 +1,14 @@
 ---
 title: "Programmers Must Consider\nAccessibility"
-tag: "technology design"
-color: "black"
+tagList: ["technology", "design"]
 header: "Programmers Must\nConsider Accessibility"
 summary: Accessibility should be considered throughout development.
 layout: blog
-coverimg: "/images/articles/Programmers_Must_Consider_Accessibility/cover.jpg"
-tileimg: "/images/articles/Programmers_Must_Consider_Accessibility/tile.jpg"
-authorimg: "/images/avatar/Jeremy_Lichtman.png"
+coverImageUrl: "/images/articles/Programmers_Must_Consider_Accessibility/cover.jpg"
+tileImageUrl: "/images/articles/Programmers_Must_Consider_Accessibility/tile.jpg"
+authorImageUrl: "/images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-08-10"
-tilestyle: "image"
 ---
 
 Below this paragraph is a completely black image, 300 pixels by 300 pixels in size.

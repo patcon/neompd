@@ -1,16 +1,14 @@
 ---
 title: "Translating Panel Content Titles Using Tokens"
-tag: "technology"
-color: "black"
+tagList: ["technology"]
 header: "Translating Panel Content\nTitles Using Tokens" 
 summary: We recently encountered a specific situation with a Drupal site that had to be retro-fitted for translation.
 layout: blog
-coverimg: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/cover.jpg"
-tileimg: "/images/articles/Translating_Panel_Content_Tiles_Using_Tokens/tile.jpg"
-authorimg: "../images/avatar/Jeremy_Lichtman.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "../images/avatar/Jeremy_Lichtman.png"
 author: "Jeremy Lichtman"
 date: "2013-07-10"
-tilestyle: ""
 ---
 
 The titles of content items within a panel page are not translatable.

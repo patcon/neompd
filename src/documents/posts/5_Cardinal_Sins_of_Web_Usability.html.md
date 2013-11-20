@@ -1,16 +1,14 @@
 ---
 title: "5 Cardinal Sins of Web Usability"
-tag: "design"
-color: "black"
+tagList: ["design"]
 header: "5 Cardinal Sins of\nWeb Usability"
 summary: "Different users may have different goals when they visit a website, but they have one thing in common: they all want to achieve their goals quickly and easily."
 layout: blog
-coverimg: "/images/articles/5_Cardinal_Sins_of_Web_Usability/cover.jpg"
-tileimg: "/images/articles/5_Cardinal_Sins_of_Web_Usability/tile.jpg"
-authorimg: "/images/avatar/Cara_Tsang.png"
+coverImageUrl: "/images/articles/5_Cardinal_Sins_of_Web_Usability/cover.jpg"
+tileImageUrl: "/images/articles/5_Cardinal_Sins_of_Web_Usability/tile.jpg"
+authorImageUrl: "/images/avatar/Cara_Tsang.png"
 author: "Cara Tsang"
 date: "2013-04-02"
-tilestyle: "image"
 ---
 
 In fact, research shows that the average visitor only spends **1 minute 49 seconds** on a website before abandoning it if the site doesn’t readily offer up what he or she needs. And after visitors abandon a bad site, **88% of them won’t return to that site** during the same session.

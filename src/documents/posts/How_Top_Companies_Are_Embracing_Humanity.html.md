@@ -1,16 +1,14 @@
 ---
 title: "How Top Companies Are Embracing Humanity"
-tag: "culture"
-color: "orange"
+tagList: ["culture"]
 header: "How Top Companies\nAre Embracing\nHumanity"
 summary: I believe that we can all live happy, effective and deliberate lives - and that our organizations can help.
 layout: blog
-coverimg: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/cover.jpg"
-tileimg: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/tile.jpg"
-authorimg: "/images/avatar/Michael_Apollo.png"
+coverImageUrl: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/cover.jpg"
+tileImageUrl: "/images/articles/How_Top_Companies_Are_Embracing_Humanity/tile.jpg"
+authorImageUrl: "/images/avatar/Michael_Apollo.png"
 author: "Michael Apollo"
 date: "2013-03-18"
-tilestyle: "image"
 ---
 
 Attentiveness. Resiliency. Situational awareness. Mental agility. Emotional intelligence. None of these attributes just "happen"; rather, they must be intentionally cultivated.

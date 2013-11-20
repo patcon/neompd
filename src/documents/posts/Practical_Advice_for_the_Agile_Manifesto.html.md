@@ -1,16 +1,14 @@
 ---
 title: "Practical Advice for the Agile Manifesto"
-tag: "business technology design culture"
-color: "black"
+tagList: ["business", "technology", "design", "culture"]
 header: "Practical Advice for\nthe Agile Manifesto"
 summary: This is the first article in a three-part series, guest authored by Paul Heidema, Partner & Vice President of Training and Development at Berteig Consulting.
 layout: blog
-coverimg: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/cover.jpg"
-tileimg: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/tile.jpg"
-authorimg: "/images/avatar/Steph_Brown.png"
+coverImageUrl: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/cover.jpg"
+tileImageUrl: "/images/articles/Practical_Advice_for_the_Agile_Manifesto/tile.jpg"
+authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: ""
 date: "2013-09-13"
-tilestyle: "image"
 ---
 
 [Berteig Consulting](http://www.berteigconsulting.com/) offers [Agile](http://en.wikipedia.org/wiki/Agile_software_development) training, consulting, and coaching services (including Scrum, Extreme Programming, Kanban &amp; OpenAgile). They're great friends of ours and they've been instrumental in training and certifying our team members and clients alike. 

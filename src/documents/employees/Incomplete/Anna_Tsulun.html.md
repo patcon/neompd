@@ -4,14 +4,13 @@ role: "Drupal Developer"
 tag: "people"
 skill: "Javascript, Drupal, Computer Science"
 quote: "Nothing worth having comes easy."
-coverimg: ""
-authorimg: ""
+coverImageUrl: ""
+authorImageUrl: ""
 twitter:
 dribbble: 
 linkedin:
 github: "https://github.com/anna-tsulun"
 layout: employee
-tilestyle: "employee"
 color: "pink"
 ---
 

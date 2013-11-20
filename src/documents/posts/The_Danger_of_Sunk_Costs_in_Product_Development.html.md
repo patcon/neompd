@@ -1,16 +1,15 @@
 ---
 title: "The Danger of Sunk Costs in Product Development"
-tag: "business design culture"
-color: "green"
+tagList: ["business", "design", "culture"]
 header: "The Danger of Sunk Costs\nin Product Development"
 summary: Embracing creative destruction to build better products.
 layout: blog
-coverimg: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/cover.jpg"
-tileimg: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/tile.jpg"
-authorimg: "/images/avatar/Charlie_Moscoe.png"
+coverImageUrl: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/cover.jpg"
+tileImageUrl: "/images/articles/The_Danger_of_Sunk_Costs_in_Product_Development/tile.jpg"
+authorImageUrl: "/images/avatar/Charlie_Moscoe.png"
 author: "Charlie Moscoe"
 date: "2013-06-19"
-tilestyle: "double-image"
+isDoubleWidth: true
 ---
 
 In order to be sucsessful with product development, we typically have to overcome a wide array of challenges and obstacles.  Believing in your work and doubling down when things get tough are traditionally viewed as valuable traits when attempting to create innovative new products.  But there is a dark side to commitment.  The emotional attachment that individuals and teams develop to their work has the potential to derail projects in the long run.

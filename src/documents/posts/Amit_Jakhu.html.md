@@ -1,17 +1,16 @@
 ---
 name: "Amit Jakhu"
 role: "Designer"
-tag: "people"
+tagList: ["people"]
 skill: "Interaction, Visual, Design, Front-End Dev, Marketing"
 quote: "Solve real problems that people have."
-coverimg: ""
-authorimg: "/images/avatar/Amit_Jakhu.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Amit_Jakhu.png"
 twitter: "http://twitter.com/amitjakhu"
 dribbble: "http://dribbble.com/amitjakhu"
 linkedin: "http://www.linkedin.com/pub/amit-jakhu/41/997/357"
 github:
 layout: employee
-tilestyle: "employee"
 color: "black"
 ---
 

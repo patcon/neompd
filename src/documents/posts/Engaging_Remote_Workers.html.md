@@ -1,16 +1,14 @@
 ---
 title: "Engaging Remote Workers "
-tag: "culture technology"
-color: "green"
+tagList: ["culture", "technology"]
 header: "Engaging\nRemote Workers"
 summary: One thing is very clear and will always be a priority for us: work is an activity we all love and share, not a place.
 layout: blog
-coverimg: "/images/articles/Engaging_Remote_Workers/cover.jpg"
-tileimg: "/images/articles/Engaging_Remote_Workers/tile.jpg"
-authorimg: "/images/avatar/Tim_Fernihough.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Tim_Fernihough.png"
 author: "Tim Fernihough"
 date: "2013-03-23"
-tilestyle: ""
 ---
 
 We value in-person collaboration whenever possible, and we encourage our teams to spend the majority of their time in our office. However, we have many remote team members in Vancouver, New Brunswick, Ukraine and elsewhere. These team members are critical to our success and are just as much a part of our family as local Myplaneteers.

@@ -1,18 +1,16 @@
 ---
 name: "Corina Clarin"
 role: "Finance Lead"
-tag: "people"
+tagList: ["people"]
 skill: "Finance, Customer Satisfaction"
 quote: "Cash is Queen"
-coverimg: ""
-authorimg: "/images/avatar/Corina_Clarin.png"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Corina_Clarin.png"
 twitter: "https://twitter.com/inabeana"
 dribbble: 
 linkedin: "http://www.linkedin.com/in/corinaclarin"
 github:
 layout: employee
-tilestyle: "employee"
-color: "pink"
 ---
 
 ## Who I Am

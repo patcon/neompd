@@ -1,16 +1,14 @@
 ---
 title: "DocPad September Recap"
-tag: "technology"
-color: "black"
+tagList: ["technology"]
 header: "DocPad September\nRecap"
 summary: What the DocPad community accomplished in September 2013.
 layout: blog
-coverimg: "/images/articles/DocPad_September_Recap/cover.jpg"
-tileimg: "/images/articles/DocPad_September_Recap/tile.jpg"
-authorimg: "/images/avatar/Yashar_Rassoulli.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Yashar_Rassoulli.png"
 author: "Yashar Rassoulli"
 date: "2013-10-16"
-tilestyle: ""
 ---
 
 A few months back, we announced that [Myplanet was embracing DocPad](http://www.myplanetdigital.com/article/myplanet-meets-docpad-next-generation-web-framework), a next generation web framework. We were lucky enough to have the founder of [DocPad](http://docpad.org/), Benjamin Lupton, join us at Myplanet for the month of July while he helped us open source and contribute an internal project (called SaaSy) back to the DocPad community. 

@@ -1,16 +1,14 @@
 ---
 title: "UX Lessons From The USSR: The Trouble With Manifestos"
-tag: "design"
-color: "black"
+tagList: ["design"]
 header: "UX Lessons From The\nUSSR: The Trouble\nWith Manifestos"
 summary: Our Creative Director spoke recently at FITC Toronto about the intersection of user experience and process.
 layout: blog
-coverimg: "/images/articles/UX_Lessons_From_The_USSR_The_Trouble_With_Manifestos/cover.jpg"
-tileimg: "/images/articles/UX_Lessons_From_The_USSR_The_Trouble_With_Manifestos/tile.jpg"
-authorimg: "/images/avatar/Steph_Brown.png"
+coverImageUrl: ""
+tileImageUrl: ""
+authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-05-10"
-tilestyle: ""
 ---
 
 Erik has spent some time writing about the Myplanet process in our "[How We Work](http://www.youredm.com/2013/05/13/daft-punks-random-access-memories-leaked/)" series, examining the ways in which our process has evolved to support clients, staff and quality of work. He believes that collectively, a process '[bricolage](http://en.wikipedia.org/wiki/Bricolage)' is critical to creating amazing digital products. 

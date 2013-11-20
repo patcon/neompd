@@ -2,14 +2,12 @@
 ---
 title: "Contact Us"
 unlisted: true
-color: "orange"
 header: "Contact Us"
 summary: "Namaste! Guten tag! Hello there!"
 layout: blog
-coverimg: "/images/articles/Contact_Us/cover.jpg"
-tileimg: "/images/articles/Contact_Us/tile.jpg"
+coverImageUrl: "/images/articles/Contact_Us/cover.jpg"
+tileImageUrl: "/images/articles/Contact_Us/tile.jpg"
 date: "2013-04-08"
-tilestyle: "image"
 bodyClass: "contactPage"
 ---
 
@@ -53,7 +51,7 @@ bodyClass: "contactPage"
 
 ## Follow Us
 
-<a class="social facebook" href="" title="Facebook">Facebook</a>
-<a class="social twitter" href="" title="Twitter">Twitter</a>
-<a class="social linkedin" href="" title="LinkedIn">LinkedIn</a>
-<a class="social github" href="" title="GitHub">GitHub</a>
+<a class="social facebook" href="https://www.facebook.com/myplanetdigital" title="Facebook">Facebook</a>
+<a class="social twitter" href="https://twitter.com/myplanetdigital" title="Twitter">Twitter</a>
+<a class="social linkedin" href="http://www.linkedin.com/company/-myplanet-digital" title="LinkedIn">LinkedIn</a>
+<a class="social github" href="https://github.com/myplanetdigital" title="GitHub">GitHub</a>

@@ -1,18 +1,16 @@
 ---
 name: "Paul Spadafore"
 role: "Finance Director"
-tag: "people"
+tagList: ["people"]
 skill: "Finance, Business Strategy"
-quote: "Great leaders inspire others to be the “best they can be”"
-coverimg: ""
-authorimg: "/images/avatar/Paul_Spadafore.png"
+quote: "Great leaders inspire others to be the ‘best they can be’"
+coverImageUrl: ""
+authorImageUrl: "/images/avatar/Paul_Spadafore.png"
 twitter: 
 dribbble:
 linkedin:
 github:
 layout: employee
-tilestyle: "employee"
-color: "green"
 ---
 
 ## Who I Am

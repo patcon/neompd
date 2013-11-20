@@ -1,16 +1,14 @@
 ---
 title: "Practical Advice for The Scrum Framework in 30 Seconds"
-tag: "business technology design"
-color: "black"
+tagList: ["business", "technology", "design"]
 header: "Practical Advice for\nScrum Framework\nin 30 Seconds"
 summary: This is the second piece in our guest series from Paul Heidema, Partner & Vice President of Training and Development at Berteig Consulting.
 layout: blog
-coverimg: "/images/articles/Practical_Advice_for_The_Scrum_Framework_in_30_Seconds/cover.jpg"
-tileimg: "/images/articles/Practical_Advice_for_The_Scrum_Framework_in_30_Seconds/tile.jpg"
-authorimg: "/images/avatar/Steph_Brown.png"
+coverImageUrl: "/images/articles/Practical_Advice_for_The_Scrum_Framework_in_30_Seconds/cover.jpg"
+tileImageUrl: "/images/articles/Practical_Advice_for_The_Scrum_Framework_in_30_Seconds/tile.jpg"
+authorImageUrl: "/images/avatar/Steph_Brown.png"
 author: "Steph Brown"
 date: "2013-10-14"
-tilestyle: "image"
 ---
 
 [Scrum](http://en.wikipedia.org/wiki/Scrum_(software_development)) is the most popular of the Agile frameworks. It is also one of the hardest to implement well. Many organizations have used Scrum only to find out that the Scrum framework is simple, yet the implementation is quite difficult. Here are some practical tips to advance your use of Scrum.
