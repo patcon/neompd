@@ -1,6 +1,8 @@
 'use strict';
 
-var webdriver = require('wd');
+var webdriver = require('wd'),
+    http = require('http'),
+    StaticServer = require('node-static').Server;
 
 function createBrowser(callback) {
     var browser = webdriver.remote(process.env.WEBDRIVER_URL);
@@ -27,12 +29,26 @@ function createBrowser(callback) {
 
 module.exports = function () {
     this.Around(function (runScenario) {
-        this.rootUrlPrefix = 'http://neo.mpdagile.com'; // @todo initialize HTTP server, etc
+        var server = new StaticServer('./out'),
+            httpServer = http.createServer(function (request, response) {
+                server.serve(request, response, function (err, res) {
+                    if (err) { // An error as occured
+                        console.error("> Error serving " + request.url + " - " + err.message);
+                        response.writeHead(err.status, err.headers);
+                        response.end();
+                    }
+                });
+            });
 
-        runScenario(function (callback) {
-            // @todo teardown server
-            callback();
-        });
+        httpServer.listen(8098, function () {
+            this.rootUrlPrefix = 'http://localhost:8098';
+
+            runScenario(function (callback) {
+                httpServer.close();
+
+                callback();
+            });
+        }.bind(this));
     });
 
     this.Around(function (runScenario) {

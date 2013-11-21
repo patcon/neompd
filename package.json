@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "wd": "latest",
+    "node-static": "latest",
     "cucumber": "latest"
   },
   "scripts": {
