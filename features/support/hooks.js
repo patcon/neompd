@@ -40,9 +40,9 @@ module.exports = function () {
             this.browser = wdBrowser;
 
             runScenario(function (callback) {
-                wdBrowser.quit();
-
-                callback();
+                wdBrowser.quit(function () {
+                    callback();
+                });
             });
         }.bind(this));
     });
