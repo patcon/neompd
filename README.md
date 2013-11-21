@@ -11,6 +11,14 @@ node_modules/.bin/docpad run
 
 ## Acceptance Testing
 
+Set up webdriver URL (e.g. via Sauce Connect):
+
+```
+export WEBDRIVER_URL=http://localhost:4445/
+```
+
+Run cucumber:
+
 ```
 npm run-script cuke
 ```
