@@ -324,10 +324,12 @@ body.loaded[data-mode=article] #menu.loaded {
     position: fixed;
     display: block;
     top: 130px;
-    left: 69px;
+    left: 65px;
     z-index: 3;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 39px;
+    border-radius: 4px;
+    background-color: white; 
     cursor: pointer;
     pointer-events:none;
     .translate3d(0, -66px, 0);
@@ -335,10 +337,10 @@ body.loaded[data-mode=article] #menu.loaded {
 
     span {
         position: absolute;
-        top: 50%;
-        left: 0px;
+        top: 17px;
+        left: 6px;
         display: block;
-        width: 40px;
+        width: 33px;
         height: 5px;
         background-color: #444;
         font-size: 0px;
@@ -363,7 +365,7 @@ body.loaded[data-mode=article] #menu.loaded {
             border-radius:2px;
             position: absolute;
             left: 0;
-            width: 40px;
+            width: 33px;
             height: 100%;
             background: #444;
             content: '';
@@ -379,6 +381,7 @@ body.loaded #menu-button {
 }
 
 #menu-button.menu-open {
+    background-color: transparent;
     span {
         background-color: transparent;
         &:before {
