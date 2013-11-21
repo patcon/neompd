@@ -32,7 +32,7 @@
                     <div class="tile people">
                         <a href="<%= postHash %>">
                             <h2>
-                                <span>&ldquo;<%= post.quote %>&rdquo;</span>
+                                <span><%= post.quote %></span>
                             </h2>
                             <% if post.authorImageUrl: %>
                                 <img src="<%= post.authorImageUrl %>">

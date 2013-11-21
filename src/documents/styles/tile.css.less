@@ -57,6 +57,13 @@
 .tile.people {
     h2 {
         background: rgba(51, 51, 51, 1);
+        &:before {
+            margin-left: -24px;
+            content: '“';
+        }
+        &:after {
+            content: '”';
+        }
     }
     &.image h2 {
         background: rgba(51, 51, 51, 0.85);
@@ -150,7 +157,7 @@
         border: 3px solid white;
     }
     > h2 {
-        padding:34px 30px 70px;
+        padding:34px 30px 70px 45px;
     }
     > p.name {
         margin: 0 60px;
