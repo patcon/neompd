@@ -180,10 +180,12 @@ a {
 
         &:before {
             display: block;
+            position: relative;
+            left: 0;
             content: '';
             height: 61px;
             width: 50px;
-            margin: 0 auto 1px;
+            margin: 0 0 1px;
             opacity: 0.99;
             border-bottom: 1px solid #aaa;
             background-position: 0px 30px;
@@ -199,7 +201,6 @@ a {
             content: '';
             height: 61px;
             width: 50px;
-            margin: 0 auto 1px;
             background-position: 0px -62px;
             background-repeat: no-repeat;
             background-size: 50px;
@@ -209,7 +210,7 @@ a {
             &:before, &:after {
                 background-image: url(../images/business.png);
             }
-            &:after {
+            &:before, &:after {
                 left: 2px;
             }
             &:hover {
@@ -267,7 +268,7 @@ a {
             &:before, &:after {
                 background-image: url(../images/technology.png);
             }
-            &:after {
+            &:before, &:after {
                 left:10px;
             }
             &:hover {
@@ -385,7 +386,7 @@ body.loaded[data-mode=article] #menu.loaded {
     background-color: white; 
     cursor: pointer;
     pointer-events:none;
-    font-size: 0;
+    text-indent: -9999px;
     .translate3d(0, -66px, 0);
 
     &:before, &:after {
