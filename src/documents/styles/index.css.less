@@ -399,9 +399,9 @@ body.loaded[data-mode=article] #menu.loaded {
     top: 20px;
     right: 65px;
     z-index: 3;
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     background-color: white; 
     cursor: pointer;
     pointer-events:none;
@@ -409,12 +409,11 @@ body.loaded[data-mode=article] #menu.loaded {
     .translate3d(0, -66px, 0);
 
     &:before, &:after {
-        border-radius:2px;
         position: absolute;
-        top:18px;
-        left: 4px;
-        width: 33px;
-        height: 5px;
+        top:20px;
+        left: 11px;
+        width: 20px;
+        height: 4px;
         background: #444;
         content: '';
     }
@@ -434,9 +433,9 @@ body.loaded[data-mode=article] #menu.loaded {
     top: 130px;
     left: 65px;
     z-index: 3;
-    width: 45px;
-    height: 39px;
-    border-radius: 4px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
     background-color: white; 
     cursor: pointer;
     pointer-events:none;
@@ -444,17 +443,16 @@ body.loaded[data-mode=article] #menu.loaded {
 
     span {
         position: absolute;
-        top: 17px;
-        left: 6px;
+        top: 21px;
+        left: 11px;
         display: block;
-        width: 33px;
-        height: 5px;
+        width: 22px;
+        height: 4px;
         background-color: #444;
         font-size: 0px;
         .user-select();
         .transition(background-color 0.25s);
         .translateZ();
-        border-radius:2px;
 
         &:before {
             .translate3d(0, -200%, 0);
@@ -465,10 +463,9 @@ body.loaded[data-mode=article] #menu.loaded {
         }
 
         &:before, &:after {
-            border-radius:2px;
             position: absolute;
             left: 0;
-            width: 33px;
+            width: 22px;
             height: 100%;
             background: #444;
             content: '';
