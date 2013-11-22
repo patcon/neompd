@@ -25,9 +25,11 @@ define([ 'jquery' ], function ($) {
             $li.html(tileData.html);
 
             tileTagSet = {};
-            for (i = 0; i < tileData.tags.length; i++) {
-                tileTagSet[tileData.tags[i]] = true;
-            }
+            // for (i = 0; i < tileData.tags.length; i++) {
+            //     tileTagSet[tileData.tags[i]] = true;
+            // }
+
+            tileTagSet[tileData.tags[0]] = true; //filter only first tag
 
             this.tileMap[tileId] = {
                 x: 0,
