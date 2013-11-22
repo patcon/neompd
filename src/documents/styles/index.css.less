@@ -209,14 +209,16 @@ a {
         &.business {
             &:before, &:after {
                 background-image: url(../images/business.png);
-            }
-            &:before, &:after {
                 left: 2px;
+            }
+            &:after {
+                background-position: 0px -62px;
             }
             &:hover {
                 color: @business;
             }
             &:hover:after {
+                background-position: 0px -77px;
                 border-bottom: 1px solid @business;
             }
         }
@@ -224,10 +226,14 @@ a {
             &:before, &:after {
                 background-image: url(../images/careers.png);
             }
+            &:after {
+                background-position: 0px -62px;
+            }
             &:hover {
                 color: @careers;
             }
             &:hover:after {
+                background-position: 0px -77px;
                 border-bottom: 1px solid @careers;
             }
         }
@@ -235,10 +241,14 @@ a {
             &:before, &:after {
                 background-image: url(../images/culture.png);
             }
+            &:after {
+                background-position: 0px -57px;
+            }
             &:hover {
                 color: @culture;
             }
             &:hover:after {
+                background-position: 0px -72px;
                 border-bottom: 1px solid @culture;
             }
         }
@@ -246,10 +256,14 @@ a {
             &:before, &:after {
                 background-image: url(../images/design.png);
             }
+            &:after {
+                background-position: 0px -62px;
+            }
             &:hover {
                 color: @design;
             }
             &:hover:after {
+                background-position: 0px -77px;
                 border-bottom: 1px solid @design;
             }
         }
@@ -257,29 +271,34 @@ a {
             &:before, &:after {
                 background-image: url(../images/people.png);
             }
+            &:after {
+                background-position: 0px -57px;
+            }
             &:hover {
                 color: @people;
             }
             &:hover:after {
+                background-position: 0px -72px;
                 border-bottom: 1px solid @people;
             }
         }
         &.technology {
             &:before, &:after {
                 background-image: url(../images/technology.png);
+                left: 10px;
             }
-            &:before, &:after {
-                left:10px;
+            &:after {
+                background-position: 0px -57px;
             }
             &:hover {
                 color: @technology;
             }
             &:hover:after {
+                background-position: 0px -72px;
                 border-bottom: 1px solid @technology;
             }
         }
         &:hover:after {
-            background-position: 0px -77px;
             opacity: 0.99;
         }
         &:hover:before {
