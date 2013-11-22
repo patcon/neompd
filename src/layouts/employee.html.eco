@@ -1,6 +1,10 @@
 <div class="employee">
     <div class="banner">
-        <div class="background-strip" style="background-image: url('<% if @document.coverImageUrl: %><%= @document.coverImageUrl %><% else: %>/images/<% end %>')"></div>
+        <% if @document.coverImageUrl: %>
+            <div class="background-strip" style="background-image: url('<%= @document.coverImageUrl %>')"></div>
+        <% else: %>
+            <div class="background-employee-default"></div>
+        <% end %>
     </div>
 
     <div class="content">

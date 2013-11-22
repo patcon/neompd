@@ -1,7 +1,7 @@
 ---
 title: "Translating Panel Content Titles Using Tokens"
 tagList: ["technology"]
-header: "Translating Panel Content\nTitles Using Tokens" 
+header: "Translating Panel\nContent Titles\nUsing Tokens" 
 summary: We recently encountered a specific situation with a Drupal site that had to be retro-fitted for translation.
 layout: blog
 coverImageUrl: ""

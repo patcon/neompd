@@ -11,6 +11,7 @@
 <body>
     <a id="logo" href="#">Myplanet Digital</a>
     <div id="menu-button"><span>Show Menu</span></div>
+    <a href="#"><div id="close-button">Close</div></a>
     <div id="menu">
         <ul>
             <li><a href="#articles/Contact_Us" class="contact">Contact Us</a></li>
