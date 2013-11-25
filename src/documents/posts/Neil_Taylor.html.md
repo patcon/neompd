@@ -16,4 +16,6 @@ color: "green"
 I raise my own chickens and manage my own memory
 
 ## What I Do
-I write world-class applications in languages you probably haven't heard of yet.
+I write world-class applications in languages you probably haven't heard of yet. 
+
+Oh, and just so we're clear, undefined is not a function.

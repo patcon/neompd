@@ -9,24 +9,26 @@
 </head>
 
 <body>
-	<a id="logo" href="#">Myplanet Digital</a>
-	<div id="menu-button"><span>Show Menu</span></div>
-	<div id="menu">
-		<ul>
-            <li><a href="#articles/Contact_Us" class="contact">Contact Us</a></li>
-			<% for tag in @getCollection("tags").toJSON(): %>
-				<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
-			<% end %>
-		</ul>
-		<!--footer class="adr">
-			<span class="street-address">252 Adelaide Street East</span>
-			<span class="locality">Toronto</span>,
-			<span class="region">ON</span>,
-			<span class="country-name">Canada</span>
-			<span class="postal-code">M5A 3W8</span>
-			<span class="tel">866-232-7456</span>
-			<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
-		</footer-->
+	<div id="nav">
+		<a id="logo" href="#">Myplanet Digital</a>
+		<div id="menu-button"><span>Show Menu</span></div>
+		<div id="menu">
+			<ul>
+	            <li><a href="#articles/Contact_Us" class="contact">Contact Us</a></li>
+				<% for tag in @getCollection("tags").toJSON(): %>
+					<li><a href="#tags/<%= tag.name.split('.')[0] %>" class="<%= tag.label.toLowerCase() %>"><%= tag.label %></a></li>
+				<% end %>
+			</ul>
+			<!--footer class="adr">
+				<span class="street-address">252 Adelaide Street East</span>
+				<span class="locality">Toronto</span>,
+				<span class="region">ON</span>,
+				<span class="country-name">Canada</span>
+				<span class="postal-code">M5A 3W8</span>
+				<span class="tel">866-232-7456</span>
+				<a href="mailto:hi@myplanetdigital.com" class="email">hi@myplanetdigital.com</a>
+			</footer-->
+		</div>
 	</div>
 
     <div id="content"></div>
