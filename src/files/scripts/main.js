@@ -66,7 +66,7 @@ require([
     WebFont.load({
         custom: {
             families: [ 'Plantin', 'PlantinBold', /*'PlantinBoldItalic',*/ 'TradeGothic', 'TradeGothicBold' ],
-            urls: [ '/styles/index.css' ]
+            urls: [ '/styles/fonts.css' ]
         },
         active: function () {
             //todo: not this?

@@ -9,6 +9,67 @@ define([
 
     var MOUSEWHEEL_INERTIA_DELAY = 100;
 
+    function RenderDelayQueue() {
+        this.actionList = [];
+        this.isProcessing = false;
+
+        this.PROCESS_PER_FRAME = 3;
+        this.PROCESS_PER_CALL = 6;
+    }
+
+    RenderDelayQueue.prototype.processFrame = function () {
+        var actionCallback,
+            numToProcess = this.PROCESS_PER_FRAME;
+
+        while(numToProcess-- && this.numToProcess--) {
+            actionCallback = this.actionList.shift();
+            if(! actionCallback) {
+                this.isProcessing = false;
+                return;
+            }
+            actionCallback();
+        }
+
+        if (!this.count || !this.actionList.length) {
+            this.isProcessing = false;
+            return;
+        }
+        window.setTimeout(this.process.bind(this), 30);
+    };
+
+    RenderDelayQueue.prototype.process = function () {
+        if(!this.isProcessing) {
+            if(!this.actionList.length) {
+                return;
+            }
+            this.numToProcess = this.PROCESS_PER_CALL;
+            this.isProcessing = true;
+        }
+        window.setTimeoutWithRAF(this.processFrame.bind(this), 30);
+    };
+
+    RenderDelayQueue.prototype.isBusy = function() {
+        return this.isProcessing;
+    };
+
+    RenderDelayQueue.prototype.add = function (callback) {
+        this.actionList.push(callback);
+    };
+
+    RenderDelayQueue.prototype.remove = function (callback) {
+        var i, length = this.actionList.length;
+
+        for (i = 0; i < length; i++) {
+            if (this.actionList[i] === callback) {
+                this.actionList.splice(i, 1);
+                return;
+            }
+        }
+
+        // fail fast to help catch bad code
+        throw 'render callback not found';
+    };
+
     function Renderer(app) {
         var tileId;
 
@@ -21,9 +82,7 @@ define([
         this.$body = $(document.body);
         this.winHeight = this.$window.height();
 
-        this.$contentWrap = $('#content').css({
-            overflow: 'hidden'
-        });
+        this.$contentWrap = $('#content');
 
         this.$grid = $('<ul class="tile-grid"></ul>').appendTo(this.$contentWrap).css({
             transform: 'translateZ(0)'
@@ -39,9 +98,15 @@ define([
         this.$menu = $('#menu');
         this.$menuList = $('#menu > ul');
         this.$menuButton = $('#menu-button');
+        this.menuOpen = false;
+
+        this.$leftBar = $('#nav');
+        //the left bar doesn't actually have height (nothing is a true bounding box), so we find the bottom of the list instead
+        this.leftBarHeight = this.$menuList.outerHeight(true) + this.$menuList.offset().top - window.pageYOffset + 40; //todo: get this 40 from somewhere, it is the offset added to the menu when the page is in article mode
+        this.leftBarY = 0;
+        this.$menu.css('height', this.leftBarHeight);
 
         this.app.tileField.setContainerWidth(this.$grid.outerWidth());
-
 
         // cache offset for speed and to avoid browser-specific transform quirks (http://bugs.jquery.com/ticket/8362)
         this.gridOffset = this.$grid.offset();
@@ -51,14 +116,13 @@ define([
         this.articleScrollBackStartTime = 0;
         this.articleScrollBackAmount = 0; // [-1..1], negative is on top, positive on bottom
 
-
         if (this.app.currentArticle) {
             this.initializeArticleMode();
         } else {
             this.initializeTileMode();
         }
+        this.lastScrolTop = window.pageYOffset;
 
-        // todo: debounce
         this.$window.on('resize', this.onResize.bind(this));
         this.$window.on('scroll', this.onScroll.bind(this));
         this.$window.on('mousewheel', this.onMouseWheel.bind(this));
@@ -68,16 +132,7 @@ define([
 
         this.$.on('scrollBackChanged', this.onScrollBackChanged.bind(this));
 
-        // show/hide side bar tag in article view
-        this.$menuButton.on('click', function () {
-            window.requestAnimationFrame(function () {
-                this.$menu.toggleClass('shown');
-                this.$content.toggleClass('menu-open');
-                window.setTimeoutWithRAF(function () {
-                    this.$menuButton.toggleClass('menu-open');
-                }.bind(this), 30);
-            }.bind(this));
-        }.bind(this));
+        this.$menuButton.on('click', this.onMenuClick.bind(this));
 
         // create tiles afterwards, so that we get the navigation event before them
         // @todo fix the reliance on event callback ordering!
@@ -100,40 +155,51 @@ define([
         };
     };
 
+    Renderer.prototype.getPageHeight = function (containerHeight) {
+        return Math.max(Math.max(this.leftBarHeight, this.winHeight), containerHeight);
+    };
+
     Renderer.prototype.initializeTileMode = function (isViaLinkClick) {
         var newScrollTop = isViaLinkClick ? 0 : this.gridViewport.top + this.gridOffset.top;
         // set minimum content height to extend to grid size
         this.$contentWrap.css({
-            height: Math.max(this.winHeight, this.app.tileField.height + 20), //todo: get this padding from somewhere
-            overflow:'visible'
+            height: this.pageHeight = this.getPageHeight(this.app.tileField.height + 20), //todo: get this padding from somewhere
+            overflow: this.destroyArticle && !isViaLinkClick ? 'visible' : ''
         });
         // reset any previous fixed-mode transform
         this.$grid.css({
             transform: 'translateZ(0)'
         });
-        this.$window.scrollTop(newScrollTop);
 
+        if (this.destroyArticle) {
+            this.destroyArticle();
+        }
         this.$menu.attr('data-tag', this.app.tileField.filterTag || '');
 
+        this.justSwitchedModes = true;
+        this.$window.scrollTop(newScrollTop);
+
+        this.gridViewport = this.computeGridViewport();
+
         window.setTimeoutWithRAF(function () {
-            if(this.app.currentArticle) {
-                return;
+            if(! this.app.currentArticle) {
+                this.$contentWrap.css({
+                    overflow:''
+                });
             }
-            this.$contentWrap.css({
-                overflow:'hidden'
-            });
         }.bind(this), 1000);
     };
 
     Renderer.prototype.initializeArticleMode = function (isViaLinkClick) {
         window.requestAnimationFrame(function () {
-            if(!this.app.currentArticle) {
+            if (!this.app.currentArticle) {
                 return;
             }
             // set up fixed-mode parent transform for tiles
             this.$grid.css({
                 transform: 'translate3d(0px,' + (-this.gridOffset.top - this.gridViewport.top) + 'px,0)'
             });
+
             // clear minimum content height from grid sizey
             this.$loadingOverlay.attr('data-active', '').css({
                 height: this.winHeight
@@ -141,7 +207,11 @@ define([
             // set data mode attribute to article to show menu-button
             this.$body.attr('data-mode', 'article');
             // reset view top
+            this.justSwitchedModes = true;
+            this.isScrollBackNavigating = false;
+
             this.$window.scrollTop(0);
+            this.resetLeftBar();
 
             this.articleScrollTop = 0;
             this.articleScrollBackStartTime = 0;
@@ -154,7 +224,7 @@ define([
             window.setTimeoutWithRAF(function() {
                 var banner,
                     content;
-                if(this.app.currentArticle) {
+                if (this.app.currentArticle) {
                     this.$content.css({
                         opacity: 1,
                         transform:'translateZ(0)'
@@ -166,11 +236,10 @@ define([
                         transform:'translateZ(0)'
                     });
                     this.$contentWrap.css({
-                        height: this.articleHeight = Math.max(this.winHeight, this.$content.height() - 30), //todo: get this padding from somewhere
-                        overflow:'hidden'
+                        height: this.pageHeight = this.getPageHeight(this.$content.height() - 30) //todo: get this padding from somewhere
                     });
-                    window.setTimeoutWithRAF( function () {
-                        if(this.app.currentArticle) {
+                    window.setTimeoutWithRAF(function () {
+                        if (this.app.currentArticle) {
                             this.$loadingOverlay.css('opacity', 0);
                             banner.css({
                                 opacity: 1,
@@ -191,52 +260,91 @@ define([
                         } else {
                             this.$loadingOverlay.removeAttr('data-active');
                         }
-                    }.bind(this), 800);
+                    }.bind(this), 300);
                 } else {
                     this.$loadingOverlay.removeAttr('data-active');
                 }
-            }.bind(this), 300);
+            }.bind(this), 800);
         }.bind(this));
     };
 
     Renderer.prototype.onArticleDestroyed = function () {
-        this.isDestroyingArticle = true;
-
-        if(this.articleOpacity > 0) {
-            this.$content.css({
-                opacity: 0
-            });
-        }
-
-        window.setTimeoutWithRAF(function () {
-            this.isDestroyingArticle = false;
-            if (this.app.currentArticle) {
-                return;
+        this.destroyArticle = function () {
+            if(this.articleOpacity > 0) {
+                this.$content.css({
+                    opacity: 0
+                });
             }
 
-            //hide the menu
-            this.$body.removeAttr('data-mode');
-            this.$menu.removeClass('shown loaded');
-            this.$content.removeClass('menu-open');
-
             window.setTimeoutWithRAF(function () {
+                this.destroyArticle = null;
+                this.menuOpen = false;
                 if (this.app.currentArticle) {
                     return;
                 }
-                //reset the menu button
-                this.$menuButton.removeClass('menu-open');
+
+                //hide the menu
+                this.$body.removeAttr('data-mode');
+                this.$menu.removeClass('shown loaded');
+                this.$content.removeClass('menu-open');
 
                 window.setTimeoutWithRAF(function () {
-                    if (! this.app.currentArticle) {
-                        this.$content.empty();
+                    if (this.app.currentArticle) {
+                        return;
                     }
-                }.bind(this), 500);
-            }.bind(this), 500);
-        }.bind(this), 75);
+                    //reset the menu button
+                    this.$menuButton.removeClass('menu-open');
+
+                    window.setTimeoutWithRAF(function () {
+                        if (! this.app.currentArticle) {
+                            this.$content.empty();
+                        }
+                    }.bind(this), 500);
+                }.bind(this), 1000);
+            }.bind(this), 100);
+        }.bind(this);
+    };
+
+    Renderer.prototype.resetLeftBar = function (delay) {
+        if (!this.menuOpen && this.leftBarY !== 0) {
+            this.$leftBar.css({
+                transform:'translateZ(' + (this.leftBarY = 0) + ')',
+                transition: '-webkit-transform 0.275s ease ' + (delay || '0.4s')
+            });
+        }
+    };
+
+    Renderer.prototype.scrollLeftBar = function (scrollTop) {
+        var max,
+            scrollDelta,
+            min;
+        if (this.justSwitchedModes) {
+            this.justSwitchedModes = false;
+            return;
+        }
+
+        max = 0;
+        min = this.winHeight - this.leftBarHeight;
+        scrollDelta =  this.lastScrolTop - scrollTop;
+
+        if (scrollTop < 0 || this.leftBarHeight <= this.winHeight || (scrollTop + this.winHeight > this.pageHeight) || (this.app.currentArticle && !this.menuOpen) || (scrollDelta < 0 && this.leftBarY === min) || (scrollDelta > 0 && this.leftBarY === max)) {
+            return;
+        }
+
+        this.leftBarY = Math.max(Math.min(this.leftBarY + scrollDelta, max), min);
+        if (!this.scrollRAF) {
+            this.scrollRAF = window.requestAnimationFrame(function () {
+                this.$leftBar.css({
+                    transform: 'translate3d(0,' + this.leftBarY + 'px, 0)',
+                    transition: ''
+                });
+                this.scrollRAF = null;
+            }.bind(this));
+        }
     };
 
     Renderer.prototype.addScrollClass = function () {
-        if(this.scrollClassTimeout) {
+        if (this.scrollClassTimeout) {
             window.clearTimeout(this.scrollClassTimeout);
         } else {
             window.requestAnimationFrame(function() {
@@ -254,7 +362,7 @@ define([
 
     Renderer.prototype.debounceReveal = function (isScrollingDown) {
         var offset;
-        if(this.isDestroyingArticle || !this.hasScrollClass || this.revealTimeout || this.queue.isBusy()) {
+        if (this.destroyArticle || !this.hasScrollClass || this.revealTimeout || this.queue.isBusy()) {
             return;
         }
 
@@ -264,27 +372,28 @@ define([
             this.$.trigger('viewport');
             this.revealTimeout = null;
             window.setTimeout(this.queue.process.bind(this.queue), 30);
-        }.bind(this), 100);
+        }.bind(this), 90);
     };
 
     Renderer.prototype.onScroll = function () {
         var thisScrollTop = window.pageYOffset;
 
-        this.addScrollClass();
+        this.addScrollClass(thisScrollTop);
         if (!this.app.currentArticle) {
             this.debounceReveal(thisScrollTop >= this.lastScrolTop);
         } else {
             this.articleScrollTop = thisScrollTop;
             // maintain fixed-mode parent transform for tiles
             this.$grid.css({
-                transform: 'translate3d(0px,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top) + 'px,0)'
+                transform: 'translate3d(0,' + (this.articleScrollTop - this.gridOffset.top - this.gridViewport.top) + 'px, 0)'
             });
         }
+        this.scrollLeftBar(thisScrollTop);
         this.lastScrolTop = thisScrollTop;
     };
 
     Renderer.prototype.onResize = function () {
-        if(this.resizeTimeout) {
+        if (this.resizeTimeout) {
             window.clearTimeout(this.resizeTimeout);
         }
         this.resizeTimeout = window.setTimeoutWithRAF(function () {
@@ -292,22 +401,39 @@ define([
                 'min-height': this.winHeight = this.$window.height()
             });
             this.app.tileField.setContainerWidth(this.$grid.outerWidth());
-            this.gridOffset = this.$grid.offset();
             this.resizeTimeout = null;
-        }.bind(this), 150);
+        }.bind(this), 200);
+    };
+
+    Renderer.prototype.onMenuClick = function () {
+        window.requestAnimationFrame(function () {
+            this.$menu.toggleClass('shown');
+            this.$content.toggleClass('menu-open');
+            this.menuOpen = !this.menuOpen;
+            window.setTimeoutWithRAF(function () {
+                this.$menuButton.toggleClass('menu-open');
+                this.resetLeftBar('0.3s');
+            }.bind(this), 20);
+        }.bind(this));
     };
 
     Renderer.prototype.onScrollBackChanged = function () {
         this.$content.css({
-            opacity: this.articleOpacity = (1 - Math.abs(this.articleScrollBackAmount))
+            opacity: this.articleOpacity = (1 - Math.abs(this.articleScrollBackAmount)).toFixed(3)
         });
     };
 
     Renderer.prototype.onTileFieldChanged = function () {
+        var height;
         if (!this.app.currentArticle) {
-            window.requestAnimationFrame(function () {
-                this.$contentWrap.css({ height: Math.max(this.winHeight, this.app.tileField.height) });
-            }.bind(this));
+            this.resetLeftBar('0s');
+            if((height = this.getPageHeight(this.app.tileField.height)) !== this.pageHeight) {
+                window.setTimeoutWithRAF(function () {
+                    if (!this.app.currentArticle) {
+                        this.$contentWrap.css('height', this.pageHeight = height);
+                    }
+                }.bind(this), 500);
+            }
         }
     };
 
@@ -320,7 +446,7 @@ define([
     };
 
     Renderer.prototype.onMouseWheel = function (e) {
-        if (!this.app.currentArticle) {
+        if (this.isScrollBackNavigating || !this.app.currentArticle) {
             return;
         }
 
@@ -329,7 +455,7 @@ define([
 
             scrollTop =  window.pageYOffset,
             scrollHeight = this.winHeight,
-            bodyHeight = this.articleHeight;
+            bodyHeight = this.pageHeight;
 
         if (this.articleScrollBackAmount < 0) {
             this.articleScrollBackAmount = Math.max(-1, this.articleScrollBackAmount + scrollBackDelta);
@@ -369,6 +495,8 @@ define([
             // cancel default even if switching location (otherwise inertia is reset)
             e.preventDefault();
             this.$.trigger('scrollBackChanged');
+
+            this.isScrollBackNavigating = true;
             window.location = '#'; // @todo this more elegantly
         } else {
             // prevent default only if not reached the end

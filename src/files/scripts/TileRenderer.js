@@ -6,8 +6,6 @@ define([
     'use strict';
 
     function TileRenderer(tile, app, renderer) {
-        var gridViewportMidpoint;
-
         this.app = app;
         this.tile = tile;
         this.renderer = renderer;
@@ -31,7 +29,6 @@ define([
         this.lastPositionTransform = null;
 
         this.$li.html(this.tile.html);
-
         this.$li.css({
             position: 'absolute',
             opacity: this.renderer.MIN_OPACITY,
@@ -42,13 +39,9 @@ define([
         if (this.isArticleMode) {
             this.initializeArticleModeState();
         } else {
-            // immediate reveal
-            gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
-
             this.isRevealed = this.getVisibility();
-            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
+            this.isBelowMiddle = this.getBelowMiddle();
         }
-
         this.renderTile();
 
         $(this.tile).on('moved', this.onMoved.bind(this));
@@ -60,14 +53,14 @@ define([
     TileRenderer.prototype.renderTile = function () {
         var animationAmount = Math.abs(this.renderer.articleScrollBackAmount),
             verticalOffset = (this.isArticleMode && this.isDismissing) ?
-                (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? (1 - animationAmount) * 350 : 350) :
-                (!this.isArticleMode && !this.isRevealed ? (this.isBelowMiddle ? 1 : -1) * 200 : 0),
+                (this.isBelowMiddle ? 1 : -1) * (this.isDoneDismissing ? Math.round((1 - animationAmount) * 650) : 650) :
+                (!this.isArticleMode && !this.isRevealed ? (this.isBelowMiddle ? 1 : -1) * 210 : 0),
 
             positionTransform = this.tile.x === null ? null : 'translate3d(' + this.tile.x + 'px,' + Math.max(this.tile.y + verticalOffset, -70) + 'px,0)',
 
             tileNoEvents = this.isArticleMode,
             tileFixed = (this.isArticleMode && this.isDismissing),
-            tileOpacity = (!this.isArticleMode && this.isRevealed) ? 0.999 : (this.isArticleMode && this.isDismissing && this.isDoneDismissing ? animationAmount : 0.001),
+            tileOpacity = this.isRevealed ? 0.999 : 0.001,
             tileTransform = positionTransform === null ?
                 (this.lastPositionTransform || 'translate3d(0,0,0)') + ' scale(0.001)' :
                 positionTransform,
@@ -79,12 +72,21 @@ define([
         }
 
         // update transitioning first
-        if (this.renderedTransition !== tileTransition) {
+        if (positionTransform !== null && this.renderedTransition !== tileTransition) {
             this.$li.css({
                 transition: (this.renderedTransition = tileTransition) ?
-                    '-webkit-transform 0.4s ease-out 0.05s, opacity 0.625s ease-in 0.05s' :
+                    '-webkit-transform 0.425s ease-out 0.05s, opacity 0.625s ease-in 0.075s' :
                     'none'
             });
+        }
+
+        //prevent scroll jank by moving 'filtered' tiles off of the screen
+        if(positionTransform === null && ! this.isHidden) {
+            this.$li.css('top', -this.tile.height);
+            this.isHidden = true;
+        } else if(this.isHidden) {
+            this.$li.css('top', 0);
+            this.isHidden = false;
         }
 
         if (this.renderedNoEvents !== tileNoEvents) {
@@ -114,11 +116,14 @@ define([
         return (this.tile.y + this.tile.height > this.renderer.gridViewport.revealedTop && this.tile.y < this.renderer.gridViewport.revealedBottom);
     };
 
+    TileRenderer.prototype.getBelowMiddle = function() {
+        return this.tile.y > (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
+    };
+
     TileRenderer.prototype.requestPendingReveal = function () {
         if (this.incompleteRevealCallback) {
             return;
         }
-
         // ask for delayed reveal
         this.incompleteRevealCallback = function () {
             // mark as invoked
@@ -128,7 +133,6 @@ define([
             if (this.isArticleMode || this.isRevealed) {
                 throw 'cannot reveal';
             }
-
             this.isRevealed = true;
             this.renderTile();
         }.bind(this);
@@ -152,12 +156,10 @@ define([
     };
 
     TileRenderer.prototype.initializeArticleModeState = function () {
-        var gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
-
         if (this.getVisibility()) {
             this.isDismissing = true;
             this.isDoneDismissing = false;
-            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
+            this.isBelowMiddle = this.getBelowMiddle();
         } else {
             this.isDismissing = false;
         }
@@ -175,15 +177,14 @@ define([
         }
     };
 
-    TileRenderer.prototype.onNavigated = function () {
-        var gridViewportMidpoint;
-
-        if (this.isArticleMode && !this.app.currentArticle) {
-            gridViewportMidpoint = (this.renderer.gridViewport.top + this.renderer.gridViewport.bottom) * 0.5;
-
+    TileRenderer.prototype.onNavigated = function (e, isViaLinkClick) {
+        if (!this.app.currentArticle) {
+            if (!this.isRevealed && !this.isArticleMode) {
+                this.cancelPendingReveal();
+            }
             this.isArticleMode = false;
             this.isRevealed = this.getVisibility();
-            this.isBelowMiddle = this.tile.y + this.tile.height * 0.5 > gridViewportMidpoint;
+            this.isBelowMiddle = this.getBelowMiddle();
         } else if (!this.isArticleMode && this.app.currentArticle) {
             if (!this.isRevealed) {
                 this.cancelPendingReveal();
@@ -191,14 +192,10 @@ define([
 
             this.isArticleMode = true;
             this.initializeArticleModeState();
-        }
 
-        if(this.getVisibility()) {
-            this.renderTile();
-        } else {
-            this.renderer.queue.add(this.renderTile.bind(this));
-            window.setTimeout(this.renderer.queue.process.bind(this.renderer.queue), 50);
         }
+        this.renderTile();
+
     };
 
     TileRenderer.prototype.onViewport = function (e) {

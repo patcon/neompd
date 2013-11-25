@@ -40,7 +40,7 @@ define([
         this.onHashChange();
     }
 
-    Application.prototype.onAnyLinkClick = function () {
+    Application.prototype.onAnyLinkClick = function (e) {
         this.lastLinkClickTime = new Date().getTime();
     };
 
