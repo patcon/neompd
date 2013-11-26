@@ -13,7 +13,9 @@
     "docpad-plugin-moment": "~2.0.2",
     "docpad-plugin-less": "~2.2.0",
     "docpad-plugin-marked": "~2.1.2",
-    "docpad-plugin-sunny": "~2.1.0"
+    "docpad-plugin-sunny": "~2.1.0",
+    "docpad-plugin-grunt": "~2.0.4",
+    "grunt-contrib-cssmin": "~0.6.2"
   },
   "devDependencies": {
     "wd": "latest",
