@@ -22,7 +22,8 @@ before_script: npm run-script docpad-generate
 # This will later be a test suite.
 script: true
 
-after_success: "[[ `$TRAVIS_PULL_REQUEST` ]] || npm run-script deploy"
+# Deploy if NOT a pull request (ie. if master branch)
+after_success: '[[ "$TRAVIS_PULL_REQUEST" == "false" ]] && npm run-script deploy'
 
 branches:
   only:
