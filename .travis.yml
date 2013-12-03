@@ -28,3 +28,6 @@ after_success: '[[ "$TRAVIS_PULL_REQUEST" == "false" ]] && npm run-script deploy
 branches:
   only:
     - master
+
+notifications:
+  email: false
