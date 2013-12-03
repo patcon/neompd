@@ -1,5 +1,6 @@
-define([ 'jquery' ], function ($) {
-    'use strict';
+'use strict';
+
+var $ = require('../vendor/jquery/jquery.js');
 
     function TileField(tileDataMap) {
         var tileId,
@@ -145,5 +146,4 @@ define([ 'jquery' ], function ($) {
         }
     };
 
-    return TileField;
-});
+    module.exports = TileField;

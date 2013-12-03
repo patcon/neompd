@@ -11,14 +11,30 @@ module.exports = (grunt) ->
             'out/styles/main.css'
           ]
 
+    # Use Webpack to bundle all the JavaScript together correctly.
+    webpack:
+      compile:
+        context: "out/scripts"
+        entry: "./entry.js"
+        output:
+          path: "out/scripts/"
+          filename: "main.js"
+        stats:
+          colors: true
+          reasons: true
+        failOnError: true
+        optimize:
+          minimize: false
+
   # Load all available tasks.
   grunt.loadNpmTasks "grunt-contrib-cssmin"
+  grunt.loadNpmTasks "grunt-webpack"
 
-  # On the production environment, minify the CSS.
-  grunt.registerTask "production", ["cssmin"]
+  # On the production environment, run Webpack and the CSS minifier.
+  grunt.registerTask "production", ["webpack", "cssmin"]
 
-  # On the development environment, register no tasks.
-  grunt.registerTask "development", []
+  # On the development environment, just run Webpack.
+  grunt.registerTask "development", ["webpack"]
 
-  # Register no Grunt tasks by default.
-  grunt.registerTask "default", []
+  # By default, run the Development tasks.
+  grunt.registerTask "default", ["development"]

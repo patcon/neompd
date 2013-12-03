@@ -15,7 +15,9 @@
     "docpad-plugin-marked": "~2.1.2",
     "docpad-plugin-sunny": "~2.1.0",
     "docpad-plugin-grunt": "~2.0.4",
-    "grunt-contrib-cssmin": "~0.6.2"
+    "grunt-contrib-cssmin": "~0.6.2",
+    "grunt-webpack": "~0.11.1",
+    "script-loader": "~0.5.1"
   },
   "devDependencies": {
     "wd": "latest",

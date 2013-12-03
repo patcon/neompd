@@ -1,22 +1,3 @@
-/*global require */
-
-require.config({
-    paths: {
-        'jquery': '../vendor/jquery/jquery',
-        'webfont': '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont'
-    },
-    shim: {
-        'jquery': {
-            exports: 'jQuery'
-        },
-        'webfont': {
-            exports: 'WebFont'
-        }
-    }
-});
-
-/* Begin rAF polyfill */
-
 // Adapted from https://gist.github.com/paulirish/1579671 which derived from
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 // http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
@@ -50,32 +31,6 @@ if (!Date.now)
     }
 }());
 
-/* End rAF polyfill */
 window.setTimeoutWithRAF = function (fn, t) {
     return window.setTimeout(window.requestAnimationFrame.bind(this, fn), t);
 };
-
-require([
-    './webfont',
-    './Application',
-    './Renderer',
-    './testTileSet'
-], function (WebFont, Application, Renderer, articleSet) {
-    'use strict';
-
-    WebFont.load({
-        custom: {
-            families: [ 'Plantin', 'PlantinBold', /*'PlantinBoldItalic',*/ 'TradeGothic', 'TradeGothicBold' ],
-            urls: [ '/styles/fonts.css' ]
-        },
-        active: function () {
-            //todo: not this?
-            window.setTimeoutWithRAF(function () {
-                new Renderer(new Application(articleSet));
-                window.setTimeoutWithRAF(function () {
-                    $(document.body).addClass('loaded');
-                }, 900);
-            }, 300);
-        }
-    });
-});

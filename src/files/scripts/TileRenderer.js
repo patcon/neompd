@@ -1,9 +1,9 @@
 /*global define */
 
-define([
-    'jquery'
-], function ($) {
-    'use strict';
+'use strict';
+
+var $ = require('../vendor/jquery/jquery.js');
+
 
     function TileRenderer(tile, app, renderer) {
         this.app = app;
@@ -221,5 +221,4 @@ define([
         this.renderTile();
     };
 
-    return TileRenderer;
-});
+module.exports = TileRenderer;

@@ -1,11 +1,9 @@
 /*global define */
+'use strict';
 
-define([
-    'jquery',
-    'RenderDelayQueue',
-    'TileRenderer'
-], function ($, RenderDelayQueue, TileRenderer) {
-    'use strict';
+var $ = require('../vendor/jquery/jquery.js');
+var RenderDelayQueue = require('./RenderDelayQueue');
+var TileRenderer = require('./TileRenderer');
 
     var MOUSEWHEEL_INERTIA_DELAY = 100;
 
@@ -505,5 +503,4 @@ define([
         }
     };
 
-    return Renderer;
-});
+    module.exports = Renderer;

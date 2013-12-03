@@ -71,6 +71,6 @@
     <!--[if IE 8]>
     <script src="vendor/augment.js/augment.js"></script>
     <![endif]-->
-    <script data-main="scripts/main" src="vendor/requirejs/require.js"></script>
+    <script src="scripts/main.js" defer="defer" async="async"></script>
 </body>
 </html>
