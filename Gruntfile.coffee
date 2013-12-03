@@ -20,5 +20,5 @@ module.exports = (grunt) ->
   # On the development environment, register no tasks.
   grunt.registerTask "development", []
 
-  # By default, run the development tasks.
-  grunt.registerTask "default", ["development"]
+  # Register no Grunt tasks by default.
+  grunt.registerTask "default", []
